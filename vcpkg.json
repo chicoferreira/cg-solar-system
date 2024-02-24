@@ -2,13 +2,13 @@
   "name": "cg-solar-system",
   "version": "1.0.0",
   "dependencies": [
-    "freeglut",
+    "glfw3",
     "opengl",
     "tinyxml2",
     {
       "name": "imgui",
       "features": [
-        "glut-binding",
+        "glfw-binding",
         "opengl2-binding"
       ]
     }

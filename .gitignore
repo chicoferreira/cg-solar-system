@@ -1,4 +1,7 @@
 build/
 vcpkg_installed/
-cmake-build-debug/
+cmake-build-debug
+cmake-build-debug-visual-studio
 .idea
+
+imgui.ini
