@@ -8,8 +8,14 @@ add_executable(cg-solar-system src/main.cpp
 )
 
 find_package(OpenGL REQUIRED)
-target_link_libraries(cg-solar-system PRIVATE ${OPENGL_LIBRARIES})
-target_include_directories(cg-solar-system PRIVATE ${OPENGL_INCLUDE_DIR})
+target_link_libraries(cg-solar-system PUBLIC ${OPENGL_LIBRARIES})
+target_include_directories(cg-solar-system PUBLIC ${OPENGL_INCLUDE_DIR})
 
 find_package(GLUT REQUIRED)
-target_link_libraries(cg-solar-system PRIVATE GLUT::GLUT)
+target_link_libraries(cg-solar-system PUBLIC GLUT::GLUT)
+
+find_package(imgui CONFIG REQUIRED)
+target_link_libraries(cg-solar-system PUBLIC imgui::imgui)
+
+find_package(tinyxml2 CONFIG REQUIRED)
+target_link_libraries(cg-solar-system PRIVATE tinyxml2::tinyxml2)

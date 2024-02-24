@@ -3,6 +3,14 @@
   "version": "1.0.0",
   "dependencies": [
     "freeglut",
-    "opengl"
+    "opengl",
+    "tinyxml2",
+    {
+      "name": "imgui",
+      "features": [
+        "glut-binding",
+        "opengl2-binding"
+      ]
+    }
   ]
 }
