@@ -3,6 +3,8 @@ cmake_minimum_required(VERSION 3.25)
 project(cg-solar-system LANGUAGES CXX)
 
 add_executable(cg-solar-system src/main.cpp
+        src/Engine.cpp
+        src/Engine.h
 )
 
 find_package(OpenGL REQUIRED)
