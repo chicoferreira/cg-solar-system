@@ -1,5 +1,6 @@
 #ifndef MODEL_H
 #define MODEL_H
+#include <istream>
 #include <utility>
 #include <vector>
 
@@ -10,18 +11,16 @@ class Model
     std::vector<Vec3f> m_positions;
 
 public:
-    explicit Model(std::vector<Vec3f> positions) : m_positions(std::move(positions))
-    {
-    }
+    Model() = default;
 
-    // Move constructor
-    Model(Model&& other) noexcept
-    {
-        m_positions = std::move(other.m_positions);
-    }
-
+    explicit Model(std::vector<Vec3f> positions) : m_positions(std::move(positions)) {}
     void Render() const;
+
+    std::vector<Vec3f> &GetPositions() { return m_positions; }
+
+    void WriteToFile(std::ofstream &file) const;
+    void ReadFromFile(std::istream &file);
 };
 
 
-#endif //MODEL_H
+#endif // MODEL_H

@@ -1,12 +1,12 @@
 #include "Engine.h"
 
 #include <cstdio>
+#include <iostream>
 
-#include "GLFW/glfw3.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl2.h"
 
-void glfw_error_callback(const int error, const char* description)
+void glfw_error_callback(const int error, const char *description)
 {
     fprintf(stderr, "GLFW Error %d: %s\n", error, description);
 }
@@ -29,14 +29,44 @@ bool Engine::Init()
     return true;
 }
 
+void SetRenderWireframeMode(const bool enable) { glPolygonMode(GL_FRONT_AND_BACK, enable ? GL_LINE : GL_FILL); }
+
+void Engine::renderAxis()
+{
+    glBegin(GL_LINES);
+    glColor3f(1.0, 0.0, 0.0);
+    glVertex3f(-100.0, 0.0, 0.0);
+    glVertex3f(100.0, 0.0, 0.0);
+
+    glColor3f(0.0, 1.0, 0.0);
+    glVertex3f(0.0, -100.0, 0.0);
+    glVertex3f(0.0, 100.0, 0.0);
+
+    glColor3f(0.0, 0.0, 1.0);
+    glVertex3f(0.0, 0.0, -100.0);
+    glVertex3f(0.0, 0.0, 100.0);
+
+    glColor3f(1.0, 1.0, 1.0);
+    glEnd();
+}
+
 void Engine::Render()
 {
     renderImGui();
 
-    glViewport(0, 0, m_display_w, m_display_h);
-    glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    for (const auto& m_model : m_models)
+    glLoadIdentity();
+    glViewport(0, 0, m_display_w, m_display_h);
+
+    SetRenderWireframeMode(m_wireframe);
+    gluPerspective(45.0f, static_cast<float>(m_display_w) / static_cast<float>(m_display_h), 1.0f, 1000.0f);
+    gluLookAt(5.0, 5.0, 5.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+
+    if (m_render_axis)
+        renderAxis();
+
+    for (const auto &m_model : m_models)
     {
         m_model.Render();
     }
@@ -50,29 +80,19 @@ void Engine::SetVsync(const bool enable)
     glfwSwapInterval(enable);
 }
 
-void Engine::SetWireframe(const bool enable)
-{
-    m_wireframe = enable;
-}
-
-void RenderWireframe(const bool enable)
-{
-    glPolygonMode(GL_FRONT_AND_BACK, enable ? GL_LINE : GL_FILL);
-}
+void Engine::SetWireframe(const bool enable) { m_wireframe = enable; }
 
 void Engine::Run()
 {
-    while (!glfwWindowShouldClose(GetWindow()))
+    while (!glfwWindowShouldClose(m_window))
     {
         glfwPollEvents();
         glfwGetFramebufferSize(m_window, &m_display_w, &m_display_h);
 
-        RenderWireframe(m_wireframe);
-
         Render();
 
-        glfwMakeContextCurrent(GetWindow());
-        glfwSwapBuffers(GetWindow());
+        glfwMakeContextCurrent(m_window);
+        glfwSwapBuffers(m_window);
     }
 }
 
@@ -86,10 +106,7 @@ void Engine::Shutdown() const
     glfwTerminate();
 }
 
-void Engine::AddModel(Model model)
-{
-    m_models.push_back(std::move(model));
-}
+void Engine::AddModel(Model model) { m_models.push_back(std::move(model)); }
 
 void Engine::initImGui()
 {
@@ -126,6 +143,8 @@ void Engine::renderImGui()
             SetWireframe(m_wireframe);
         }
 
+        ImGui::Checkbox("Render Axis", &m_render_axis);
+
         ImGui::Text("%.3f ms/frame (%.1f FPS)", 1000.0f / io->Framerate, io->Framerate);
         ImGui::End();
     }
@@ -133,7 +152,4 @@ void Engine::renderImGui()
     ImGui::Render();
 }
 
-void Engine::postRenderImGui()
-{
-    ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
-}
+void Engine::postRenderImGui() { ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData()); }
