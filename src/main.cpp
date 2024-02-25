@@ -7,6 +7,9 @@ int main(int, char**)
     if (!engine.Init())
         return 1;
 
+    const std::vector<Vec3f> positions{{0, 0, 0}, {1, 0, 0}, {0, 1, 0}};
+    engine.AddModel(Model(positions));
+
     engine.Run();
 
     engine.Shutdown();

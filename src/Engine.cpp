@@ -3,7 +3,6 @@
 #include <cstdio>
 
 #include "GLFW/glfw3.h"
-#include "imgui.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl2.h"
 
@@ -37,6 +36,11 @@ void Engine::Render()
     glViewport(0, 0, m_display_w, m_display_h);
     glClear(GL_COLOR_BUFFER_BIT);
 
+    for (const auto& m_model : m_models)
+    {
+        m_model.Render();
+    }
+
     postRenderImGui();
 }
 
@@ -46,12 +50,24 @@ void Engine::SetVsync(const bool enable)
     glfwSwapInterval(enable);
 }
 
+void Engine::SetWireframe(const bool enable)
+{
+    m_wireframe = enable;
+}
+
+void RenderWireframe(const bool enable)
+{
+    glPolygonMode(GL_FRONT_AND_BACK, enable ? GL_LINE : GL_FILL);
+}
+
 void Engine::Run()
 {
     while (!glfwWindowShouldClose(GetWindow()))
     {
         glfwPollEvents();
         glfwGetFramebufferSize(m_window, &m_display_w, &m_display_h);
+
+        RenderWireframe(m_wireframe);
 
         Render();
 
@@ -68,6 +84,11 @@ void Engine::Shutdown() const
 
     glfwDestroyWindow(m_window);
     glfwTerminate();
+}
+
+void Engine::AddModel(Model model)
+{
+    m_models.push_back(std::move(model));
 }
 
 void Engine::initImGui()
@@ -98,6 +119,11 @@ void Engine::renderImGui()
         if (ImGui::Checkbox("VSync", &m_vsync))
         {
             SetVsync(m_vsync);
+        }
+
+        if (ImGui::Checkbox("Wireframe", &m_wireframe))
+        {
+            SetWireframe(m_wireframe);
         }
 
         ImGui::Text("%.3f ms/frame (%.1f FPS)", 1000.0f / io->Framerate, io->Framerate);

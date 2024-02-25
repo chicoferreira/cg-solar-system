@@ -5,6 +5,9 @@ project(cg-solar-system LANGUAGES CXX)
 add_executable(cg-solar-system src/main.cpp
         src/Engine.cpp
         src/Engine.h
+        src/Vec.h
+        src/Model.cpp
+        src/Model.h
 )
 
 find_package(OpenGL REQUIRED)
