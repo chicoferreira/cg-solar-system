@@ -131,7 +131,28 @@ void Engine::renderImGui()
     ImGui::NewFrame();
 
     {
-        ImGui::Begin("Hello, world!");
+        ImGui::Begin("CG Engine");
+
+        if (ImGui::TreeNode("models", "Models (%d)", m_models.size()))
+        {
+            for (int i = 0; i < m_models.size(); ++i)
+            {
+                if (ImGui::TreeNode("model", "Model #%d", i))
+                {
+                    if (auto positions = m_models[i].GetPositions(); ImGui::TreeNode(
+                        "", "Vertices (%d)", positions.size()))
+                    {
+                        for (const auto &[x,y,z] : positions)
+                        {
+                            ImGui::Text("x: %.2f, y: %.2f, z: %.2f", x, y, z);
+                        }
+                        ImGui::TreePop();
+                    }
+                    ImGui::TreePop();
+                }
+            }
+            ImGui::TreePop();
+        }
 
         if (ImGui::Checkbox("VSync", &m_vsync))
         {
