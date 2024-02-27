@@ -2,6 +2,7 @@
 
 #include <GLFW/glfw3.h>
 #include <fstream>
+#include <optional>
 #include <sstream>
 #include <string>
 #include <vector>
@@ -27,7 +28,7 @@ size_t parseFirstIndex(std::string_view string)
     return std::stoi(std::string(string));
 }
 
-void Model::LoadFromObj(std::istream &file)
+void Model::LoadFromObjStream(std::istream &file)
 {
     std::string line;
 
@@ -65,7 +66,8 @@ void Model::LoadFromObj(std::istream &file)
         }
     }
 }
-void Model::LoadFrom3dFormat(std::istream &file)
+
+void Model::LoadFrom3dFormatStream(std::istream &file)
 {
     std::string line;
     std::getline(file, line);
@@ -77,4 +79,40 @@ void Model::LoadFrom3dFormat(std::istream &file)
         std::istringstream iss(line);
         iss >> pos.x >> pos.y >> pos.z;
     }
+}
+
+std::optional<Model> ReadModelFromFile(const std::string &file_path)
+{
+    std::ifstream file(file_path);
+    if (!file.is_open())
+    {
+        return std::nullopt;
+    }
+
+    Model model;
+    model.LoadFrom3dFormatStream(file);
+    return std::make_optional(model);
+}
+
+std::optional<Model> LoadModelFromFile(const std::string &file_path, const ModelLoadFormat format)
+{
+    std::ifstream file(file_path);
+    if (!file.is_open())
+    {
+        return std::nullopt;
+    }
+
+    Model model;
+
+    switch (format)
+    {
+    case ModelLoadFormat::OBJ:
+        model.LoadFromObjStream(file);
+        break;
+    case ModelLoadFormat::_3D:
+        model.LoadFrom3dFormatStream(file);
+        break;
+    }
+
+    return model;
 }

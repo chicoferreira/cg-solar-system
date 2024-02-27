@@ -1,10 +1,17 @@
 #ifndef MODEL_H
 #define MODEL_H
 #include <istream>
+#include <optional>
 #include <utility>
 #include <vector>
 
 #include "Vec.h"
+
+enum class ModelLoadFormat
+{
+    OBJ,
+    _3D
+};
 
 class Model
 {
@@ -18,9 +25,10 @@ public:
 
     std::vector<Vec3f> &GetVertex() { return m_vertex; }
 
-    void LoadFromObj(std::istream &file);
-    void LoadFrom3dFormat(std::istream &file);
+    void LoadFromObjStream(std::istream &file);
+    void LoadFrom3dFormatStream(std::istream &file);
 };
 
+std::optional<Model> LoadModelFromFile(const std::string &file_path, ModelLoadFormat format);
 
 #endif // MODEL_H

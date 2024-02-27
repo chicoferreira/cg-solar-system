@@ -1,39 +1,27 @@
-#include <fstream>
 #include <iostream>
 #include <optional>
 
 #include "Engine.h"
 
-std::optional<Model> ReadModelFromFile(const std::string &file_path)
-{
-    std::ifstream file(file_path);
-    if (!file.is_open())
-    {
-        return std::nullopt;
+#define LOAD_MODEL(name, path, format)                                                                                 \
+    auto name## = LoadModelFromFile(path, format);                                                                     \
+    if (!name##)                                                                                                       \
+    {                                                                                                                  \
+        std::cerr << "Failed to read model from file\n";                                                               \
+        return 1;                                                                                                      \
     }
-
-    Model model;
-    model.LoadFrom3dFormat(file);
-    return std::make_optional(model);
-}
 
 int main(int, char **)
 {
-    auto model_opt = ReadModelFromFile("assets/models/sphere.3d");
-    if (!model_opt)
-    {
-        std::cerr << "Failed to read model from file\n";
-        return 1;
-    }
-
     Engine engine(1280, 720, {5, 5, 5});
     if (!engine.Init())
         return 1;
 
-    engine.AddModel(model_opt.value());
-    
-    auto merda = ReadModelFromFile("assets/models/plane.3d").value();
-    engine.AddModel(merda);
+    LOAD_MODEL(sphere, "assets/models/sphere.3d", ModelLoadFormat::_3D);
+    engine.AddModel(sphere.value());
+
+    LOAD_MODEL(plane, "assets/models/plane.3d", ModelLoadFormat::_3D);
+    engine.AddModel(plane.value());
 
     engine.Run();
 

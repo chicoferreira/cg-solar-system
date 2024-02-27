@@ -157,8 +157,8 @@ void Engine::renderImGui()
 
         if (ImGui::TreeNode("Camera"))
         {
-            ImGui::DragFloat3("Position", &m_camera_pos.x, 0.1f);
-            ImGui::DragFloat3("Looking At", &m_camera_looking_at.x, 0.1f);
+            ImGui::DragFloat3("Position", &m_camera_pos.x, 0.05f);
+            ImGui::DragFloat3("Looking At", &m_camera_looking_at.x, 0.05f);
 
             // Reset
             if (ImGui::Button("Reset"))
