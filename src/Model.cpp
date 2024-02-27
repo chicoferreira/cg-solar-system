@@ -1,23 +1,10 @@
 #include "Model.h"
 
-#include <GLFW/glfw3.h>
 #include <fstream>
 #include <optional>
 #include <sstream>
 #include <string>
 #include <vector>
-
-void Model::Render() const
-{
-    glBegin(GL_TRIANGLES);
-
-    for (const auto &[x, y, z] : m_vertex)
-    {
-        glVertex3f(x, y, z);
-    }
-
-    glEnd();
-}
 
 size_t parseFirstIndex(std::string_view string)
 {
@@ -106,12 +93,12 @@ std::optional<Model> LoadModelFromFile(const std::string &file_path, const Model
 
     switch (format)
     {
-    case ModelLoadFormat::OBJ:
-        model.LoadFromObjStream(file);
-        break;
-    case ModelLoadFormat::_3D:
-        model.LoadFrom3dFormatStream(file);
-        break;
+        case ModelLoadFormat::OBJ:
+            model.LoadFromObjStream(file);
+            break;
+        case ModelLoadFormat::_3D:
+            model.LoadFrom3dFormatStream(file);
+            break;
     }
 
     return model;

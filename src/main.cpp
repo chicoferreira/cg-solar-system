@@ -1,27 +1,15 @@
-#include <iostream>
-#include <optional>
-
 #include "Engine.h"
-
-#define LOAD_MODEL(name, path, format)                                                                                 \
-    auto name## = LoadModelFromFile(path, format);                                                                     \
-    if (!name##)                                                                                                       \
-    {                                                                                                                  \
-        std::cerr << "Failed to read model from file\n";                                                               \
-        return 1;                                                                                                      \
-    }
+#include "World.h"
 
 int main(int, char **)
 {
-    Engine engine(1280, 720, {5, 5, 5});
-    if (!engine.Init())
+    World world;
+    if (!world.LoadFromXml("assets/scenes/plane.xml"))
         return 1;
 
-    LOAD_MODEL(sphere, "assets/models/sphere.3d", ModelLoadFormat::_3D);
-    engine.AddModel(sphere.value());
-
-    LOAD_MODEL(plane, "assets/models/plane.3d", ModelLoadFormat::_3D);
-    engine.AddModel(plane.value());
+    Engine engine(world);
+    if (!engine.Init())
+        return 1;
 
     engine.Run();
 

@@ -17,7 +17,10 @@ bool Engine::Init()
     if (!glfwInit())
         return false;
 
-    m_window = glfwCreateWindow(m_display_w, m_display_h, "CG", nullptr, nullptr);
+    const int width = m_world.GetWindow().width;
+    const int height = m_world.GetWindow().height;
+
+    m_window = glfwCreateWindow(width, height, "CG", nullptr, nullptr);
     if (m_window == nullptr)
         return false;
 
@@ -50,6 +53,50 @@ void Engine::renderAxis()
     glEnd();
 }
 
+void renderCamera(const Camera &camera, const Window &window)
+{
+    glViewport(0, 0, window.width, window.height);
+
+    const float aspect = static_cast<float>(window.width) / static_cast<float>(window.height);
+    gluPerspective(camera.fov, aspect, camera.near, camera.far);
+    gluLookAt(
+        camera.position.x,
+        camera.position.y,
+        camera.position.z,
+        camera.looking_at.x,
+        camera.looking_at.y,
+        camera.looking_at.z,
+        camera.up.x,
+        camera.up.y,
+        camera.up.z
+    );
+}
+
+void renderModel(Model &model)
+{
+    glBegin(GL_TRIANGLES);
+
+    for (const auto &[x, y, z] : model.GetVertex())
+    {
+        glVertex3f(x, y, z);
+    }
+
+    glEnd();
+}
+
+void renderGroup(WorldGroup &group)
+{
+    for (auto &model : group.models)
+    {
+        renderModel(model);
+    }
+
+    for (auto &child : group.children)
+    {
+        renderGroup(child);
+    }
+}
+
 void Engine::Render()
 {
     renderImGui();
@@ -57,20 +104,15 @@ void Engine::Render()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     glLoadIdentity();
-    glViewport(0, 0, m_display_w, m_display_h);
 
-    SetRenderWireframeMode(m_wireframe);
-    gluPerspective(45.0f, static_cast<float>(m_display_w) / static_cast<float>(m_display_h), 1.0f, 1000.0f);
-    gluLookAt(m_camera_pos.x, m_camera_pos.y, m_camera_pos.z, m_camera_looking_at.x, m_camera_looking_at.y,
-              m_camera_looking_at.z, 0.0, 1.0, 0.0);
+    renderCamera(m_world.GetCamera(), m_world.GetWindow());
 
     if (m_render_axis)
         renderAxis();
 
-    for (const auto &m_model : m_models)
-    {
-        m_model.Render();
-    }
+    SetRenderWireframeMode(m_wireframe);
+
+    renderGroup(m_world.GetParentWorldGroup());
 
     postRenderImGui();
 }
@@ -88,7 +130,7 @@ void Engine::Run()
     while (!glfwWindowShouldClose(m_window))
     {
         glfwPollEvents();
-        glfwGetFramebufferSize(m_window, &m_display_w, &m_display_h);
+        glfwGetFramebufferSize(m_window, &m_world.GetWindow().width, &m_world.GetWindow().height);
 
         Render();
 
@@ -107,8 +149,6 @@ void Engine::Shutdown() const
     glfwTerminate();
 }
 
-void Engine::AddModel(Model &model) { m_models.push_back(std::move(model)); }
-
 void Engine::initImGui()
 {
     IMGUI_CHECKVERSION();
@@ -124,24 +164,19 @@ void Engine::initImGui()
     ImGui_ImplOpenGL2_Init();
 }
 
-
-void Engine::renderImGui()
+void renderImGuiWorldGroupMenu(WorldGroup &world_group)
 {
-    ImGui_ImplOpenGL2_NewFrame();
-    ImGui_ImplGlfw_NewFrame();
-    ImGui::NewFrame();
-
+    auto &models = world_group.models;
+    if (ImGui::TreeNode("Group"))
     {
-        ImGui::Begin("CG Engine");
-
-        if (ImGui::TreeNode("models", "Models (%d)", m_models.size()))
+        if (ImGui::TreeNode("models", "Models (%d)", models.size()))
         {
-            for (int i = 0; i < m_models.size(); ++i)
+            for (int i = 0; i < models.size(); ++i)
             {
-                if (ImGui::TreeNode(&m_models[i], "Model #%d", i))
+                if (ImGui::TreeNode(&models[i], "Model #%d", i))
                 {
-                    if (auto positions = m_models[i].GetVertex();
-                        ImGui::TreeNode(&m_models[i].GetVertex(), "Vertices (%d)", positions.size()))
+                    if (auto positions = models[i].GetVertex();
+                        ImGui::TreeNode(&models[i].GetVertex(), "Vertices (%d)", positions.size()))
                     {
                         for (const auto &[x, y, z] : positions)
                         {
@@ -154,18 +189,54 @@ void Engine::renderImGui()
             }
             ImGui::TreePop();
         }
-
-        if (ImGui::TreeNode("Camera"))
+        for (auto &child : world_group.children)
         {
-            ImGui::DragFloat3("Position", &m_camera_pos.x, 0.05f);
-            ImGui::DragFloat3("Looking At", &m_camera_looking_at.x, 0.05f);
+            renderImGuiWorldGroupMenu(child);
+        }
 
-            // Reset
-            if (ImGui::Button("Reset"))
+        ImGui::TreePop();
+    }
+}
+
+void Engine::renderImGui()
+{
+    ImGui_ImplOpenGL2_NewFrame();
+    ImGui_ImplGlfw_NewFrame();
+    ImGui::NewFrame();
+
+    {
+        ImGui::Begin("CG Engine");
+
+        if (ImGui::TreeNode("World"))
+        {
+            if (ImGui::TreeNode("Window"))
             {
-                m_camera_pos = {5, 5, 5};
-                m_camera_looking_at = {0, 0, 0};
+                ImGui::Text("Width: %d, Height: %d", m_world.GetWindow().width, m_world.GetWindow().height);
+                ImGui::TreePop();
             }
+
+            if (ImGui::TreeNode("Camera"))
+            {
+                auto &camera = m_world.GetCamera();
+                ImGui::DragFloat3("Position", &camera.position.x, 0.05f);
+                ImGui::DragFloat3("Looking At", &camera.looking_at.x, 0.05f);
+                ImGui::DragFloat3("Up", &camera.up.x, 0.05f);
+                ImGui::DragFloat("FOV", &camera.fov, 0.05f, 1.0f, 179);
+                ImGui::DragFloat("Near", &camera.near, 0.05f, 0, camera.far - 1);
+                ImGui::DragFloat("Far", &camera.far, 0.05f, camera.near + 1, 10000);
+
+                // TODO: Implement reset
+                // Reset
+                // if (ImGui::Button("Reset"))
+                // {
+                //     m_camera_pos = {5, 5, 5};
+                //     m_camera_looking_at = {0, 0, 0};
+                // }
+
+                ImGui::TreePop();
+            }
+
+            renderImGuiWorldGroupMenu(m_world.GetParentWorldGroup());
 
             ImGui::TreePop();
         }

@@ -21,7 +21,6 @@ public:
     Model() = default;
 
     explicit Model(std::vector<Vec3f> vertex) : m_vertex(std::move(vertex)) {}
-    void Render() const;
 
     std::vector<Vec3f> &GetVertex() { return m_vertex; }
 

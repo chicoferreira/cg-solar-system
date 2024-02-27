@@ -28,7 +28,12 @@ BraceWrapping:
 BreakBeforeBraces: Custom
 BreakConstructorInitializers: AfterColon
 BreakConstructorInitializersBeforeComma: false
+BinPackArguments: false
+BinPackParameters: false
 ColumnLimit: 120
+AlignAfterOpenBracket: BlockIndent
+IndentCaseLabels: true
+AllowAllParametersOfDeclarationOnNextLine: false
 ConstructorInitializerAllOnOneLineOrOnePerLine: false
 IncludeCategories:
   - Regex: '^<.*'
