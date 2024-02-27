@@ -8,18 +8,18 @@
 
 class Model
 {
-    std::vector<Vec3f> m_positions;
+    std::vector<Vec3f> m_vertex;
 
 public:
     Model() = default;
 
-    explicit Model(std::vector<Vec3f> positions) : m_positions(std::move(positions)) {}
+    explicit Model(std::vector<Vec3f> vertex) : m_vertex(std::move(vertex)) {}
     void Render() const;
 
-    std::vector<Vec3f> &GetPositions() { return m_positions; }
+    std::vector<Vec3f> &GetVertex() { return m_vertex; }
 
-    void WriteToFile(std::ofstream &file) const;
-    void ReadFromFile(std::istream &file);
+    void LoadFromObj(std::istream &file);
+    void LoadFrom3dFormat(std::istream &file);
 };
 
 

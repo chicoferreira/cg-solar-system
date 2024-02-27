@@ -35,16 +35,16 @@ void Engine::renderAxis()
 {
     glBegin(GL_LINES);
     glColor3f(1.0, 0.0, 0.0);
-    glVertex3f(-100.0, 0.0, 0.0);
-    glVertex3f(100.0, 0.0, 0.0);
+    glVertex3f(-1000.0, 0.0, 0.0);
+    glVertex3f(1000.0, 0.0, 0.0);
 
     glColor3f(0.0, 1.0, 0.0);
-    glVertex3f(0.0, -100.0, 0.0);
-    glVertex3f(0.0, 100.0, 0.0);
+    glVertex3f(0.0, -1000.0, 0.0);
+    glVertex3f(0.0, 1000.0, 0.0);
 
     glColor3f(0.0, 0.0, 1.0);
-    glVertex3f(0.0, 0.0, -100.0);
-    glVertex3f(0.0, 0.0, 100.0);
+    glVertex3f(0.0, 0.0, -1000.0);
+    glVertex3f(0.0, 0.0, 1000.0);
 
     glColor3f(1.0, 1.0, 1.0);
     glEnd();
@@ -61,7 +61,8 @@ void Engine::Render()
 
     SetRenderWireframeMode(m_wireframe);
     gluPerspective(45.0f, static_cast<float>(m_display_w) / static_cast<float>(m_display_h), 1.0f, 1000.0f);
-    gluLookAt(5.0, 5.0, 5.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+    gluLookAt(m_camera_pos.x, m_camera_pos.y, m_camera_pos.z, m_camera_looking_at.x, m_camera_looking_at.y,
+              m_camera_looking_at.z, 0.0, 1.0, 0.0);
 
     if (m_render_axis)
         renderAxis();
@@ -106,7 +107,7 @@ void Engine::Shutdown() const
     glfwTerminate();
 }
 
-void Engine::AddModel(Model model) { m_models.push_back(std::move(model)); }
+void Engine::AddModel(Model &model) { m_models.push_back(std::move(model)); }
 
 void Engine::initImGui()
 {
@@ -137,12 +138,12 @@ void Engine::renderImGui()
         {
             for (int i = 0; i < m_models.size(); ++i)
             {
-                if (ImGui::TreeNode("model", "Model #%d", i))
+                if (ImGui::TreeNode(&m_models[i], "Model #%d", i))
                 {
-                    if (auto positions = m_models[i].GetPositions(); ImGui::TreeNode(
-                        "", "Vertices (%d)", positions.size()))
+                    if (auto positions = m_models[i].GetVertex();
+                        ImGui::TreeNode(&m_models[i].GetVertex(), "Vertices (%d)", positions.size()))
                     {
-                        for (const auto &[x,y,z] : positions)
+                        for (const auto &[x, y, z] : positions)
                         {
                             ImGui::Text("x: %.2f, y: %.2f, z: %.2f", x, y, z);
                         }
@@ -151,6 +152,21 @@ void Engine::renderImGui()
                     ImGui::TreePop();
                 }
             }
+            ImGui::TreePop();
+        }
+
+        if (ImGui::TreeNode("Camera"))
+        {
+            ImGui::DragFloat3("Position", &m_camera_pos.x, 0.1f);
+            ImGui::DragFloat3("Looking At", &m_camera_looking_at.x, 0.1f);
+
+            // Reset
+            if (ImGui::Button("Reset"))
+            {
+                m_camera_pos = {5, 5, 5};
+                m_camera_looking_at = {0, 0, 0};
+            }
+
             ImGui::TreePop();
         }
 

@@ -9,7 +9,10 @@
 class Engine
 {
 public:
-    Engine(const int display_w, const int display_h) : m_display_w(display_w), m_display_h(display_h) {}
+    Engine(const int display_w, const int display_h, Vec3f camera_pos) :
+        m_display_w(display_w), m_display_h(display_h), m_camera_pos(camera_pos)
+    {
+    }
 
     bool Init();
     static void renderAxis();
@@ -19,11 +22,13 @@ public:
     void Run();
     void Shutdown() const;
 
-    void AddModel(Model model);
+    void AddModel(Model &model);
 
 private:
     int m_display_w, m_display_h;
     std::vector<Model> m_models;
+    Vec3f m_camera_pos;
+    Vec3f m_camera_looking_at{0, 0, 0};
 
     bool m_vsync{true};
     bool m_wireframe{false};
