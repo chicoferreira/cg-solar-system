@@ -12,12 +12,12 @@ public:
     explicit Engine(World world) : m_world(std::move(world)) {}
 
     bool Init();
-    static void renderAxis();
     void Render();
     void SetVsync(bool enable);
     void SetWireframe(bool enable);
     void Run();
     void Shutdown() const;
+
 private:
     World m_world;
 

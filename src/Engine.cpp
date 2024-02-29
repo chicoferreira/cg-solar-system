@@ -34,7 +34,7 @@ bool Engine::Init()
 
 void SetRenderWireframeMode(const bool enable) { glPolygonMode(GL_FRONT_AND_BACK, enable ? GL_LINE : GL_FILL); }
 
-void Engine::renderAxis()
+void renderAxis()
 {
     glBegin(GL_LINES);
     glColor3f(1.0, 0.0, 0.0);
