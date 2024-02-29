@@ -22,7 +22,11 @@ class Engine
 public:
     explicit Engine(World world) : m_world(std::move(world)) {} 
 
-    EngineSettings settings{true, false, true};
+    EngineSettings settings{
+        true, // vsync
+        false, // wireframe
+        true // render_axis
+    };
 
     bool Init();
     void Render();
