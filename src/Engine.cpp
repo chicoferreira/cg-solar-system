@@ -25,7 +25,7 @@ bool Engine::Init()
         return false;
 
     glfwMakeContextCurrent(m_window);
-    SetVsync(settings.GetVsync());
+    SetVsync(settings.vsync);
 
     initImGui();
 
@@ -107,10 +107,10 @@ void Engine::Render()
 
     renderCamera(m_world.GetCamera(), m_world.GetWindow());
 
-    if (settings.GetRenderAxis())
+    if (settings.render_axis)
         renderAxis();
 
-    SetRenderWireframeMode(settings.GetWireframe());
+    SetRenderWireframeMode(settings.wireframe);
 
     renderGroup(m_world.GetParentWorldGroup());
 
@@ -119,11 +119,11 @@ void Engine::Render()
 
 void Engine::SetVsync(const bool enable)
 {
-    settings.SetVsync(enable);
+    settings.vsync = enable;
     glfwSwapInterval(enable);
 }
 
-void Engine::SetWireframe(const bool enable) { settings.SetWireframe(enable); }
+void Engine::SetWireframe(const bool enable) { settings.wireframe = enable; }
 
 void Engine::Run()
 {
@@ -241,23 +241,17 @@ void Engine::renderImGui()
             ImGui::TreePop();
         }
 
-        bool vsync = settings.GetVsync();
-        if (ImGui::Checkbox("VSync", &vsync))
+        if (ImGui::Checkbox("VSync", &settings.vsync))
         {
-            SetVsync(vsync);
+            SetVsync(settings.vsync);
         }
 
-        bool wireframe = settings.GetWireframe();
-        if (ImGui::Checkbox("Wireframe", &wireframe))
+        if (ImGui::Checkbox("Wireframe", &settings.wireframe))
         {
-            SetWireframe(wireframe);
+            SetWireframe(settings.wireframe);
         }
 
-        bool render_axis = settings.GetRenderAxis();
-        if (ImGui::Checkbox("Render Axis", &render_axis))
-        {
-            settings.SetRenderAxis(render_axis);
-        }
+        ImGui::Checkbox("Render Axis", &settings.render_axis);
 
         ImGui::Text("%.3f ms/frame (%.1f FPS)", 1000.0f / io->Framerate, io->Framerate);
         ImGui::End();
