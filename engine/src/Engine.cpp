@@ -27,6 +27,9 @@ bool Engine::Init()
     glfwMakeContextCurrent(m_window);
     SetVsync(settings.vsync);
 
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_CULL_FACE);
+
     initImGui();
 
     return true;

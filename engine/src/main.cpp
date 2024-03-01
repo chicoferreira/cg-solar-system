@@ -4,7 +4,7 @@
 int main(int, char **)
 {
     World world;
-    if (!world.LoadFromXml("assets/scenes/plane.xml"))
+    if (!world.LoadFromXml("assets/scenes/test.xml"))
         return 1;
 
     Engine engine(world);
