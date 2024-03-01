@@ -23,7 +23,8 @@ Prerequisites:
 $ cd cg-solar-system
 $ cmake -B build -S . -DCMAKE_TOOLCHAIN_FILE=[path to vcpkg]/scripts/buildsystems/vcpkg.cmake
 $ cmake --build build
-$ ./build/Debug/cg-solar-system.exe
+$ .\build\engine\Debug\cg-solar-system.exe <scene> # For running the engine
+$ .\build\generator\Debug\cg-generator.exe <args> # For running the generator
 ```
 
 You can find the vcpkg path by running `vcpkg integrate install` and looking at the output.
