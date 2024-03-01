@@ -28,7 +28,7 @@ bool Engine::Init()
     SetVsync(settings.vsync);
 
     glEnable(GL_DEPTH_TEST);
-    glEnable(GL_CULL_FACE);
+    SetCullFaces(settings.cull_faces);
 
     initImGui();
 
@@ -127,6 +127,19 @@ void Engine::SetVsync(const bool enable)
 }
 
 void Engine::SetWireframe(const bool enable) { settings.wireframe = enable; }
+
+void Engine::SetCullFaces(const bool enable)
+{
+    settings.cull_faces = enable;
+    if (enable)
+    {
+        glEnable(GL_CULL_FACE);
+    }
+    else
+    {
+        glDisable(GL_CULL_FACE);
+    }
+}
 
 void Engine::Run()
 {
@@ -244,17 +257,26 @@ void Engine::renderImGui()
             ImGui::TreePop();
         }
 
-        if (ImGui::Checkbox("VSync", &settings.vsync))
+        if (ImGui::TreeNode("Settings"))
         {
-            SetVsync(settings.vsync);
-        }
+            if (ImGui::Checkbox("VSync", &settings.vsync))
+            {
+                SetVsync(settings.vsync);
+            }
 
-        if (ImGui::Checkbox("Wireframe", &settings.wireframe))
-        {
-            SetWireframe(settings.wireframe);
-        }
+            if (ImGui::Checkbox("Cull Faces", &settings.cull_faces))
+            {
+                SetCullFaces(settings.cull_faces);
+            }
 
-        ImGui::Checkbox("Render Axis", &settings.render_axis);
+            if (ImGui::Checkbox("Wireframe", &settings.wireframe))
+            {
+                SetWireframe(settings.wireframe);
+            }
+
+            ImGui::Checkbox("Render Axis", &settings.render_axis);
+            ImGui::TreePop();
+        }
 
         ImGui::Text("%.3f ms/frame (%.1f FPS)", 1000.0f / io->Framerate, io->Framerate);
         ImGui::End();

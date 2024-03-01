@@ -9,29 +9,34 @@
 class EngineSettings
 {
 public:
-    EngineSettings(bool vsync, bool wireframe, bool render_axis)
-        : vsync(vsync), wireframe(wireframe), render_axis(render_axis) {}
+    EngineSettings(const bool vsync, const bool wireframe, const bool render_axis, const bool cull_faces) :
+        vsync(vsync), wireframe(wireframe), render_axis(render_axis), cull_faces(cull_faces)
+    {
+    }
 
-    bool vsync{true};
-    bool wireframe{false};
-    bool render_axis{true};
+    bool vsync;
+    bool wireframe;
+    bool render_axis;
+    bool cull_faces;
 };
 
 class Engine
 {
 public:
-    explicit Engine(World world) : m_world(std::move(world)) {} 
+    explicit Engine(World world) : m_world(std::move(world)) {}
 
     EngineSettings settings{
         true, // vsync
         false, // wireframe
-        true // render_axis
+        true, // render_axis
+        true, // cull_faces
     };
 
     bool Init();
     void Render();
     void SetVsync(bool enable);
     void SetWireframe(bool enable);
+    void SetCullFaces(bool enable);
     void Run();
     void Shutdown() const;
 
