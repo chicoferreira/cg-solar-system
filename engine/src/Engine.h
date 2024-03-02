@@ -37,6 +37,7 @@ public:
     void SetVsync(bool enable);
     void SetWireframe(bool enable);
     void SetCullFaces(bool enable);
+    void ProcessInput();
     void Run();
     void Shutdown() const;
 

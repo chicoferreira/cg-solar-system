@@ -18,6 +18,8 @@ struct Camera
     float fov{}, near{}, far{};
 
     Camera() = default;
+
+    void ProcessInput(float x_offset, float y_offset, float scroll_offset);
 };
 
 struct WorldGroup

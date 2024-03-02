@@ -11,7 +11,14 @@ void glfw_error_callback(const int error, const char *description)
     fprintf(stderr, "GLFW Error %d: %s\n", error, description);
 }
 
-void glfwSetFramebufferSizeCallback(GLFWwindow *_, int width, int height) { glViewport(0, 0, width, height); }
+void glfwSetFramebufferSizeCallback(GLFWwindow *_, const int width, const int height)
+{
+    glViewport(0, 0, width, height);
+}
+
+double last_scroll = 0;
+
+void glfwScrollCallback(GLFWwindow *_window, const double _xoffset, const double yoffset) { last_scroll = yoffset; }
 
 bool Engine::Init()
 {
@@ -28,6 +35,7 @@ bool Engine::Init()
 
     glfwMakeContextCurrent(m_window);
     glfwSetFramebufferSizeCallback(m_window, glfwSetFramebufferSizeCallback);
+    glfwSetScrollCallback(m_window, glfwScrollCallback);
     SetVsync(settings.vsync);
 
     glEnable(GL_DEPTH_TEST);
@@ -141,6 +149,29 @@ void Engine::SetCullFaces(const bool enable)
         glDisable(GL_CULL_FACE);
     }
 }
+void Engine::ProcessInput()
+{
+    static double lastX = 0, lastY = 0;
+
+    double xpos, ypos;
+    glfwGetCursorPos(m_window, &xpos, &ypos);
+
+    if (!ImGui::IsWindowHovered(ImGuiHoveredFlags_AnyWindow))
+    {
+        if (glfwGetMouseButton(m_window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
+        {
+            m_world.GetCamera().ProcessInput(xpos - lastX, lastY - ypos, last_scroll);
+        }
+        else if (last_scroll != 0)
+        {
+            m_world.GetCamera().ProcessInput(0, 0, last_scroll);
+        }
+    }
+    last_scroll = 0;
+
+    lastX = xpos;
+    lastY = ypos;
+}
 
 void Engine::Run()
 {
@@ -148,6 +179,8 @@ void Engine::Run()
     {
         glfwPollEvents();
         glfwGetFramebufferSize(m_window, &m_world.GetWindow().width, &m_world.GetWindow().height);
+
+        ProcessInput();
 
         Render();
 

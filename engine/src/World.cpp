@@ -1,8 +1,40 @@
 #include "World.h"
 
+#define _USE_MATH_DEFINES
 #include <iostream>
+#include <math.h>
 
 #include "tinyxml2.h"
+
+constexpr auto sensitivity = 0.002f;
+constexpr auto scroll_sensitivity = 0.2f;
+
+void Camera::ProcessInput(const float x_offset, const float y_offset, const float scroll_offset)
+{
+    float radius, alpha, beta;
+    position.ToSpherical(looking_at, radius, alpha, beta);
+
+    alpha -= x_offset * sensitivity;
+    beta -= y_offset * sensitivity;
+    radius -= scroll_offset * scroll_sensitivity;
+
+    if (beta > M_PI_2)
+    {
+        beta = M_PI_2 - 0.001f;
+    }
+    else if (beta < -M_PI_2)
+    {
+        beta = -M_PI_2 + 0.001f;
+    }
+
+    if (radius < 1.0f)
+    {
+        radius = 1.0f;
+    }
+
+    const auto after = Vec3fSpherical(radius, alpha, beta);
+    position = after + looking_at;
+}
 
 #define EARLY_RETURN_R(condition, message, result)                                                                     \
     if (condition)                                                                                                     \
