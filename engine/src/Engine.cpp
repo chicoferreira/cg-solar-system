@@ -11,6 +11,8 @@ void glfw_error_callback(const int error, const char *description)
     fprintf(stderr, "GLFW Error %d: %s\n", error, description);
 }
 
+void glfwSetFramebufferSizeCallback(GLFWwindow *_, int width, int height) { glViewport(0, 0, width, height); }
+
 bool Engine::Init()
 {
     glfwSetErrorCallback(glfw_error_callback);
@@ -25,6 +27,7 @@ bool Engine::Init()
         return false;
 
     glfwMakeContextCurrent(m_window);
+    glfwSetFramebufferSizeCallback(m_window, glfwSetFramebufferSizeCallback);
     SetVsync(settings.vsync);
 
     glEnable(GL_DEPTH_TEST);
@@ -58,7 +61,7 @@ void renderAxis()
 
 void renderCamera(const Camera &camera, const Window &window)
 {
-    glViewport(0, 0, window.width, window.height);
+    glLoadIdentity();
 
     const float aspect = static_cast<float>(window.width) / static_cast<float>(window.height);
     gluPerspective(camera.fov, aspect, camera.near, camera.far);
@@ -105,8 +108,6 @@ void Engine::Render()
     renderImGui();
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-    glLoadIdentity();
 
     renderCamera(m_world.GetCamera(), m_world.GetWindow());
 
