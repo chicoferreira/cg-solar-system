@@ -3,7 +3,7 @@
 
 int main(int, char **)
 {
-    const auto world_path = "assets/scenes/sphere_scene.xml";
+    const auto world_path = "assets/scenes/cone_scene.xml";
     World world(world_path);
     if (!world.LoadFromXml(world_path))
         return 1;

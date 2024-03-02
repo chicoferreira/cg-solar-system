@@ -60,3 +60,45 @@ std::vector<Vec3f> generator::GenerateSphere(const float radius, const size_t sl
 
     return vertex;
 }
+
+std::vector<Vec3f>
+generator::GenerateCone(const float radius, const float height, const size_t slices, const size_t stacks)
+{
+    std::vector<Vec3f> vertex;
+
+    const auto slice_size = 2 * M_PI / slices;
+    const auto stack_size = height / stacks;
+
+    const auto base_middle = Vec3f{0, 0, 0};
+
+    for (int slice = 0; slice < slices; ++slice)
+    {
+        for (int stack = 0; stack < stacks; ++stack)
+        {
+            const float current_radius = radius - stack * radius / stacks;
+            const float next_radius = radius - (stack + 1) * radius / stacks;
+
+            const Vec3f bottom_left = Vec3fPolar(current_radius, slice * slice_size, stack * stack_size);
+            const Vec3f bottom_right = Vec3fPolar(current_radius, (slice + 1) * slice_size, stack * stack_size);
+            const Vec3f top_left = Vec3fPolar(next_radius, slice * slice_size, (stack + 1) * stack_size);
+            const Vec3f top_right = Vec3fPolar(next_radius, (slice + 1) * slice_size, (stack + 1) * stack_size);
+
+            vertex.push_back(top_left);
+            vertex.push_back(bottom_left);
+            vertex.push_back(bottom_right);
+
+            vertex.push_back(top_left);
+            vertex.push_back(bottom_right);
+            vertex.push_back(top_right);
+        }
+
+        const Vec3f base_bottom_left = Vec3fPolar(radius, slice * slice_size, 0);
+        const Vec3f base_bottom_right = Vec3fPolar(radius, (slice + 1) * slice_size, 0);
+
+        vertex.push_back(base_middle);
+        vertex.push_back(base_bottom_right);
+        vertex.push_back(base_bottom_left);
+    }
+
+    return vertex;
+}

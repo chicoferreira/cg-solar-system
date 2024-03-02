@@ -8,6 +8,7 @@ namespace generator
 {
     std::vector<Vec3f> GeneratePlane(size_t divisions, float length);
     std::vector<Vec3f> GenerateSphere(float radius, size_t slices, size_t stacks);
+    std::vector<Vec3f> GenerateCone(float radius, float height, size_t slices, size_t stacks);
 } // namespace generator
 
 
