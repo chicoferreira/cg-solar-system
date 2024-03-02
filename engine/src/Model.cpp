@@ -68,19 +68,6 @@ void Model::LoadFrom3dFormatStream(std::istream &file)
     }
 }
 
-std::optional<Model> ReadModelFromFile(const std::string &file_path)
-{
-    std::ifstream file(file_path);
-    if (!file.is_open())
-    {
-        return std::nullopt;
-    }
-
-    Model model;
-    model.LoadFrom3dFormatStream(file);
-    return std::make_optional(model);
-}
-
 std::optional<Model> LoadModelFromFile(const std::string &file_path, const ModelLoadFormat format)
 {
     std::ifstream file(file_path);
@@ -89,7 +76,7 @@ std::optional<Model> LoadModelFromFile(const std::string &file_path, const Model
         return std::nullopt;
     }
 
-    Model model;
+    Model model(file_path);
 
     switch (format)
     {

@@ -35,20 +35,22 @@ struct WorldGroup
 
 class World
 {
-    Window window;
-    Camera camera;
-    Camera default_camera;
-    WorldGroup parent_world_group;
+    std::string m_name;
+    Window m_window;
+    Camera m_camera;
+    Camera m_default_camera;
+    WorldGroup m_parent_world_group;
 
 public:
-    Window &GetWindow() { return window; }
-    Camera &GetCamera() { return camera; }
-    void ResetCamera();
-    WorldGroup &GetParentWorldGroup() { return parent_world_group; }
+    const std::string &GetName() const { return m_name; }
+    Window &GetWindow() { return m_window; }
+    Camera &GetCamera() { return m_camera; }
+    void ResetCamera() { m_camera = m_default_camera; }
+    WorldGroup &GetParentWorldGroup() { return m_parent_world_group; }
 
     bool LoadFromXml(const std::string &file_path);
 
-    World() = default;
+    explicit World(std::string name) : m_name(std::move(name)) {}
 };
 
 #endif // WORLD_H

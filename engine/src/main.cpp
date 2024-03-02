@@ -3,8 +3,9 @@
 
 int main(int, char **)
 {
-    World world;
-    if (!world.LoadFromXml("assets/scenes/sphere_scene.xml"))
+    const auto world_path = "assets/scenes/sphere_scene.xml";
+    World world(world_path);
+    if (!world.LoadFromXml(world_path))
         return 1;
 
     Engine engine(world);

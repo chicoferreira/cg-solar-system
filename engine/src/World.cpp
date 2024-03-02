@@ -4,7 +4,6 @@
 
 #include "tinyxml2.h"
 
-
 #define EARLY_RETURN_R(condition, message, result)                                                                     \
     if (condition)                                                                                                     \
     {                                                                                                                  \
@@ -62,8 +61,6 @@ std::optional<WorldGroup> LoadWorldGroupFromXml(const tinyxml2::XMLElement *grou
     return std::make_optional(group);
 }
 
-void World::ResetCamera() { camera = default_camera; }
-
 bool World::LoadFromXml(const std::string &file_path)
 {
     tinyxml2::XMLDocument doc;
@@ -76,11 +73,11 @@ bool World::LoadFromXml(const std::string &file_path)
     EARLY_RETURN(!window_element, "World XML file is missing the window element.");
 
     EARLY_RETURN(
-        window_element->QueryIntAttribute("width", &window.width) != tinyxml2::XML_SUCCESS,
+        window_element->QueryIntAttribute("width", &m_window.width) != tinyxml2::XML_SUCCESS,
         "World XML file is missing the window width attribute."
     );
     EARLY_RETURN(
-        window_element->QueryIntAttribute("height", &window.height) != tinyxml2::XML_SUCCESS,
+        window_element->QueryIntAttribute("height", &m_window.height) != tinyxml2::XML_SUCCESS,
         "World XML file is missing the window height attribute."
     );
 
@@ -89,29 +86,29 @@ bool World::LoadFromXml(const std::string &file_path)
 
     const auto camera_position_element = camera_element->FirstChildElement("position");
     EARLY_RETURN(!camera_position_element, "World XML file is missing the camera position element.");
-    LOAD_VEC3F(camera_position_element, camera.position);
+    LOAD_VEC3F(camera_position_element, m_camera.position);
 
     const auto camera_look_at_element = camera_element->FirstChildElement("lookAt");
     EARLY_RETURN(!camera_look_at_element, "World XML file is missing the camera lookAt element.");
-    LOAD_VEC3F(camera_look_at_element, camera.looking_at);
+    LOAD_VEC3F(camera_look_at_element, m_camera.looking_at);
 
     const auto camera_up_element = camera_element->FirstChildElement("up");
     EARLY_RETURN(!camera_up_element, "World XML file is missing the camera up element.");
-    LOAD_VEC3F(camera_up_element, camera.up);
+    LOAD_VEC3F(camera_up_element, m_camera.up);
 
     const auto camera_projection_element = camera_element->FirstChildElement("projection");
     EARLY_RETURN(!camera_projection_element, "World XML file is missing the camera projection element.");
 
     EARLY_RETURN(
-        camera_projection_element->QueryFloatAttribute("fov", &camera.fov),
+        camera_projection_element->QueryFloatAttribute("fov", &m_camera.fov),
         "World XML file is missing camera projection fov attribute."
     );
     EARLY_RETURN(
-        camera_projection_element->QueryFloatAttribute("near", &camera.near),
+        camera_projection_element->QueryFloatAttribute("near", &m_camera.near),
         "World XML file is missing camera projection near attribute."
     );
     EARLY_RETURN(
-        camera_projection_element->QueryFloatAttribute("far", &camera.far),
+        camera_projection_element->QueryFloatAttribute("far", &m_camera.far),
         "World XML file is missing camera projection far attribute."
     );
 
@@ -125,9 +122,9 @@ bool World::LoadFromXml(const std::string &file_path)
         return false;
 
     if (parent_group)
-        parent_world_group = parent_group.value();
+        m_parent_world_group = parent_group.value();
 
-    default_camera = camera;
+    m_default_camera = m_camera;
 
     return succ;
 }

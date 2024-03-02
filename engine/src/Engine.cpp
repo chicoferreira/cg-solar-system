@@ -190,14 +190,16 @@ void renderImGuiWorldGroupMenu(WorldGroup &world_group)
         {
             for (int i = 0; i < models.size(); ++i)
             {
-                if (ImGui::TreeNode(&models[i], "Model #%d", i))
+                Model &model = models[i];
+                if (ImGui::TreeNode(&model, "Model #%d (%s)", i, model.GetName().c_str()))
                 {
-                    if (auto positions = models[i].GetVertex();
-                        ImGui::TreeNode(&models[i].GetVertex(), "Vertices (%d)", positions.size()))
+                    if (auto positions = model.GetVertex();
+                        ImGui::TreeNode(&model.GetVertex(), "Vertices (%d)", positions.size()))
                     {
-                        for (const auto &[x, y, z] : positions)
+                        for (int p_index = 0; p_index < positions.size(); ++p_index)
                         {
-                            ImGui::Text("x: %.2f, y: %.2f, z: %.2f", x, y, z);
+                            const auto &[x, y, z] = positions[p_index];
+                            ImGui::Text("%d. x: %.2f, y: %.2f, z: %.2f", p_index + 1, x, y, z);
                         }
                         ImGui::TreePop();
                     }

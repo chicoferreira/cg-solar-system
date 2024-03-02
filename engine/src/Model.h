@@ -15,13 +15,17 @@ enum class ModelLoadFormat
 
 class Model
 {
+    std::string m_name;
     std::vector<Vec3f> m_vertex;
 
 public:
-    Model() = default;
+    explicit Model(std::string name) : m_name(std::move(name)) {}
 
-    explicit Model(std::vector<Vec3f> vertex) : m_vertex(std::move(vertex)) {}
+    explicit Model(std::string name, std::vector<Vec3f> vertex) : m_name(std::move(name)), m_vertex(std::move(vertex))
+    {
+    }
 
+    const std::string &GetName() const { return m_name; }
     std::vector<Vec3f> &GetVertex() { return m_vertex; }
 
     void LoadFromObjStream(std::istream &file);
