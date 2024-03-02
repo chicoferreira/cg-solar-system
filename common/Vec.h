@@ -1,6 +1,8 @@
 #ifndef VEC_H
 #define VEC_H
 
+#include <math.h>
+
 struct Vec3f
 {
     float x, y, z;
