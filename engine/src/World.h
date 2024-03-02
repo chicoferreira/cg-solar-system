@@ -37,11 +37,13 @@ class World
 {
     Window window;
     Camera camera;
+    Camera default_camera;
     WorldGroup parent_world_group;
 
 public:
     Window &GetWindow() { return window; }
     Camera &GetCamera() { return camera; }
+    void ResetCamera();
     WorldGroup &GetParentWorldGroup() { return parent_world_group; }
 
     bool LoadFromXml(const std::string &file_path);

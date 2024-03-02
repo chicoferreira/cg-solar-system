@@ -27,7 +27,7 @@ public:
 
     EngineSettings settings{
         true, // vsync
-        false, // wireframe
+        true, // wireframe
         true, // render_axis
         true, // cull_faces
     };

@@ -239,16 +239,13 @@ void Engine::renderImGui()
                 ImGui::DragFloat3("Looking At", &camera.looking_at.x, 0.05f);
                 ImGui::DragFloat3("Up", &camera.up.x, 0.05f);
                 ImGui::DragFloat("FOV", &camera.fov, 0.05f, 1.0f, 179);
-                ImGui::DragFloat("Near", &camera.near, 0.05f, 0, camera.far - 1);
+                ImGui::DragFloat("Near", &camera.near, 0.05f, 0.05f, camera.far - 1);
                 ImGui::DragFloat("Far", &camera.far, 0.05f, camera.near + 1, 10000);
 
-                // TODO: Implement reset
-                // Reset
-                // if (ImGui::Button("Reset"))
-                // {
-                //     m_camera_pos = {5, 5, 5};
-                //     m_camera_looking_at = {0, 0, 0};
-                // }
+                if (ImGui::Button("Reset"))
+                {
+                    m_world.ResetCamera();
+                }
 
                 ImGui::TreePop();
             }

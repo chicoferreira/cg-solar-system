@@ -62,6 +62,8 @@ std::optional<WorldGroup> LoadWorldGroupFromXml(const tinyxml2::XMLElement *grou
     return std::make_optional(group);
 }
 
+void World::ResetCamera() { camera = default_camera; }
+
 bool World::LoadFromXml(const std::string &file_path)
 {
     tinyxml2::XMLDocument doc;
@@ -124,6 +126,8 @@ bool World::LoadFromXml(const std::string &file_path)
 
     if (parent_group)
         parent_world_group = parent_group.value();
+
+    default_camera = camera;
 
     return succ;
 }
