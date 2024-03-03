@@ -30,11 +30,11 @@ jobs:
           - os: windows-latest
             c_compiler: cl
             cpp_compiler: cl
-            vcpkg_triplet: x64-linux-release
+            vcpkg_triplet: x64-windows-release
           - os: ubuntu-latest
             c_compiler: gcc
             cpp_compiler: g++
-            vcpkg_triplet: x64-windows-release
+            vcpkg_triplet: x64-linux-release
           - os: macos-latest
             c_compiler: clang
             cpp_compiler: clang++
