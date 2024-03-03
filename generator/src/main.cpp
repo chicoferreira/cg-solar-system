@@ -15,9 +15,10 @@ struct Command
 };
 
 const auto commands = {
-    Command{"plane", "<divisions> <length>", 2},
+    Command{"plane", "<length> <divisions>", 2},
     Command{"sphere", "<radius> <slices> <stacks>", 3},
     Command{"cone", "<radius> <height> <slices> <stacks>", 4},
+    Command{"box", "<length> <divisions>", 2},
 };
 
 const Command *getCommand(const char *name)
@@ -51,9 +52,9 @@ std::vector<Vec3f> runGenerator(const Command &cmd, char *args[])
 {
     if (cmd.name == "plane")
     {
-        const auto divisions = std::stoi(args[0]);
-        const auto length = std::stof(args[1]);
-        return generator::GeneratePlane(divisions, length);
+        const auto length = std::stof(args[0]);
+        const auto divisions = std::stoi(args[1]);
+        return generator::GeneratePlane(length, divisions);
     }
     if (cmd.name == "sphere")
     {
@@ -69,6 +70,12 @@ std::vector<Vec3f> runGenerator(const Command &cmd, char *args[])
         const auto slices = std::stoi(args[2]);
         const auto stacks = std::stoi(args[3]);
         return generator::GenerateCone(radius, height, slices, stacks);
+    }
+    if (cmd.name == "box")
+    {
+        const auto length = std::stof(args[0]);
+        const auto divisions = std::stoi(args[1]);
+        return generator::GenerateBox(length, divisions);
     }
     throw std::runtime_error("Unknown command");
 }

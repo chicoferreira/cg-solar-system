@@ -8,6 +8,8 @@ add_executable(cg-solar-system src/main.cpp
         src/World.cpp
         src/World.h
         ../common/Vec.h
+        ../common/Mat.h
+        ../common/Mat.cpp
 )
 
 find_package(OpenGL REQUIRED)

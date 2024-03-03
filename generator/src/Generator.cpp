@@ -1,9 +1,11 @@
 #include "Generator.h"
 
 #define _USE_MATH_DEFINES
+
+#include "Mat.h"
 #include "math.h"
 
-std::vector<Vec3f> generator::GeneratePlane(const size_t divisions, const float length)
+std::vector<Vec3f> generator::GeneratePlane(const float length, const size_t divisions)
 {
     std::vector<Vec3f> vertex;
     const auto side = length / divisions;
@@ -17,13 +19,8 @@ std::vector<Vec3f> generator::GeneratePlane(const size_t divisions, const float 
             const Vec3f bottom_left = {-length / 2 + x * side, 0, -length / 2 + (y + 1) * side};
             const Vec3f bottom_right = {-length / 2 + (x + 1) * side, 0, -length / 2 + (y + 1) * side};
 
-            vertex.push_back(top_left);
-            vertex.push_back(bottom_left);
-            vertex.push_back(bottom_right);
-
-            vertex.push_back(top_left);
-            vertex.push_back(bottom_right);
-            vertex.push_back(top_right);
+            vertex.insert(vertex.end(), {top_left, bottom_left, bottom_right});
+            vertex.insert(vertex.end(), {top_left, bottom_right, top_right});
         }
     }
 
@@ -48,13 +45,8 @@ std::vector<Vec3f> generator::GenerateSphere(const float radius, const size_t sl
             const Vec3f top_left = Vec3fSpherical(radius, slice * slice_size, (stack + 1) * stack_size - M_PI_2);
             const Vec3f top_right = Vec3fSpherical(radius, (slice + 1) * slice_size, (stack + 1) * stack_size - M_PI_2);
 
-            vertex.push_back(top_left);
-            vertex.push_back(bottom_left);
-            vertex.push_back(bottom_right);
-
-            vertex.push_back(top_left);
-            vertex.push_back(bottom_right);
-            vertex.push_back(top_right);
+            vertex.insert(vertex.end(), {top_left, bottom_left, bottom_right});
+            vertex.insert(vertex.end(), {top_left, bottom_right, top_right});
         }
     }
 
@@ -69,7 +61,7 @@ generator::GenerateCone(const float radius, const float height, const size_t sli
     const auto slice_size = 2 * M_PI / slices;
     const auto stack_size = height / stacks;
 
-    const auto base_middle = Vec3f{0, 0, 0};
+    constexpr auto base_middle = Vec3f{0, 0, 0};
 
     for (int slice = 0; slice < slices; ++slice)
     {
@@ -83,22 +75,45 @@ generator::GenerateCone(const float radius, const float height, const size_t sli
             const Vec3f top_left = Vec3fPolar(next_radius, slice * slice_size, (stack + 1) * stack_size);
             const Vec3f top_right = Vec3fPolar(next_radius, (slice + 1) * slice_size, (stack + 1) * stack_size);
 
-            vertex.push_back(top_left);
-            vertex.push_back(bottom_left);
-            vertex.push_back(bottom_right);
-
-            vertex.push_back(top_left);
-            vertex.push_back(bottom_right);
-            vertex.push_back(top_right);
+            vertex.insert(vertex.end(), {top_left, bottom_left, bottom_right});
+            vertex.insert(vertex.end(), {top_left, bottom_right, top_right});
         }
 
         const Vec3f base_bottom_left = Vec3fPolar(radius, slice * slice_size, 0);
         const Vec3f base_bottom_right = Vec3fPolar(radius, (slice + 1) * slice_size, 0);
 
-        vertex.push_back(base_middle);
-        vertex.push_back(base_bottom_right);
-        vertex.push_back(base_bottom_left);
+        vertex.insert(vertex.end(), {base_middle, base_bottom_right, base_bottom_left});
     }
 
     return vertex;
+}
+
+void applyMat4fTransform(const std::vector<Vec3f> &plane, const Mat4f &transform, std::vector<Vec3f> &result)
+{
+    for (size_t i = 0; i < plane.size(); ++i)
+    {
+        result.push_back((transform * plane[i].ToVec4f()).ToVec3f());
+    }
+}
+
+std::vector<Vec3f> generator::GenerateBox(const float length, const size_t divisions)
+{
+    std::vector<Vec3f> result;
+    const auto plane = GeneratePlane(length, divisions);
+
+    const auto move_up = Mat4fTranslate(0, length / 2, 0);
+    const auto move_down = Mat4fTranslate(0, -length / 2, 0) * Mat4fRotateX_M_PI;
+    const auto move_left = Mat4fTranslate(-length / 2, 0, 0) * Mat4fRotateZ_M_PI_2;
+    const auto move_right = Mat4fTranslate(length / 2, 0, 0) * Mat4fRotateZ_NEGATIVE_M_PI_2;
+    const auto move_front = Mat4fTranslate(0, 0, length / 2) * Mat4fRotateX_M_PI_2;
+    const auto move_back = Mat4fTranslate(0, 0, -length / 2) * Mat4fRotateX_NEGATIVE_M_PI_2;
+
+    applyMat4fTransform(plane, move_up, result);
+    applyMat4fTransform(plane, move_down, result);
+    applyMat4fTransform(plane, move_left, result);
+    applyMat4fTransform(plane, move_right, result);
+    applyMat4fTransform(plane, move_front, result);
+    applyMat4fTransform(plane, move_back, result);
+
+    return result;
 }
