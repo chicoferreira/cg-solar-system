@@ -259,7 +259,7 @@ void Engine::renderImGui()
     {
         ImGui::Begin("CG Engine");
 
-        if (ImGui::TreeNode("World"))
+        if (ImGui::TreeNode(&m_world, "World (%s)", m_world.GetName().c_str()))
         {
             if (ImGui::TreeNode("Window"))
             {
