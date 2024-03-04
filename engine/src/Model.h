@@ -2,7 +2,6 @@
 #define MODEL_H
 #include <istream>
 #include <optional>
-#include <utility>
 #include <vector>
 
 #include "Vec.h"
@@ -12,6 +11,8 @@ enum class ModelLoadFormat
     OBJ,
     _3D
 };
+
+std::optional<ModelLoadFormat> GetModelLoadFormat(const std::string &file_path);
 
 class Model
 {
@@ -32,6 +33,7 @@ public:
     void LoadFrom3dFormatStream(std::istream &file);
 };
 
+std::optional<Model> LoadModelFromFile(const std::string &file_path);
 std::optional<Model> LoadModelFromFile(const std::string &file_path, ModelLoadFormat format);
 
 #endif // MODEL_H

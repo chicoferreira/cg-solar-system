@@ -15,6 +15,19 @@ size_t parseFirstIndex(std::string_view string)
     return std::stoi(std::string(string));
 }
 
+std::optional<ModelLoadFormat> GetModelLoadFormat(const std::string &file_path)
+{
+    if (file_path.ends_with(".obj"))
+    {
+        return std::make_optional(ModelLoadFormat::OBJ);
+    }
+    if (file_path.ends_with(".3d"))
+    {
+        return std::make_optional(ModelLoadFormat::_3D);
+    }
+    return std::nullopt;
+}
+
 void Model::LoadFromObjStream(std::istream &file)
 {
     std::string line;
@@ -66,6 +79,13 @@ void Model::LoadFrom3dFormatStream(std::istream &file)
         std::istringstream iss(line);
         iss >> pos.x >> pos.y >> pos.z;
     }
+}
+std::optional<Model> LoadModelFromFile(const std::string &file_path)
+{
+    if (const auto model_load_format = GetModelLoadFormat(file_path))
+        return LoadModelFromFile(file_path, model_load_format.value());
+
+    return std::nullopt;
 }
 
 std::optional<Model> LoadModelFromFile(const std::string &file_path, const ModelLoadFormat format)

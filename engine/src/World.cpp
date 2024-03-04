@@ -70,7 +70,7 @@ std::optional<WorldGroup> LoadWorldGroupFromXml(const tinyxml2::XMLElement *grou
         const auto file_path = model_element->Attribute("file");
         EARLY_RETURN_R(!file_path, "World XML model is missing the file attribute.", std::nullopt);
 
-        const auto model = LoadModelFromFile(file_path, ModelLoadFormat::_3D); // TODO: Support other formats
+        const auto model = LoadModelFromFile(file_path);
         EARLY_RETURN_R(!model, "Failed to read model from file: '" << file_path << "'", std::nullopt);
 
         group.models.push_back(model.value());

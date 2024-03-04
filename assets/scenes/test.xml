@@ -8,7 +8,8 @@
     </camera>
     <group>
         <models>
-            <model file="assets/models/sphere.3d"/>
+            <model file="assets/models/sphere_1_10_10.3d"/>
+            <model file="assets/models/coelho grande.obj"/>
         </models>
     </group>
 </world>
