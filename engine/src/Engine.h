@@ -1,6 +1,7 @@
 #ifndef ENGINE_H
 #define ENGINE_H
 #define GLFW_INCLUDE_GLU
+#define GL_SILENCE_DEPRECATION
 #include <GLFW/glfw3.h>
 #include <imgui.h>
 #include "Model.h"

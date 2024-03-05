@@ -219,7 +219,7 @@ void renderImGuiWorldGroupMenu(WorldGroup &world_group)
     auto &models = world_group.models;
     if (ImGui::TreeNode("Group"))
     {
-        if (ImGui::TreeNode("models", "Models (%d)", models.size()))
+        if (ImGui::TreeNode("models", "Models (%zu)", models.size()))
         {
             for (int i = 0; i < models.size(); ++i)
             {
@@ -227,7 +227,7 @@ void renderImGuiWorldGroupMenu(WorldGroup &world_group)
                 if (ImGui::TreeNode(&model, "Model #%d (%s)", i, model.GetName().c_str()))
                 {
                     if (auto positions = model.GetVertex();
-                        ImGui::TreeNode(&model.GetVertex(), "Vertices (%d)", positions.size()))
+                        ImGui::TreeNode(&model.GetVertex(), "Vertices (%zu)", positions.size()))
                     {
                         for (int p_index = 0; p_index < positions.size(); ++p_index)
                         {
