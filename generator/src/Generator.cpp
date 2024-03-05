@@ -2,7 +2,7 @@
 
 #define _USE_MATH_DEFINES
 
-#include <cmath>
+#include <math.h>
 #include "Mat.h"
 
 std::vector<Vec3f> generator::GeneratePlane(const float length, const size_t divisions)
