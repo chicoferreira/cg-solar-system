@@ -156,7 +156,7 @@ void Engine::ProcessInput()
     double xpos, ypos;
     glfwGetCursorPos(m_window, &xpos, &ypos);
 
-    if (!ImGui::IsWindowHovered(ImGuiHoveredFlags_AnyWindow))
+    if (!io->WantCaptureMouse && !io->WantCaptureKeyboard)
     {
         if (glfwGetMouseButton(m_window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
         {
