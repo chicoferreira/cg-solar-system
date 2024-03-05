@@ -15,6 +15,7 @@ struct Vec3f
     constexpr Vec3f operator-(const Vec3f &other) const { return {x - other.x, y - other.y, z - other.z}; }
     constexpr float operator[](const int i) const { return i == 0 ? x : i == 1 ? y : z; }
     constexpr float &operator[](const int i) { return i == 0 ? x : i == 1 ? y : z; }
+    constexpr auto with_y(const float new_y) const { return Vec3f{x, new_y, z}; }
     float Length() const { return sqrtf(x * x + y * y + z * z); }
 
     void ToSpherical(const Vec3f &center, float &radius, float &alpha, float &beta) const

@@ -19,6 +19,7 @@ const auto commands = {
     Command{"sphere", "<radius> <slices> <stacks>", 3},
     Command{"cone", "<radius> <height> <slices> <stacks>", 4},
     Command{"box", "<length> <divisions>", 2},
+    Command{"cylinder", "<radius> <height> <slices>", 3},
 };
 
 const Command *getCommand(const char *name)
@@ -76,6 +77,13 @@ std::vector<Vec3f> runGenerator(const Command &cmd, char *args[])
         const auto length = std::stof(args[0]);
         const auto divisions = std::stoi(args[1]);
         return generator::GenerateBox(length, divisions);
+    }
+    if (cmd.name == "cylinder")
+    {
+        const auto radius = std::stof(args[0]);
+        const auto height = std::stof(args[1]);
+        const auto slices = std::stoi(args[2]);
+        return generator::GenerateCylinder(radius, height, slices);
     }
     throw std::runtime_error("Unknown command");
 }

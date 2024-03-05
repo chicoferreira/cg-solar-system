@@ -2,8 +2,8 @@
 
 #define _USE_MATH_DEFINES
 
+#include <cmath>
 #include "Mat.h"
-#include "math.h"
 
 std::vector<Vec3f> generator::GeneratePlane(const float length, const size_t divisions)
 {
@@ -114,6 +114,32 @@ std::vector<Vec3f> generator::GenerateBox(const float length, const size_t divis
     applyMat4fTransform(plane, move_right, result);
     applyMat4fTransform(plane, move_front, result);
     applyMat4fTransform(plane, move_back, result);
+
+    return result;
+}
+
+std::vector<Vec3f> generator::GenerateCylinder(const float radius, const float height, const size_t slices)
+{
+    std::vector<Vec3f> result;
+
+    const float alpha = 2.0f * M_PI / static_cast<float>(slices);
+
+    constexpr auto base_middle = Vec3f(0, 0, 0);
+    const auto up_middle = Vec3f(0, height, 0);
+
+    for (int i = 0; i < slices; i++)
+    {
+        Vec3f base_vertex_left = Vec3fPolar(radius, static_cast<float>(i) * alpha);
+        Vec3f base_vertex_right = Vec3fPolar(radius, static_cast<float>(i + 1) * alpha);
+
+        Vec3f up_vertex_left = base_vertex_left.with_y(height);
+        Vec3f up_vertex_right = base_vertex_right.with_y(height);
+
+        result.insert(result.end(), {up_middle, up_vertex_left, up_vertex_right});
+        result.insert(result.end(), {up_vertex_right, up_vertex_left, base_vertex_right});
+        result.insert(result.end(), {base_vertex_left, base_vertex_right, up_vertex_left});
+        result.insert(result.end(), {base_middle, base_vertex_right, base_vertex_left});
+    }
 
     return result;
 }
