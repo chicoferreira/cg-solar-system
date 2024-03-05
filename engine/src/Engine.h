@@ -2,10 +2,23 @@
 #define ENGINE_H
 #define GLFW_INCLUDE_GLU
 #define GL_SILENCE_DEPRECATION
+#include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <imgui.h>
 #include "Model.h"
 #include "World.h"
+
+class EngineSystemEnvironment
+{
+public:
+    std::string glew_version = "unknown";
+    std::string glfw_version = "unknown";
+    std::string imgui_version = "unknown";
+    std::string opengl_version = "unknown";
+    std::string gpu_renderer = "unknown";
+
+    EngineSystemEnvironment() = default;
+};
 
 class EngineSettings
 {
@@ -26,13 +39,6 @@ class Engine
 public:
     explicit Engine(World world) : m_world(std::move(world)) {}
 
-    EngineSettings settings{
-        true, // vsync
-        true, // wireframe
-        true, // render_axis
-        true, // cull_faces
-    };
-
     bool Init();
     void Render();
     void SetVsync(bool enable);
@@ -45,8 +51,18 @@ public:
 private:
     World m_world;
 
-    GLFWwindow *m_window = nullptr;
+    EngineSettings m_settings{
+        true, // vsync
+        true, // wireframe
+        true, // render_axis
+        true, // cull_faces
+    };
+
+    EngineSystemEnvironment m_system_environment;
     ImGuiIO *io = nullptr;
+
+    GLFWwindow *m_window = nullptr;
+    void setupEnvironment();
 
     void initImGui();
     void renderImGui();
