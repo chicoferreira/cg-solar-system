@@ -1,11 +1,19 @@
 #include "Engine.h"
 #include "World.h"
 
-int main(int, char **)
+#include <iostream>
+
+int main(const int argc, char *argv[])
 {
-    const auto world_path = "assets/scenes/test.xml";
-    World world(world_path);
-    if (!world.LoadFromXml(world_path))
+    if (argc < 2)
+    {
+        std::cout << "Usage: engine <scene.xml>" << std::endl;
+        return 1;
+    }
+
+    const char* file_path = argv[1];
+    World world(file_path);
+    if (!world.LoadFromXml(file_path))
         return 1;
 
     Engine engine(world);
