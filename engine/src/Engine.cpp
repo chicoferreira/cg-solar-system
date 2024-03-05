@@ -29,7 +29,6 @@ bool Engine::Init()
     const int width = m_world.GetWindow().width;
     const int height = m_world.GetWindow().height;
 
-    SetMssa(m_settings.mssa);
     glfwWindowHint(GLFW_SAMPLES, m_settings.mssa_samples);
 
     m_window = glfwCreateWindow(width, height, "CG", nullptr, nullptr);
@@ -47,6 +46,7 @@ bool Engine::Init()
     }
 
     SetVsync(m_settings.vsync);
+    SetMssa(m_settings.mssa);
 
     glEnable(GL_DEPTH_TEST);
     SetCullFaces(m_settings.cull_faces);
