@@ -24,3 +24,6 @@ target_link_libraries(cg-solar-system PUBLIC imgui::imgui)
 
 find_package(tinyxml2 CONFIG REQUIRED)
 target_link_libraries(cg-solar-system PRIVATE tinyxml2::tinyxml2)
+
+find_package(GLEW REQUIRED)
+target_link_libraries(cg-solar-system PRIVATE GLEW::GLEW)

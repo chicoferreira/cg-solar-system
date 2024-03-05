@@ -36,12 +36,21 @@ bool Engine::Init()
     glfwMakeContextCurrent(m_window);
     glfwSetFramebufferSizeCallback(m_window, glfwSetFramebufferSizeCallback);
     glfwSetScrollCallback(m_window, glfwScrollCallback);
-    SetVsync(settings.vsync);
+
+    if (const GLenum err = glewInit(); err != GLEW_OK)
+    {
+        std::cerr << "Glew Error: " << glewGetErrorString(err) << std::endl;
+        return false;
+    }
+
+    SetVsync(m_settings.vsync);
 
     glEnable(GL_DEPTH_TEST);
-    SetCullFaces(settings.cull_faces);
+    SetCullFaces(m_settings.cull_faces);
 
     initImGui();
+
+    setupEnvironment();
 
     return true;
 }
@@ -119,10 +128,10 @@ void Engine::Render()
 
     renderCamera(m_world.GetCamera(), m_world.GetWindow());
 
-    if (settings.render_axis)
+    if (m_settings.render_axis)
         renderAxis();
 
-    SetRenderWireframeMode(settings.wireframe);
+    SetRenderWireframeMode(m_settings.wireframe);
 
     renderGroup(m_world.GetParentWorldGroup());
 
@@ -131,15 +140,15 @@ void Engine::Render()
 
 void Engine::SetVsync(const bool enable)
 {
-    settings.vsync = enable;
+    m_settings.vsync = enable;
     glfwSwapInterval(enable);
 }
 
-void Engine::SetWireframe(const bool enable) { settings.wireframe = enable; }
+void Engine::SetWireframe(const bool enable) { m_settings.wireframe = enable; }
 
 void Engine::SetCullFaces(const bool enable)
 {
-    settings.cull_faces = enable;
+    m_settings.cull_faces = enable;
     if (enable)
     {
         glEnable(GL_CULL_FACE);
@@ -197,6 +206,15 @@ void Engine::Shutdown() const
 
     glfwDestroyWindow(m_window);
     glfwTerminate();
+}
+
+void Engine::setupEnvironment()
+{
+    m_system_environment.glew_version = std::string(reinterpret_cast<char const *>(glewGetString(GLEW_VERSION)));
+    m_system_environment.glfw_version = glfwGetVersionString();
+    m_system_environment.imgui_version = IMGUI_VERSION;
+    m_system_environment.opengl_version = std::string(reinterpret_cast<char const *>(glGetString(GL_VERSION)));
+    m_system_environment.gpu_renderer = std::string(reinterpret_cast<char const *>(glGetString(GL_RENDERER)));
 }
 
 void Engine::initImGui()
@@ -292,22 +310,33 @@ void Engine::renderImGui()
 
         if (ImGui::TreeNode("Settings"))
         {
-            if (ImGui::Checkbox("VSync", &settings.vsync))
+            if (ImGui::Checkbox("VSync", &m_settings.vsync))
             {
-                SetVsync(settings.vsync);
+                SetVsync(m_settings.vsync);
             }
 
-            if (ImGui::Checkbox("Cull Faces", &settings.cull_faces))
+            if (ImGui::Checkbox("Cull Faces", &m_settings.cull_faces))
             {
-                SetCullFaces(settings.cull_faces);
+                SetCullFaces(m_settings.cull_faces);
             }
 
-            if (ImGui::Checkbox("Wireframe", &settings.wireframe))
+            if (ImGui::Checkbox("Wireframe", &m_settings.wireframe))
             {
-                SetWireframe(settings.wireframe);
+                SetWireframe(m_settings.wireframe);
             }
 
-            ImGui::Checkbox("Render Axis", &settings.render_axis);
+            ImGui::Checkbox("Render Axis", &m_settings.render_axis);
+
+            if (ImGui::TreeNode("Environment"))
+            {
+                ImGui::Text("GLEW Version: %s", m_system_environment.glew_version.c_str());
+                ImGui::Text("GLFW Version: %s", m_system_environment.glfw_version.c_str());
+                ImGui::Text("ImGui Version: %s", m_system_environment.imgui_version.c_str());
+                ImGui::Text("OpenGL Version: %s", m_system_environment.opengl_version.c_str());
+                ImGui::Text("GPU Renderer: %s", m_system_environment.gpu_renderer.c_str());
+                ImGui::TreePop();
+            }
+
             ImGui::TreePop();
         }
 
