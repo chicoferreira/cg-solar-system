@@ -3,6 +3,10 @@
 
 #include <iostream>
 
+#include "Utils.h"
+
+const std::vector<std::string> SCENES_PATHS_TO_SEARCH = {"assets/scenes/", "./"};
+
 int main(const int argc, char *argv[])
 {
     if (argc < 2)
@@ -11,9 +15,23 @@ int main(const int argc, char *argv[])
         return 1;
     }
 
-    const char* file_path = argv[1];
-    World world(file_path);
-    if (!world.LoadFromXml(file_path))
+    const char *file_path = argv[1];
+    const auto o_path = utils::FindFile(SCENES_PATHS_TO_SEARCH, file_path);
+    if (!o_path)
+    {
+        std::cerr << "Scene file not found: '" << file_path << "'" << std::endl;
+        std::cerr << "Searched in: ";
+        for (const auto &p : SCENES_PATHS_TO_SEARCH)
+            std::cerr << "'" << p << "' ";
+        std::cerr << std::endl;
+        std::cerr << "Usage: engine <scene.xml>" << std::endl;
+        return 1;
+    }
+
+    const auto path_string = o_path.value().string();
+
+    World world(path_string);
+    if (!world.LoadFromXml(path_string))
         return 1;
 
     Engine engine(world);

@@ -6,6 +6,8 @@
 #include <string>
 #include <vector>
 
+#include "Utils.h"
+
 size_t parseFirstIndex(std::string_view string)
 {
     if (const size_t pos = string.find('/'); pos != std::string::npos)
@@ -88,15 +90,23 @@ std::optional<Model> LoadModelFromFile(const std::string &file_path)
     return std::nullopt;
 }
 
+const std::vector<std::string> MODEL_PATHS_TO_SEARCH = {"assets/models/", "./"};
+
 std::optional<Model> LoadModelFromFile(const std::string &file_path, const ModelLoadFormat format)
 {
-    std::ifstream file(file_path);
+    const auto path = utils::FindFile(MODEL_PATHS_TO_SEARCH, file_path);
+    if (!path)
+    {
+        return std::nullopt;
+    }
+
+    std::ifstream file(path.value());
     if (!file.is_open())
     {
         return std::nullopt;
     }
 
-    Model model(file_path);
+    Model model(path.value().string());
 
     switch (format)
     {

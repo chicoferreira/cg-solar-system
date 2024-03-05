@@ -8,7 +8,7 @@
     </camera>
     <group>
         <models>
-            <model file="assets/models/cylinder.3d"/>
+            <model file="cube.3d"/>
         </models>
     </group>
 </world>

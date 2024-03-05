@@ -8,8 +8,8 @@
     </camera>
     <group>
         <models>
-            <model file="assets/models/plane_2_3.3d"/> <!-- generator plane 2 3 plane_2_3.3d -->
-            <model file="assets/models/sphere_1_10_10.3d"/> <!-- generator sphere 1 10 10 sphere_1_10_10.3d -->
+            <model file="plane_2_3.3d"/> <!-- generator plane 2 3 plane_2_3.3d -->
+            <model file="sphere_1_10_10.3d"/> <!-- generator sphere 1 10 10 sphere_1_10_10.3d -->
         </models>
     </group>
 </world>

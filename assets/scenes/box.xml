@@ -8,7 +8,7 @@
     </camera>
     <group>
         <models>
-            <model file="assets/models/box_2_3.3d"/> <!-- generator box 2 3 box_2_3.3d -->
+            <model file="box_2_3.3d"/> <!-- generator box 2 3 box_2_3.3d -->
         </models>
     </group>
 </world>
