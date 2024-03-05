@@ -23,11 +23,21 @@ public:
 class EngineSettings
 {
 public:
-    EngineSettings(const bool vsync, const bool wireframe, const bool render_axis, const bool cull_faces) :
-        vsync(vsync), wireframe(wireframe), render_axis(render_axis), cull_faces(cull_faces)
+    EngineSettings(
+        const size_t mssa_samples,
+        const bool mssa,
+        const bool vsync,
+        const bool wireframe,
+        const bool render_axis,
+        const bool cull_faces
+    ) :
+        mssa_samples(mssa_samples), mssa(mssa), vsync(vsync), wireframe(wireframe), render_axis(render_axis),
+        cull_faces(cull_faces)
     {
     }
 
+    size_t mssa_samples;
+    bool mssa;
     bool vsync;
     bool wireframe;
     bool render_axis;
@@ -44,6 +54,7 @@ public:
     void SetVsync(bool enable);
     void SetWireframe(bool enable);
     void SetCullFaces(bool enable);
+    static void SetMssa(bool enable);
     void ProcessInput();
     void Run();
     void Shutdown() const;
@@ -52,6 +63,8 @@ private:
     World m_world;
 
     EngineSettings m_settings{
+        8, // mssa_samples
+        true, // mssa
         true, // vsync
         true, // wireframe
         true, // render_axis

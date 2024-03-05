@@ -29,6 +29,9 @@ bool Engine::Init()
     const int width = m_world.GetWindow().width;
     const int height = m_world.GetWindow().height;
 
+    SetMssa(m_settings.mssa);
+    glfwWindowHint(GLFW_SAMPLES, m_settings.mssa_samples);
+
     m_window = glfwCreateWindow(width, height, "CG", nullptr, nullptr);
     if (m_window == nullptr)
         return false;
@@ -158,6 +161,15 @@ void Engine::SetCullFaces(const bool enable)
         glDisable(GL_CULL_FACE);
     }
 }
+
+void Engine::SetMssa(const bool enable)
+{
+    if (enable)
+        glEnable(GL_MULTISAMPLE);
+    else
+        glDisable(GL_MULTISAMPLE);
+}
+
 void Engine::ProcessInput()
 {
     static double lastX = 0, lastY = 0;
@@ -327,8 +339,14 @@ void Engine::renderImGui()
 
             ImGui::Checkbox("Render Axis", &m_settings.render_axis);
 
+            if (ImGui::Checkbox("MSSA", &m_settings.mssa))
+            {
+                SetMssa(m_settings.mssa);
+            }
+
             if (ImGui::TreeNode("Environment"))
             {
+                ImGui::Text("MSSA Samples: %zu", m_settings.mssa_samples);
                 ImGui::Text("GLEW Version: %s", m_system_environment.glew_version.c_str());
                 ImGui::Text("GLFW Version: %s", m_system_environment.glfw_version.c_str());
                 ImGui::Text("ImGui Version: %s", m_system_environment.imgui_version.c_str());
