@@ -45,8 +45,13 @@ std::vector<Vec3f> generator::GenerateSphere(const float radius, const size_t sl
             const Vec3f top_left = Vec3fSpherical(radius, slice * slice_size, (stack + 1) * stack_size - M_PI_2);
             const Vec3f top_right = Vec3fSpherical(radius, (slice + 1) * slice_size, (stack + 1) * stack_size - M_PI_2);
 
-            vertex.insert(vertex.end(), {top_left, bottom_left, bottom_right});
-            vertex.insert(vertex.end(), {top_left, bottom_right, top_right});
+            // Avoid drawing extra line in bottom stack (it is just one triangle)
+            if (stack != 0)
+                vertex.insert(vertex.end(), {top_left, bottom_left, bottom_right});
+
+            // Avoid drawing extra line in top stack (it is just one triangle)
+            if (stack != stacks - 1)
+                vertex.insert(vertex.end(), {top_left, bottom_right, top_right});
         }
     }
 
@@ -76,7 +81,8 @@ generator::GenerateCone(const float radius, const float height, const size_t sli
             const Vec3f top_right = Vec3fPolar(next_radius, (slice + 1) * slice_size, (stack + 1) * stack_size);
 
             vertex.insert(vertex.end(), {top_left, bottom_left, bottom_right});
-            vertex.insert(vertex.end(), {top_left, bottom_right, top_right});
+            if (stack != stacks - 1)
+                vertex.insert(vertex.end(), {top_left, bottom_right, top_right});
         }
 
         const Vec3f base_bottom_left = Vec3fPolar(radius, slice * slice_size, 0);
