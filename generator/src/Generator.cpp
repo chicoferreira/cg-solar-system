@@ -12,12 +12,12 @@ std::vector<Vec3f> generator::GeneratePlane(const float length, const size_t div
 
     for (int x = 0; x < divisions; ++x)
     {
-        for (int y = 0; y < divisions; ++y)
+        for (int z = 0; z < divisions; ++z)
         {
-            const Vec3f top_left = {-length / 2 + x * side, 0, -length / 2 + y * side};
-            const Vec3f top_right = {-length / 2 + (x + 1) * side, 0, -length / 2 + y * side};
-            const Vec3f bottom_left = {-length / 2 + x * side, 0, -length / 2 + (y + 1) * side};
-            const Vec3f bottom_right = {-length / 2 + (x + 1) * side, 0, -length / 2 + (y + 1) * side};
+            const Vec3f top_left = {-length / 2 + x * side, 0, -length / 2 + z * side};
+            const Vec3f top_right = {-length / 2 + (x + 1) * side, 0, -length / 2 + z * side};
+            const Vec3f bottom_left = {-length / 2 + x * side, 0, -length / 2 + (z + 1) * side};
+            const Vec3f bottom_right = {-length / 2 + (x + 1) * side, 0, -length / 2 + (z + 1) * side};
 
             vertex.insert(vertex.end(), {top_left, bottom_left, bottom_right});
             vertex.insert(vertex.end(), {top_left, bottom_right, top_right});
