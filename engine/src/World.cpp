@@ -12,7 +12,7 @@ constexpr auto scroll_sensitivity = 0.2f;
 void Camera::ProcessInput(const float x_offset, const float y_offset, const float scroll_offset)
 {
     float radius, alpha, beta;
-    position.ToSpherical(looking_at, radius, alpha, beta);
+    (position - looking_at).ToSpherical(radius, alpha, beta);
 
     alpha -= x_offset * sensitivity;
     beta -= y_offset * sensitivity;

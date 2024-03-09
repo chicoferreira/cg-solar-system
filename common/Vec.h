@@ -18,12 +18,11 @@ struct Vec3f
     constexpr auto with_y(const float new_y) const { return Vec3f{x, new_y, z}; }
     float Length() const { return sqrtf(x * x + y * y + z * z); }
 
-    void ToSpherical(const Vec3f &center, float &radius, float &alpha, float &beta) const
+    void ToSpherical(float &radius, float &alpha, float &beta) const
     {
-        const Vec3f v = *this - center;
-        radius = v.Length();
-        alpha = atan2f(v.x, v.z); // arctan(x/z)
-        beta = asinf(v.y / radius); // arcsin(y/r)
+        radius = this->Length();
+        alpha = atan2f(this->x, this->z); // arctan(x/z)
+        beta = asinf(this->y / radius); // arcsin(y/r)
     }
 
     Vec4f ToVec4f() const;
