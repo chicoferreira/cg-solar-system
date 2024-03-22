@@ -112,6 +112,11 @@ void renderModel(Model &model)
 
 void renderGroup(WorldGroup &group)
 {
+    glPushMatrix();
+
+    const auto mat = group.transform.mat;
+    glMultMatrixf(*mat);
+
     for (auto &model : group.models)
     {
         renderModel(model);
@@ -121,6 +126,8 @@ void renderGroup(WorldGroup &group)
     {
         renderGroup(child);
     }
+
+    glPopMatrix();
 }
 
 void Engine::Render()

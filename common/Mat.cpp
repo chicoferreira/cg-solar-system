@@ -5,7 +5,7 @@
 
 Mat4f Mat4f::operator*(const Mat4f &other) const
 {
-    Mat4f result;
+    Mat4f result{};
     for (int i = 0; i < 4; ++i)
     {
         for (int j = 0; j < 4; ++j)
@@ -32,13 +32,61 @@ Vec4f Mat4f::operator*(const Vec4f &other) const
     return result;
 }
 
+Mat4f &Mat4f::operator*=(const Mat4f &mat4_f)
+{
+    *this = *this * mat4_f;
+    return *this;
+}
+
+Mat4f Mat4f::transpose() const
+{
+    Mat4f result{};
+    for (int i = 0; i < 4; ++i)
+    {
+        for (int j = 0; j < 4; ++j)
+        {
+            result.mat[i][j] = mat[j][i];
+        }
+    }
+    return result;
+}
+
 Mat4f Mat4fTranslate(const float x, const float y, const float z)
 {
     return {{{1, 0, 0, x}, {0, 1, 0, y}, {0, 0, 1, z}, {0, 0, 0, 1}}};
 }
+
 Mat4f Mat4fScale(const float x, const float y, const float z)
 {
     return {{{x, 0, 0, 0}, {0, y, 0, 0}, {0, 0, z, 0}, {0, 0, 0, 1}}};
+}
+
+Mat4f Mat4fRotate(const float angle, const float x, const float y, const float z)
+{
+    const float cosa = cosf(angle);
+    const float sina = sinf(angle);
+
+    return {
+        {{
+             x * x + (1 - x * x) * cosa,
+             x * y * (1 - cosa) - z * sina,
+             x * z * (1 - cosa) + y * sina,
+             0,
+         },
+         {
+             x * y * (1 - cosa) + z * sina,
+             y * y + (1 - y * y) * cosa,
+             y * z * (1 - cosa) - x * sina,
+             0,
+         },
+         {
+             x * z * (1 - cosa) - y * sina,
+             y * z * (1 - cosa) + x * sina,
+             z * z + (1 - z * z) * cosa,
+             0,
+         },
+         {0, 0, 0, 1}}
+    };
 }
 
 Mat4f Mat4fRotateX(const float angle)

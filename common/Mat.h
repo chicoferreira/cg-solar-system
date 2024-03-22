@@ -8,10 +8,13 @@ struct Mat4f
     float mat[4][4];
     Mat4f operator*(const Mat4f &other) const;
     Vec4f operator*(const Vec4f &other) const;
+    Mat4f &operator*=(const Mat4f & mat4_f);
+    Mat4f transpose() const;
 };
 
 Mat4f Mat4fTranslate(float x, float y, float z);
 Mat4f Mat4fScale(float x, float y, float z);
+Mat4f Mat4fRotate(float angle, float x, float y, float z);
 Mat4f Mat4fRotateX(float angle);
 Mat4f Mat4fRotateY(float angle);
 Mat4f Mat4fRotateZ(float angle);

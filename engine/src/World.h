@@ -2,6 +2,8 @@
 #define WORLD_H
 
 #include <vector>
+
+#include "Mat.h"
 #include "Model.h"
 #include "Vec.h"
 
@@ -24,13 +26,9 @@ struct Camera
 
 struct WorldGroup
 {
-    std::vector<Model> models;
-    std::vector<WorldGroup> children;
-
-    WorldGroup(std::vector<Model> models, std::vector<WorldGroup> children) :
-        models(std::move(models)), children(std::move(children))
-    {
-    }
+    std::vector<Model> models = {};
+    std::vector<WorldGroup> children = {};
+    Mat4f transform = Mat4fIdentity;
 
     WorldGroup() = default;
 };

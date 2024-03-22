@@ -1,7 +1,10 @@
 #ifndef VEC_H
 #define VEC_H
 
+#define _USE_MATH_DEFINES
 #include <math.h>
+
+float degrees_to_radians(const float degrees);
 
 struct Vec4f;
 
@@ -69,8 +72,10 @@ struct Vec4f
                 return w;
         }
     }
-    Vec3f ToVec3f() { return {x, y, z}; }
+    Vec3f ToVec3f() const { return {x, y, z}; }
 };
+
+inline float degrees_to_radians(const float degrees) { return degrees * M_PI / 180.0f; }
 
 inline Vec4f Vec3f::ToVec4f() const { return {x, y, z, 1}; }
 

@@ -28,3 +28,7 @@ $ .\build\generator\Debug\cg-generator.exe <args> # For running the generator
 ```
 
 You can find the vcpkg path by running `vcpkg integrate install` and looking at the output.
+
+### Linux and MacOS
+
+The steps are the same as Windows but with different compiler. CMake will detect it automatically.
