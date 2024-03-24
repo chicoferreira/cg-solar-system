@@ -6,17 +6,29 @@
 
 #include "tinyxml2.h"
 
-constexpr auto sensitivity = 0.002f;
+constexpr auto sensitivity = 0.1f;
 constexpr auto scroll_sensitivity = 0.2f;
 
-void Camera::ProcessInput(const float x_offset, const float y_offset, const float scroll_offset)
+void Camera::ProcessInput(float x_offset, float y_offset, const float scroll_offset)
 {
     float radius, alpha, beta;
-    (position - looking_at).ToSpherical(radius, alpha, beta);
+    x_offset = degrees_to_radians(x_offset);
+    y_offset = degrees_to_radians(y_offset);
 
-    alpha -= x_offset * sensitivity;
-    beta -= y_offset * sensitivity;
-    radius -= scroll_offset * scroll_sensitivity;
+    if (first_person_mode)
+    {
+        (looking_at - position).ToSpherical(radius, alpha, beta);
+        alpha -= x_offset * sensitivity;
+        beta += y_offset * sensitivity;
+    }
+    else
+    {
+        (position - looking_at).ToSpherical(radius, alpha, beta);
+
+        alpha -= x_offset * sensitivity;
+        beta -= y_offset * sensitivity;
+        radius -= scroll_offset * scroll_sensitivity;
+    }
 
     if (beta > M_PI_2)
     {
@@ -27,13 +39,44 @@ void Camera::ProcessInput(const float x_offset, const float y_offset, const floa
         beta = -M_PI_2 + 0.001f;
     }
 
-    if (radius < 1.0f)
+    const auto after = Vec3fSpherical(radius, alpha, beta);
+    if (first_person_mode)
     {
-        radius = 1.0f;
+        looking_at = after + position;
+    }
+    else
+    {
+        position = after + looking_at;
+    }
+}
+
+void Camera::Tick(Vec3f input_movement, const float timestep)
+{
+    if (!first_person_mode)
+    {
+        input_movement = {};
     }
 
-    const auto after = Vec3fSpherical(radius, alpha, beta);
-    position = after + looking_at;
+    const Vec3f forward = looking_at - position;
+    const Vec3f right = forward.Cross(up);
+
+    const Vec3f move_dir = (forward * input_movement.z + right * input_movement.x).Normalize() + up * input_movement.y;
+
+    const auto acceleration = move_dir * timestep * acceleration_per_second;
+    speed += acceleration;
+
+    if (speed.Length() > max_speed_per_second)
+    {
+        speed = speed.Normalize() * max_speed_per_second;
+    }
+
+    position += speed * timestep;
+    looking_at += speed * timestep;
+
+    if (move_dir.x == 0 && move_dir.y == 0 && move_dir.z == 0)
+    {
+        speed -= speed * timestep * friction_per_second;
+    }
 }
 
 #define EARLY_RETURN_R(condition, message, result)                                                                     \

@@ -4,7 +4,8 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 
-float degrees_to_radians(const float degrees);
+float degrees_to_radians(float degrees);
+float radians_to_degrees(float radians);
 
 struct Vec4f;
 
@@ -15,7 +16,24 @@ struct Vec3f
     constexpr Vec3f() : x(0), y(0), z(0) {}
     constexpr Vec3f(const float x, const float y, const float z) : x(x), y(y), z(z) {}
     constexpr Vec3f operator+(const Vec3f &other) const { return {x + other.x, y + other.y, z + other.z}; }
+    Vec3f &operator+=(const Vec3f &other)
+    {
+        x += other.x;
+        y += other.y;
+        z += other.z;
+        return *this;
+    }
+    Vec3f &operator-=(const Vec3f &other)
+    {
+        x -= other.x;
+        y -= other.y;
+        z -= other.z;
+        return *this;
+    }
     constexpr Vec3f operator-(const Vec3f &other) const { return {x - other.x, y - other.y, z - other.z}; }
+    constexpr Vec3f operator*(const Vec3f &other) const { return {x * other.x, y * other.y, z * other.z}; }
+    constexpr Vec3f operator*(const float length) const { return {x * length, y * length, z * length}; }
+    constexpr Vec3f operator/(const float length) const { return {x / length, y / length, z / length}; }
     constexpr float operator[](const int i) const { return i == 0 ? x : i == 1 ? y : z; }
     constexpr float &operator[](const int i) { return i == 0 ? x : i == 1 ? y : z; }
     constexpr auto with_y(const float new_y) const { return Vec3f{x, new_y, z}; }
@@ -28,6 +46,19 @@ struct Vec3f
         beta = asinf(this->y / radius); // arcsin(y/r)
     }
 
+    Vec3f Normalize() const
+    {
+        const auto length = Length();
+        if (length == 0)
+        {
+            return {0, 0, 0};
+        }
+        return *this / length;
+    }
+    Vec3f Cross(const Vec3f other) const
+    {
+        return {y * other.z - z * other.y, z * other.x - x * other.z, x * other.y - y * other.x};
+    }
     Vec4f ToVec4f() const;
 };
 
@@ -76,6 +107,8 @@ struct Vec4f
 };
 
 inline float degrees_to_radians(const float degrees) { return degrees * M_PI / 180.0f; }
+
+inline float radians_to_degrees(const float radians) { return radians * 180.0f / M_PI; }
 
 inline Vec4f Vec3f::ToVec4f() const { return {x, y, z, 1}; }
 

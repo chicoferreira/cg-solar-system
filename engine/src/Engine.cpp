@@ -177,24 +177,63 @@ void Engine::SetMssa(const bool enable)
         glDisable(GL_MULTISAMPLE);
 }
 
-void Engine::ProcessInput()
+void Engine::ProcessInput(const float timestep)
 {
     static double lastX = 0, lastY = 0;
 
     double xpos, ypos;
     glfwGetCursorPos(m_window, &xpos, &ypos);
 
-    if (!io->WantCaptureMouse && !io->WantCaptureKeyboard)
+    Vec3f movement = {};
+
+    if (!io->WantCaptureKeyboard)
     {
-        if (glfwGetMouseButton(m_window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
+        m_input.UpdateKey(m_window, GLFW_KEY_V);
+        m_input.UpdateKey(m_window, GLFW_KEY_W);
+        m_input.UpdateKey(m_window, GLFW_KEY_S);
+        m_input.UpdateKey(m_window, GLFW_KEY_A);
+        m_input.UpdateKey(m_window, GLFW_KEY_D);
+        m_input.UpdateKey(m_window, GLFW_KEY_SPACE);
+        m_input.UpdateKey(m_window, GLFW_KEY_LEFT_CONTROL);
+
+        if (m_input.IsReleaseEvent(GLFW_KEY_V))
         {
-            m_world.GetCamera().ProcessInput(xpos - lastX, lastY - ypos, last_scroll);
+            m_world.GetCamera().ToggleFirstPersonMode();
         }
-        else if (last_scroll != 0)
-        {
-            m_world.GetCamera().ProcessInput(0, 0, last_scroll);
-        }
+
+        movement.z += m_input.IsHolding(GLFW_KEY_W) - m_input.IsHolding(GLFW_KEY_S);
+        movement.x += m_input.IsHolding(GLFW_KEY_D) - m_input.IsHolding(GLFW_KEY_A);
+        movement.y += m_input.IsHolding(GLFW_KEY_SPACE) - m_input.IsHolding(GLFW_KEY_LEFT_CONTROL);
     }
+
+    if (!io->WantCaptureMouse)
+    {
+        m_input.UpdateButton(m_window, GLFW_MOUSE_BUTTON_LEFT);
+        m_input.UpdateButton(m_window, GLFW_MOUSE_BUTTON_RIGHT);
+
+        if (m_input.IsPressEvent(GLFW_MOUSE_BUTTON_LEFT))
+        {
+            glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+        }
+        else if (m_input.IsReleaseEvent(GLFW_MOUSE_BUTTON_LEFT))
+        {
+            glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+        }
+
+        float xoffset = xpos - lastX;
+        float yoffset = lastY - ypos;
+
+        if (!m_input.IsHolding(GLFW_MOUSE_BUTTON_LEFT))
+        {
+            xoffset = 0;
+            yoffset = 0;
+        }
+
+        m_world.GetCamera().ProcessInput(xoffset, yoffset, last_scroll);
+    }
+
+    m_world.GetCamera().Tick(movement, timestep);
+
     last_scroll = 0;
 
     lastX = xpos;
@@ -203,12 +242,16 @@ void Engine::ProcessInput()
 
 void Engine::Run()
 {
+    float currentTime = glfwGetTime();
     while (!glfwWindowShouldClose(m_window))
     {
         glfwPollEvents();
         glfwGetFramebufferSize(m_window, &m_world.GetWindow().width, &m_world.GetWindow().height);
 
-        ProcessInput();
+        const float newTime = glfwGetTime();
+        const float timestep = newTime - currentTime;
+        ProcessInput(timestep);
+        currentTime = newTime;
 
         Render();
 
@@ -307,6 +350,14 @@ void Engine::renderImGui()
             if (ImGui::TreeNode("Camera"))
             {
                 auto &camera = m_world.GetCamera();
+                ImGui::Checkbox("First Person Mode", &camera.first_person_mode);
+                if (camera.first_person_mode)
+                {
+                    ImGui::DragFloat3("Speed", &camera.speed.x, 0.05f);
+                    ImGui::DragFloat("Max Speed", &camera.max_speed_per_second, 0.05f);
+                    ImGui::DragFloat("Acceleration", &camera.acceleration_per_second, 0.05f);
+                    ImGui::DragFloat("Friction", &camera.friction_per_second, 0.05f);
+                }
                 ImGui::DragFloat3("Position", &camera.position.x, 0.05f);
                 ImGui::DragFloat3("Looking At", &camera.looking_at.x, 0.05f);
                 ImGui::DragFloat3("Up", &camera.up.x, 0.05f);

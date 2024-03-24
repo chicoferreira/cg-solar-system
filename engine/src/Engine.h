@@ -5,6 +5,8 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <imgui.h>
+
+#include "Input.h"
 #include "Model.h"
 #include "World.h"
 
@@ -55,12 +57,13 @@ public:
     void SetWireframe(bool enable);
     void SetCullFaces(bool enable);
     static void SetMssa(bool enable);
-    void ProcessInput();
+    void ProcessInput(float timestep);
     void Run();
     void Shutdown() const;
 
 private:
     World m_world;
+    Input::Input m_input;
 
     EngineSettings m_settings{
         8, // mssa_samples
