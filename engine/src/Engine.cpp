@@ -16,7 +16,7 @@ void glfwSetFramebufferSizeCallback(GLFWwindow *_, const int width, const int he
     glViewport(0, 0, width, height);
 }
 
-double last_scroll = 0;
+float last_scroll = 0;
 
 void glfwScrollCallback(GLFWwindow *_window, const double _xoffset, const double yoffset) { last_scroll = yoffset; }
 
@@ -201,9 +201,12 @@ void Engine::ProcessInput(const float timestep)
             m_world.GetCamera().ToggleFirstPersonMode();
         }
 
-        movement.z += m_input.IsHolding(GLFW_KEY_W) - m_input.IsHolding(GLFW_KEY_S);
-        movement.x += m_input.IsHolding(GLFW_KEY_D) - m_input.IsHolding(GLFW_KEY_A);
-        movement.y += m_input.IsHolding(GLFW_KEY_SPACE) - m_input.IsHolding(GLFW_KEY_LEFT_CONTROL);
+        if (m_world.GetCamera().first_person_mode)
+        {
+            movement.z += m_input.IsHolding(GLFW_KEY_W) - m_input.IsHolding(GLFW_KEY_S);
+            movement.x += m_input.IsHolding(GLFW_KEY_D) - m_input.IsHolding(GLFW_KEY_A);
+            movement.y += m_input.IsHolding(GLFW_KEY_SPACE) - m_input.IsHolding(GLFW_KEY_LEFT_CONTROL);
+        }
     }
 
     if (!io->WantCaptureMouse)
@@ -220,19 +223,15 @@ void Engine::ProcessInput(const float timestep)
             glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
         }
 
-        float xoffset = xpos - lastX;
-        float yoffset = lastY - ypos;
-
-        if (!m_input.IsHolding(GLFW_MOUSE_BUTTON_LEFT))
+        if (m_input.IsHolding(GLFW_MOUSE_BUTTON_LEFT))
         {
-            xoffset = 0;
-            yoffset = 0;
+            const float xoffset = xpos - lastX;
+            const float yoffset = lastY - ypos;
+            m_world.GetCamera().UpdateCameraRotation(xoffset, yoffset);
         }
-
-        m_world.GetCamera().ProcessInput(xoffset, yoffset, last_scroll);
     }
 
-    m_world.GetCamera().Tick(movement, timestep);
+    m_world.GetCamera().Tick(movement, last_scroll, timestep);
 
     last_scroll = 0;
 
@@ -351,13 +350,11 @@ void Engine::renderImGui()
             {
                 auto &camera = m_world.GetCamera();
                 ImGui::Checkbox("First Person Mode", &camera.first_person_mode);
-                if (camera.first_person_mode)
-                {
-                    ImGui::DragFloat3("Speed", &camera.speed.x, 0.05f);
-                    ImGui::DragFloat("Max Speed", &camera.max_speed_per_second, 0.05f);
-                    ImGui::DragFloat("Acceleration", &camera.acceleration_per_second, 0.05f);
-                    ImGui::DragFloat("Friction", &camera.friction_per_second, 0.05f);
-                }
+                ImGui::DragFloat3("Speed", &camera.speed.x, 0.05f);
+                ImGui::DragFloat("Scroll Speed", &camera.scroll_speed, 0.05f);
+                ImGui::DragFloat("Max Speed", &camera.max_speed_per_second, 0.05f);
+                ImGui::DragFloat("Acceleration", &camera.acceleration_per_second, 0.05f);
+                ImGui::DragFloat("Friction", &camera.friction_per_second, 0.05f);
                 ImGui::DragFloat3("Position", &camera.position.x, 0.05f);
                 ImGui::DragFloat3("Looking At", &camera.looking_at.x, 0.05f);
                 ImGui::DragFloat3("Up", &camera.up.x, 0.05f);

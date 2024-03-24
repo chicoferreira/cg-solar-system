@@ -7,9 +7,9 @@
 #include "tinyxml2.h"
 
 constexpr auto sensitivity = 0.1f;
-constexpr auto scroll_sensitivity = 0.2f;
+constexpr auto scroll_sensitivity = 10.0f;
 
-void Camera::ProcessInput(float x_offset, float y_offset, const float scroll_offset)
+void Camera::UpdateCameraRotation(float x_offset, float y_offset)
 {
     float radius, alpha, beta;
     x_offset = degrees_to_radians(x_offset);
@@ -27,7 +27,6 @@ void Camera::ProcessInput(float x_offset, float y_offset, const float scroll_off
 
         alpha -= x_offset * sensitivity;
         beta -= y_offset * sensitivity;
-        radius -= scroll_offset * scroll_sensitivity;
     }
 
     if (beta > M_PI_2)
@@ -50,32 +49,35 @@ void Camera::ProcessInput(float x_offset, float y_offset, const float scroll_off
     }
 }
 
-void Camera::Tick(Vec3f input_movement, const float timestep)
+void Camera::Tick(const Vec3f input_movement, const float scroll_input, const float timestep)
 {
-    if (!first_person_mode)
-    {
-        input_movement = {};
-    }
-
-    const Vec3f forward = looking_at - position;
-    const Vec3f right = forward.Cross(up);
+    const Vec3f forward = (looking_at - position).Normalize();
+    const Vec3f right = forward.Cross(up).Normalize();
 
     const Vec3f move_dir = (forward * input_movement.z + right * input_movement.x).Normalize() + up * input_movement.y;
-
-    const auto acceleration = move_dir * timestep * acceleration_per_second;
+    const auto acceleration = move_dir * acceleration_per_second * timestep;
     speed += acceleration;
+
+    scroll_speed += scroll_input * scroll_sensitivity * acceleration_per_second * timestep;
 
     if (speed.Length() > max_speed_per_second)
     {
         speed = speed.Normalize() * max_speed_per_second;
     }
 
-    position += speed * timestep;
+    const Vec3f final_speed = speed + forward * scroll_speed;
+
+    position += final_speed * timestep;
     looking_at += speed * timestep;
 
     if (move_dir.x == 0 && move_dir.y == 0 && move_dir.z == 0)
     {
         speed -= speed * timestep * friction_per_second;
+    }
+
+    if (scroll_input == 0)
+    {
+        scroll_speed -= scroll_speed * timestep * friction_per_second;
     }
 }
 

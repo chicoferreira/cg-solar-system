@@ -21,14 +21,15 @@ struct Camera
     bool first_person_mode = false;
 
     Vec3f speed;
+    float scroll_speed = 0.0f;
     float max_speed_per_second = 10.0f;
     float acceleration_per_second = 100.0f;
-    float friction_per_second = 10.0f;
+    float friction_per_second = 20.0f;
 
     Camera() = default;
 
-    void ProcessInput(float x_offset, float y_offset, float scroll_offset);
-    void Tick(Vec3f input_movement, float timestep);
+    void UpdateCameraRotation(float x_offset, float y_offset);
+    void Tick(Vec3f input_movement, float scroll_input, float timestep);
     bool ToggleFirstPersonMode() { return first_person_mode = !first_person_mode; }
 };
 
