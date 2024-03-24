@@ -195,10 +195,16 @@ void Engine::ProcessInput(const float timestep)
         m_input.UpdateKey(m_window, GLFW_KEY_D);
         m_input.UpdateKey(m_window, GLFW_KEY_SPACE);
         m_input.UpdateKey(m_window, GLFW_KEY_LEFT_CONTROL);
+        m_input.UpdateKey(m_window, GLFW_KEY_R);
 
         if (m_input.IsReleaseEvent(GLFW_KEY_V))
         {
             m_world.GetCamera().ToggleFirstPersonMode();
+        }
+
+        if (m_input.IsPressEvent(GLFW_KEY_R))
+        {
+            m_world.ResetCamera();
         }
 
         if (m_world.GetCamera().first_person_mode)
@@ -229,6 +235,10 @@ void Engine::ProcessInput(const float timestep)
             const float yoffset = lastY - ypos;
             m_world.GetCamera().UpdateCameraRotation(xoffset, yoffset);
         }
+    }
+    else
+    {
+        last_scroll = 0;
     }
 
     m_world.GetCamera().Tick(movement, last_scroll, timestep);
@@ -349,7 +359,7 @@ void Engine::renderImGui()
             if (ImGui::TreeNode("Camera"))
             {
                 auto &camera = m_world.GetCamera();
-                ImGui::Checkbox("First Person Mode", &camera.first_person_mode);
+                ImGui::Checkbox("First Person Mode (V)", &camera.first_person_mode);
                 ImGui::DragFloat3("Speed", &camera.speed.x, 0.05f);
                 ImGui::DragFloat("Scroll Speed", &camera.scroll_speed, 0.05f);
                 ImGui::DragFloat("Max Speed", &camera.max_speed_per_second, 0.05f);
@@ -362,7 +372,7 @@ void Engine::renderImGui()
                 ImGui::DragFloat("Near", &camera.near, 0.05f, 0.05f, camera.far - 1);
                 ImGui::DragFloat("Far", &camera.far, 0.05f, camera.near + 1, 10000);
 
-                if (ImGui::Button("Reset"))
+                if (ImGui::Button("Reset (R)"))
                 {
                     m_world.ResetCamera();
                 }

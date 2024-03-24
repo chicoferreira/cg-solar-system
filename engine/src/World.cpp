@@ -65,9 +65,12 @@ void Camera::Tick(const Vec3f input_movement, const float scroll_input, const fl
         speed = speed.Normalize() * max_speed_per_second;
     }
 
-    const Vec3f final_speed = speed + forward * scroll_speed;
+    if ((looking_at - position).Length() > 1.0f || scroll_input < 0)
+    {
+        position += forward * scroll_speed * timestep;
+    }
 
-    position += final_speed * timestep;
+    position += speed * timestep;
     looking_at += speed * timestep;
 
     if (move_dir.x == 0 && move_dir.y == 0 && move_dir.z == 0)
