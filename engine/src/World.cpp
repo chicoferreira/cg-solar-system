@@ -7,7 +7,7 @@
 #include "tinyxml2.h"
 
 constexpr auto sensitivity = 0.1f;
-constexpr auto scroll_sensitivity = 10.0f;
+constexpr auto scroll_sensitivity = 0.1f;
 
 void Camera::UpdateCameraRotation(float x_offset, float y_offset)
 {
@@ -58,7 +58,7 @@ void Camera::Tick(const Vec3f input_movement, const float scroll_input, const fl
     const auto acceleration = move_dir * acceleration_per_second * timestep;
     speed += acceleration;
 
-    scroll_speed += scroll_input * scroll_sensitivity * acceleration_per_second * timestep;
+    scroll_speed += scroll_input * scroll_sensitivity * acceleration_per_second;
 
     if (speed.Length() > max_speed_per_second)
     {
