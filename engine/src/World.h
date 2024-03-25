@@ -44,6 +44,7 @@ namespace engine::world
             Vec3f axis{};
 
             Mat4f GetTransform() const { return Mat4fRotate(angle_rads, axis.x, axis.y, axis.z); }
+            explicit Rotation(const float angle_rads, const Vec3f axis) : angle_rads(angle_rads), axis(axis) {}
         };
 
         struct Translation
@@ -51,6 +52,7 @@ namespace engine::world
             Vec3f translation{};
 
             Mat4f GetTransform() const { return Mat4fTranslate(translation.x, translation.y, translation.z); }
+            explicit Translation(const Vec3f translation) : translation(translation) {}
         };
 
         struct Scale
@@ -58,6 +60,7 @@ namespace engine::world
             Vec3f m_scale;
 
             Mat4f GetTransform() const { return Mat4fScale(m_scale.x, m_scale.y, m_scale.z); }
+            explicit Scale(const Vec3f scale) : m_scale(scale) {}
         };
 
         using Transform = std::variant<Rotation, Translation, Scale>;
