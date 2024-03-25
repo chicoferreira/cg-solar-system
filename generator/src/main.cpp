@@ -131,9 +131,9 @@ int main(const int argc, char *argv[])
     std::filesystem::path path = default_folder;
     path.append(save_file);
 
-    if (!std::filesystem::exists(path.parent_path()))
+    if (!exists(path.parent_path()))
     {
-        std::filesystem::create_directories(path.parent_path());
+        create_directories(path.parent_path());
     }
 
     // write to file

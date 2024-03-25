@@ -16,7 +16,7 @@ int main(const int argc, char *argv[])
     }
 
     const char *file_path = argv[1];
-    const auto o_path = utils::FindFile(SCENES_PATHS_TO_SEARCH, file_path);
+    const auto o_path = engine::utils::FindFile(SCENES_PATHS_TO_SEARCH, file_path);
     if (!o_path)
     {
         std::cerr << "Scene file not found: '" << file_path << "'" << std::endl;
@@ -30,11 +30,11 @@ int main(const int argc, char *argv[])
 
     const auto path_string = o_path.value().string();
 
-    World world(path_string);
+    engine::world::World world(path_string);
     if (!world.LoadFromXml(path_string))
         return 1;
 
-    Engine engine(world);
+    engine::Engine engine(world);
     if (!engine.Init())
         return 1;
 

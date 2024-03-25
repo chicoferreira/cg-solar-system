@@ -1,14 +1,14 @@
 #ifndef UTILS_H
 #define UTILS_H
 #include <filesystem>
+#include <optional>
 #include <string>
 #include <vector>
-#include <optional>
 
-namespace utils
+namespace engine::utils
 {
     std::optional<std::filesystem::path>
     FindFile(const std::vector<std::string> &file_paths, const std::string &file_name);
-} // namespace utils
+} // namespace engine::utils
 
 #endif // UTILS_H

@@ -10,79 +10,82 @@
 #include "Model.h"
 #include "World.h"
 
-class EngineSystemEnvironment
+namespace engine
 {
-public:
-    std::string glew_version = "unknown";
-    std::string glfw_version = "unknown";
-    std::string imgui_version = "unknown";
-    std::string opengl_version = "unknown";
-    std::string gpu_renderer = "unknown";
-
-    EngineSystemEnvironment() = default;
-};
-
-class EngineSettings
-{
-public:
-    EngineSettings(
-        const size_t mssa_samples,
-        const bool mssa,
-        const bool vsync,
-        const bool wireframe,
-        const bool render_axis,
-        const bool cull_faces
-    ) :
-        mssa_samples(mssa_samples), mssa(mssa), vsync(vsync), wireframe(wireframe), render_axis(render_axis),
-        cull_faces(cull_faces)
+    class EngineSystemEnvironment
     {
-    }
+    public:
+        std::string glew_version = "unknown";
+        std::string glfw_version = "unknown";
+        std::string imgui_version = "unknown";
+        std::string opengl_version = "unknown";
+        std::string gpu_renderer = "unknown";
 
-    size_t mssa_samples;
-    bool mssa;
-    bool vsync;
-    bool wireframe;
-    bool render_axis;
-    bool cull_faces;
-};
-
-class Engine
-{
-public:
-    explicit Engine(World world) : m_world(std::move(world)) {}
-
-    bool Init();
-    void Render();
-    void SetVsync(bool enable);
-    void SetWireframe(bool enable);
-    void SetCullFaces(bool enable);
-    static void SetMssa(bool enable);
-    void ProcessInput(float timestep);
-    void Run();
-    void Shutdown() const;
-
-private:
-    World m_world;
-    Input::Input m_input;
-
-    EngineSettings m_settings{
-        8, // mssa_samples
-        true, // mssa
-        true, // vsync
-        true, // wireframe
-        true, // render_axis
-        true, // cull_faces
+        EngineSystemEnvironment() = default;
     };
 
-    EngineSystemEnvironment m_system_environment;
-    ImGuiIO *io = nullptr;
+    class EngineSettings
+    {
+    public:
+        EngineSettings(
+            const size_t mssa_samples,
+            const bool mssa,
+            const bool vsync,
+            const bool wireframe,
+            const bool render_axis,
+            const bool cull_faces
+        ) :
+            mssa_samples(mssa_samples), mssa(mssa), vsync(vsync), wireframe(wireframe), render_axis(render_axis),
+            cull_faces(cull_faces)
+        {
+        }
 
-    GLFWwindow *m_window = nullptr;
-    void setupEnvironment();
+        size_t mssa_samples;
+        bool mssa;
+        bool vsync;
+        bool wireframe;
+        bool render_axis;
+        bool cull_faces;
+    };
 
-    void initImGui();
-    void renderImGui();
-    static void postRenderImGui();
-};
+    class Engine
+    {
+    public:
+        explicit Engine(world::World world) : m_world(std::move(world)) {}
+
+        bool Init();
+        void Render();
+        void SetVsync(bool enable);
+        void SetWireframe(bool enable);
+        void SetCullFaces(bool enable);
+        static void SetMssa(bool enable);
+        void ProcessInput(float timestep);
+        void Run();
+        void Shutdown() const;
+
+    private:
+        world::World m_world;
+        input::Input m_input;
+
+        EngineSettings m_settings{
+            8, // mssa_samples
+            true, // mssa
+            true, // vsync
+            true, // wireframe
+            true, // render_axis
+            true, // cull_faces
+        };
+
+        EngineSystemEnvironment m_system_environment;
+        ImGuiIO *io = nullptr;
+
+        GLFWwindow *m_window = nullptr;
+        void setupEnvironment();
+
+        void initImGui();
+        void renderImGui();
+        static void postRenderImGui();
+    };
+} // namespace engine
 
 #endif // ENGINE_H

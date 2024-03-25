@@ -2,7 +2,7 @@
 #define INPUT_H
 #include <GLFW/glfw3.h>
 
-namespace Input
+namespace engine::input
 {
     enum State
     {
@@ -43,6 +43,6 @@ namespace Input
         bool IsReleaseEvent(const int key) const { return m_key[key] == RELEASED; }
         bool IsHolding(const int key) const { return m_key[key] == FIRST_PRESSED || m_key[key] == HOLD; }
     };
-} // namespace Input
+} // namespace engine::input
 
 #endif // INPUT_H
