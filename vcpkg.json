@@ -9,7 +9,8 @@
       "name": "imgui",
       "features": [
         "glfw-binding",
-        "opengl2-binding"
+        "opengl2-binding",
+        "docking-experimental"
       ]
     },
     "glew"

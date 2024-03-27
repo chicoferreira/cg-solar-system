@@ -298,6 +298,9 @@ namespace engine
         (void)io;
         io->ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard; // Enable Keyboard Controls
         io->ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad; // Enable Gamepad Controls
+        io->ConfigFlags |= ImGuiConfigFlags_DockingEnable; // Enable Docking
+
+        ImGui::GetStyle().WindowRounding = 5.0f;
 
         ImGui::StyleColorsDark();
 
@@ -308,29 +311,64 @@ namespace engine
     void renderImGuiWorldGroupMenu(world::WorldGroup &world_group)
     {
         auto &models = world_group.models;
-        if (ImGui::TreeNode("Group"))
+        if (ImGui::TreeNode(&world_group, "Group"))
         {
-            if (ImGui::TreeNode("models", "Models (%zu)", models.size()))
+            if (ImGui::TreeNode(&world_group.transformations, "Transformations"))
             {
-                for (int i = 0; i < models.size(); ++i)
+                for (auto &transform : world_group.transformations.GetTransformations())
                 {
-                    model::Model &model = models[i];
-                    if (ImGui::TreeNode(&model, "Model #%d (%s)", i, model.GetName().c_str()))
+                    if (std::holds_alternative<world::transformation::Rotation>(transform))
                     {
-                        if (auto positions = model.GetVertex();
-                            ImGui::TreeNode(&model.GetVertex(), "Vertices (%zu)", positions.size()))
+                        auto &rotation = std::get<world::transformation::Rotation>(transform);
+
+                        float angle = radians_to_degrees(rotation.angle_rads);
+                        ImGui::Text("Rotation");
+                        if (ImGui::SliderFloat("Angle", &angle, 0, 360))
                         {
-                            for (int p_index = 0; p_index < positions.size(); ++p_index)
-                            {
-                                const auto &[x, y, z] = positions[p_index];
-                                ImGui::Text("%d. x: %.2f, y: %.2f, z: %.2f", p_index + 1, x, y, z);
-                            }
-                            ImGui::TreePop();
+                            rotation.angle_rads = degrees_to_radians(angle);
+                            world_group.transformations.UpdateTransformMatrix();
                         }
-                        ImGui::TreePop();
+                        if (ImGui::DragFloat3("Axis", &rotation.axis.x, 0.05f))
+                        {
+                            world_group.transformations.UpdateTransformMatrix();
+                        }
+                    }
+                    else if (std::holds_alternative<world::transformation::Translation>(transform))
+                    {
+                        if (auto &translation = std::get<world::transformation::Translation>(transform);
+                            ImGui::DragFloat3("Translation", &translation.translation.x, 0.05f))
+                        {
+                            world_group.transformations.UpdateTransformMatrix();
+                        }
+                    }
+                    else if (std::holds_alternative<world::transformation::Scale>(transform))
+                    {
+                        if (auto &scale = std::get<world::transformation::Scale>(transform);
+                            ImGui::DragFloat3("Scale", &scale.m_scale.x, 0.05f))
+                        {
+                            world_group.transformations.UpdateTransformMatrix();
+                        }
                     }
                 }
                 ImGui::TreePop();
+            }
+
+            for (auto &model : models)
+            {
+                if (ImGui::TreeNode(&model, "Model %s", model.GetName().c_str()))
+                {
+                    if (auto positions = model.GetVertex();
+                        ImGui::TreeNode(&model.GetVertex(), "Vertices (%zu)", positions.size()))
+                    {
+                        for (int p_index = 0; p_index < positions.size(); ++p_index)
+                        {
+                            const auto &[x, y, z] = positions[p_index];
+                            ImGui::Text("%d. x: %.2f, y: %.2f, z: %.2f", p_index + 1, x, y, z);
+                        }
+                        ImGui::TreePop();
+                    }
+                    ImGui::TreePop();
+                }
             }
             for (auto &child : world_group.children)
             {
@@ -350,29 +388,38 @@ namespace engine
         {
             ImGui::Begin("CG Engine");
 
-            if (ImGui::TreeNode(&m_world, "World (%s)", m_world.GetName().c_str()))
+            if (ImGui::TreeNodeEx(
+                    &m_world,
+                    ImGuiTreeNodeFlags_Framed | ImGuiTreeNodeFlags_DefaultOpen,
+                    "World (%s)",
+                    m_world.GetName().c_str()
+                ))
             {
-                if (ImGui::TreeNode("Window"))
-                {
-                    ImGui::Text("Width: %d, Height: %d", m_world.GetWindow().width, m_world.GetWindow().height);
-                    ImGui::TreePop();
-                }
 
-                if (ImGui::TreeNode("Camera"))
+                ImGui::Text("Width:");
+                ImGui::SameLine();
+                ImGui::TextDisabled("%d", m_world.GetWindow().width);
+                ImGui::SameLine();
+                ImGui::Text("Height:");
+                ImGui::SameLine();
+                ImGui::TextDisabled("%d", m_world.GetWindow().height);
+
+
+                if (ImGui::TreeNodeEx("Camera", ImGuiTreeNodeFlags_Framed))
                 {
                     auto &camera = m_world.GetCamera();
-                    ImGui::Checkbox("First Person Mode (V)", &camera.first_person_mode);
-                    ImGui::DragFloat3("Speed", &camera.speed.x, 0.05f);
-                    ImGui::DragFloat("Scroll Speed", &camera.scroll_speed, 0.05f);
-                    ImGui::DragFloat("Max Speed", &camera.max_speed_per_second, 0.05f);
-                    ImGui::DragFloat("Acceleration", &camera.acceleration_per_second, 0.05f);
-                    ImGui::DragFloat("Friction", &camera.friction_per_second, 0.05f);
                     ImGui::DragFloat3("Position", &camera.position.x, 0.05f);
                     ImGui::DragFloat3("Looking At", &camera.looking_at.x, 0.05f);
                     ImGui::DragFloat3("Up", &camera.up.x, 0.05f);
                     ImGui::DragFloat("FOV", &camera.fov, 0.05f, 1.0f, 179);
                     ImGui::DragFloat("Near", &camera.near, 0.05f, 0.05f, camera.far - 1);
                     ImGui::DragFloat("Far", &camera.far, 0.05f, camera.near + 1, 10000);
+                    ImGui::Checkbox("First Person Mode (V)", &camera.first_person_mode);
+                    ImGui::DragFloat3("Speed", &camera.speed.x, 0.05f);
+                    ImGui::DragFloat("Scroll Speed", &camera.scroll_speed, 0.05f);
+                    ImGui::DragFloat("Max Speed", &camera.max_speed_per_second, 0.05f);
+                    ImGui::DragFloat("Acceleration", &camera.acceleration_per_second, 0.05f);
+                    ImGui::DragFloat("Friction", &camera.friction_per_second, 0.05f);
 
                     if (ImGui::Button("Reset (R)"))
                     {
@@ -382,12 +429,16 @@ namespace engine
                     ImGui::TreePop();
                 }
 
-                renderImGuiWorldGroupMenu(m_world.GetParentWorldGroup());
+                if (ImGui::TreeNodeEx("Groups", ImGuiTreeNodeFlags_Framed | ImGuiTreeNodeFlags_DefaultOpen))
+                {
+                    renderImGuiWorldGroupMenu(m_world.GetParentWorldGroup());
+                    ImGui::TreePop();
+                }
 
                 ImGui::TreePop();
             }
 
-            if (ImGui::TreeNode("Settings"))
+            if (ImGui::TreeNodeEx("Settings", ImGuiTreeNodeFlags_Framed))
             {
                 if (ImGui::Checkbox("VSync", &m_settings.vsync))
                 {
@@ -411,17 +462,12 @@ namespace engine
                     SetMssa(m_settings.mssa);
                 }
 
-                if (ImGui::TreeNode("Environment"))
-                {
-                    ImGui::Text("MSSA Samples: %zu", m_settings.mssa_samples);
-                    ImGui::Text("GLEW Version: %s", m_system_environment.glew_version.c_str());
-                    ImGui::Text("GLFW Version: %s", m_system_environment.glfw_version.c_str());
-                    ImGui::Text("ImGui Version: %s", m_system_environment.imgui_version.c_str());
-                    ImGui::Text("OpenGL Version: %s", m_system_environment.opengl_version.c_str());
-                    ImGui::Text("GPU Renderer: %s", m_system_environment.gpu_renderer.c_str());
-                    ImGui::TreePop();
-                }
-
+                ImGui::BulletText("MSSA Samples: %zu", m_settings.mssa_samples);
+                ImGui::BulletText("GLEW Version: %s", m_system_environment.glew_version.c_str());
+                ImGui::BulletText("GLFW Version: %s", m_system_environment.glfw_version.c_str());
+                ImGui::BulletText("ImGui Version: %s", m_system_environment.imgui_version.c_str());
+                ImGui::BulletText("OpenGL Version: %s", m_system_environment.opengl_version.c_str());
+                ImGui::BulletText("GPU Renderer: %s", m_system_environment.gpu_renderer.c_str());
                 ImGui::TreePop();
             }
 
