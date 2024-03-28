@@ -308,20 +308,16 @@ namespace engine
         ImGui_ImplOpenGL2_Init();
     }
 
-    bool renderDragVec(const char *label, Vec3f &vec)
-    {
-        bool result = false;
-        ImGui::BeginGroup();
-        ImGui::PushItemWidth(ImGui::CalcItemWidth() / 3.0f - ImGui::GetStyle().ItemInnerSpacing.x / 2.0f);
 
-        result |= ImGui::DragFloat("##x", &vec.x, 0.05f, 0.0f, 0.0f, "x: %.3f");
-        ImGui::SameLine(0, ImGui::GetStyle().ItemInnerSpacing.x);
-        result |= ImGui::DragFloat("##y", &vec.y, 0.05f, 0, 0, "y: %.3f");
-        ImGui::SameLine(0, ImGui::GetStyle().ItemInnerSpacing.x);
-        result |= ImGui::DragFloat(label, &vec.z, 0.05f, 0, 0, "z: %.3f");
-        ImGui::PopItemWidth();
-        ImGui::EndGroup();
-        return result;
+    const char *getTransformationName(const world::transformation::Transform &transform)
+    {
+        if (std::holds_alternative<world::transformation::Rotation>(transform))
+            return "Rotation";
+        if (std::holds_alternative<world::transformation::Translation>(transform))
+            return "Translation";
+        if (std::holds_alternative<world::transformation::Scale>(transform))
+            return "Scale";
+        return "Unknown";
     }
 
     void renderImGuiWorldGroupMenu(world::WorldGroup &world_group)
@@ -336,22 +332,23 @@ namespace engine
                     if (i > 0 && i < world_group.transformations.GetTransformations().size())
                         ImGui::Separator();
 
-                    if (auto &transform = world_group.transformations.GetTransformations()[i];
-                        std::holds_alternative<world::transformation::Rotation>(transform))
+                    auto &transform = world_group.transformations.GetTransformations()[i];
+
+                    ImGui::BeginGroup();
+                    ImGui::PushID(&transform);
+                    ImGui::Text(getTransformationName(transform));
+
+                    ImGui::SameLine();
+                    if (ImGui::SmallButton("Remove"))
+                    {
+                        world_group.transformations.RemoveTransform(i);
+                        world_group.transformations.UpdateTransformMatrix();
+                    }
+
+                    if (std::holds_alternative<world::transformation::Rotation>(transform))
                     {
                         auto &rotation = std::get<world::transformation::Rotation>(transform);
-
                         float angle = radians_to_degrees(rotation.angle_rads);
-                        ImGui::BeginGroup();
-                        ImGui::PushID(&rotation);
-                        ImGui::Text("Rotation");
-                        ImGui::SameLine();
-                        if (ImGui::SmallButton("Remove"))
-                        {
-                            world_group.transformations.RemoveTransform(i);
-                            world_group.transformations.UpdateTransformMatrix();
-                        }
-
                         if (ImGui::DragFloat3("Axis", &rotation.axis.x, 0.05f))
                         {
                             world_group.transformations.UpdateTransformMatrix();
@@ -362,51 +359,25 @@ namespace engine
                             rotation.angle_rads = degrees_to_radians(angle);
                             world_group.transformations.UpdateTransformMatrix();
                         }
-                        ImGui::PopID();
-                        ImGui::EndGroup();
                     }
                     else if (std::holds_alternative<world::transformation::Translation>(transform))
                     {
-                        auto &translation = std::get<world::transformation::Translation>(transform);
-
-                        ImGui::BeginGroup();
-                        ImGui::PushID(&translation);
-                        ImGui::Text("Translate");
-                        ImGui::SameLine();
-                        if (ImGui::SmallButton("Remove"))
-                        {
-                            world_group.transformations.RemoveTransform(i);
-                            world_group.transformations.UpdateTransformMatrix();
-                        }
-
-                        if (ImGui::DragFloat3("Coordinates", &translation.translation.x, 0.05f))
+                        if (auto &translation = std::get<world::transformation::Translation>(transform);
+                            ImGui::DragFloat3("Coordinates", &translation.translation.x, 0.05f))
                         {
                             world_group.transformations.UpdateTransformMatrix();
                         }
-                        ImGui::PopID();
-                        ImGui::EndGroup();
                     }
                     else if (std::holds_alternative<world::transformation::Scale>(transform))
                     {
-                        auto &scale = std::get<world::transformation::Scale>(transform);
-
-                        ImGui::BeginGroup();
-                        ImGui::PushID(&scale);
-                        ImGui::Text("Scale");
-                        ImGui::SameLine();
-                        if (ImGui::SmallButton("Remove"))
-                        {
-                            world_group.transformations.RemoveTransform(i);
-                            world_group.transformations.UpdateTransformMatrix();
-                        }
-
-                        if (ImGui::DragFloat3("Axis", &scale.m_scale.x, 0.05f))
+                        if (auto &scale = std::get<world::transformation::Scale>(transform);
+                            ImGui::DragFloat3("Axis", &scale.m_scale.x, 0.05f))
                         {
                             world_group.transformations.UpdateTransformMatrix();
                         }
-                        ImGui::PopID();
-                        ImGui::EndGroup();
                     }
+                    ImGui::PopID();
+                    ImGui::EndGroup();
                 }
                 ImGui::TreePop();
             }
