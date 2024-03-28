@@ -308,6 +308,22 @@ namespace engine
         ImGui_ImplOpenGL2_Init();
     }
 
+    bool renderDragVec(const char *label, Vec3f &vec)
+    {
+        bool result = false;
+        ImGui::BeginGroup();
+        ImGui::PushItemWidth(ImGui::CalcItemWidth() / 3.0f - ImGui::GetStyle().ItemInnerSpacing.x / 2.0f);
+
+        result |= ImGui::DragFloat("##x", &vec.x, 0.05f, 0.0f, 0.0f, "x: %.3f");
+        ImGui::SameLine(0, ImGui::GetStyle().ItemInnerSpacing.x);
+        result |= ImGui::DragFloat("##y", &vec.y, 0.05f, 0, 0, "y: %.3f");
+        ImGui::SameLine(0, ImGui::GetStyle().ItemInnerSpacing.x);
+        result |= ImGui::DragFloat(label, &vec.z, 0.05f, 0, 0, "z: %.3f");
+        ImGui::PopItemWidth();
+        ImGui::EndGroup();
+        return result;
+    }
+
     void renderImGuiWorldGroupMenu(world::WorldGroup &world_group)
     {
         auto &models = world_group.models;
@@ -315,39 +331,81 @@ namespace engine
         {
             if (ImGui::TreeNode(&world_group.transformations, "Transformations"))
             {
-                for (auto &transform : world_group.transformations.GetTransformations())
+                for (int i = 0; i < world_group.transformations.GetTransformations().size(); ++i)
                 {
-                    if (std::holds_alternative<world::transformation::Rotation>(transform))
+                    if (i > 0 && i < world_group.transformations.GetTransformations().size())
+                        ImGui::Separator();
+
+                    if (auto &transform = world_group.transformations.GetTransformations()[i];
+                        std::holds_alternative<world::transformation::Rotation>(transform))
                     {
                         auto &rotation = std::get<world::transformation::Rotation>(transform);
 
                         float angle = radians_to_degrees(rotation.angle_rads);
+                        ImGui::BeginGroup();
+                        ImGui::PushID(&rotation);
                         ImGui::Text("Rotation");
-                        if (ImGui::SliderFloat("Angle", &angle, 0, 360))
+                        ImGui::SameLine();
+                        if (ImGui::SmallButton("Remove"))
                         {
-                            rotation.angle_rads = degrees_to_radians(angle);
+                            world_group.transformations.RemoveTransform(i);
                             world_group.transformations.UpdateTransformMatrix();
                         }
+
                         if (ImGui::DragFloat3("Axis", &rotation.axis.x, 0.05f))
                         {
                             world_group.transformations.UpdateTransformMatrix();
                         }
+
+                        if (ImGui::DragFloat("Angle", &angle, 1, 0.0f, 360.0f))
+                        {
+                            rotation.angle_rads = degrees_to_radians(angle);
+                            world_group.transformations.UpdateTransformMatrix();
+                        }
+                        ImGui::PopID();
+                        ImGui::EndGroup();
                     }
                     else if (std::holds_alternative<world::transformation::Translation>(transform))
                     {
-                        if (auto &translation = std::get<world::transformation::Translation>(transform);
-                            ImGui::DragFloat3("Translation", &translation.translation.x, 0.05f))
+                        auto &translation = std::get<world::transformation::Translation>(transform);
+
+                        ImGui::BeginGroup();
+                        ImGui::PushID(&translation);
+                        ImGui::Text("Translate");
+                        ImGui::SameLine();
+                        if (ImGui::SmallButton("Remove"))
+                        {
+                            world_group.transformations.RemoveTransform(i);
+                            world_group.transformations.UpdateTransformMatrix();
+                        }
+
+                        if (ImGui::DragFloat3("Coordinates", &translation.translation.x, 0.05f))
                         {
                             world_group.transformations.UpdateTransformMatrix();
                         }
+                        ImGui::PopID();
+                        ImGui::EndGroup();
                     }
                     else if (std::holds_alternative<world::transformation::Scale>(transform))
                     {
-                        if (auto &scale = std::get<world::transformation::Scale>(transform);
-                            ImGui::DragFloat3("Scale", &scale.m_scale.x, 0.05f))
+                        auto &scale = std::get<world::transformation::Scale>(transform);
+
+                        ImGui::BeginGroup();
+                        ImGui::PushID(&scale);
+                        ImGui::Text("Scale");
+                        ImGui::SameLine();
+                        if (ImGui::SmallButton("Remove"))
+                        {
+                            world_group.transformations.RemoveTransform(i);
+                            world_group.transformations.UpdateTransformMatrix();
+                        }
+
+                        if (ImGui::DragFloat3("Axis", &scale.m_scale.x, 0.05f))
                         {
                             world_group.transformations.UpdateTransformMatrix();
                         }
+                        ImGui::PopID();
+                        ImGui::EndGroup();
                     }
                 }
                 ImGui::TreePop();
@@ -414,6 +472,7 @@ namespace engine
                     ImGui::DragFloat("FOV", &camera.fov, 0.05f, 1.0f, 179);
                     ImGui::DragFloat("Near", &camera.near, 0.05f, 0.05f, camera.far - 1);
                     ImGui::DragFloat("Far", &camera.far, 0.05f, camera.near + 1, 10000);
+                    ImGui::SeparatorText("Live Camera Settings");
                     ImGui::Checkbox("First Person Mode (V)", &camera.first_person_mode);
                     ImGui::DragFloat3("Speed", &camera.speed.x, 0.05f);
                     ImGui::DragFloat("Scroll Speed", &camera.scroll_speed, 0.05f);
@@ -461,6 +520,8 @@ namespace engine
                 {
                     SetMssa(m_settings.mssa);
                 }
+
+                ImGui::SeparatorText("Environment Information");
 
                 ImGui::BulletText("MSSA Samples: %zu", m_settings.mssa_samples);
                 ImGui::BulletText("GLEW Version: %s", m_system_environment.glew_version.c_str());

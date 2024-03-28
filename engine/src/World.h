@@ -76,6 +76,7 @@ namespace engine::world
         void AddTransform(const transformation::Transform &transform) { m_transformations.push_back(transform); }
         void UpdateTransformMatrix();
         std::vector<transformation::Transform> &GetTransformations() { return m_transformations; }
+        void RemoveTransform(const size_t index) { m_transformations.erase(m_transformations.begin() + index); }
     };
 
     struct WorldGroup
