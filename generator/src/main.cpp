@@ -1,25 +1,35 @@
 #include <filesystem>
-#include <fstream>
 #include <iostream>
 #include <string>
 
 #include "Generator.h"
+#include "SolarSystem.h"
 
-constexpr std::string_view default_folder = "assets/models/";
+enum CommandType
+{
+    PLANE,
+    SPHERE,
+    CONE,
+    BOX,
+    CYLINDER,
+    SOLAR_SYSTEM,
+};
 
 struct Command
 {
+    CommandType type;
     std::string name;
     std::string args;
     size_t arg_count;
 };
 
 const auto commands = {
-    Command{"plane", "<length> <divisions>", 2},
-    Command{"sphere", "<radius> <slices> <stacks>", 3},
-    Command{"cone", "<radius> <height> <slices> <stacks>", 4},
-    Command{"box", "<length> <divisions>", 2},
-    Command{"cylinder", "<radius> <height> <slices>", 3},
+    Command{PLANE, "plane", "<length> <divisions>", 2},
+    Command{SPHERE, "sphere", "<radius> <slices> <stacks>", 3},
+    Command{CONE, "cone", "<radius> <height> <slices> <stacks>", 4},
+    Command{BOX, "box", "<length> <divisions>", 2},
+    Command{CYLINDER, "cylinder", "<radius> <height> <slices>", 3},
+    Command{SOLAR_SYSTEM, "solar-system", "", 0},
 };
 
 const Command *getCommand(const char *name)
@@ -38,9 +48,9 @@ void printHelp()
 {
     std::cout << "Usage: generator <command> <args> <output file>" << std::endl;
     std::cout << "Commands:" << std::endl;
-    for (const auto &[name, args, _] : commands)
+    for (const auto &command : commands)
     {
-        std::cout << "\tgenerator " << name << ' ' << args << " <output file>" << std::endl;
+        std::cout << "\tgenerator " << command.name << ' ' << command.args << " <output file>" << std::endl;
     }
 }
 
@@ -49,43 +59,49 @@ void printUsage(const Command &cmd)
     std::cout << "Usage: generator " << cmd.name << ' ' << cmd.args << " <output file>" << std::endl;
 }
 
-std::vector<Vec3f> runGenerator(const Command &cmd, char *args[])
+void runGenerator(const Command &cmd, char *args[])
 {
-    if (cmd.name == "plane")
+    switch (cmd.type)
     {
-        const auto length = std::stof(args[0]);
-        const auto divisions = std::stoi(args[1]);
-        return generator::GeneratePlane(length, divisions);
+        case PLANE:
+            {
+                const auto length = std::stof(args[0]);
+                const auto divisions = std::stoi(args[1]);
+                generator::SaveModel(generator::GeneratePlane(length, divisions), args[2]);
+            }
+        case SPHERE:
+            {
+                const auto radius = std::stof(args[0]);
+                const auto slices = std::stoi(args[1]);
+                const auto stacks = std::stoi(args[2]);
+                generator::SaveModel(generator::GenerateSphere(radius, slices, stacks), args[3]);
+            }
+        case CONE:
+            {
+                const auto radius = std::stof(args[0]);
+                const auto height = std::stof(args[1]);
+                const auto slices = std::stoi(args[2]);
+                const auto stacks = std::stoi(args[3]);
+                generator::SaveModel(generator::GenerateCone(radius, height, slices, stacks), args[4]);
+            }
+        case BOX:
+            {
+                const auto length = std::stof(args[0]);
+                const auto divisions = std::stoi(args[1]);
+                generator::SaveModel(generator::GenerateBox(length, divisions), args[2]);
+            }
+        case CYLINDER:
+            {
+                const auto radius = std::stof(args[0]);
+                const auto height = std::stof(args[1]);
+                const auto slices = std::stoi(args[2]);
+                generator::SaveModel(generator::GenerateCylinder(radius, height, slices), args[3]);
+            }
+        case SOLAR_SYSTEM:
+            {
+                generator::solarsystem::GenerateSolarSystem();
+            }
     }
-    if (cmd.name == "sphere")
-    {
-        const auto radius = std::stof(args[0]);
-        const auto slices = std::stoi(args[1]);
-        const auto stacks = std::stoi(args[2]);
-        return generator::GenerateSphere(radius, slices, stacks);
-    }
-    if (cmd.name == "cone")
-    {
-        const auto radius = std::stof(args[0]);
-        const auto height = std::stof(args[1]);
-        const auto slices = std::stoi(args[2]);
-        const auto stacks = std::stoi(args[3]);
-        return generator::GenerateCone(radius, height, slices, stacks);
-    }
-    if (cmd.name == "box")
-    {
-        const auto length = std::stof(args[0]);
-        const auto divisions = std::stoi(args[1]);
-        return generator::GenerateBox(length, divisions);
-    }
-    if (cmd.name == "cylinder")
-    {
-        const auto radius = std::stof(args[0]);
-        const auto height = std::stof(args[1]);
-        const auto slices = std::stoi(args[2]);
-        return generator::GenerateCylinder(radius, height, slices);
-    }
-    throw std::runtime_error("Unknown command");
 }
 
 int main(const int argc, char *argv[])
@@ -113,11 +129,9 @@ int main(const int argc, char *argv[])
         return 1;
     }
 
-    std::vector<Vec3f> vertices;
-
     try
     {
-        vertices = runGenerator(*cmd, argv + 2);
+        runGenerator(*cmd, argv + 2);
     }
     catch (...)
     {
@@ -125,31 +139,4 @@ int main(const int argc, char *argv[])
         printUsage(*cmd);
         return 1;
     }
-
-    const auto save_file = argv[argc - 1];
-
-    std::filesystem::path path = default_folder;
-    path.append(save_file);
-
-    if (!exists(path.parent_path()))
-    {
-        create_directories(path.parent_path());
-    }
-
-    // write to file
-    std::ofstream file(path, std::ios::trunc);
-    if (!file.is_open())
-    {
-        std::cout << "Failed to open file " << save_file << std::endl;
-        return 1;
-    }
-
-    file << vertices.size() << std::endl;
-
-    for (const auto &vec : vertices)
-    {
-        file << vec.x << " " << vec.y << " " << vec.z << std::endl;
-    }
-
-    return 0;
 }

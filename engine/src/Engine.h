@@ -67,6 +67,8 @@ namespace engine
         world::World m_world;
         input::Input m_input;
 
+        std::vector<model::Model> m_models;
+
         EngineSettings m_settings{
             8, // mssa_samples
             true, // mssa
@@ -85,6 +87,9 @@ namespace engine
         void initImGui();
         void renderImGui();
         static void postRenderImGui();
+        void renderImGuiWorldGroupMenu(world::WorldGroup &world_group);
+        void renderGroup(world::WorldGroup &group);
+        bool loadModels();
     };
 } // namespace engine
 

@@ -11,6 +11,8 @@ namespace generator
     std::vector<Vec3f> GenerateCone(float radius, float height, size_t slices, size_t stacks);
     std::vector<Vec3f> GenerateBox(float length, size_t divisions);
     std::vector<Vec3f> GenerateCylinder(float radius, float height, size_t slices);
+
+    bool SaveModel(const std::vector<Vec3f> &vertex, const char *filename);
 } // namespace generator
 
 

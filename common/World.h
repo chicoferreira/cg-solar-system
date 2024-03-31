@@ -1,20 +1,21 @@
 #ifndef WORLD_H
 #define WORLD_H
 
+#include <string>
 #include <variant>
 #include <vector>
 
 #include "Mat.h"
-#include "Model.h"
 #include "Vec.h"
 
-namespace engine::world
+namespace world
 {
     struct Window
     {
         int width{}, height{};
 
         Window() = default;
+        Window(int width, int height) : width(width), height(height) {}
     };
 
     struct Camera
@@ -30,9 +31,11 @@ namespace engine::world
         float friction_per_second = 20.0f;
 
         Camera() = default;
+        Camera(const Vec3f &position, const Vec3f &looking_at, const Vec3f &up, float fov, float near, float far) :
+            position(position), looking_at(looking_at), up(up), fov(fov), near(near), far(far)
+        {
+        }
 
-        void UpdateCameraRotation(float x_offset, float y_offset);
-        void Tick(Vec3f input_movement, float scroll_input, float timestep);
         bool ToggleFirstPersonMode() { return first_person_mode = !first_person_mode; }
     };
 
@@ -57,10 +60,10 @@ namespace engine::world
 
         struct Scale
         {
-            Vec3f m_scale;
+            Vec3f scale;
 
-            Mat4f GetTransform() const { return Mat4fScale(m_scale.x, m_scale.y, m_scale.z); }
-            explicit Scale(const Vec3f scale) : m_scale(scale) {}
+            Mat4f GetTransform() const { return Mat4fScale(scale.x, scale.y, scale.z); }
+            explicit Scale(const Vec3f scale) : scale(scale) {}
         };
 
         using Transform = std::variant<Rotation, Translation, Scale>;
@@ -72,20 +75,43 @@ namespace engine::world
         std::vector<transformation::Transform> m_transformations = {};
 
     public:
+        GroupTransform() = default;
+        explicit GroupTransform(const std::vector<transformation::Transform> &mTransformations) :
+            m_transformations(mTransformations)
+        {
+        }
+
         Mat4f GetTransformMatrix() const { return m_final_transform; }
         void AddTransform(const transformation::Transform &transform) { m_transformations.push_back(transform); }
-        void UpdateTransformMatrix();
         std::vector<transformation::Transform> &GetTransformations() { return m_transformations; }
         void RemoveTransform(const size_t index) { m_transformations.erase(m_transformations.begin() + index); }
+        inline void UpdateTransformMatrix()
+        {
+            m_final_transform = Mat4fIdentity;
+            for (auto &transformation : GetTransformations())
+            {
+                std::visit([&](auto &&arg) { m_final_transform *= arg.GetTransform(); }, transformation);
+            }
+
+            m_final_transform = m_final_transform.transpose();
+        }
     };
 
     struct WorldGroup
     {
-        std::vector<model::Model> models = {};
-        std::vector<WorldGroup> children = {};
+        std::vector<size_t> models = {}; // Indexes of the models in the world
         GroupTransform transformations = {};
+        std::vector<WorldGroup> children = {};
 
         WorldGroup() = default;
+        explicit WorldGroup(const std::vector<size_t> &models) : models(models) {}
+        WorldGroup(
+            const std::vector<size_t> &models,
+            const GroupTransform &transformations,
+            const std::vector<WorldGroup> &children
+        ) : models(models), transformations(transformations), children(children)
+        {
+        }
     };
 
     class World
@@ -96,17 +122,31 @@ namespace engine::world
         Camera m_default_camera;
         WorldGroup m_parent_world_group;
 
+        std::vector<std::string> m_model_names;
+
     public:
         const std::string &GetName() const { return m_name; }
         Window &GetWindow() { return m_window; }
         Camera &GetCamera() { return m_camera; }
-        void ResetCamera() { m_camera = m_default_camera; }
+        Camera &GetDefaultCamera() { return m_default_camera; }
         WorldGroup &GetParentWorldGroup() { return m_parent_world_group; }
+        std::vector<std::string> &GetModelNames() { return m_model_names; }
 
-        bool LoadFromXml(const std::string &file_path);
+        size_t AddModelName(const std::string &model_name)
+        {
+            if (std::find(m_model_names.begin(), m_model_names.end(), model_name) != m_model_names.end())
+                return std::distance(
+                    m_model_names.begin(), std::find(m_model_names.begin(), m_model_names.end(), model_name)
+                );
+
+            m_model_names.push_back(model_name);
+            return m_model_names.size() - 1;
+        }
+
+        void ResetCamera() { m_camera = m_default_camera; }
 
         explicit World(std::string name) : m_name(std::move(name)) {}
     };
-} // namespace engine::world
+} // namespace world
 
 #endif // WORLD_H

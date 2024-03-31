@@ -13,14 +13,30 @@ namespace engine
         fprintf(stderr, "GLFW Error %d: %s\n", error, description);
     }
 
-    void glfwSetFramebufferSizeCallback(GLFWwindow *_, const int width, const int height)
+    void glfwSetFramebufferSizeCallback(GLFWwindow *, const int width, const int height)
     {
         glViewport(0, 0, width, height);
     }
 
     float last_scroll = 0;
 
-    void glfwScrollCallback(GLFWwindow *_window, const double _xoffset, const double yoffset) { last_scroll = yoffset; }
+    void glfwScrollCallback(GLFWwindow *, const double, const double yoffset) { last_scroll = yoffset; }
+
+    bool Engine::loadModels()
+    {
+        for (const auto &model_name : m_world.GetModelNames())
+        {
+            std::optional<model::Model> model_optional = model::LoadModelFromFile(model_name);
+            if (!model_optional.has_value())
+            {
+                std::cerr << "Failed to load model: " << model_name << std::endl;
+                return false;
+            }
+
+            m_models.push_back(std::move(model_optional.value()));
+        }
+        return true;
+    }
 
     bool Engine::Init()
     {
@@ -57,7 +73,7 @@ namespace engine
 
         setupEnvironment();
 
-        return true;
+        return loadModels();
     }
 
     void SetRenderWireframeMode(const bool enable) { glPolygonMode(GL_FRONT_AND_BACK, enable ? GL_LINE : GL_FILL); }
@@ -112,15 +128,15 @@ namespace engine
         glEnd();
     }
 
-    void renderGroup(world::WorldGroup &group)
+    void Engine::renderGroup(world::WorldGroup &group)
     {
         glPushMatrix();
 
-        const auto mat = group.transformations.GetTransformMatrix().mat;
-        glMultMatrixf(*mat);
+        glMultMatrixf(*group.transformations.GetTransformMatrix().mat);
 
-        for (auto &model : group.models)
+        for (auto &model_index : group.models)
         {
+            auto &model = m_models[model_index];
             renderModel(model);
         }
 
@@ -179,6 +195,85 @@ namespace engine
             glDisable(GL_MULTISAMPLE);
     }
 
+    constexpr auto sensitivity = 0.1f;
+    constexpr auto scroll_sensitivity = 0.1f;
+
+    void UpdateCameraRotation(world::Camera &camera, float x_offset, float y_offset)
+    {
+        float radius, alpha, beta;
+        x_offset = degrees_to_radians(x_offset);
+        y_offset = degrees_to_radians(y_offset);
+
+        if (camera.first_person_mode)
+        {
+            (camera.looking_at - camera.position).ToSpherical(radius, alpha, beta);
+            alpha -= x_offset * sensitivity;
+            beta += y_offset * sensitivity;
+        }
+        else
+        {
+            (camera.position - camera.looking_at).ToSpherical(radius, alpha, beta);
+
+            alpha -= x_offset * sensitivity;
+            beta -= y_offset * sensitivity;
+        }
+
+        if (beta > M_PI_2)
+        {
+            beta = M_PI_2 - 0.001f;
+        }
+        else if (beta < -M_PI_2)
+        {
+            beta = -M_PI_2 + 0.001f;
+        }
+
+        const auto after = Vec3fSpherical(radius, alpha, beta);
+        if (camera.first_person_mode)
+        {
+            camera.looking_at = after + camera.position;
+        }
+        else
+        {
+            camera.position = after + camera.looking_at;
+        }
+    }
+
+    void TickCamera(world::Camera &camera, const Vec3f input_movement, const float scroll_input, const float timestep)
+    {
+        const Vec3f forward = (camera.looking_at - camera.position).Normalize();
+        const Vec3f right = forward.Cross(camera.up).Normalize();
+
+        const Vec3f move_dir =
+            (forward * input_movement.z + right * input_movement.x).Normalize() + camera.up * input_movement.y;
+        const auto acceleration = move_dir * camera.acceleration_per_second * timestep;
+        camera.speed += acceleration;
+
+        camera.scroll_speed += scroll_input * scroll_sensitivity * camera.acceleration_per_second;
+
+        if (camera.speed.Length() > camera.max_speed_per_second)
+        {
+            camera.speed = camera.speed.Normalize() * camera.max_speed_per_second;
+        }
+
+        if ((camera.looking_at - camera.position).Length() > 1.0f || scroll_input < 0)
+        {
+            camera.position += forward * camera.scroll_speed * timestep;
+        }
+
+        camera.position += camera.speed * timestep;
+        camera.looking_at += camera.speed * timestep;
+
+        if (move_dir.x == 0 && move_dir.y == 0 && move_dir.z == 0)
+        {
+            camera.speed -= camera.speed * timestep * camera.friction_per_second;
+        }
+
+        if (scroll_input == 0)
+        {
+            camera.scroll_speed -= camera.scroll_speed * timestep * camera.friction_per_second;
+        }
+    }
+
     void Engine::ProcessInput(const float timestep)
     {
         static double lastX = 0, lastY = 0;
@@ -235,7 +330,7 @@ namespace engine
             {
                 const float xoffset = xpos - lastX;
                 const float yoffset = lastY - ypos;
-                m_world.GetCamera().UpdateCameraRotation(xoffset, yoffset);
+                UpdateCameraRotation(m_world.GetCamera(), xoffset, yoffset);
             }
         }
         else
@@ -243,7 +338,7 @@ namespace engine
             last_scroll = 0;
         }
 
-        m_world.GetCamera().Tick(movement, last_scroll, timestep);
+        TickCamera(m_world.GetCamera(), movement, last_scroll, timestep);
 
         last_scroll = 0;
 
@@ -320,9 +415,9 @@ namespace engine
         return "Unknown";
     }
 
-    void renderImGuiWorldGroupMenu(world::WorldGroup &world_group)
+    void Engine::renderImGuiWorldGroupMenu(world::WorldGroup &world_group)
     {
-        auto &models = world_group.models;
+        auto &model_indexes = world_group.models;
         if (ImGui::TreeNode(&world_group, "Group"))
         {
             if (ImGui::TreeNode(&world_group.transformations, "Transformations"))
@@ -336,7 +431,7 @@ namespace engine
 
                     ImGui::BeginGroup();
                     ImGui::PushID(&transform);
-                    ImGui::Text(getTransformationName(transform));
+                    ImGui::Text("%s", getTransformationName(transform));
 
                     ImGui::SameLine();
                     if (ImGui::SmallButton("Remove"))
@@ -371,7 +466,7 @@ namespace engine
                     else if (std::holds_alternative<world::transformation::Scale>(transform))
                     {
                         if (auto &scale = std::get<world::transformation::Scale>(transform);
-                            ImGui::DragFloat3("Axis", &scale.m_scale.x, 0.05f))
+                            ImGui::DragFloat3("Axis", &scale.scale.x, 0.05f))
                         {
                             world_group.transformations.UpdateTransformMatrix();
                         }
@@ -382,9 +477,10 @@ namespace engine
                 ImGui::TreePop();
             }
 
-            for (auto &model : models)
+            for (auto &model_index : model_indexes)
             {
-                if (ImGui::TreeNode(&model, "Model %s", model.GetName().c_str()))
+                auto &model = m_models[model_index];
+                if (ImGui::TreeNode(&model, "Model #%llu %s", model_index, model.GetName().c_str()))
                 {
                     if (auto positions = model.GetVertex();
                         ImGui::TreeNode(&model.GetVertex(), "Vertices (%zu)", positions.size()))
