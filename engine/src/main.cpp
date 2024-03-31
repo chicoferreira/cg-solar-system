@@ -1,9 +1,9 @@
 #include "Engine.h"
-#include "World.h"
 
 #include <iostream>
 
 #include "Utils.h"
+#include "WorldSerde.h"
 
 const std::vector<std::string> SCENES_PATHS_TO_SEARCH = {"assets/scenes/", "./"};
 
@@ -31,7 +31,8 @@ int main(const int argc, char *argv[])
     const auto path_string = o_path.value().string();
 
     engine::world::World world(path_string);
-    if (!world.LoadFromXml(path_string))
+
+    if (!engine::world::serde::LoadWorldFromXml(path_string.c_str(), world))
         return 1;
 
     engine::Engine engine(world);

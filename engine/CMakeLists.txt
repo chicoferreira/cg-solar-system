@@ -5,11 +5,13 @@ add_executable(cg-solar-system src/main.cpp
         src/Engine.h
         src/Model.cpp
         src/Model.h
-        src/World.cpp
-        src/World.h
+        ../common/World.cpp
         ../common/Vec.h
         ../common/Mat.h
         ../common/Mat.cpp
+        ../common/World.h
+        ../common/WorldSerde.cpp
+        ../common/WorldSerde.h
         src/Utils.h
         src/Utils.cpp
         src/Input.h

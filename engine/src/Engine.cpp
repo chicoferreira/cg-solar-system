@@ -13,14 +13,25 @@ namespace engine
         fprintf(stderr, "GLFW Error %d: %s\n", error, description);
     }
 
-    void glfwSetFramebufferSizeCallback(GLFWwindow *_, const int width, const int height)
+    void glfwSetFramebufferSizeCallback(GLFWwindow *, const int width, const int height)
     {
         glViewport(0, 0, width, height);
     }
 
     float last_scroll = 0;
 
-    void glfwScrollCallback(GLFWwindow *_window, const double _xoffset, const double yoffset) { last_scroll = yoffset; }
+    void glfwScrollCallback(GLFWwindow *, const double, const double yoffset) { last_scroll = yoffset; }
+
+    bool Engine::loadModels()
+    {
+        for (const auto &model_name : m_world.GetModelNames())
+        {
+            Model model = model::LoadModelFromFile(model_name);
+
+            m_models.push_back(std::move(model));
+        }
+        return true;
+    }
 
     bool Engine::Init()
     {
@@ -56,6 +67,8 @@ namespace engine
         initImGui();
 
         setupEnvironment();
+
+        loadModels();
 
         return true;
     }
@@ -112,15 +125,16 @@ namespace engine
         glEnd();
     }
 
-    void renderGroup(world::WorldGroup &group)
+    void Engine::renderGroup(world::WorldGroup &group)
     {
         glPushMatrix();
 
         const auto mat = group.transformations.GetTransformMatrix().mat;
         glMultMatrixf(*mat);
 
-        for (auto &model : group.models)
+        for (auto &model_index : group.models)
         {
+            auto &model = m_models[model_index];
             renderModel(model);
         }
 
@@ -320,9 +334,9 @@ namespace engine
         return "Unknown";
     }
 
-    void renderImGuiWorldGroupMenu(world::WorldGroup &world_group)
+    void Engine::renderImGuiWorldGroupMenu(world::WorldGroup &world_group)
     {
-        auto &models = world_group.models;
+        auto &model_indexes = world_group.models;
         if (ImGui::TreeNode(&world_group, "Group"))
         {
             if (ImGui::TreeNode(&world_group.transformations, "Transformations"))
@@ -336,7 +350,7 @@ namespace engine
 
                     ImGui::BeginGroup();
                     ImGui::PushID(&transform);
-                    ImGui::Text(getTransformationName(transform));
+                    ImGui::Text("%s", getTransformationName(transform));
 
                     ImGui::SameLine();
                     if (ImGui::SmallButton("Remove"))
@@ -382,8 +396,9 @@ namespace engine
                 ImGui::TreePop();
             }
 
-            for (auto &model : models)
+            for (auto &model_index : model_indexes)
             {
+                auto &model = m_models[model_index];
                 if (ImGui::TreeNode(&model, "Model %s", model.GetName().c_str()))
                 {
                     if (auto positions = model.GetVertex();

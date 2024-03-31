@@ -5,7 +5,6 @@
 #include <vector>
 
 #include "Mat.h"
-#include "Model.h"
 #include "Vec.h"
 
 namespace engine::world
@@ -81,7 +80,7 @@ namespace engine::world
 
     struct WorldGroup
     {
-        std::vector<model::Model> models = {};
+        std::vector<size_t> models = {}; // Indexes of the models in the world
         std::vector<WorldGroup> children = {};
         GroupTransform transformations = {};
 
@@ -96,14 +95,23 @@ namespace engine::world
         Camera m_default_camera;
         WorldGroup m_parent_world_group;
 
+        std::vector<std::string> m_model_names;
+
     public:
         const std::string &GetName() const { return m_name; }
         Window &GetWindow() { return m_window; }
         Camera &GetCamera() { return m_camera; }
-        void ResetCamera() { m_camera = m_default_camera; }
+        Camera &GetDefaultCamera() { return m_default_camera; }
         WorldGroup &GetParentWorldGroup() { return m_parent_world_group; }
+        std::vector<std::string> &GetModelNames() { return m_model_names; }
 
-        bool LoadFromXml(const std::string &file_path);
+        size_t AddModelName(const std::string &model_name)
+        {
+            m_model_names.push_back(model_name);
+            return m_model_names.size() - 1;
+        }
+
+        void ResetCamera() { m_camera = m_default_camera; }
 
         explicit World(std::string name) : m_name(std::move(name)) {}
     };
