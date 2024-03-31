@@ -5,7 +5,6 @@ add_executable(cg-solar-system src/main.cpp
         src/Engine.h
         src/Model.cpp
         src/Model.h
-        ../common/World.cpp
         ../common/Vec.h
         ../common/Mat.h
         ../common/Mat.cpp

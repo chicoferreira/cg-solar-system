@@ -1,6 +1,7 @@
 #ifndef WORLD_H
 #define WORLD_H
 
+#include <string>
 #include <variant>
 #include <vector>
 
@@ -30,8 +31,6 @@ namespace engine::world
 
         Camera() = default;
 
-        void UpdateCameraRotation(float x_offset, float y_offset);
-        void Tick(Vec3f input_movement, float scroll_input, float timestep);
         bool ToggleFirstPersonMode() { return first_person_mode = !first_person_mode; }
     };
 
@@ -73,9 +72,18 @@ namespace engine::world
     public:
         Mat4f GetTransformMatrix() const { return m_final_transform; }
         void AddTransform(const transformation::Transform &transform) { m_transformations.push_back(transform); }
-        void UpdateTransformMatrix();
         std::vector<transformation::Transform> &GetTransformations() { return m_transformations; }
         void RemoveTransform(const size_t index) { m_transformations.erase(m_transformations.begin() + index); }
+        inline void UpdateTransformMatrix()
+        {
+            m_final_transform = Mat4fIdentity;
+            for (auto &transformation : GetTransformations())
+            {
+                std::visit([&](auto &&arg) { m_final_transform *= arg.GetTransform(); }, transformation);
+            }
+
+            m_final_transform = m_final_transform.transpose();
+        }
     };
 
     struct WorldGroup
@@ -107,6 +115,11 @@ namespace engine::world
 
         size_t AddModelName(const std::string &model_name)
         {
+            if (std::find(m_model_names.begin(), m_model_names.end(), model_name) != m_model_names.end())
+                return std::distance(
+                    m_model_names.begin(), std::find(m_model_names.begin(), m_model_names.end(), model_name)
+                );
+
             m_model_names.push_back(model_name);
             return m_model_names.size() - 1;
         }
