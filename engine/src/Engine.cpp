@@ -466,7 +466,7 @@ namespace engine
                     else if (std::holds_alternative<world::transformation::Scale>(transform))
                     {
                         if (auto &scale = std::get<world::transformation::Scale>(transform);
-                            ImGui::DragFloat3("Axis", &scale.m_scale.x, 0.05f))
+                            ImGui::DragFloat3("Axis", &scale.scale.x, 0.05f))
                         {
                             world_group.transformations.UpdateTransformMatrix();
                         }

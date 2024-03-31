@@ -2,6 +2,9 @@
 
 #define _USE_MATH_DEFINES
 
+#include <filesystem>
+#include <fstream>
+#include <iostream>
 #include <math.h>
 #include "Mat.h"
 
@@ -148,4 +151,33 @@ std::vector<Vec3f> generator::GenerateCylinder(const float radius, const float h
     }
 
     return result;
+}
+
+constexpr std::string_view default_folder = "assets/models/";
+
+bool generator::SaveModel(const std::vector<Vec3f> &vertex, const char *filename)
+{
+    std::filesystem::path path = default_folder;
+    path.append(filename);
+
+    if (!exists(path.parent_path()))
+    {
+        create_directories(path.parent_path());
+    }
+
+    // write to file
+    std::ofstream file(path, std::ios::trunc);
+    if (!file.is_open())
+    {
+        std::cout << "Failed to open file " << filename << std::endl;
+        return false;
+    }
+
+    file << vertex.size() << std::endl;
+
+    for (const auto &vec : vertex)
+    {
+        file << vec.x << " " << vec.y << " " << vec.z << std::endl;
+    }
+    return true;
 }

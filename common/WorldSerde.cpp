@@ -5,7 +5,7 @@
 #include <cstdio>
 #include <optional>
 
-namespace engine::world::serde
+namespace world::serde
 {
 #define EARLY_RETURN_R(condition, message, result)                                                                     \
     if (condition)                                                                                                     \
@@ -99,7 +99,7 @@ namespace engine::world::serde
         return std::make_optional(group);
     }
 
-    bool LoadWorldFromXml(const char *file_path, engine::world::World &world)
+    bool LoadWorldFromXml(const char *file_path, world::World &world)
     {
         tinyxml2::XMLDocument doc;
         EARLY_RETURN_FALSE(doc.LoadFile(file_path) != tinyxml2::XML_SUCCESS, "World XML file not found or corrupt.")
@@ -167,4 +167,118 @@ namespace engine::world::serde
         return succ;
     }
 
-} // namespace engine::world::serde
+    void XmlSetVec3fAttribute(tinyxml2::XMLElement *element, const Vec3f &vec)
+    {
+        element->SetAttribute("x", vec.x);
+        element->SetAttribute("y", vec.y);
+        element->SetAttribute("z", vec.z);
+    }
+
+    void SaveWorldGroupToXml(
+        tinyxml2::XMLDocument &doc,
+        tinyxml2::XMLElement *parent_element,
+        WorldGroup &group,
+        World &world
+    )
+    {
+        tinyxml2::XMLElement *models_element = doc.NewElement("models");
+        parent_element->InsertEndChild(models_element);
+
+        for (size_t model_index : group.models)
+        {
+            tinyxml2::XMLElement *model_element = doc.NewElement("model");
+            model_element->SetAttribute("file", world.GetModelNames()[model_index].c_str());
+            models_element->InsertEndChild(model_element);
+        }
+
+        if (!group.transformations.GetTransformations().empty())
+        {
+            tinyxml2::XMLElement *transform_element = doc.NewElement("transform");
+            parent_element->InsertEndChild(transform_element);
+
+            for (transformation::Transform &transform : group.transformations.GetTransformations())
+            {
+                if (std::holds_alternative<transformation::Translation>(transform))
+                {
+                    tinyxml2::XMLElement *translate_element = doc.NewElement("translate");
+                    transform_element->InsertEndChild(translate_element);
+
+                    const Vec3f &translate = std::get<transformation::Translation>(transform).translation;
+                    XmlSetVec3fAttribute(translate_element, translate);
+                }
+                else if (std::holds_alternative<transformation::Scale>(transform))
+                {
+                    tinyxml2::XMLElement *scale_element = doc.NewElement("scale");
+                    transform_element->InsertEndChild(scale_element);
+
+                    const Vec3f &scale = std::get<transformation::Scale>(transform).scale;
+                    XmlSetVec3fAttribute(scale_element, scale);
+                }
+                else if (std::holds_alternative<transformation::Rotation>(transform))
+                {
+                    tinyxml2::XMLElement *rotate_element = doc.NewElement("rotate");
+                    transform_element->InsertEndChild(rotate_element);
+
+                    const Vec3f &axis = std::get<transformation::Rotation>(transform).axis;
+                    XmlSetVec3fAttribute(rotate_element, axis);
+
+                    float angle_rads = std::get<transformation::Rotation>(transform).angle_rads;
+                    float angle = radians_to_degrees(angle_rads);
+                    rotate_element->SetAttribute("angle", angle);
+                }
+            }
+        }
+        for (WorldGroup &child_group : group.children)
+        {
+            tinyxml2::XMLElement *group_element = doc.NewElement("group");
+            parent_element->InsertEndChild(group_element);
+            SaveWorldGroupToXml(doc, group_element, child_group, world);
+        }
+    }
+
+    bool SaveWorldToXml(const char *filename, World &world)
+    {
+        tinyxml2::XMLDocument doc;
+        tinyxml2::XMLElement *world_element = doc.NewElement("world");
+        doc.InsertFirstChild(world_element);
+
+        tinyxml2::XMLElement *window_element = doc.NewElement("window");
+        window_element->SetAttribute("width", world.GetWindow().width);
+        window_element->SetAttribute("height", world.GetWindow().height);
+
+        world_element->InsertEndChild(window_element);
+
+        tinyxml2::XMLElement *camera_element = doc.NewElement("camera");
+        world_element->InsertEndChild(camera_element);
+
+        tinyxml2::XMLElement *camera_position_element = doc.NewElement("position");
+        XmlSetVec3fAttribute(camera_position_element, world.GetCamera().position);
+
+        camera_element->InsertEndChild(camera_position_element);
+
+        tinyxml2::XMLElement *camera_look_at_element = doc.NewElement("lookAt");
+        XmlSetVec3fAttribute(camera_look_at_element, world.GetCamera().looking_at);
+
+        camera_element->InsertEndChild(camera_look_at_element);
+
+        tinyxml2::XMLElement *camera_up_element = doc.NewElement("up");
+        XmlSetVec3fAttribute(camera_up_element, world.GetCamera().up);
+
+        camera_element->InsertEndChild(camera_up_element);
+
+        tinyxml2::XMLElement *camera_projection_element = doc.NewElement("projection");
+        camera_projection_element->SetAttribute("fov", world.GetCamera().fov);
+        camera_projection_element->SetAttribute("near", world.GetCamera().near);
+        camera_projection_element->SetAttribute("far", world.GetCamera().far);
+
+        camera_element->InsertEndChild(camera_projection_element);
+
+        tinyxml2::XMLElement *group_element = doc.NewElement("group");
+        world_element->InsertEndChild(group_element);
+
+        SaveWorldGroupToXml(doc, group_element, world.GetParentWorldGroup(), world);
+
+        return doc.SaveFile(filename) == tinyxml2::XML_SUCCESS;
+    }
+
+} // namespace world::serde

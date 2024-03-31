@@ -30,9 +30,9 @@ int main(const int argc, char *argv[])
 
     const auto path_string = o_path.value().string();
 
-    engine::world::World world(path_string);
+    world::World world(path_string);
 
-    if (!engine::world::serde::LoadWorldFromXml(path_string.c_str(), world))
+    if (!world::serde::LoadWorldFromXml(path_string.c_str(), world))
         return 1;
 
     engine::Engine engine(world);

@@ -8,13 +8,14 @@
 #include "Mat.h"
 #include "Vec.h"
 
-namespace engine::world
+namespace world
 {
     struct Window
     {
         int width{}, height{};
 
         Window() = default;
+        Window(int width, int height) : width(width), height(height) {}
     };
 
     struct Camera
@@ -30,6 +31,10 @@ namespace engine::world
         float friction_per_second = 20.0f;
 
         Camera() = default;
+        Camera(const Vec3f &position, const Vec3f &looking_at, const Vec3f &up, float fov, float near, float far) :
+            position(position), looking_at(looking_at), up(up), fov(fov), near(near), far(far)
+        {
+        }
 
         bool ToggleFirstPersonMode() { return first_person_mode = !first_person_mode; }
     };
@@ -55,10 +60,10 @@ namespace engine::world
 
         struct Scale
         {
-            Vec3f m_scale;
+            Vec3f scale;
 
-            Mat4f GetTransform() const { return Mat4fScale(m_scale.x, m_scale.y, m_scale.z); }
-            explicit Scale(const Vec3f scale) : m_scale(scale) {}
+            Mat4f GetTransform() const { return Mat4fScale(scale.x, scale.y, scale.z); }
+            explicit Scale(const Vec3f scale) : scale(scale) {}
         };
 
         using Transform = std::variant<Rotation, Translation, Scale>;
@@ -70,6 +75,12 @@ namespace engine::world
         std::vector<transformation::Transform> m_transformations = {};
 
     public:
+        GroupTransform() = default;
+        explicit GroupTransform(const std::vector<transformation::Transform> &mTransformations) :
+            m_transformations(mTransformations)
+        {
+        }
+
         Mat4f GetTransformMatrix() const { return m_final_transform; }
         void AddTransform(const transformation::Transform &transform) { m_transformations.push_back(transform); }
         std::vector<transformation::Transform> &GetTransformations() { return m_transformations; }
@@ -89,10 +100,18 @@ namespace engine::world
     struct WorldGroup
     {
         std::vector<size_t> models = {}; // Indexes of the models in the world
-        std::vector<WorldGroup> children = {};
         GroupTransform transformations = {};
+        std::vector<WorldGroup> children = {};
 
         WorldGroup() = default;
+        explicit WorldGroup(const std::vector<size_t> &models) : models(models) {}
+        WorldGroup(
+            const std::vector<size_t> &models,
+            const GroupTransform &transformations,
+            const std::vector<WorldGroup> &children
+        ) : models(models), transformations(transformations), children(children)
+        {
+        }
     };
 
     class World
@@ -128,6 +147,6 @@ namespace engine::world
 
         explicit World(std::string name) : m_name(std::move(name)) {}
     };
-} // namespace engine::world
+} // namespace world
 
 #endif // WORLD_H
