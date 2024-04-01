@@ -1,0 +1,178 @@
+planet,name,radius,albedo
+Earth,Moon,1737.5,0.12
+Mars,Phobos,11.1,0.071
+Mars,Deimos,6.2,0.068
+Jupiter,Io,1821.6,0.63
+Jupiter,Europa,1560.8,0.67
+Jupiter,Ganymede,2631.2,0.43
+Jupiter,Callisto,2410.3,0.17
+Jupiter,Amalthea,83.45,0.090
+Jupiter,Himalia,85,0.04
+Jupiter,Elara,43,0.04
+Jupiter,Pasiphae,30,0.04
+Jupiter,Sinope,19,0.04
+Jupiter,Lysithea,18,0.04
+Jupiter,Carme,23,0.04
+Jupiter,Ananke,14,0.04
+Jupiter,Leda,10,0.04
+Jupiter,Thebe,49.3,0.047
+Jupiter,Adrastea,8.2,0.1
+Jupiter,Metis,21.5,0.061
+Jupiter,Callirrhoe,4.3,0.04
+Jupiter,Themisto,4.0,0.04
+Jupiter,Megaclite,2.7,0.04
+Jupiter,Taygete,2.5,0.04
+Jupiter,Chaldene,1.9,0.04
+Jupiter,Harpalyke,2.2,0.04
+Jupiter,Kalyke,2.6,0.04
+Jupiter,Iocaste,2.6,0.04
+Jupiter,Erinome,1.6,0.04
+Jupiter,Isonoe,1.9,0.04
+Jupiter,Praxidike,3.4,0.04
+Jupiter,Autonoe,2.0,0.04
+Jupiter,Thyone,2.0,0.04
+Jupiter,Hermippe,2.0,0.04
+Jupiter,Aitne,1.5,0.04
+Jupiter,Eurydome,1.5,0.04
+Jupiter,Euanthe,1.5,0.04
+Jupiter,Euporie,1.0,0.04
+Jupiter,Orthosie,1.0,0.04
+Jupiter,Sponde,1.0,0.04
+Jupiter,Kale,1.0,0.04
+Jupiter,Pasithee,1.0,0.04
+Jupiter,Hegemone,1.5,0.04
+Jupiter,Mneme,1.0,0.04
+Jupiter,Aoede,2.0,0.04
+Jupiter,Thelxinoe,1.0,0.04
+Jupiter,Arche,1.5,0.04
+Jupiter,Kallichore,1.0,0.04
+Jupiter,Helike,2.0,0.04
+Jupiter,Carpo,1.5,0.04
+Jupiter,Eukelade,2.0,0.04
+Jupiter,Cyllene,1.0,0.04
+Jupiter,Kore,1.0,0.04
+Jupiter,Herse,1.0,0.04
+Jupiter,S/2000 J11,1.0,0.04
+Jupiter,S/2003 J2,1.0,0.04
+Jupiter,S/2003 J3,1.0,0.04
+Jupiter,S/2003 J4,1.0,0.04
+Jupiter,S/2003 J5,2.0,0.04
+Jupiter,S/2003 J9,0.5,0.04
+Jupiter,S/2003 J10,1.0,0.04
+Jupiter,S/2003 J12,0.5,0.04
+Jupiter,S/2003 J15,1.0,0.04
+Jupiter,S/2003 J16,1.0,0.04
+Jupiter,S/2003 J18,1.0,0.04
+Jupiter,S/2003 J19,1.0,0.04
+Jupiter,S/2003 J23,1.0,0.04
+Jupiter,S/2010 J1,1.0,0.04
+Jupiter,S/2010 J2,1.0,0.04
+Jupiter,S/2011 J1,1.0,0.04
+Jupiter,S/2011 J2,1.0,0.04
+Saturn,Mimas,198.20,0.962
+Saturn,Enceladus,252.10,1.375
+Saturn,Tethys,533.00,1.229
+Saturn,Dione,561.70,0.998
+Saturn,Rhea,764.30,0.949
+Saturn,Titan,2574.73,0.2
+Saturn,Hyperion,135.00,0.3
+Saturn,Iapetus,735.60,0.6
+Saturn,Phoebe,106.50,0.081
+Saturn,Janus,89.5,0.71
+Saturn,Epimetheus,58.1,0.73
+Saturn,Helene,17.6,1.67
+Saturn,Telesto,12.4,1.0
+Saturn,Calypso,10.7,1.34
+Saturn,Atlas,15.1,0.4
+Saturn,Prometheus,43.1,0.6
+Saturn,Pandora,40.7,0.5
+Saturn,Pan,14.1,0.5
+Saturn,Methone,1.6,?
+Saturn,Pallene,2.5,?
+Saturn,Polydeuces,1.3,?
+Saturn,Daphnis,3.8,?
+Saturn,Anthe,0.9,?
+Saturn,Aegaeon,0.3,?
+Saturn,Ymir,9,0.06
+Saturn,Paaliaq,11.0,0.06
+Saturn,Tarvos,7.5,0.06
+Saturn,Ijiraq,6,0.06
+Saturn,Suttungr,3.5,0.06
+Saturn,Kiviuq,8,0.06
+Saturn,Mundilfari,3.5,0.06
+Saturn,Albiorix,16,0.06
+Saturn,Skathi,4,0.06
+Saturn,Erriapus,5,0.06
+Saturn,Siarnaq,20,0.06
+Saturn,Thrymr,3.5,0.06
+Saturn,Narvi,3.5,0.04
+Saturn,Aegir,3.0,0.04
+Saturn,Bebhionn,3.0,0.04
+Saturn,Bergelmir,3.0,0.04
+Saturn,Bestla,3.5,0.04
+Saturn,Farbauti,2.5,0.04
+Saturn,Fenrir,2.0,0.04
+Saturn,Fornjot,3.0,0.04
+Saturn,Hati,3.0,0.04
+Saturn,Hyrrokkin,3.0,0.04
+Saturn,Kari,3.0,0.04
+Saturn,Loge,3.0,0.04
+Saturn,Skoll,3.0,0.04
+Saturn,Surtur,3.0,0.04
+Saturn,Jarnsaxa,3.0,0.04
+Saturn,Greip,3.0,0.04
+Saturn,Tarqeq,3.0,0.04
+Saturn,S/2004 S7,3.0,0.04
+Saturn,S/2004 S12,2.5,0.04
+Saturn,S/2004 S13,3.0,0.04
+Saturn,S/2004 S17,2.0,0.04
+Saturn,S/2006 S1,3.0,0.04
+Saturn,S/2006 S3,2.5,0.04
+Saturn,S/2007 S2,3.0,0.04
+Saturn,S/2007 S3,2.0,0.04
+Uranus,Ariel,578.9,0.39
+Uranus,Umbriel,584.7,0.21
+Uranus,Titania,788.9,0.27
+Uranus,Oberon,761.4,0.23
+Uranus,Miranda,235.8,0.32
+Uranus,Cordelia,20.1,0.07
+Uranus,Ophelia,21.4,0.07
+Uranus,Bianca,27,0.065
+Uranus,Cressida,41,0.069
+Uranus,Desdemona,35,0.084
+Uranus,Juliet,53,0.075
+Uranus,Portia,70,0.069
+Uranus,Rosalind,36,0.072
+Uranus,Belinda,45,0.067
+Uranus,Puck,81,0.104
+Uranus,Caliban,36,0.04
+Uranus,Sycorax,75,0.04
+Uranus,Prospero,25,0.04
+Uranus,Setebos,24,0.04
+Uranus,Stephano,16,0.04
+Uranus,Trinculo,9,0.04
+Uranus,Francisco,11,0.04
+Uranus,Margaret,10,0.04
+Uranus,Ferdinand,10,0.04
+Uranus,Perdita,13,0.070
+Uranus,Mab,12,0.103
+Uranus,Cupid,9,0.070
+Neptune,Triton,1353.4,0.719
+Neptune,Nereid,170.,0.155
+Neptune,Naiad,33.,0.072
+Neptune,Thalassa,41.,0.091
+Neptune,Despina,75.,0.090
+Neptune,Galatea,88.,0.079
+Neptune,Larissa,97.,0.091
+Neptune,Proteus,210.,0.096
+Neptune,Halimede,31.0,0.04
+Neptune,Psamathe,20.0,0.04
+Neptune,Sao,22.0,0.04
+Neptune,Laomedeia,21.0,0.04
+Neptune,Neso,30.0,0.04
+Neptune,S/2004 N1,9.0,0.10
+Pluto,Charon,603.6,0.372
+Pluto,Nix,23.0,0.35
+Pluto,Hydra,30.5,0.35
+Pluto,Kerberos,14.0,0.35
+Pluto,Styx,10.0,0.35
