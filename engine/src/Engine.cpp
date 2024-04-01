@@ -3,6 +3,7 @@
 #include <cstdio>
 #include <iostream>
 
+#include "WorldSerde.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl2.h"
 
@@ -22,8 +23,19 @@ namespace engine
 
     void glfwScrollCallback(GLFWwindow *, const double, const double yoffset) { last_scroll = yoffset; }
 
+    bool Engine::loadWorld()
+    {
+        if (!world::serde::LoadWorldFromXml(m_world.GetFilePath().c_str(), m_world))
+        {
+            std::cerr << "Failed to load world from xml" << std::endl;
+            return false;
+        }
+        return true;
+    }
+
     bool Engine::loadModels()
     {
+        m_models.clear();
         for (const auto &model_name : m_world.GetModelNames())
         {
             std::optional<model::Model> model_optional = model::LoadModelFromFile(model_name);
@@ -43,6 +55,8 @@ namespace engine
         glfwSetErrorCallback(glfw_error_callback);
         if (!glfwInit())
             return false;
+
+        loadWorld();
 
         const int width = m_world.GetWindow().width;
         const int height = m_world.GetWindow().height;
@@ -429,8 +443,40 @@ namespace engine
                 ImGui::TreePop();
             }
 
-            if (ImGui::TreeNode(&world_group.transformations, "Transformations"))
+            const auto num_transforms = world_group.transformations.GetTransformations().size();
+            if (ImGui::TreeNode(&world_group.transformations, "Transformations (%zu)", num_transforms))
             {
+                if (ImGui::Button("Add Transformation"))
+                {
+                    ImGui::OpenPopup("Add Transformation");
+                }
+
+                if (ImGui::BeginPopup("Add Transformation"))
+                {
+                    if (ImGui::MenuItem("Rotation"))
+                    {
+                        world_group.transformations.AddTransform(world::transformation::Rotation());
+                        world_group.transformations.UpdateTransformMatrix();
+                        ImGui::CloseCurrentPopup();
+                    }
+
+                    if (ImGui::MenuItem("Translation"))
+                    {
+                        world_group.transformations.AddTransform(world::transformation::Translation());
+                        world_group.transformations.UpdateTransformMatrix();
+                        ImGui::CloseCurrentPopup();
+                    }
+
+                    if (ImGui::MenuItem("Scale"))
+                    {
+                        world_group.transformations.AddTransform(world::transformation::Scale());
+                        world_group.transformations.UpdateTransformMatrix();
+                        ImGui::CloseCurrentPopup();
+                    }
+
+                    ImGui::EndPopup();
+                }
+
                 for (int i = 0; i < world_group.transformations.GetTransformations().size(); ++i)
                 {
                     if (i > 0 && i < world_group.transformations.GetTransformations().size())
@@ -458,7 +504,7 @@ namespace engine
                             world_group.transformations.UpdateTransformMatrix();
                         }
 
-                        if (ImGui::DragFloat("Angle", &angle, 1, 0.0f, 360.0f))
+                        if (ImGui::DragFloat("Angle", &angle, 1, -360.0f, 360.0f))
                         {
                             rotation.angle_rads = degrees_to_radians(angle);
                             world_group.transformations.UpdateTransformMatrix();
@@ -504,14 +550,9 @@ namespace engine
         {
             ImGui::Begin("CG Engine");
 
-            if (ImGui::TreeNodeEx(
-                    &m_world,
-                    ImGuiTreeNodeFlags_Framed | ImGuiTreeNodeFlags_DefaultOpen,
-                    "World (%s)",
-                    m_world.GetName().c_str()
-                ))
+            auto flags = ImGuiTreeNodeFlags_Framed | ImGuiTreeNodeFlags_DefaultOpen;
+            if (ImGui::TreeNodeEx(&m_world, flags, "World (%s)", m_world.GetFilePath().c_str()))
             {
-
                 ImGui::Text("Width:");
                 ImGui::SameLine();
                 ImGui::TextDisabled("%d", m_world.GetWindow().width);
@@ -519,6 +560,14 @@ namespace engine
                 ImGui::Text("Height:");
                 ImGui::SameLine();
                 ImGui::TextDisabled("%d", m_world.GetWindow().height);
+
+                if (ImGui::Button("Reload"))
+                {
+                    auto previous_window = m_world.GetWindow();
+                    loadWorld();
+                    m_world.GetWindow() = previous_window; // Window cannot be reloaded
+                    loadModels();
+                }
 
                 if (ImGui::TreeNodeEx("Camera", ImGuiTreeNodeFlags_Framed))
                 {
@@ -566,8 +615,8 @@ namespace engine
                             if (ImGui::TreeNodeEx("Vertices", ImGuiTreeNodeFlags_DefaultOpen))
                             {
                                 ImGui::TreePop();
-                                ImGuiTableFlags flags = ImGuiTableFlags_ScrollY | ImGuiTableFlags_RowBg |
-                                    ImGuiTableFlags_BordersOuter | ImGuiTableFlags_BordersV | ImGuiTableFlags_Resizable;
+                                flags = ImGuiTableFlags_ScrollY | ImGuiTableFlags_RowBg | ImGuiTableFlags_BordersOuter |
+                                    ImGuiTableFlags_BordersV | ImGuiTableFlags_Resizable;
                                 ImVec2 outer_size = ImVec2(0, TEXT_BASE_HEIGHT * 10);
                                 if (ImGui::BeginTable("vertex_table", 4, flags, outer_size))
                                 {

@@ -31,10 +31,6 @@ int main(const int argc, char *argv[])
     const auto path_string = o_path.value().string();
 
     world::World world(path_string);
-
-    if (!world::serde::LoadWorldFromXml(path_string.c_str(), world))
-        return 1;
-
     engine::Engine engine(world);
     if (!engine.Init())
         return 1;

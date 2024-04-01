@@ -89,6 +89,8 @@ namespace engine
         static void postRenderImGui();
         void renderImGuiWorldGroupMenu(world::WorldGroup &world_group);
         void renderGroup(world::WorldGroup &group);
+
+        bool loadWorld();
         bool loadModels();
     };
 } // namespace engine

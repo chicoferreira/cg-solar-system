@@ -46,8 +46,6 @@ namespace world::serde
             }
         }
 
-        group.transformations = {};
-
         if (const auto transform_elements = group_element->FirstChildElement("transform"))
         {
             for (auto transform_element = transform_elements->FirstChildElement(); transform_element;
@@ -152,6 +150,8 @@ namespace world::serde
 
         const auto parent_group_element = world_element->FirstChildElement("group");
         EARLY_RETURN_FALSE(!parent_group_element, "World XML file is missing the parent group element.")
+
+        world.ClearModelNames();
 
         bool succ = false;
         const auto parent_group = LoadWorldGroupFromXml(world, parent_group_element, &succ);

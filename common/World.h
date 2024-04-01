@@ -47,6 +47,7 @@ namespace world
             Vec3f axis{};
 
             Mat4f GetTransform() const { return Mat4fRotate(angle_rads, axis.x, axis.y, axis.z); }
+            Rotation() = default;
             explicit Rotation(const float angle_rads, const Vec3f axis) : angle_rads(angle_rads), axis(axis) {}
         };
 
@@ -55,6 +56,7 @@ namespace world
             Vec3f translation{};
 
             Mat4f GetTransform() const { return Mat4fTranslate(translation.x, translation.y, translation.z); }
+            Translation() = default;
             explicit Translation(const Vec3f translation) : translation(translation) {}
         };
 
@@ -63,6 +65,8 @@ namespace world
             Vec3f scale;
 
             Mat4f GetTransform() const { return Mat4fScale(scale.x, scale.y, scale.z); }
+            Scale() : scale(Vec3f(1.0f)) {}
+
             explicit Scale(const Vec3f scale) : scale(scale) {}
         };
 
@@ -116,16 +120,16 @@ namespace world
 
     class World
     {
-        std::string m_name;
+        std::string m_file_path;
         Window m_window;
         Camera m_camera;
         Camera m_default_camera;
         WorldGroup m_parent_world_group;
 
-        std::vector<std::string> m_model_names;
+        std::vector<std::string> m_model_names = {};
 
     public:
-        const std::string &GetName() const { return m_name; }
+        const std::string &GetFilePath() const { return m_file_path; }
         Window &GetWindow() { return m_window; }
         Camera &GetCamera() { return m_camera; }
         Camera &GetDefaultCamera() { return m_default_camera; }
@@ -142,10 +146,11 @@ namespace world
             m_model_names.push_back(model_name);
             return m_model_names.size() - 1;
         }
+        void ClearModelNames() { m_model_names.clear(); }
 
         void ResetCamera() { m_camera = m_default_camera; }
 
-        explicit World(std::string name) : m_name(std::move(name)) {}
+        explicit World(std::string file_path) : m_file_path(std::move(file_path)) {}
     };
 } // namespace world
 
