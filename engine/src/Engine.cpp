@@ -443,6 +443,15 @@ namespace engine
                 ImGui::TreePop();
             }
 
+            ImGui::BeginGroup();
+
+            struct TransformDragDropPayload
+            {
+                world::transformation::Transform *origin;
+                world::WorldGroup *group;
+                int group_index;
+            };
+
             const auto num_transforms = world_group.transformations.GetTransformations().size();
             if (ImGui::TreeNode(&world_group.transformations, "Transformations (%zu)", num_transforms))
             {
@@ -488,6 +497,15 @@ namespace engine
                     ImGui::PushID(&transform);
                     ImGui::Text("%s", getTransformationName(transform));
 
+                    if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_SourceAllowNullID))
+                    {
+                        TransformDragDropPayload transform_payload = {&transform, &world_group, i};
+                        ImGui::SetDragDropPayload(
+                            "TRANSFORMATION", &transform_payload, sizeof(TransformDragDropPayload)
+                        );
+                        ImGui::EndDragDropSource();
+                    }
+
                     ImGui::SameLine();
                     if (ImGui::SmallButton("Remove"))
                     {
@@ -526,10 +544,51 @@ namespace engine
                             world_group.transformations.UpdateTransformMatrix();
                         }
                     }
-                    ImGui::PopID();
                     ImGui::EndGroup();
+                    ImGui::PopID();
+
+                    if (ImGui::BeginDragDropTarget())
+                    {
+                        if (const ImGuiPayload *payload = ImGui::AcceptDragDropPayload("TRANSFORMATION"))
+                        {
+                            const auto transform_payload = *(const TransformDragDropPayload *)payload->Data;
+
+                            if (transform_payload.group != &world_group || transform_payload.group_index != i)
+                            {
+                                auto &target_group_transformations =
+                                    transform_payload.group->transformations.GetTransformations();
+
+                                auto &origin = target_group_transformations[transform_payload.group_index];
+                                auto &target = world_group.transformations.GetTransformations()[i];
+                                std::swap(origin, target);
+
+                                world_group.transformations.UpdateTransformMatrix();
+                                if (transform_payload.group != &world_group)
+                                    transform_payload.group->transformations.UpdateTransformMatrix();
+                            }
+                        }
+                        ImGui::EndDragDropTarget();
+                    }
                 }
                 ImGui::TreePop();
+            }
+
+            ImGui::EndGroup();
+
+            if (ImGui::BeginDragDropTarget())
+            {
+                if (const ImGuiPayload *payload = ImGui::AcceptDragDropPayload("TRANSFORMATION"))
+                {
+                    const auto transform_payload = *(const TransformDragDropPayload *)payload->Data;
+
+                    world_group.transformations.AddTransform(*transform_payload.origin);
+                    transform_payload.group->transformations.RemoveTransform(transform_payload.group_index);
+
+                    world_group.transformations.UpdateTransformMatrix();
+                    if (transform_payload.group != &world_group)
+                        transform_payload.group->transformations.UpdateTransformMatrix();
+                }
+                ImGui::EndDragDropTarget();
             }
 
             for (auto &child : world_group.children)
