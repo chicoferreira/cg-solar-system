@@ -503,6 +503,7 @@ namespace engine
                         ImGui::SetDragDropPayload(
                             "TRANSFORMATION", &transform_payload, sizeof(TransformDragDropPayload)
                         );
+                        ImGui::Text("%s", getTransformationName(transform));
                         ImGui::EndDragDropSource();
                     }
 
