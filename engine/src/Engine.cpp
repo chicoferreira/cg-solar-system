@@ -403,7 +403,6 @@ namespace engine
         ImGui_ImplOpenGL2_Init();
     }
 
-
     const char *getTransformationName(const world::transformation::Transform &transform)
     {
         if (std::holds_alternative<world::transformation::Rotation>(transform))
@@ -420,6 +419,16 @@ namespace engine
         auto &model_indexes = world_group.models;
         if (ImGui::TreeNode(&world_group, "Group"))
         {
+            if (ImGui::TreeNodeEx(&model_indexes, ImGuiTreeNodeFlags_DefaultOpen, "Models (%zu)", model_indexes.size()))
+            {
+                for (int i = 0; i < model_indexes.size(); ++i)
+                {
+                    auto &model_index = model_indexes[i];
+                    ImGui::Text("Model #%llu (%s)", model_index, m_models[model_index].GetName().c_str());
+                }
+                ImGui::TreePop();
+            }
+
             if (ImGui::TreeNode(&world_group.transformations, "Transformations"))
             {
                 for (int i = 0; i < world_group.transformations.GetTransformations().size(); ++i)
@@ -477,24 +486,6 @@ namespace engine
                 ImGui::TreePop();
             }
 
-            for (auto &model_index : model_indexes)
-            {
-                auto &model = m_models[model_index];
-                if (ImGui::TreeNode(&model, "Model #%llu %s", model_index, model.GetName().c_str()))
-                {
-                    if (auto positions = model.GetVertex();
-                        ImGui::TreeNode(&model.GetVertex(), "Vertices (%zu)", positions.size()))
-                    {
-                        for (int p_index = 0; p_index < positions.size(); ++p_index)
-                        {
-                            const auto &[x, y, z] = positions[p_index];
-                            ImGui::Text("%d. x: %.2f, y: %.2f, z: %.2f", p_index + 1, x, y, z);
-                        }
-                        ImGui::TreePop();
-                    }
-                    ImGui::TreePop();
-                }
-            }
             for (auto &child : world_group.children)
             {
                 renderImGuiWorldGroupMenu(child);
@@ -529,7 +520,6 @@ namespace engine
                 ImGui::SameLine();
                 ImGui::TextDisabled("%d", m_world.GetWindow().height);
 
-
                 if (ImGui::TreeNodeEx("Camera", ImGuiTreeNodeFlags_Framed))
                 {
                     auto &camera = m_world.GetCamera();
@@ -558,6 +548,60 @@ namespace engine
                 if (ImGui::TreeNodeEx("Groups", ImGuiTreeNodeFlags_Framed | ImGuiTreeNodeFlags_DefaultOpen))
                 {
                     renderImGuiWorldGroupMenu(m_world.GetParentWorldGroup());
+                    ImGui::TreePop();
+                }
+
+                static float TEXT_BASE_HEIGHT = ImGui::GetTextLineHeightWithSpacing();
+
+                if (ImGui::TreeNodeEx("Models", ImGuiTreeNodeFlags_Framed | ImGuiTreeNodeFlags_DefaultOpen))
+                {
+                    for (size_t i = 0; i < m_models.size(); ++i)
+                    {
+                        auto &model = m_models[i];
+                        if (ImGui::TreeNode(&model, "Model #%zu (%s)", i, model.GetName().c_str()))
+                        {
+                            ImGui::Text("Triangle Count: %zu", model.GetVertex().size() / 3);
+                            ImGui::Text("Vertex Count: %zu", model.GetVertex().size());
+
+                            if (ImGui::TreeNodeEx("Vertices", ImGuiTreeNodeFlags_DefaultOpen))
+                            {
+                                ImGui::TreePop();
+                                ImGuiTableFlags flags = ImGuiTableFlags_ScrollY | ImGuiTableFlags_RowBg |
+                                    ImGuiTableFlags_BordersOuter | ImGuiTableFlags_BordersV | ImGuiTableFlags_Resizable;
+                                ImVec2 outer_size = ImVec2(0, TEXT_BASE_HEIGHT * 10);
+                                if (ImGui::BeginTable("vertex_table", 4, flags, outer_size))
+                                {
+                                    ImGui::TableSetupScrollFreeze(0, 1); // Make top row always visible
+                                    ImGui::TableSetupColumn("Index", ImGuiTableColumnFlags_None);
+                                    ImGui::TableSetupColumn("x", ImGuiTableColumnFlags_None);
+                                    ImGui::TableSetupColumn("y", ImGuiTableColumnFlags_None);
+                                    ImGui::TableSetupColumn("z", ImGuiTableColumnFlags_None);
+                                    ImGui::TableHeadersRow();
+
+                                    // Demonstrate using clipper for large vertical lists
+                                    ImGuiListClipper clipper;
+                                    clipper.Begin(model.GetVertex().size());
+                                    while (clipper.Step())
+                                    {
+                                        for (int row = clipper.DisplayStart; row < clipper.DisplayEnd; row++)
+                                        {
+                                            ImGui::TableNextRow();
+                                            ImGui::TableSetColumnIndex(0);
+                                            ImGui::Text("%d", row);
+                                            for (int column = 1; column < 4; column++)
+                                            {
+                                                ImGui::TableSetColumnIndex(column);
+                                                ImGui::Text("%.3f", model.GetVertex()[row][column]);
+                                            }
+                                        }
+                                    }
+                                    ImGui::EndTable();
+                                }
+                            }
+
+                            ImGui::TreePop();
+                        }
+                    }
                     ImGui::TreePop();
                 }
 
