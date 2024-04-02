@@ -5,3 +5,5 @@ cmake-build-debug-visual-studio
 .idea
 .vscode
 imgui.ini
+CMakeCache.txt
+CMakeFiles/
