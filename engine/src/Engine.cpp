@@ -438,7 +438,7 @@ namespace engine
                 for (int i = 0; i < model_indexes.size(); ++i)
                 {
                     auto &model_index = model_indexes[i];
-                    ImGui::Text("Model #%llu (%s)", model_index, m_models[model_index].GetName().c_str());
+                    ImGui::Text("Model #%lu (%s)", model_index, m_models[model_index].GetName().c_str());
                 }
                 ImGui::TreePop();
             }
