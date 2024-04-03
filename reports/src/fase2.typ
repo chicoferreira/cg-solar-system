@@ -79,11 +79,13 @@ Por exemplo, para este conjunto de transformações no xml:
 </group>
 ```)
 
-A matriz de final transformação seria ($I$ sendo a matriz identidade):
+A matriz final de transformação seria ($I$ sendo a matriz identidade):
 
-$ I times cal(T)(1,0,0) times cal(R)(90deg,0,1,0) times cal(S)(2,1,1) $
+#math.equation(block: true, numbering: "(1)",
+    $ R = I times cal(T)(1,0,0) times cal(R)(90deg,0,1,0) times cal(S)(2,1,1) $
+) <transform_equation>
 
-O código de operações sobre matrizes já tinha sido desenvolvido na fase anterior.
+O código de operações sobre matrizes já tinha sido desenvolvido na fase anterior, logo esta funcionalidade foi desenvolvida sem muitas alterações.
 
 == OpenGL
 
@@ -93,15 +95,13 @@ Devido a esta multiplicação, a função `glPushMatrix` e `glPopMatrix` foram u
 
 #align(center, ```cpp
 void renderGroup(WorldGroup &group) {
-    glPushMatrix();
+    glPushMatrix()
 
-    const auto mat = group.transform.mat;
-    glMultMatrixf(*mat);
+    glMultMatrixf(*group.transform.mat);
 
     for (auto &model : group.models) {
         renderModel(model);
     }
-
     for (auto &child : group.children) {
         renderGroup(child);
     }
@@ -110,7 +110,7 @@ void renderGroup(WorldGroup &group) {
 }
 ```)
 
-
+Devido à função `glMultMatrixf` do OpenGL interpretar as matrizes em _column-order_ em vez de _row-order_ (como é em _arrays_ bidimensionais em C++), a matriz final de transformação (@transform_equation) também tem que ser transposta antes de ser enviada para o OpenGL.
 
 == Visualização e manipulação das transformações
 
