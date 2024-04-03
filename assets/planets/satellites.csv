@@ -87,12 +87,12 @@ Saturn,Atlas,15.1,0.4
 Saturn,Prometheus,43.1,0.6
 Saturn,Pandora,40.7,0.5
 Saturn,Pan,14.1,0.5
-Saturn,Methone,1.6,?
-Saturn,Pallene,2.5,?
-Saturn,Polydeuces,1.3,?
-Saturn,Daphnis,3.8,?
-Saturn,Anthe,0.9,?
-Saturn,Aegaeon,0.3,?
+Saturn,Methone,1.6,0
+Saturn,Pallene,2.5,0
+Saturn,Polydeuces,1.3,0
+Saturn,Daphnis,3.8,0
+Saturn,Anthe,0.9,0
+Saturn,Aegaeon,0.3,0
 Saturn,Ymir,9,0.06
 Saturn,Paaliaq,11.0,0.06
 Saturn,Tarvos,7.5,0.06
@@ -171,8 +171,3 @@ Neptune,Sao,22.0,0.04
 Neptune,Laomedeia,21.0,0.04
 Neptune,Neso,30.0,0.04
 Neptune,S/2004 N1,9.0,0.10
-Pluto,Charon,603.6,0.372
-Pluto,Nix,23.0,0.35
-Pluto,Hydra,30.5,0.35
-Pluto,Kerberos,14.0,0.35
-Pluto,Styx,10.0,0.35

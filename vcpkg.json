@@ -13,6 +13,7 @@
         "docking-experimental"
       ]
     },
-    "glew"
+    "glew",
+    "rapidcsv"
   ]
 }

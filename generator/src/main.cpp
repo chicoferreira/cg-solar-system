@@ -29,7 +29,12 @@ const auto commands = {
     Command{CONE, "cone", "<radius> <height> <slices> <stacks>", 4},
     Command{BOX, "box", "<length> <divisions>", 2},
     Command{CYLINDER, "cylinder", "<radius> <height> <slices>", 3},
-    Command{SOLAR_SYSTEM, "solar-system", "", 0},
+    Command{
+        SOLAR_SYSTEM,
+        "solar-system",
+        "<sun size scale factor> <planet distance scale factor> <scene scale factor>",
+        3
+    },
 };
 
 const Command *getCommand(const char *name)
@@ -59,47 +64,74 @@ void printUsage(const Command &cmd)
     std::cout << "Usage: generator " << cmd.name << ' ' << cmd.args << " <output file>" << std::endl;
 }
 
+#define PARSE_FLOAT(varname, value)                                                                                    \
+    float varname;                                                                                                     \
+    try                                                                                                                \
+    {                                                                                                                  \
+        varname = std::stof(value);                                                                                    \
+    }                                                                                                                  \
+    catch (...)                                                                                                        \
+    {                                                                                                                  \
+        std::cout << "Couldn't parse float " << #varname << " in " << cmd.name << " command " << std::endl;            \
+        return;                                                                                                        \
+    }
+
+#define PARSE_INT(varname, value)                                                                                      \
+    int varname;                                                                                                       \
+    try                                                                                                                \
+    {                                                                                                                  \
+        varname = std::stoi(value);                                                                                    \
+    }                                                                                                                  \
+    catch (...)                                                                                                        \
+    {                                                                                                                  \
+        std::cout << "Couldn't parse integer " << #varname << " in " << cmd.name << " command " << std::endl;          \
+        return;                                                                                                        \
+    }
+
 void runGenerator(const Command &cmd, char *args[])
 {
     switch (cmd.type)
     {
         case PLANE:
             {
-                const auto length = std::stof(args[0]);
-                const auto divisions = std::stoi(args[1]);
+                PARSE_FLOAT(length, args[0])
+                PARSE_INT(divisions, args[0])
                 generator::SaveModel(generator::GeneratePlane(length, divisions), args[2]);
             }
         case SPHERE:
             {
-                const auto radius = std::stof(args[0]);
-                const auto slices = std::stoi(args[1]);
-                const auto stacks = std::stoi(args[2]);
+                PARSE_FLOAT(radius, args[0])
+                PARSE_INT(slices, args[1])
+                PARSE_INT(stacks, args[2])
                 generator::SaveModel(generator::GenerateSphere(radius, slices, stacks), args[3]);
             }
         case CONE:
             {
-                const auto radius = std::stof(args[0]);
-                const auto height = std::stof(args[1]);
-                const auto slices = std::stoi(args[2]);
-                const auto stacks = std::stoi(args[3]);
+                PARSE_FLOAT(radius, args[0])
+                PARSE_FLOAT(height, args[1])
+                PARSE_INT(slices, args[2])
+                PARSE_INT(stacks, args[3])
                 generator::SaveModel(generator::GenerateCone(radius, height, slices, stacks), args[4]);
             }
         case BOX:
             {
-                const auto length = std::stof(args[0]);
-                const auto divisions = std::stoi(args[1]);
+                PARSE_FLOAT(length, args[0])
+                PARSE_INT(divisions, args[1])
                 generator::SaveModel(generator::GenerateBox(length, divisions), args[2]);
             }
         case CYLINDER:
             {
-                const auto radius = std::stof(args[0]);
-                const auto height = std::stof(args[1]);
-                const auto slices = std::stoi(args[2]);
+                PARSE_FLOAT(radius, args[0])
+                PARSE_FLOAT(height, args[1])
+                PARSE_INT(slices, args[2])
                 generator::SaveModel(generator::GenerateCylinder(radius, height, slices), args[3]);
             }
         case SOLAR_SYSTEM:
             {
-                generator::solarsystem::GenerateSolarSystem();
+                PARSE_FLOAT(sun_size_scaling, args[0])
+                PARSE_FLOAT(planet_distance_scaling, args[1])
+                PARSE_FLOAT(scene_scaling, args[2])
+                generator::solarsystem::GenerateSolarSystem(sun_size_scaling, planet_distance_scaling, scene_scaling);
             }
     }
 }
@@ -129,14 +161,5 @@ int main(const int argc, char *argv[])
         return 1;
     }
 
-    try
-    {
-        runGenerator(*cmd, argv + 2);
-    }
-    catch (...)
-    {
-        std::cout << "Invalid arguments for command " << cmd->name << std::endl;
-        printUsage(*cmd);
-        return 1;
-    }
+    runGenerator(*cmd, argv + 2);
 }

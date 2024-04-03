@@ -13,3 +13,6 @@ add_executable(cg-generator src/main.cpp ../common/Vec.h
 
 find_package(tinyxml2 CONFIG REQUIRED)
 target_link_libraries(cg-generator PRIVATE tinyxml2::tinyxml2)
+
+find_path(RAPIDCSV_INCLUDE_DIRS "rapidcsv.h")
+target_include_directories(cg-generator PRIVATE ${RAPIDCSV_INCLUDE_DIRS})
