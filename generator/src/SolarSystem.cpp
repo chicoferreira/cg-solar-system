@@ -3,6 +3,8 @@
 #include "WorldSerde.h"
 #include "rapidcsv.h"
 
+#include <cstring>
+
 namespace generator::solarsystem
 {
 
@@ -100,7 +102,8 @@ namespace generator::solarsystem
             group.models.push_back(sphere_id);
 
             const float random_angle = degrees_to_radians(rand() % 360 + 1);
-            const float distance = planet.distance_from_sun * 1000000 / scene_scale_factor / planet_distance_scale_factor +
+            const float distance =
+                planet.distance_from_sun * 1000000 / scene_scale_factor / planet_distance_scale_factor +
                 real_sun_diameter;
             const auto coordinates = Vec3fPolar(distance, random_angle);
             const float diameter = planet.diameter / scene_scale_factor;
@@ -111,17 +114,17 @@ namespace generator::solarsystem
                 world::transformation::Rotation(degrees_to_radians(planet.orbital_inclination), {1, 0, 0})
             );
 
-            for (const auto &moon : planet.moons)
-            {
-                world::WorldGroup moon_group;
-                group.models.push_back(sphere_id);
-
-                const float moon_random_angle = degrees_to_radians(rand() % 360 + 1);
-
-                const auto moon_coordinates = Vec3fPolar(planet.orbital_eccentricity)
-
-                group.transformations.AddTransform()
-            }
+//            for (const auto &moon : planet.moons)
+//            {
+//                world::WorldGroup moon_group;
+//                group.models.push_back(sphere_id);
+//
+//                const float moon_random_angle = degrees_to_radians(rand() % 360 + 1);
+//
+//                const auto moon_coordinates = Vec3fPolar(planet.orbital_eccentricity)
+//
+//                group.transformations.AddTransform()
+//            }
 
             world.GetParentWorldGroup().children.push_back(group);
         }
