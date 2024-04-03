@@ -70,9 +70,10 @@ void printUsage(const Command &cmd)
     {                                                                                                                  \
         varname = std::stof(value);                                                                                    \
     }                                                                                                                  \
-    catch (...)                                                                                                        \
+    catch (const std::logic_error &)                                                                                   \
     {                                                                                                                  \
-        std::cout << "Couldn't parse float " << #varname << " in " << cmd.name << " command " << std::endl;            \
+        std::cout << "Couldn't parse float " << #varname << " from '" << value << "'. Needed in " << cmd.name          \
+                  << " command." << std::endl;                                                                         \
         return;                                                                                                        \
     }
 
@@ -82,9 +83,10 @@ void printUsage(const Command &cmd)
     {                                                                                                                  \
         varname = std::stoi(value);                                                                                    \
     }                                                                                                                  \
-    catch (...)                                                                                                        \
+    catch (const std::logic_error &)                                                                                   \
     {                                                                                                                  \
-        std::cout << "Couldn't parse integer " << #varname << " in " << cmd.name << " command " << std::endl;          \
+        std::cout << "Couldn't parse integer " << #varname << " from '" << value << "'. Needed in " << cmd.name        \
+                  << " command." << std::endl;                                                                         \
         return;                                                                                                        \
     }
 
@@ -95,8 +97,9 @@ void runGenerator(const Command &cmd, char *args[])
         case PLANE:
             {
                 PARSE_FLOAT(length, args[0])
-                PARSE_INT(divisions, args[0])
+                PARSE_INT(divisions, args[1])
                 generator::SaveModel(generator::GeneratePlane(length, divisions), args[2]);
+                break;
             }
         case SPHERE:
             {
@@ -104,6 +107,7 @@ void runGenerator(const Command &cmd, char *args[])
                 PARSE_INT(slices, args[1])
                 PARSE_INT(stacks, args[2])
                 generator::SaveModel(generator::GenerateSphere(radius, slices, stacks), args[3]);
+                break;
             }
         case CONE:
             {
@@ -112,12 +116,14 @@ void runGenerator(const Command &cmd, char *args[])
                 PARSE_INT(slices, args[2])
                 PARSE_INT(stacks, args[3])
                 generator::SaveModel(generator::GenerateCone(radius, height, slices, stacks), args[4]);
+                break;
             }
         case BOX:
             {
                 PARSE_FLOAT(length, args[0])
                 PARSE_INT(divisions, args[1])
                 generator::SaveModel(generator::GenerateBox(length, divisions), args[2]);
+                break;
             }
         case CYLINDER:
             {
@@ -125,6 +131,7 @@ void runGenerator(const Command &cmd, char *args[])
                 PARSE_FLOAT(height, args[1])
                 PARSE_INT(slices, args[2])
                 generator::SaveModel(generator::GenerateCylinder(radius, height, slices), args[3]);
+                break;
             }
         case SOLAR_SYSTEM:
             {
@@ -132,6 +139,7 @@ void runGenerator(const Command &cmd, char *args[])
                 PARSE_FLOAT(planet_distance_scaling, args[1])
                 PARSE_FLOAT(scene_scaling, args[2])
                 generator::solarsystem::GenerateSolarSystem(sun_size_scaling, planet_distance_scaling, scene_scaling);
+                break;
             }
     }
 }

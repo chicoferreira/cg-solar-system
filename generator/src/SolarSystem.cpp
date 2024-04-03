@@ -5,6 +5,9 @@
 
 #include <cstring>
 
+#define _USE_MATH_DEFINES
+#include <math.h>
+
 namespace generator::solarsystem
 {
 
@@ -65,25 +68,25 @@ namespace generator::solarsystem
         return planets;
     }
 
-#define SCENE_SIZE_RATIO 1.0 / 5000.0
-#define PLANET_DISTANCE_RATIO 1.0 / 1000.0
-
     void GenerateSolarSystem(float sun_size_scale_factor, float planet_distance_scale_factor, float scene_scale_factor)
     {
+
+
         std::vector<Planet> planets = LoadPlanets("assets/planets/planets.csv", "assets/planets/satellites.csv");
         world::World world("assets/scenes/solar_system.xml");
 
-        world.GetWindow() = world::Window(800, 600);
+        world.GetWindow() = world::Window(1200, 1000);
         world.GetCamera() = world::Camera(
-            {4.0f, 3.0f, 6.0f}, // position
-            {0.0f, 0.0f, 0.0f}, // looking_at
+            {25.0f, 35.0f, 30.0f}, // position
+            {0.0f, 7.0f, 0.0f}, // looking_at
             {0.0f, 1.0f, 0.0f}, // up
             60.0f, // fov
-            1.0f, // near
+            0.1f, // near
             1000.0f // far
         );
 
-        auto sphere_id = world.AddModelName("sphere_1_8_8.3d");
+        auto sphere_id = world.AddModelName("sphere_1_20_20.3d");
+        auto sphere_low_poly_id = world.AddModelName("sphere_1_10_10.3d");
 
         constexpr float sun_diameter = 1392700.0f;
         const float real_sun_diameter = sun_diameter / scene_scale_factor / sun_size_scale_factor;
@@ -98,35 +101,53 @@ namespace generator::solarsystem
 
         for (const auto &planet : planets)
         {
-            world::WorldGroup group;
-            group.models.push_back(sphere_id);
+            world::WorldGroup planetery_group;
 
             const float random_angle = degrees_to_radians(rand() % 360 + 1);
             const float distance =
                 planet.distance_from_sun * 1000000 / scene_scale_factor / planet_distance_scale_factor +
                 real_sun_diameter;
             const auto coordinates = Vec3fPolar(distance, random_angle);
-            const float diameter = planet.diameter / scene_scale_factor;
 
-            group.transformations.AddTransform(world::transformation::Translation(coordinates));
-            group.transformations.AddTransform(world::transformation::Scale(Vec3f(diameter)));
-            group.transformations.AddTransform(
+            planetery_group.transformations.AddTransform(world::transformation::Translation(coordinates));
+            planetery_group.transformations.AddTransform(
                 world::transformation::Rotation(degrees_to_radians(planet.orbital_inclination), {1, 0, 0})
             );
 
-//            for (const auto &moon : planet.moons)
-//            {
-//                world::WorldGroup moon_group;
-//                group.models.push_back(sphere_id);
-//
-//                const float moon_random_angle = degrees_to_radians(rand() % 360 + 1);
-//
-//                const auto moon_coordinates = Vec3fPolar(planet.orbital_eccentricity)
-//
-//                group.transformations.AddTransform()
-//            }
+            world::WorldGroup planet_group;
+            planet_group.models.push_back(sphere_id);
 
-            world.GetParentWorldGroup().children.push_back(group);
+            const float diameter = planet.diameter / scene_scale_factor;
+
+            planet_group.transformations.AddTransform(world::transformation::Scale(Vec3f(diameter)));
+
+            planetery_group.children.push_back(planet_group);
+
+            float orbital_radius = planet.diameter * 2;
+
+            for (const auto &moon : planet.moons)
+            {
+                world::WorldGroup moon_group;
+
+                const float moon_random_angle = degrees_to_radians(rand() % 360 + 1);
+                const float moon_distance_to_planet =
+                    orbital_radius * 1000 / scene_scale_factor / planet_distance_scale_factor;
+                const auto moon_coordinates =
+                    Vec3fPolar(moon_distance_to_planet, moon_random_angle); // Coordinates relative to planet
+
+                const auto real_moon_diameter = moon.radius * 2 / scene_scale_factor;
+
+                moon_group.models.push_back(real_moon_diameter < 0.01f ? sphere_low_poly_id : sphere_id);
+
+                moon_group.transformations.AddTransform(world::transformation::Translation(moon_coordinates));
+                moon_group.transformations.AddTransform(
+                    world::transformation::Scale(Vec3f(std::max(0.005f, real_moon_diameter)))
+                );
+
+                planetery_group.children.push_back(moon_group);
+            }
+
+            world.GetParentWorldGroup().children.push_back(planetery_group);
         }
 
         world::serde::SaveWorldToXml(world.GetFilePath().c_str(), world);
