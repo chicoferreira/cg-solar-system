@@ -14,13 +14,13 @@
 
 #heading(numbering: none)[Introdução]
 
-Este relatório descreve a segunda fase do projeto de Computação Gráfica. Nesta fase foi pedido uma extensão da fase anterior, onde foi pedido para ser implementado um sistema de hierarquias de transformações geométricas (translação, rotação e escala) onde são aplicadas aos modelos desse grupo e aos seus subgrupos. Para além disso, também foi pedido uma _demo_ do sistema solar com a utilização do sistema de hierarquias desenvolvido.
+Este relatório descreve a segunda fase do projeto de Computação Gráfica. Nesta fase foi pedido uma extensão da fase anterior, onde foi pedido para ser implementado um sistema de hierarquias de transformações geométricas (translação, rotação e escala) onde são aplicadas aos modelos desse grupo e aos seus subgrupos. Para além disso, também foi pedido uma _demo_ de um sistema solar com a utilização do sistema de hierarquias desenvolvido.
 
 = Hierarquia de Transformações
 
 Para a implementação do sistema de hierarquias de transformações geométricas, foi criada uma estrutura de dados `GroupTransform` que cada `WorldGroup` #footnote[De relembrar que `WorldGroup` é a estrutura de dados que contém dados do grupo do mundo (lista de modelos, subgrupos e agora lista de transformações).] tem.
 
-Este `GroupTransform` é essencialmente um wrapper para uma matriz de transformação (uma matriz 4x4) com uma lista de transformações. Uma transformação pode ser:
+Este `GroupTransform` é essencialmente um _wrapper_ para uma matriz de transformação (uma matriz 4x4) com uma lista de transformações. Uma transformação pode ser:
 
 - um `Translate(Vec3f translation)`: que representa uma translação sobre o vetor `translation`;
 - um `Rotate(float angle, Vec3f axis)`: que representa uma rotação de `angle` graus sobre o eixo `axis`;
@@ -87,9 +87,9 @@ A matriz final de transformação seria ($I$ sendo a matriz identidade):
 
 O código de operações sobre matrizes já tinha sido desenvolvido na fase anterior, logo esta funcionalidade foi desenvolvida sem muitas alterações.
 
-== OpenGL
+== No _OpenGL_
 
-Com a matriz de transformação pronta, foi apenas necessário chamar o método `glMultMatrixf` do OpenGL @opengl com a matriz de transformação antes de renderizar os modelos do grupo. Esta função multiplica a matriz atual pela matriz selecionada atualmente (neste caso a `GL_MODELVIEW`), substituindo-a pela matriz resultante.
+Com a matriz de transformação pronta, foi apenas necessário chamar o método `glMultMatrixf` do _OpenGL_ @opengl com a matriz de transformação antes de renderizar os modelos do grupo. Esta função multiplica a matriz atual pela matriz selecionada atualmente (neste caso a `GL_MODELVIEW`), substituindo-a pela matriz resultante.
 
 Devido a esta multiplicação, a função `glPushMatrix` e `glPopMatrix` foram usadas para guardar e restaurar a matriz anterior, respetivamente. Isto permite que a matriz atual seja restaurada para o estado anterior após a renderização do grupo.
 
@@ -110,7 +110,7 @@ void renderGroup(WorldGroup &group) {
 }
 ```)
 
-Devido à função `glMultMatrixf` do OpenGL interpretar as matrizes em _column-order_ em vez de _row-order_ (como é em _arrays_ bidimensionais em C++), a matriz final de transformação (@transform_equation) também tem que ser transposta antes de ser enviada para o OpenGL.
+Devido à função `glMultMatrixf` do _OpenGL_ interpretar as matrizes em _column-order_ em vez de _row-order_ (como é em _arrays_ bidimensionais em _C++_), a matriz final de transformação (@transform_equation) também tem que ser transposta antes de ser enviada para o _OpenGL_.
 
 == Visualização e manipulação das transformações
 
