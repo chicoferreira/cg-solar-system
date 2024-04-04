@@ -126,17 +126,113 @@ Decoupled with framerate
 
 = Repetição de Modelos
 
-falar tambem da Nova view dos modelos https://github.com/chicoferreira/cg-solar-system/issues/29.
+Devido à grande quantidade de luas e planetas no sistema solar, que irão utilizar por baixo o mesmo modelo de esfera, foi feita algumas alterações nas estruturas de dados para não haver duplicação de memória em modelos iguais #footnote[De relembrar que um modelo, atualmente, é simplesmente a lista de vértices que o representa graficamente.].
+
+Anteriormente, a estrutura do modelo, estava guardada dentro da lista de modelos de um `WorldGroup`. Isto trará problemas de memória e lentidão de carregamento em cenas pesadas, que contenham modelos repetidos.
+
+Agora, as estruturas dos modelos foi movida para dentro da estrutura do mundo completo, e dentro do `WorldGroup` guarda-se apenas um inteiro que representa o índice do modelo na lista de modelos do mundo.
+
+#import "@preview/fletcher:0.4.3" as fletcher: diagram, node, edge
+
+#import fletcher.shapes: diamond
+
+#grid(columns: (1fr, 1fr), align: center + bottom,
+  figure(block(align(center + horizon, {
+    set text(size: 0.65em)
+    diagram(
+      node-stroke: 1pt,
+      edge-stroke: 1pt,
+            node((1,-1), [Mundo], corner-radius: 2pt),
+      edge("-|>"),
+      node((1,0), [Grupo Principal], corner-radius: 2pt),
+      edge("-|>"),
+      node((0,1), [Grupo 1], corner-radius: 2pt),
+
+      let model(coords) = (
+          edge("-|>"),
+          node(coords, [
+          sphere.3d
+
+          #set text(size: 0.9em)
+          Vertex:
+          - (1,1,1)
+          - (2,2,2)
+          - ...
+          ], corner-radius: 2pt)
+      ),
+
+      model((0,2)),
+
+      node((1,1), [Grupo 2], corner-radius: 2pt),
+      model((1,2)),
+      
+      node((2,1), [Grupo 3], corner-radius: 2pt),
+      model((2,2)),
+
+      edge((1,0), (0,1), "-|>"),
+      edge((1,0), (1,1), "-|>"),
+      edge((1,0), (2,1), "-|>"),
+    )
+  })), caption: [Sem identificadores de modelo]),
+  figure(block(height: 25%, align(center + horizon, {
+    set text(size: 0.65em)
+    diagram(
+      node-stroke: 1pt,
+      edge-stroke: 1pt,
+
+      node((1,-1), [Mundo], corner-radius: 2pt),
+      edge("-|>"),
+      node((1,0), [Grupo Principal], corner-radius: 2pt),
+      edge("-|>"),
+      node((0,1), [Grupo 1], corner-radius: 2pt),
+
+      let model(coords) = (
+          edge("-|>"),
+          node(coords, [
+          Model Id \#1
+          ], corner-radius: 2pt)
+      ),
+
+      model((0,2)),
+
+      node((1,1), [Grupo 2], corner-radius: 2pt),
+      model((1,2)),
+      
+      node((2,1), [Grupo 3], corner-radius: 2pt),
+      model((2,2)),
+
+      edge((1,0), (0,1), "-|>"),
+      edge((1,0), (1,1), "-|>"),
+      edge((1,0), (2,1), "-|>"),
+
+      node((2,-0.7), [
+          *Model Id \#1* \
+          sphere.3d
+
+          #set text(size: 0.9em)
+          Vertex:
+          - (1,1,1)
+          - (2,2,2)
+          - (3,3,3)
+          - ...
+          ], corner-radius: 2pt, shape: rect),
+    
+      edge((1,-1), (2,-1), "-|>")
+    )
+  })), caption: [Com identificadores de modelo])
+)
+
+
 
 = Serialização do Mundo
 
-Para implementação da geração do mundo do sistema solar, seria necessário uma forma de criação de mundos no formato _XML_. Para aproveitar as APIs já existentes de cálculos matemáticos, o carregamento do mundo foi estendido para também suportar escrita de mundos em _XML_. 
+Para implementação da geração do mundo do sistema solar, será necessário uma forma programática de criação de mundos no formato _XML_. Para aproveitar as APIs já existentes de cálculos matemáticos, o carregamento do mundo da nossa _engine_ foi estendido para também suportar escrita de mundos em _XML_. 
 
 Desta forma, agora, um mundo carregado em memória pode ser guardado num ficheiro _XML_, e um mundo guardado num ficheiro _XML_ pode ser carregado em memória, tendo assim operações de _serialização_ e _deserialização_ implementadas.
 
 Esta funcionalidade foi implementada também com a biblioteca _tinyxml2_ @tinyxml2, que também já foi usada na fase anterior para a leitura de mundos.
 
-Isto veio com uma vantagem que, o mundo pode ser guardado em _runtime_, estendendo assim a criação de mundos para o utilizador dinamicamente, que pode modificar o mundo a partir das funcionalidades mostradas no capítulo @transform_imgui e guardá-lo em disco para uso posterior.
+Isto veio com uma vantagem que, o mundo pode ser guardado em _runtime_, estendendo assim a criação de mundos para que o utilizador, dinamicamente, possa modificar o mundo a partir das funcionalidades mostradas no capítulo @transform_imgui e guardá-lo em disco para uso posterior.
 
 = Primeira versão do Sistema Solar
 
