@@ -94,7 +94,7 @@ namespace generator::solarsystem
             world::WorldGroup sun_group;
             sun_group.models.push_back(sphere_id);
 
-            sun_group.transformations.AddTransform(world::transformation::Scale(Vec3f(real_sun_diameter)));
+            sun_group.transformations.AddTransform(world::transform::Scale(Vec3f(real_sun_diameter)));
 
             world.GetParentWorldGroup().children.push_back(sun_group);
         }
@@ -109,9 +109,9 @@ namespace generator::solarsystem
                 real_sun_diameter;
             const auto coordinates = Vec3fPolar(distance, random_angle);
 
-            planetery_group.transformations.AddTransform(world::transformation::Translation(coordinates));
+            planetery_group.transformations.AddTransform(world::transform::Translation(coordinates));
             planetery_group.transformations.AddTransform(
-                world::transformation::Rotation(degrees_to_radians(planet.orbital_inclination), {1, 0, 0})
+                world::transform::Rotation(degrees_to_radians(planet.orbital_inclination), {1, 0, 0})
             );
 
             world::WorldGroup planet_group;
@@ -119,7 +119,7 @@ namespace generator::solarsystem
 
             const float diameter = planet.diameter / scene_scale_factor;
 
-            planet_group.transformations.AddTransform(world::transformation::Scale(Vec3f(diameter)));
+            planet_group.transformations.AddTransform(world::transform::Scale(Vec3f(diameter)));
 
             planetery_group.children.push_back(planet_group);
 
@@ -139,9 +139,9 @@ namespace generator::solarsystem
 
                 moon_group.models.push_back(real_moon_diameter < 0.01f ? sphere_low_poly_id : sphere_id);
 
-                moon_group.transformations.AddTransform(world::transformation::Translation(moon_coordinates));
+                moon_group.transformations.AddTransform(world::transform::Translation(moon_coordinates));
                 moon_group.transformations.AddTransform(
-                    world::transformation::Scale(Vec3f(std::max(0.005f, real_moon_diameter)))
+                    world::transform::Scale(Vec3f(std::max(0.005f, real_moon_diameter)))
                 );
 
                 planetery_group.children.push_back(moon_group);

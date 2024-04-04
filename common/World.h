@@ -1,10 +1,10 @@
 #ifndef WORLD_H
 #define WORLD_H
 
+#include <algorithm>
 #include <string>
 #include <variant>
 #include <vector>
-#include <algorithm>
 
 #include "Mat.h"
 #include "Vec.h"
@@ -40,55 +40,51 @@ namespace world
         bool ToggleFirstPersonMode() { return first_person_mode = !first_person_mode; }
     };
 
-    namespace transformation
+    namespace transform
     {
         struct Rotation
         {
-            float angle_rads{};
-            Vec3f axis{};
+            float angle_rads{0};
+            Vec3f axis{0, 0, 0};
 
             Mat4f GetTransform() const { return Mat4fRotate(angle_rads, axis.x, axis.y, axis.z); }
+
             Rotation() = default;
-            explicit Rotation(const float angle_rads, const Vec3f axis) : angle_rads(angle_rads), axis(axis) {}
+            explicit Rotation(const float angle_rads, Vec3f axis) : angle_rads(angle_rads), axis(std::move(axis)) {}
         };
 
         struct Translation
         {
-            Vec3f translation{};
+            Vec3f translation{0, 0, 0};
 
             Mat4f GetTransform() const { return Mat4fTranslate(translation.x, translation.y, translation.z); }
+
             Translation() = default;
-            explicit Translation(const Vec3f translation) : translation(translation) {}
+            explicit Translation(Vec3f translation) : translation(std::move(translation)) {}
         };
 
         struct Scale
         {
-            Vec3f scale;
+            Vec3f scale{1, 1, 1};
 
             Mat4f GetTransform() const { return Mat4fScale(scale.x, scale.y, scale.z); }
-            Scale() : scale(Vec3f(1.0f)) {}
 
-            explicit Scale(const Vec3f scale) : scale(scale) {}
+            Scale() = default;
+            explicit Scale(Vec3f scale) : scale(std::move(scale)) {}
         };
 
         using Transform = std::variant<Rotation, Translation, Scale>;
-    } // namespace transformation
+    } // namespace transform
 
     class GroupTransform
     {
         Mat4f m_final_transform = Mat4fIdentity;
-        std::vector<transformation::Transform> m_transformations = {};
+        std::vector<transform::Transform> m_transformations = {};
 
     public:
-        GroupTransform() = default;
-        explicit GroupTransform(const std::vector<transformation::Transform> &mTransformations) :
-            m_transformations(mTransformations)
-        {
-        }
-
         Mat4f GetTransformMatrix() const { return m_final_transform; }
-        void AddTransform(const transformation::Transform &transform) { m_transformations.push_back(transform); }
-        std::vector<transformation::Transform> &GetTransformations() { return m_transformations; }
+        void AddTransform(const transform::Transform &transform) { m_transformations.push_back(transform); }
+        std::vector<transform::Transform> &GetTransformations() { return m_transformations; }
         void RemoveTransform(const size_t index) { m_transformations.erase(m_transformations.begin() + index); }
         inline void UpdateTransformMatrix()
         {

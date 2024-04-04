@@ -50,6 +50,34 @@ namespace engine
         return true;
     }
 
+    OperatingSystem getOS()
+    {
+#ifdef _WIN32
+        return OperatingSystem::WINDOWS;
+#elif __APPLE__
+        return OperatingSystem::MACOS;
+#elif __linux__
+        return OperatingSystem::LINUX;
+#else
+        return OperatingSystem::UNKNOWN;
+#endif
+    }
+
+    static const char *GetOSName(OperatingSystem os)
+    {
+        switch (os)
+        {
+            case OperatingSystem::WINDOWS:
+                return "Windows";
+            case OperatingSystem::LINUX:
+                return "Linux";
+            case OperatingSystem::MACOS:
+                return "MacOS";
+            case OperatingSystem::UNKNOWN:
+                return "Unknown";
+        }
+    }
+
     bool Engine::Init()
     {
         glfwSetErrorCallback(glfw_error_callback);
@@ -57,6 +85,8 @@ namespace engine
             return false;
 
         loadWorld();
+
+        m_os = getOS();
 
         const int width = m_world.GetWindow().width;
         const int height = m_world.GetWindow().height;
@@ -76,6 +106,9 @@ namespace engine
             std::cerr << "Glew Error: " << glewGetErrorString(err) << std::endl;
             return false;
         }
+
+        if (m_os == OperatingSystem::MACOS)
+            m_settings.mssa = false;
 
         SetVsync(m_settings.vsync);
         SetMssa(m_settings.mssa);
@@ -417,13 +450,13 @@ namespace engine
         ImGui_ImplOpenGL2_Init();
     }
 
-    const char *getTransformationName(const world::transformation::Transform &transform)
+    const char *getTransformationName(const world::transform::Transform &transform)
     {
-        if (std::holds_alternative<world::transformation::Rotation>(transform))
+        if (std::holds_alternative<world::transform::Rotation>(transform))
             return "Rotation";
-        if (std::holds_alternative<world::transformation::Translation>(transform))
+        if (std::holds_alternative<world::transform::Translation>(transform))
             return "Translation";
-        if (std::holds_alternative<world::transformation::Scale>(transform))
+        if (std::holds_alternative<world::transform::Scale>(transform))
             return "Scale";
         return "Unknown";
     }
@@ -447,7 +480,7 @@ namespace engine
 
             struct TransformDragDropPayload
             {
-                world::transformation::Transform *origin;
+                world::transform::Transform *origin;
                 world::WorldGroup *group;
                 int group_index;
             };
@@ -464,21 +497,21 @@ namespace engine
                 {
                     if (ImGui::MenuItem("Rotation"))
                     {
-                        world_group.transformations.AddTransform(world::transformation::Rotation());
+                        world_group.transformations.AddTransform(world::transform::Rotation());
                         world_group.transformations.UpdateTransformMatrix();
                         ImGui::CloseCurrentPopup();
                     }
 
                     if (ImGui::MenuItem("Translation"))
                     {
-                        world_group.transformations.AddTransform(world::transformation::Translation());
+                        world_group.transformations.AddTransform(world::transform::Translation());
                         world_group.transformations.UpdateTransformMatrix();
                         ImGui::CloseCurrentPopup();
                     }
 
                     if (ImGui::MenuItem("Scale"))
                     {
-                        world_group.transformations.AddTransform(world::transformation::Scale());
+                        world_group.transformations.AddTransform(world::transform::Scale());
                         world_group.transformations.UpdateTransformMatrix();
                         ImGui::CloseCurrentPopup();
                     }
@@ -514,9 +547,9 @@ namespace engine
                         world_group.transformations.UpdateTransformMatrix();
                     }
 
-                    if (std::holds_alternative<world::transformation::Rotation>(transform))
+                    if (std::holds_alternative<world::transform::Rotation>(transform))
                     {
-                        auto &rotation = std::get<world::transformation::Rotation>(transform);
+                        auto &rotation = std::get<world::transform::Rotation>(transform);
                         float angle = radians_to_degrees(rotation.angle_rads);
                         if (ImGui::DragFloat3("Axis", &rotation.axis.x, 0.05f))
                         {
@@ -529,17 +562,17 @@ namespace engine
                             world_group.transformations.UpdateTransformMatrix();
                         }
                     }
-                    else if (std::holds_alternative<world::transformation::Translation>(transform))
+                    else if (std::holds_alternative<world::transform::Translation>(transform))
                     {
-                        if (auto &translation = std::get<world::transformation::Translation>(transform);
+                        if (auto &translation = std::get<world::transform::Translation>(transform);
                             ImGui::DragFloat3("Coordinates", &translation.translation.x, 0.05f))
                         {
                             world_group.transformations.UpdateTransformMatrix();
                         }
                     }
-                    else if (std::holds_alternative<world::transformation::Scale>(transform))
+                    else if (std::holds_alternative<world::transform::Scale>(transform))
                     {
-                        if (auto &scale = std::get<world::transformation::Scale>(transform);
+                        if (auto &scale = std::get<world::transform::Scale>(transform);
                             ImGui::DragFloat3("Axis", &scale.scale.x, 0.05f))
                         {
                             world_group.transformations.UpdateTransformMatrix();
@@ -741,8 +774,15 @@ namespace engine
                     SetMssa(m_settings.mssa);
                 }
 
+                if (m_os == OperatingSystem::MACOS)
+                {
+                    ImGui::SameLine();
+                    ImGui::TextDisabled("(Broken on MacOS)");
+                }
+
                 ImGui::SeparatorText("Environment Information");
 
+                ImGui::BulletText("Detected Operating System: %s", GetOSName(m_os));
                 ImGui::BulletText("MSSA Samples: %zu", m_settings.mssa_samples);
                 ImGui::BulletText("GLEW Version: %s", m_system_environment.glew_version.c_str());
                 ImGui::BulletText("GLFW Version: %s", m_system_environment.glfw_version.c_str());

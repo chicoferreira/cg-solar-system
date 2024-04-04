@@ -3,7 +3,6 @@
 #include <iostream>
 
 #include "Utils.h"
-#include "WorldSerde.h"
 
 const std::vector<std::string> SCENES_PATHS_TO_SEARCH = {"assets/scenes/", "./"};
 

@@ -56,13 +56,13 @@ namespace world::serde
                     Vec3f translate;
                     LOAD_VEC3F(transform_element, translate, std::nullopt)
 
-                    group.transformations.AddTransform(transformation::Translation(translate));
+                    group.transformations.AddTransform(transform::Translation(translate));
                 }
                 else if (strcmp(transform_element->Name(), "scale") == 0)
                 {
                     Vec3f scale;
                     LOAD_VEC3F(transform_element, scale, std::nullopt)
-                    group.transformations.AddTransform(transformation::Scale(scale));
+                    group.transformations.AddTransform(transform::Scale(scale));
                 }
                 else if (strcmp(transform_element->Name(), "rotate") == 0)
                 {
@@ -74,7 +74,7 @@ namespace world::serde
                         "Rotate missing angle attribute.",
                         std::nullopt
                     )
-                    group.transformations.AddTransform(transformation::Rotation(degrees_to_radians(angle), axis));
+                    group.transformations.AddTransform(transform::Rotation(degrees_to_radians(angle), axis));
                 }
             }
             group.transformations.UpdateTransformMatrix();
@@ -196,33 +196,33 @@ namespace world::serde
             tinyxml2::XMLElement *transform_element = doc.NewElement("transform");
             parent_element->InsertEndChild(transform_element);
 
-            for (transformation::Transform &transform : group.transformations.GetTransformations())
+            for (transform::Transform &transform : group.transformations.GetTransformations())
             {
-                if (std::holds_alternative<transformation::Translation>(transform))
+                if (std::holds_alternative<transform::Translation>(transform))
                 {
                     tinyxml2::XMLElement *translate_element = doc.NewElement("translate");
                     transform_element->InsertEndChild(translate_element);
 
-                    const Vec3f &translate = std::get<transformation::Translation>(transform).translation;
+                    const Vec3f &translate = std::get<transform::Translation>(transform).translation;
                     XmlSetVec3fAttribute(translate_element, translate);
                 }
-                else if (std::holds_alternative<transformation::Scale>(transform))
+                else if (std::holds_alternative<transform::Scale>(transform))
                 {
                     tinyxml2::XMLElement *scale_element = doc.NewElement("scale");
                     transform_element->InsertEndChild(scale_element);
 
-                    const Vec3f &scale = std::get<transformation::Scale>(transform).scale;
+                    const Vec3f &scale = std::get<transform::Scale>(transform).scale;
                     XmlSetVec3fAttribute(scale_element, scale);
                 }
-                else if (std::holds_alternative<transformation::Rotation>(transform))
+                else if (std::holds_alternative<transform::Rotation>(transform))
                 {
                     tinyxml2::XMLElement *rotate_element = doc.NewElement("rotate");
                     transform_element->InsertEndChild(rotate_element);
 
-                    const Vec3f &axis = std::get<transformation::Rotation>(transform).axis;
+                    const Vec3f &axis = std::get<transform::Rotation>(transform).axis;
                     XmlSetVec3fAttribute(rotate_element, axis);
 
-                    float angle_rads = std::get<transformation::Rotation>(transform).angle_rads;
+                    float angle_rads = std::get<transform::Rotation>(transform).angle_rads;
                     float angle = radians_to_degrees(angle_rads);
                     rotate_element->SetAttribute("angle", angle);
                 }

@@ -12,6 +12,14 @@
 
 namespace engine
 {
+    enum class OperatingSystem
+    {
+        WINDOWS,
+        LINUX,
+        MACOS,
+        UNKNOWN,
+    };
+
     class EngineSystemEnvironment
     {
     public:
@@ -82,6 +90,8 @@ namespace engine
         ImGuiIO *io = nullptr;
 
         GLFWwindow *m_window = nullptr;
+        OperatingSystem m_os = OperatingSystem::UNKNOWN;
+
         void setupEnvironment();
 
         void initImGui();
