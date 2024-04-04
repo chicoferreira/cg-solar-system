@@ -112,7 +112,7 @@ void renderGroup(WorldGroup &group) {
 
 Devido à função `glMultMatrixf` do _OpenGL_ interpretar as matrizes em _column-order_ em vez de _row-order_ (como é em _arrays_ bidimensionais em _C++_), a matriz final de transformação (@transform_equation) também tem que ser transposta antes de ser enviada para o _OpenGL_.
 
-== Visualização e manipulação das transformações
+== Visualização e manipulação das transformações <transform_imgui>
 
 Mostrar IMGUI e as suas manipulação de transformações
 
@@ -129,6 +129,14 @@ Decoupled with framerate
 falar tambem da Nova view dos modelos https://github.com/chicoferreira/cg-solar-system/issues/29.
 
 = Serialização do Mundo
+
+Para implementação da geração do mundo do sistema solar, seria necessário uma forma de criação de mundos no formato _XML_. Para aproveitar as APIs já existentes de cálculos matemáticos, o carregamento do mundo foi estendido para também suportar escrita de mundos em _XML_. 
+
+Desta forma, agora, um mundo carregado em memória pode ser guardado num ficheiro _XML_, e um mundo guardado num ficheiro _XML_ pode ser carregado em memória, tendo assim operações de _serialização_ e _deserialização_ implementadas.
+
+Esta funcionalidade foi implementada também com a biblioteca _tinyxml2_ @tinyxml2, que também já foi usada na fase anterior para a leitura de mundos.
+
+Isto veio com uma vantagem que, o mundo pode ser guardado em _runtime_, estendendo assim a criação de mundos para o utilizador dinamicamente, que pode modificar o mundo a partir das funcionalidades mostradas no capítulo @transform_imgui e guardá-lo em disco para uso posterior.
 
 = Primeira versão do Sistema Solar
 
