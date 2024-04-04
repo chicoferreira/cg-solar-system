@@ -222,7 +222,11 @@ Agora, as estruturas dos modelos foi movida para dentro da estrutura do mundo co
   })), caption: [Com identificadores de modelo])
 )
 
+== Modelos no _ImGui_
 
+A visualização dos modelos no _ImGui_ também foi atualizada para constatar as mudanças nas estruturas de dados e mostrar novas informações sobre o modelo.
+
+#figure(image("fase2/models.png"), caption: "Visualização dos modelos no ImGui")
 
 = Serialização do Mundo
 
@@ -233,6 +237,15 @@ Desta forma, agora, um mundo carregado em memória pode ser guardado num ficheir
 Esta funcionalidade foi implementada também com a biblioteca _tinyxml2_ @tinyxml2, que também já foi usada na fase anterior para a leitura de mundos.
 
 Isto veio com uma vantagem que, o mundo pode ser guardado em _runtime_, estendendo assim a criação de mundos para que o utilizador, dinamicamente, possa modificar o mundo a partir das funcionalidades mostradas no capítulo @transform_imgui e guardá-lo em disco para uso posterior.
+
+== Funcionalidade de _Reload_
+
+#let reload_button = box(stroke: black, radius: 25pt, inset: (x: 4pt), outset: (y: 2.4pt))[Reload]
+
+Com o _refactor_ feito devido à implementação da serialização de mundos, também foi implementado um botão de #reload_button no _ImGui_, que relê o arquivo XML do mundo e altera o estado do mundo para o que foi lido. Este botão também funciona como um _reset_ da _scene_ caso não tenham havido mudanças.
+
+#figure(image("fase2/reload.png", width: 70%), caption: [Botão de #reload_button no _ImGui_])
+
 
 = Primeira versão do Sistema Solar
 
