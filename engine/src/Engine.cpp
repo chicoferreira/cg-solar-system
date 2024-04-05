@@ -214,42 +214,27 @@ namespace engine
 
     void UpdateCameraRotation(world::Camera &camera, float x_offset, float y_offset)
     {
+        x_offset = degrees_to_radians(x_offset) * sensitivity;
+        y_offset = degrees_to_radians(y_offset) * sensitivity;
+
         float radius, alpha, beta;
-        x_offset = degrees_to_radians(x_offset);
-        y_offset = degrees_to_radians(y_offset);
-
+        auto direction = camera.position - camera.looking_at;
         if (camera.first_person_mode)
         {
-            (camera.looking_at - camera.position).ToSpherical(radius, alpha, beta);
-            alpha -= x_offset * sensitivity;
-            beta += y_offset * sensitivity;
-        }
-        else
-        {
-            (camera.position - camera.looking_at).ToSpherical(radius, alpha, beta);
-
-            alpha -= x_offset * sensitivity;
-            beta -= y_offset * sensitivity;
+            direction = -direction;
+            y_offset = -y_offset;
         }
 
-        if (beta > M_PI_2)
-        {
-            beta = M_PI_2 - 0.001f;
-        }
-        else if (beta < -M_PI_2)
-        {
-            beta = -M_PI_2 + 0.001f;
-        }
+        direction.ToSpherical(radius, alpha, beta);
 
-        const auto after = Vec3fSpherical(radius, alpha, beta);
+        alpha -= x_offset;
+        beta = std::clamp(beta - y_offset, -static_cast<float>(M_PI_2) + 0.001f, static_cast<float>(M_PI_2) - 0.001f);
+
+        const auto new_direction = Vec3fSpherical(radius, alpha, beta);
         if (camera.first_person_mode)
-        {
-            camera.looking_at = after + camera.position;
-        }
+            camera.looking_at = new_direction + camera.position;
         else
-        {
-            camera.position = after + camera.looking_at;
-        }
+            camera.position = new_direction + camera.looking_at;
     }
 
     void TickCamera(world::Camera &camera, const Vec3f input_movement, const float scroll_input, const float timestep)

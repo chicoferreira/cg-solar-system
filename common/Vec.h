@@ -37,6 +37,7 @@ struct Vec3f
     constexpr Vec3f operator/(const float length) const { return {x / length, y / length, z / length}; }
     constexpr float operator[](const int i) const { return i == 0 ? x : i == 1 ? y : z; }
     constexpr float &operator[](const int i) { return i == 0 ? x : i == 1 ? y : z; }
+    constexpr Vec3f operator-() { return {-x, -y, -z}; }
     constexpr auto with_y(const float new_y) const { return Vec3f{x, new_y, z}; }
     float Length() const { return sqrtf(x * x + y * y + z * z); }
 
