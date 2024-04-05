@@ -145,13 +145,13 @@ Com a mesma ação, dá também para mover a transformação de um grupo para ou
 
 Estas funcionalidades interativas serão essenciais para atingir o objetivo pretendido.
 
-= Camera primeira pessoa
+= Câmera primeira pessoa
 
-Como os requisitos desta fase não foram muito extensos, nem envolveram muitos _rewrites_ de código na _engine_, implementamos também o modo de camera em primeira pessoa.
+Como os requisitos desta fase não foram muito extensos, nem envolveram muitos _rewrites_ de código na _engine_, implementamos também o modo de câmera em primeira pessoa.
 
-Este modo baseia-se na mesma função `gluLookAt` que a camera em terceira pessoa também usa. Com isto, a alteração entre os modos de primeira-pessoa e terceira-pessoa não causam alterações na posição camera #footnote[Isto poderia acontecer devido a, por exemplo, usar-se variáveis de `yaw` e `pitch` diferentes para cada um dos modos.], o que torna a experiência de utilização muito mais intuitiva.
+Este modo baseia-se na mesma função `gluLookAt` que a câmera em terceira pessoa também usa. Com isto, a alteração entre os modos de primeira-pessoa e terceira-pessoa não causam alterações na posição câmera #footnote[Isto poderia acontecer devido a, por exemplo, usar-se variáveis de `yaw` e `pitch` diferentes para cada um dos modos.], o que torna a experiência de utilização muito mais intuitiva.
 
-O cálculo de atualização da camera em primeira-pessoa conforme o movimento do rato é muito semelhante à atualização dela em terceira-pessoa. Como foi descrito no relatório anterior, a partir de cálculos de coordenadas esféricas a partir de cartesianas é possível conseguir os valores de raio e ângulos $alpha$ e $beta$ da camera atual, somar a diferença de movimento do rato a esses ângulos, e converter de volta para coordenadas cartesianas. A diferença é que, em vez de se atualizar as coordenadas de posição da camera, em primeira-pessoa, atualiza-se as coordenadas do _looking at_.
+O cálculo de atualização da câmera em primeira-pessoa conforme o movimento do rato é muito semelhante à atualização dela em terceira-pessoa. Como foi descrito no relatório anterior, a partir de cálculos de coordenadas esféricas a partir de cartesianas é possível conseguir os valores de raio e ângulos $alpha$ e $beta$ da câmera atual, somar a diferença de movimento do rato a esses ângulos, e converter de volta para coordenadas cartesianas. A diferença é que, em vez de se atualizar as coordenadas de posição da câmera, em primeira-pessoa, atualiza-se as coordenadas do _looking at_.
 
 ```cpp
 void UpdateCameraRotation(world::Camera &camera, float x_offset, float y_offset) {
@@ -180,13 +180,13 @@ void UpdateCameraRotation(world::Camera &camera, float x_offset, float y_offset)
 }
 ```
 
-Em primeira-pessoa, o vetor direção é invertido visto que, em primeira pessoa, queremos mover a camera à volta dela e não em torno do _looking at_. O _y offset_ também é invertido para o movimento do rato ser traduzido num movimento mais natural da camera.
+Em primeira-pessoa, o vetor direção é invertido visto que, em primeira pessoa, queremos mover a câmera à volta dela e não em torno do _looking at_. O _y offset_ também é invertido para o movimento do rato ser traduzido num movimento mais natural da câmera.
 
-No fim, a camera é atualizada com a soma do vetor direção com a posição da camera (em primeira-pessoa) ou com o _looking at_ (em terceira-pessoa), para que o movimento da camera seja feito em relação a esses pontos.
+No fim, a câmera é atualizada com a soma do vetor direção com a posição da câmera (em primeira-pessoa) ou com o _looking at_ (em terceira-pessoa), para que o movimento da câmera seja feito em relação a esses pontos.
 
 == Movimento
 
-Para o movimento, a cada renderização de _frame_, a camera é alimentada com os valores de _input_ do teclado, se estiver em primeira pessoa, e _scroll_ do rato.
+Para o movimento, a cada renderização de _frame_, a câmera é alimentada com os valores de _input_ do teclado, se estiver em primeira pessoa, e _scroll_ do rato.
 
 Este _input_ é um vetor que representa para onde o utilizador pretende andar.
 - `W` pressionado $->$ $(0,0,1)$ $->$ Andar para frente
@@ -198,7 +198,7 @@ Este _input_ é um vetor que representa para onde o utilizador pretende andar.
 
 Para movimentações diagonais, por exemplo, várias destas teclas podem ser pressionadas ao mesmo tempo, e com isso, o vetor _input_ será a soma dos vetores associados a todas as teclas pressionadas.
 
-Com o vetor _input_, são calculados dois vetores, um que representa a direção para a frente da camera, e outro que representa a direção para a direita da camera.
+Com o vetor _input_, são calculados dois vetores, um que representa a direção para a frente da câmera, e outro que representa a direção para a direita da câmera.
 
 #math.equation(block: true, numbering: "(1)", $
 arrow(f) = norm(arrow(italic("looking_at")) - arrow(italic("position")))
@@ -208,7 +208,7 @@ $)
 arrow(r) = norm(arrow(f) times arrow(italic("up")))
 $)
 
-Sendo, $arrow(f)$ o vetor de direção para a frente da camera, $arrow(r)$ o vetor de direção para a direita da camera, $arrow(italic("looking_at"))$, $arrow(italic("position"))$ e $arrow(italic("up"))$ vetores presentes nas informações da camera, $arrow(a) times arrow(b)$ o produto externo entre $arrow(a)$ e $arrow(b)$ e $norm(arrow(a))$ o vetor normalizado de $arrow(a)$.
+Sendo, $arrow(f)$ o vetor de direção para a frente da câmera, $arrow(r)$ o vetor de direção para a direita da câmera, $arrow(italic("looking_at"))$, $arrow(italic("position"))$ e $arrow(italic("up"))$ vetores presentes nas informações da câmera, $arrow(a) times arrow(b)$ o produto externo entre $arrow(a)$ e $arrow(b)$ e $norm(arrow(a))$ o vetor normalizado de $arrow(a)$.
 
 Com isto, o vetor direção final pode ser calculado da seguinte forma:
 
@@ -222,11 +222,11 @@ De notar que os movimentos no eixo $x z$ são normalizados, pois, caso contrári
 
 === Suavidade no movimento
 
-Para dar um _feedback_ de utilização agradável ao utilizador, a camera move-se conforme equações físicas de aceleração e velocidade. 
+Para dar um _feedback_ de utilização agradável ao utilizador, a câmera move-se conforme equações físicas de aceleração e velocidade. 
 
-A cada _frame_, a camera é atualizada com a função `TickCamera` que recebe o vetor _input_ e o _timestep_ (tempo que passou desde o último _frame_). Este _timestep_ é calculado a partir da diferença do `glfwGetTime` @glfw entre o _frame_ atual e o _frame_ anterior #footnote[Isto trata-se apenas de uma aproximação visto que o _Framerate_ pode não ser constante, mas como não estamos num cenário onde operações têm de ser precisas (por exemplo, em colisões de objetos), não há grande problema.].
+A cada _frame_, a câmera é atualizada com a função `TickCamera` que recebe o vetor _input_ e o _timestep_ (tempo que passou desde o último _frame_). Este _timestep_ é calculado a partir da diferença do `glfwGetTime` @glfw entre o _frame_ atual e o _frame_ anterior #footnote[Isto trata-se apenas de uma aproximação visto que o _Framerate_ pode não ser constante, mas como não estamos num cenário onde operações têm de ser precisas (por exemplo, em colisões de objetos), não há grande problema.].
 
-Desta forma, o nosso _loop_ principal da _engine_ foi alterado para incluir a atualização da camera a cada _frame_.
+Desta forma, o nosso _loop_ principal da _engine_ foi alterado para incluir a atualização da câmera a cada _frame_.
 
 #align(center, ```cpp
 void Engine::Run() {
@@ -243,7 +243,7 @@ void Engine::Run() {
 }
 ```)
 
-Para se concretizar o movimento suave, foram adicionados parâmetros de velocidade, velocidade máxima, aceleração e fricção à camera. Voltando à função `TickCamera`, esta função é responsável por atualizar esses parametros conforme o _input_ do utilizador.
+Para se concretizar o movimento suave, foram adicionados parâmetros de velocidade, velocidade máxima, aceleração e fricção à câmera. Voltando à função `TickCamera`, esta função é responsável por atualizar esses parametros conforme o _input_ do utilizador.
 
 Esses parametros são atualizados da seguinte forma:
 
@@ -255,15 +255,15 @@ $)
 arrow(p) = arrow(v) times Delta t
 $)
 
-Sendo $arrow(v)$ o vetor velocidade da camera, $arrow(d)$ o vetor direção calculado anteriormente, $italic("camera")_italic("acceleration/s")$ uma constante da camera, $Delta t$ o intervalo de tempo entre _frames_.
+Sendo $arrow(v)$ o vetor velocidade da câmera, $arrow(d)$ o vetor direção calculado anteriormente, $italic("camera")_italic("acceleration/s")$ uma constante da câmera, $Delta t$ o intervalo de tempo entre _frames_.
 
-Caso o utilizador não esteja a pressionar nenhuma tecla de movimento de _input_, a velocidade da camera é atualizada da seguinte forma:
+Caso o utilizador não esteja a pressionar nenhuma tecla de movimento de _input_, a velocidade da câmera é atualizada da seguinte forma:
 
 #math.equation(block: true, numbering: "(1)", $
 arrow(v)_n = arrow(v)_a times italic("camera")_italic("friction/s") times Delta t
 $)
 
-Sendo $arrow(v)_n$ a nova velocidade, $arrow(v)_a$ a velocidade anterior e $italic("camera")_italic("friction/s")$ uma constante na camera.
+Sendo $arrow(v)_n$ a nova velocidade, $arrow(v)_a$ a velocidade anterior e $italic("camera")_italic("friction/s")$ uma constante na câmera.
 
 A lógica de implementação desta funcionalidade pode ser vista aqui:
 
@@ -296,11 +296,11 @@ void TickCamera(world::Camera &camera, const Vec3f input, const float timestep) 
 ```
 ]
 
-A mesma lógica também foi aplicada ao _scroll_ do rato que agora dá _zoom in_ e _zoom out_ suavemente independente do modo da camera (primeira ou terceira pessoa).
+A mesma lógica também foi aplicada ao _scroll_ do rato que agora dá _zoom in_ e _zoom out_ suavemente independente do modo da câmera (primeira ou terceira pessoa).
 
 Estes parametros podem ser vistos e editados em tempo real na aba _"Camera"_ do _ImGui_.
 
-#figure(image("fase2/camera.png", width: 75%), caption: [Visualização dos novos parâmetros da camera no _ImGui_])
+#figure(image("fase2/camera.png", width: 75%), caption: [Visualização dos novos parâmetros da câmera no _ImGui_])
 
 = Repetição de Modelos
 
@@ -427,9 +427,63 @@ Com o _refactor_ feito devido à implementação da serialização de mundos, ta
 
 = Primeira versão do Sistema Solar
 
+Com todas as funcionalidades implementadas, prosseguimos para a criação do gerador do sistema solar.
+
+O sistema solar é gerado com o programa gerador, sendo um novo tipo de gerador possível (para além dos geradores de cubos e esferas).
+
+```sh
+$ generator solar-system <sun size scale factor> <planet distance scale factor> <scene scale factor> <output file>
+```
+
+As informações dos planetas (com os seus satélites) do sistema solar como diâmetro, distância ao sol, período de rotação, período de translação, etc. foram retiradas do _dataset_ https://devstronomy.martinovo.net/ e estão guardadas na pasta `assets/planets/`.
+
+Como no CSV do _dataset_ estão presente distâncias demasiado grandes que não podem ser representadas em escala real no nosso mundo, foi necessário aplicar um fator de escala para todas as distâncias e tamanhos dos planetas do sistema solar. Este fator de escala é passado como argumento ao gerador.
+
+Para alivar a distância entre os planetas, foi também aplicado um fator de escala para as distâncias entre os planetas e o sol para que a nossa representação do sistema solar tenha os planetas mais juntos. Também passado como argumento ao gerador.
+
+Os planetas também são rodados ligeiramente de acordo com o ângulo de inclinação do seu plano orbital, retirado do mesmo _dataset_.
+
+Como o modelo para já é estático, a posição do planeta foi escolhido aleatóriamente para cada planeta, de acordo com a sua distância ao sol, recorrendo a coordenadas esféricas.
+
+Aplicando os fatores de escala vimos que alguns satélites de alguns planetas ficavam demasiado pequenos, então também tivemos que aplicar um valor mínimo para o tamanho do planeta.
+
+Com isto ainda, para poupar recursos, em planetas que o seu tamanho sejam menor que 0.05 de unidades de tamanho no nosso mundo, o modelo do planeta é substituido por um modelo de esfera com menos detalhe (de 20 _stacks_ e _slices_ para 10 _stacks_ e _slices_).
+
+Com isto, a estrutura do _XML_ do sistema solar gerado é a seguinte:
+
+- Grupo principal 
+    - Grupos planetários
+        - Transformações
+            - Translação para a posição do planeta
+            - Rotação para o ângulo de inclinação do plano orbital
+        - Grupo planeta
+            - Transformações
+                - Escala para o tamanho do planeta
+            - Modelo do planeta
+        - Grupos satélites
+            - Transformações
+                - Translação para a distância da lua ao planeta
+                - Escala para o tamanho do satélite
+
+Os satélites dos planetas são gerados à volta do planeta, com o seu ângulo aleatório. A distância do satélite ao planeta é relacionado com o tamanho do planetas, visto que a distância real ficava demasiado grande para a nossa representação.
+
+#pagebreak()
+
+A primeira versão do sistema solar gerado pode ser vista na seguinte imagem:
+
+#figure(image("fase2/solar_system.png", width: 70%), caption: [Primeira versão do sistema solar gerado])
+
+Para já o sistema solar está muito crú, sem texturas, sem movimento, sem efeitos de luzes, mas temos a ambição de fazer um sistema solar muito mais detalhado e realista com, por exemplo, anéis de saturno e júpiter, efeitos de _bloom_, para além dos requisitos pedidos no enunciado.
+
+
 #heading(numbering:none)[Conclusão]
 
-O projeto ta top. a visão que temos nele é se tornar um editor capaz de edição em tempo real de cenas complexas e elaboradas. O CI que foi feito na fase anterior já veio a ser útil a detetar algumas incompatibilidades ou mudanças no C++ do Linux/Mac em relação ao Windows.
+O desenvolvimento do projeto está a decorrer positivamente, com o projeto a ganhar forma e a tornar-se cada vez mais complexo e interessante. A implementação do sistema de hierarquias de transformações geométricas com a visualização e manipulação no _ImGui_ foi um grande passo para a usabilidade da _engine_. A câmera suave foi um grande _quality of life_ para o utilizador, e a serialização do mundo e o gerador do sistema solar são funcionalidades que vão ser essenciais para a criação de cenas mais complexas e para a criação de cenas dinâmicas.
 
+A CI implementada na fase anterior já se provou útil para detetar problemas de compatibilidades entre plataformas.
+
+O grupo está satisfeito com o progresso feito até agora e está ansioso para continuar a desenvolver o projeto.
+
+#pagebreak()
 
 #bibliography("bibliography.bib")

@@ -9,3 +9,5 @@ CMakeCache.txt
 CMakeFiles/
 
 reports/src/*.pdf
+
+.DS_STORE
