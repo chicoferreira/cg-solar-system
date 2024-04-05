@@ -7,3 +7,7 @@ cmake-build-debug-visual-studio
 imgui.ini
 CMakeCache.txt
 CMakeFiles/
+
+reports/src/*.pdf
+
+.DS_STORE

@@ -1,0 +1,19 @@
+name: Render reports
+on:
+    push:
+        paths:
+            - 'reports/src/**'
+jobs:
+    render-reports:
+        runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                fase: [1, 2]
+        steps:
+            - uses: actions/checkout@v4
+            - uses: typst-community/setup-typst@v3
+            - run: typst compile reports/src/fase${{ matrix.fase }}.typ reports/relatório-fase-${{ matrix.fase }}.pdf
+            - uses: actions/upload-artifact@v4
+              with:
+                  name: fase${{ matrix.fase }}
+                  path: reports/relatório-fase-${{ matrix.fase }}.pdf
