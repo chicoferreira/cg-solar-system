@@ -216,7 +216,7 @@ Com isto, o vetor direção final pode ser calculado da seguinte forma:
 arrow(d) = norm(arrow(f) times arrow(i)_z + arrow(r) times arrow(i)_x) + arrow(italic("up")) times arrow(i)_y
 $)
 
-Sendo $arrow(i)$ o tal vetor de _input_ e as váriaveis denotadas anteriormente. Atenção que as multiplicações aqui (ex: $arrow(f) times arrow(i)_z$) não denotam produtos externos mas sim multiplicações de vetores por valores.
+Sendo $arrow(i)$ o tal vetor de _input_ e as variáveis denotadas anteriormente. Atenção que as multiplicações aqui (ex: $arrow(f) times arrow(i)_z$) não denotam produtos externos, mas sim multiplicações de vetores por valores.
 
 De notar que os movimentos no eixo $x z$ são normalizados, pois, caso contrário, o movimento na diagonal seria mais rápido do que o movimento horizontal #footnote[O vetor $(1,0,1)$ tem tamanho $sqrt(2)$, não é unitário.]. A normalização não inclui o eixo $y$ para dar mais liberdade de movimentação ao utilizador na subida e descida enquanto se move horizontalmente.
 
@@ -243,9 +243,9 @@ void Engine::Run() {
 }
 ```)
 
-Para se concretizar o movimento suave, foram adicionados parâmetros de velocidade, velocidade máxima, aceleração e fricção à câmera. Voltando à função `TickCamera`, esta função é responsável por atualizar esses parametros conforme o _input_ do utilizador.
+Para se concretizar o movimento suave, foram adicionados parâmetros de velocidade, velocidade máxima, aceleração e fricção à câmera. Voltando à função `TickCamera`, esta função é responsável por atualizar esses parâmetros conforme o _input_ do utilizador.
 
-Esses parametros são atualizados da seguinte forma:
+Esses parâmetros são atualizados da seguinte forma:
 
 #math.equation(block: true, numbering: "(1)", $
 arrow(v) = arrow(d) times italic("camera")_italic("acceleration/s") times Delta t
@@ -298,7 +298,7 @@ void TickCamera(world::Camera &camera, const Vec3f input, const float timestep) 
 
 A mesma lógica também foi aplicada ao _scroll_ do rato que agora dá _zoom in_ e _zoom out_ suavemente independente do modo da câmera (primeira ou terceira pessoa).
 
-Estes parametros podem ser vistos e editados em tempo real na aba _"Camera"_ do _ImGui_.
+Estes parâmetros podem ser vistos e editados em tempo real na aba _"Camera"_ do _ImGui_.
 
 #figure(image("fase2/camera.png", width: 75%), caption: [Visualização dos novos parâmetros da câmera no _ImGui_])
 
@@ -308,7 +308,7 @@ Devido à grande quantidade de luas e planetas no sistema solar, que irão utili
 
 Anteriormente, a estrutura do modelo, estava guardada dentro da lista de modelos de um `WorldGroup`. Isto trará problemas de memória e lentidão de carregamento em cenas pesadas, que contenham modelos repetidos.
 
-Agora, as estruturas dos modelos foi movida para dentro da estrutura do mundo completo, e dentro do `WorldGroup` guarda-se apenas um inteiro que representa o índice do modelo na lista de modelos do mundo.
+Agora, a estrutura dos modelos foi movida para dentro da estrutura do mundo completo, e dentro do `WorldGroup` guarda-se apenas um inteiro que representa o índice do modelo na lista de modelos do mundo.
 
 #import "@preview/fletcher:0.4.3" as fletcher: diagram, node, edge
 
@@ -408,7 +408,7 @@ A visualização dos modelos no _ImGui_ também foi atualizada para constatar as
 
 = Serialização do Mundo
 
-Para implementação da geração do mundo do sistema solar, será necessário uma forma programática de criação de mundos no formato _XML_. Para aproveitar as APIs já existentes de cálculos matemáticos, o carregamento do mundo da nossa _engine_ foi estendido para também suportar escrita de mundos em _XML_. 
+Para implementação da geração do mundo do sistema solar, será necessária uma forma programática de criação de mundos no formato _XML_. Para aproveitar as APIs já existentes de cálculos matemáticos, o carregamento do mundo da nossa _engine_ foi estendido para também suportar escrita de mundos em _XML_. 
 
 Desta forma, agora, um mundo carregado em memória pode ser guardado num ficheiro _XML_, e um mundo guardado num ficheiro _XML_ pode ser carregado em memória, tendo assim operações de _serialização_ e _deserialização_ implementadas.
 
@@ -420,7 +420,7 @@ Isto veio com uma vantagem que, o mundo pode ser guardado em _runtime_, estenden
 
 #let reload_button = imgui_button[Reload]
 
-Com o _refactor_ feito devido à implementação da serialização de mundos, também foi implementado um botão de #reload_button no _ImGui_, que relê o arquivo XML do mundo e altera o estado do mundo para o que foi lido. Este botão também funciona como um _reset_ da _scene_ caso não tenham havido mudanças.
+Com o _refactor_ feito devido à implementação da serialização de mundos, também foi implementado um botão de #reload_button no _ImGui_, que relê o arquivo XML do mundo e altera o estado do mundo para o que foi lido. Este botão também funciona como um _reset_ da _scene_ caso não tenha havido mudanças.
 
 #figure(image("fase2/reload.png", width: 70%), caption: [Botão de #reload_button no _ImGui_])
 
@@ -437,17 +437,17 @@ $ generator solar-system <sun size scale factor> <planet distance scale factor> 
 
 As informações dos planetas (com os seus satélites) do sistema solar como diâmetro, distância ao sol, período de rotação, período de translação, etc. foram retiradas do _dataset_ https://devstronomy.martinovo.net/ e estão guardadas na pasta `assets/planets/`.
 
-Como no CSV do _dataset_ estão presente distâncias demasiado grandes que não podem ser representadas em escala real no nosso mundo, foi necessário aplicar um fator de escala para todas as distâncias e tamanhos dos planetas do sistema solar. Este fator de escala é passado como argumento ao gerador.
+Como no CSV do _dataset_ estão presentes distâncias demasiado grandes que não podem ser representadas em escala real no nosso mundo, foi necessário aplicar um fator de escala para todas as distâncias e tamanhos dos planetas do sistema solar. Este fator de escala é passado como argumento ao gerador.
 
 Para alivar a distância entre os planetas, foi também aplicado um fator de escala para as distâncias entre os planetas e o sol para que a nossa representação do sistema solar tenha os planetas mais juntos. Também passado como argumento ao gerador.
 
 Os planetas também são rodados ligeiramente de acordo com o ângulo de inclinação do seu plano orbital, retirado do mesmo _dataset_.
 
-Como o modelo para já é estático, a posição do planeta foi escolhido aleatóriamente para cada planeta, de acordo com a sua distância ao sol, recorrendo a coordenadas esféricas.
+Como o modelo para já é estático, a posição do planeta foi escolhida aleatoriamente para cada planeta, de acordo com a sua distância ao sol, recorrendo a coordenadas esféricas.
 
 Aplicando os fatores de escala vimos que alguns satélites de alguns planetas ficavam demasiado pequenos, então também tivemos que aplicar um valor mínimo para o tamanho do planeta.
 
-Com isto ainda, para poupar recursos, em planetas que o seu tamanho sejam menor que 0.05 de unidades de tamanho no nosso mundo, o modelo do planeta é substituido por um modelo de esfera com menos detalhe (de 20 _stacks_ e _slices_ para 10 _stacks_ e _slices_).
+Com isto ainda, para poupar recursos, em planetas que o seu tamanho sejam menores que 0.05 de unidades de tamanho no nosso mundo, o modelo do planeta é substituído por um modelo de esfera com menos detalhe (de 20 _stacks_ e _slices_ para 10 _stacks_ e _slices_).
 
 Com isto, a estrutura do _XML_ do sistema solar gerado é a seguinte:
 
@@ -465,15 +465,15 @@ Com isto, a estrutura do _XML_ do sistema solar gerado é a seguinte:
                 - Translação para a distância da lua ao planeta
                 - Escala para o tamanho do satélite
 
-Os satélites dos planetas são gerados à volta do planeta, com o seu ângulo aleatório. A distância do satélite ao planeta é relacionado com o tamanho do planetas, visto que a distância real ficava demasiado grande para a nossa representação.
+Os satélites dos planetas são gerados à volta do planeta, com o seu ângulo aleatório. A distância do satélite ao planeta é relacionada com o tamanho do planeta, visto que a distância real ficava demasiado grande para a nossa representação.
 
 #pagebreak()
 
-A primeira versão do sistema solar gerado pode ser vista na seguinte imagem:
+A primeira versão do sistema solar gerado pode ser visto na seguinte imagem:
 
 #figure(image("fase2/solar_system.png", width: 70%), caption: [Primeira versão do sistema solar gerado])
 
-Para já o sistema solar está muito crú, sem texturas, sem movimento, sem efeitos de luzes, mas temos a ambição de fazer um sistema solar muito mais detalhado e realista com, por exemplo, anéis de saturno e júpiter, efeitos de _bloom_, para além dos requisitos pedidos no enunciado.
+Para já o sistema solar está muito cru, sem texturas, sem movimento, sem efeitos de luzes, mas temos a ambição de fazer um sistema solar muito mais detalhado e realista com, por exemplo, anéis de saturno e Júpiter, efeitos de _bloom_, para além dos requisitos pedidos no enunciado.
 
 
 #heading(numbering:none)[Conclusão]
