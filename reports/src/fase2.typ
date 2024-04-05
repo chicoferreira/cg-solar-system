@@ -406,6 +406,8 @@ A visualização dos modelos no _ImGui_ também foi atualizada para constatar as
 
 #figure(image("fase2/models.png", width: 70%), caption: "Visualização de modelos no ImGui")
 
+#pagebreak()
+
 = Serialização do Mundo
 
 Para implementação da geração do mundo do sistema solar, será necessária uma forma programática de criação de mundos no formato _XML_. Para aproveitar as APIs já existentes de cálculos matemáticos, o carregamento do mundo da nossa _engine_ foi estendido para também suportar escrita de mundos em _XML_. 
