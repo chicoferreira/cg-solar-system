@@ -111,7 +111,7 @@ void Engine::renderGroup(WorldGroup &group) {
 }
 ```)
 
-Devido à função `glMultMatrixf` do _OpenGL_ interpretar as matrizes em _column-order_ em vez de _row-order_ (como é em _arrays_ bidimensionais em _C++_), a matriz final de transformação (@transform_equation) também tem que ser transposta antes de ser enviada para o _OpenGL_.
+Dado que a função glMultMatrixf do OpenGL interpreta as matrizes em column-order, em vez de row-order (como um array bidimensional em C++), a matriz final de transformação (@transform_equation) também tem que ser transposta antes de ser enviada para o _OpenGL_.
 
 == Visualização e manipulação das transformações <transform_imgui>
 
@@ -145,7 +145,7 @@ Com a mesma ação, dá também para mover a transformação de um grupo para ou
 
 Estas funcionalidades interativas serão essenciais para atingir o objetivo pretendido.
 
-= Câmera primeira pessoa
+= Câmera em primeira pessoa
 
 Como os requisitos desta fase não foram muito extensos, nem envolveram muitos _rewrites_ de código na _engine_, implementamos também o modo de câmera em primeira pessoa.
 
@@ -298,7 +298,7 @@ void TickCamera(world::Camera &camera, const Vec3f input, const float timestep) 
 
 A mesma lógica também foi aplicada ao _scroll_ do rato que agora dá _zoom in_ e _zoom out_ suavemente independente do modo da câmera (primeira ou terceira pessoa).
 
-Estes parâmetros podem ser vistos e editados em tempo real na aba _"Camera"_ do _ImGui_.
+Estes parâmetros podem ser vistos e editados em tempo real no separador _"Camera"_ do _ImGui_.
 
 #figure(image("fase2/camera.png", width: 75%), caption: [Visualização dos novos parâmetros da câmera no _ImGui_])
 
@@ -414,13 +414,13 @@ Desta forma, agora, um mundo carregado em memória pode ser guardado num ficheir
 
 Esta funcionalidade foi implementada também com a biblioteca _tinyxml2_ @tinyxml2, que também já foi usada na fase anterior para a leitura de mundos.
 
-Isto veio com uma vantagem que, o mundo pode ser guardado em _runtime_, estendendo assim a criação de mundos para que o utilizador, dinamicamente, possa modificar o mundo a partir das funcionalidades mostradas no capítulo @transform_imgui e guardá-lo em disco para uso posterior.
+Isto traz a vantagem do mundo poder ser guardado em _runtime_, estendendo assim a criação de mundos para que o utilizador, dinamicamente, possa modificar o mundo a partir das funcionalidades mostradas no capítulo @transform_imgui e guardá-lo em disco para uso posterior.
 
 == Funcionalidade de _Reload_
 
 #let reload_button = imgui_button[Reload]
 
-Com o _refactor_ feito devido à implementação da serialização de mundos, também foi implementado um botão de #reload_button no _ImGui_, que relê o arquivo XML do mundo e altera o estado do mundo para o que foi lido. Este botão também funciona como um _reset_ da _scene_ caso não tenha havido mudanças.
+Com o _refactor_ feito devido à implementação da serialização de mundos, também foi implementado um botão de #reload_button no _ImGui_, que relê o arquivo XML do mundo e altera o estado do mundo para o que foi lido. Este botão também funciona como um _reset_ da _scene_ caso não tenham havido mudanças.
 
 #figure(image("fase2/reload.png", width: 70%), caption: [Botão de #reload_button no _ImGui_])
 
