@@ -70,8 +70,6 @@ namespace generator::solarsystem
 
     void GenerateSolarSystem(float sun_size_scale_factor, float planet_distance_scale_factor, float scene_scale_factor)
     {
-
-
         std::vector<Planet> planets = LoadPlanets("assets/planets/planets.csv", "assets/planets/satellites.csv");
         world::World world("assets/scenes/solar_system.xml");
 
@@ -91,7 +89,7 @@ namespace generator::solarsystem
         constexpr float sun_diameter = 1392700.0f;
         const float real_sun_diameter = sun_diameter / scene_scale_factor / sun_size_scale_factor;
         {
-            world::WorldGroup sun_group;
+            world::WorldGroup sun_group = world::WorldGroup("Sun");
             sun_group.models.push_back(sphere_id);
 
             sun_group.transformations.AddTransform(world::transform::Scale(Vec3f(real_sun_diameter)));
@@ -101,7 +99,7 @@ namespace generator::solarsystem
 
         for (const auto &planet : planets)
         {
-            world::WorldGroup planetery_group;
+            world::WorldGroup planetery_group = world::WorldGroup("Planetery of " + planet.name);
 
             const float random_angle = degrees_to_radians(rand() % 360 + 1);
             const float distance =
@@ -114,7 +112,7 @@ namespace generator::solarsystem
                 world::transform::Rotation(degrees_to_radians(planet.orbital_inclination), {1, 0, 0})
             );
 
-            world::WorldGroup planet_group;
+            world::WorldGroup planet_group = world::WorldGroup("Planet " + planet.name);
             planet_group.models.push_back(sphere_id);
 
             const float diameter = planet.diameter / scene_scale_factor;
@@ -127,7 +125,7 @@ namespace generator::solarsystem
 
             for (const auto &moon : planet.moons)
             {
-                world::WorldGroup moon_group;
+                world::WorldGroup moon_group = world::WorldGroup("Moon " + moon.name);
 
                 const float moon_random_angle = degrees_to_radians(rand() % 360 + 1);
                 const float moon_distance_to_planet =

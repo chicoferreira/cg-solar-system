@@ -33,6 +33,10 @@ namespace world::serde
     {
         WorldGroup group;
 
+        const char *name = group_element->Attribute("name");
+        if (name)
+            group.name = name;
+
         if (const auto models_element = group_element->FirstChildElement("models"))
         {
             for (auto model_element = models_element->FirstChildElement("model"); model_element;
@@ -231,6 +235,8 @@ namespace world::serde
         for (WorldGroup &child_group : group.children)
         {
             tinyxml2::XMLElement *group_element = doc.NewElement("group");
+            if (child_group.name != std::nullopt)
+                group_element->SetAttribute("name", child_group.name->c_str());
             parent_element->InsertEndChild(group_element);
             SaveWorldGroupToXml(doc, group_element, child_group, world);
         }

@@ -449,7 +449,7 @@ namespace engine
     void Engine::renderImGuiWorldGroupMenu(world::WorldGroup &world_group)
     {
         auto &model_indexes = world_group.models;
-        if (ImGui::TreeNode(&world_group, "Group"))
+        if (ImGui::TreeNode(&world_group, "Group (%s)", world_group.name->c_str()))
         {
             if (ImGui::TreeNodeEx(&model_indexes, ImGuiTreeNodeFlags_DefaultOpen, "Models (%zu)", model_indexes.size()))
             {

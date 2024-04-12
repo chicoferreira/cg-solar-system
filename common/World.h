@@ -2,6 +2,7 @@
 #define WORLD_H
 
 #include <algorithm>
+#include <optional>
 #include <string>
 #include <variant>
 #include <vector>
@@ -100,19 +101,13 @@ namespace world
 
     struct WorldGroup
     {
+        std::optional<std::string> name = {};
         std::vector<size_t> models = {}; // Indexes of the models in the world
         GroupTransform transformations = {};
         std::vector<WorldGroup> children = {};
 
         WorldGroup() = default;
-        explicit WorldGroup(const std::vector<size_t> &models) : models(models) {}
-        WorldGroup(
-            const std::vector<size_t> &models,
-            const GroupTransform &transformations,
-            const std::vector<WorldGroup> &children
-        ) : models(models), transformations(transformations), children(children)
-        {
-        }
+        explicit WorldGroup(std::string name) : name(std::make_optional(name)) {}
     };
 
     class World
@@ -121,7 +116,7 @@ namespace world
         Window m_window;
         Camera m_camera;
         Camera m_default_camera;
-        WorldGroup m_parent_world_group;
+        WorldGroup m_parent_world_group = WorldGroup("Main Group");
 
         std::vector<std::string> m_model_names = {};
 
