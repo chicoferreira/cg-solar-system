@@ -6,7 +6,7 @@
         <up x="0" y="1" z="0"/>
         <projection fov="60" near="0.1" far="1000"/>
     </camera>
-    <group>
+    <group name="Solar System">
         <models/>
         <group name="Sun">
             <models>
@@ -19,7 +19,7 @@
         <group name="Planetery of Mercury">
             <models/>
             <transform>
-                <translate x="-8.6038017" y="0" z="-3.4761636"/>
+                <translate x="6.2091975" y="0" z="6.8960123"/>
                 <rotate x="1" y="0" z="0" angle="7"/>
             </transform>
             <group name="Planet Mercury">
@@ -34,7 +34,7 @@
         <group name="Planetery of Venus">
             <models/>
             <transform>
-                <translate x="1.9607497" y="0" z="-11.119957"/>
+                <translate x="10.738854" y="0" z="-3.4892659"/>
                 <rotate x="1" y="0" z="0" angle="3.4000001"/>
             </transform>
             <group name="Planet Venus">
@@ -49,7 +49,7 @@
         <group name="Planetery of Earth">
             <models/>
             <transform>
-                <translate x="11.82813" y="0" z="-5.2662234"/>
+                <translate x="-7.4263806" y="0" z="-10.605971"/>
                 <rotate x="1" y="0" z="0" angle="0"/>
             </transform>
             <group name="Planet Earth">
@@ -65,7 +65,7 @@
                     <model file="sphere_1_20_20.3d"/>
                 </models>
                 <transform>
-                    <translate x="-0.64220893" y="0" z="-0.79306191"/>
+                    <translate x="-0.66949522" y="0" z="-0.77016604"/>
                     <scale x="0.139" y="0.139" z="0.139"/>
                 </transform>
             </group>
@@ -73,7 +73,7 @@
         <group name="Planetery of Mars">
             <models/>
             <transform>
-                <translate x="12.135353" y="0" z="-10.5491"/>
+                <translate x="16.0795" y="0" z="-7.0285728e-07"/>
                 <rotate x="1" y="0" z="0" angle="1.9"/>
             </transform>
             <group name="Planet Mars">
@@ -89,7 +89,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="0.24668032" y="0" z="-0.48413727"/>
+                    <translate x="-0.4924514" y="0" z="-0.22963381"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -98,7 +98,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="0.22963387" y="0" z="0.49245137"/>
+                    <translate x="-0.35647625" y="0" z="0.41007897"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -106,7 +106,7 @@
         <group name="Planetery of Jupiter">
             <models/>
             <transform>
-                <translate x="-37.638329" y="0" z="5.961329"/>
+                <translate x="-12.406591" y="0" z="-36.031345"/>
                 <rotate x="1" y="0" z="0" angle="1.3"/>
             </transform>
             <group name="Planet Jupiter">
@@ -122,7 +122,7 @@
                     <model file="sphere_1_20_20.3d"/>
                 </models>
                 <transform>
-                    <translate x="-6.7235112" y="0" z="9.254118"/>
+                    <translate x="-6.8839931" y="0" z="9.1353683"/>
                     <scale x="0.14572799" y="0.14572799" z="0.14572799"/>
                 </transform>
             </group>
@@ -131,7 +131,7 @@
                     <model file="sphere_1_20_20.3d"/>
                 </models>
                 <transform>
-                    <translate x="10.74888" y="0" z="-3.9122725"/>
+                    <translate x="-2.960556" y="0" z="11.048955"/>
                     <scale x="0.124864" y="0.124864" z="0.124864"/>
                 </transform>
             </group>
@@ -140,7 +140,7 @@
                     <model file="sphere_1_20_20.3d"/>
                 </models>
                 <transform>
-                    <translate x="0.19963318" y="0" z="11.436977"/>
+                    <translate x="-9.2541199" y="0" z="6.7235088"/>
                     <scale x="0.21049599" y="0.21049599" z="0.21049599"/>
                 </transform>
             </group>
@@ -149,7 +149,7 @@
                     <model file="sphere_1_20_20.3d"/>
                 </models>
                 <transform>
-                    <translate x="9.2541189" y="0" z="-6.7235098"/>
+                    <translate x="10.449791" y="0" z="4.6525459"/>
                     <scale x="0.19282401" y="0.19282401" z="0.19282401"/>
                 </transform>
             </group>
@@ -158,7 +158,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="8.3657503" y="0" z="-7.8011875"/>
+                    <translate x="-10.09979" y="0" z="-5.3701544"/>
                     <scale x="0.0066759996" y="0.0066759996" z="0.0066759996"/>
                 </transform>
             </group>
@@ -167,7 +167,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="-10.191974" y="0" z="-5.1930718"/>
+                    <translate x="-11.431752" y="0" z="-0.39920315"/>
                     <scale x="0.0068000001" y="0.0068000001" z="0.0068000001"/>
                 </transform>
             </group>
@@ -176,7 +176,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="5.3701539" y="0" z="10.09979"/>
+                    <translate x="-10.09979" y="0" z="-5.3701544"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -185,7 +185,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="-11.376058" y="0" z="-1.1956704"/>
+                    <translate x="8.5006256" y="0" z="-7.6539984"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -194,7 +194,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="1.5919621" y="0" z="11.327398"/>
+                    <translate x="10.281054" y="0" z="-5.0144043"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -203,7 +203,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="1.9863142" y="0" z="-11.264939"/>
+                    <translate x="10.191974" y="0" z="5.1930704"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -212,7 +212,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="3.7240825" y="0" z="-10.815522"/>
+                    <translate x="6.0615988" y="0" z="-9.7005835"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -221,7 +221,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="1.3940285" y="0" z="-11.353457"/>
+                    <translate x="6.8839931" y="0" z="9.1353683"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -230,7 +230,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="-9.4831285" y="0" z="6.396451"/>
+                    <translate x="-1.591962" y="0" z="11.327398"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -239,7 +239,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="-10.74888" y="0" z="3.912272"/>
+                    <translate x="-4.8342118" y="0" z="-10.367002"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -248,7 +248,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="-1.9863133" y="0" z="-11.264939"/>
+                    <translate x="-9.593317" y="0" z="6.2299743"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -257,7 +257,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="-7.6539969" y="0" z="8.5006256"/>
+                    <translate x="5.0144043" y="0" z="-10.281054"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -266,7 +266,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="7.5044751" y="0" z="8.6329117"/>
+                    <translate x="-10.529396" y="0" z="4.4694653"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -275,7 +275,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="-6.3964515" y="0" z="-9.4831285"/>
+                    <translate x="6.8839941" y="0" z="-9.1353674"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -284,7 +284,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="-3.9122751" y="0" z="10.748879"/>
+                    <translate x="7.0423789" y="0" z="-9.013834"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -293,7 +293,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="-3.7240841" y="0" z="-10.815522"/>
+                    <translate x="-0.59865642" y="0" z="11.423043"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -302,7 +302,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="-10.191973" y="0" z="5.1930718"/>
+                    <translate x="-11.29789" y="0" z="1.7894108"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -311,7 +311,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="-10.281054" y="0" z="5.0144029"/>
+                    <translate x="11.376058" y="0" z="-1.1956723"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -320,7 +320,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="11.327398" y="0" z="-1.5919619"/>
+                    <translate x="8.5006256" y="0" z="7.6539969"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -329,7 +329,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="6.2299733" y="0" z="-9.593317"/>
+                    <translate x="9.1353674" y="0" z="-6.8839941"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -338,7 +338,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="6.2299733" y="0" z="9.593317"/>
+                    <translate x="2.3782437" y="0" z="11.188757"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -347,7 +347,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="-9.013834" y="0" z="7.0423794"/>
+                    <translate x="3.7240827" y="0" z="10.815522"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -356,7 +356,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="1.7894098" y="0" z="-11.297891"/>
+                    <translate x="10.74888" y="0" z="3.9122727"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -365,7 +365,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="5.0144043" y="0" z="-10.281054"/>
+                    <translate x="10.529397" y="0" z="-4.4694643"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -374,7 +374,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="3.9122725" y="0" z="10.74888"/>
+                    <translate x="10.878868" y="0" z="-3.5347593"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -383,7 +383,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="10.74888" y="0" z="-3.9122725"/>
+                    <translate x="3.9122725" y="0" z="10.74888"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -392,7 +392,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="11.264939" y="0" z="-1.986313"/>
+                    <translate x="10.281054" y="0" z="-5.0144043"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -401,7 +401,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="4.2850199" y="0" z="10.605797"/>
+                    <translate x="0.99694896" y="0" z="-11.395192"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -410,7 +410,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="9.013834" y="0" z="-7.0423789"/>
+                    <translate x="-11.376058" y="0" z="-1.1956704"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -419,7 +419,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="-11.423043" y="0" z="0.59865856"/>
+                    <translate x="9.013834" y="0" z="7.0423794"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -428,7 +428,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="10.995603" y="0" z="3.1529388"/>
+                    <translate x="0.59865636" y="0" z="11.423043"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -437,7 +437,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="-6.8839936" y="0" z="-9.1353674"/>
+                    <translate x="11.410856" y="0" z="-0.79792482"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -446,7 +446,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="-10.44979" y="0" z="-4.6525464"/>
+                    <translate x="6.396451" y="0" z="9.4831285"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -455,7 +455,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="10.449791" y="0" z="4.6525459"/>
+                    <translate x="-2.960556" y="0" z="11.048955"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -464,7 +464,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="-8.889555" y="0" z="7.1986194"/>
+                    <translate x="4.2850199" y="0" z="10.605797"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -473,7 +473,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="-6.0615978" y="0" z="-9.7005844"/>
+                    <translate x="5.3701539" y="0" z="-10.09979"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -482,7 +482,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="10.367001" y="0" z="-4.8342128"/>
+                    <translate x="1.1956722" y="0" z="-11.376058"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -491,7 +491,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="4.2850184" y="0" z="-10.605797"/>
+                    <translate x="5.5456014" y="0" z="10.00453"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -500,7 +500,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="3.5347593" y="0" z="-10.878868"/>
+                    <translate x="-2.3782444" y="0" z="11.188756"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -509,7 +509,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="-1.1956739" y="0" z="11.376057"/>
+                    <translate x="-11.048955" y="0" z="2.9605582"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -518,7 +518,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="-11.436977" y="0" z="-0.19963191"/>
+                    <translate x="-11.353457" y="0" z="-1.3940266"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -527,7 +527,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="10.367002" y="0" z="4.8342118"/>
+                    <translate x="-0.39920673" y="0" z="11.431752"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -536,7 +536,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="5.5456014" y="0" z="10.00453"/>
+                    <translate x="-9.7005835" y="0" z="-6.0615993"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -545,7 +545,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="8.889555" y="0" z="7.1986194"/>
+                    <translate x="-11.26494" y="0" z="-1.9863124"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -554,7 +554,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="11.395192" y="0" z="0.99695081"/>
+                    <translate x="11.376058" y="0" z="1.1956713"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -563,7 +563,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="10.191974" y="0" z="-5.1930714"/>
+                    <translate x="4.2850199" y="0" z="10.605797"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -572,7 +572,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="-5.8913746" y="0" z="-9.8048973"/>
+                    <translate x="1.9863142" y="0" z="-11.264939"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -581,7 +581,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="11.098941" y="0" z="-2.7672765"/>
+                    <translate x="9.8048964" y="0" z="5.891376"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -590,7 +590,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="-6.8839931" y="0" z="9.1353683"/>
+                    <translate x="11.145546" y="0" z="2.5731521"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -599,7 +599,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="10.938902" y="0" z="-3.3443584"/>
+                    <translate x="4.6525459" y="0" z="-10.449791"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -608,7 +608,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="-1.9863133" y="0" z="-11.264939"/>
+                    <translate x="-8.889555" y="0" z="-7.1986189"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -617,7 +617,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="-8.0883951" y="0" z="-8.088397"/>
+                    <translate x="7.8011885" y="0" z="8.3657503"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -626,7 +626,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="3.5347593" y="0" z="-10.878868"/>
+                    <translate x="-10.815522" y="0" z="3.7240834"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -635,7 +635,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="-10.995604" y="0" z="-3.1529367"/>
+                    <translate x="-8.3657503" y="0" z="-7.8011885"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -644,7 +644,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="-10.09979" y="0" z="5.3701549"/>
+                    <translate x="7.5044751" y="0" z="8.6329117"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -653,7 +653,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="-10.815522" y="0" z="3.7240834"/>
+                    <translate x="-9.593317" y="0" z="6.2299743"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -662,7 +662,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="-2.1826124" y="0" z="11.228558"/>
+                    <translate x="-0.99695092" y="0" z="-11.395192"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -671,7 +671,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="8.2283258" y="0" z="-7.9460034"/>
+                    <translate x="-5.891377" y="0" z="9.8048964"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -680,7 +680,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="9.8048964" y="0" z="5.891376"/>
+                    <translate x="11.423043" y="0" z="0.59865654"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -689,7 +689,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="10.09979" y="0" z="5.3701539"/>
+                    <translate x="8.2283258" y="0" z="7.946003"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -698,7 +698,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="10.281054" y="0" z="-5.0144043"/>
+                    <translate x="8.889555" y="0" z="7.1986194"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -707,7 +707,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="8.2283258" y="0" z="-7.9460034"/>
+                    <translate x="-10.748881" y="0" z="-3.9122717"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -716,7 +716,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="10.995603" y="0" z="-3.1529386"/>
+                    <translate x="-10.815522" y="0" z="-3.7240829"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -724,7 +724,7 @@
         <group name="Planetery of Saturn">
             <models/>
             <transform>
-                <translate x="64.058807" y="0" z="-5.6044207"/>
+                <translate x="-49.973206" y="0" z="-40.467499"/>
                 <rotate x="1" y="0" z="0" angle="2.5"/>
             </transform>
             <group name="Planet Saturn">
@@ -740,7 +740,7 @@
                     <model file="sphere_1_20_20.3d"/>
                 </models>
                 <transform>
-                    <translate x="3.9221125" y="0" z="8.8092089"/>
+                    <translate x="-8.876317" y="0" z="-3.7677741"/>
                     <scale x="0.015856" y="0.015856" z="0.015856"/>
                 </transform>
             </group>
@@ -749,7 +749,7 @@
                     <model file="sphere_1_20_20.3d"/>
                 </models>
                 <transform>
-                    <translate x="-5.8032298" y="0" z="-7.7011456"/>
+                    <translate x="5.936749" y="0" z="-7.5986929"/>
                     <scale x="0.020168001" y="0.020168001" z="0.020168001"/>
                 </transform>
             </group>
@@ -758,7 +758,7 @@
                     <model file="sphere_1_20_20.3d"/>
                 </models>
                 <transform>
-                    <translate x="-1.0079551" y="0" z="-9.5900545"/>
+                    <translate x="-9.6193895" y="0" z="0.67265415"/>
                     <scale x="0.042640001" y="0.042640001" z="0.042640001"/>
                 </transform>
             </group>
@@ -767,7 +767,7 @@
                     <model file="sphere_1_20_20.3d"/>
                 </models>
                 <transform>
-                    <translate x="4.8214397" y="0" z="8.3509789"/>
+                    <translate x="-7.4939251" y="0" z="6.0684605"/>
                     <scale x="0.044936001" y="0.044936001" z="0.044936001"/>
                 </transform>
             </group>
@@ -776,7 +776,7 @@
                     <model file="sphere_1_20_20.3d"/>
                 </models>
                 <transform>
-                    <translate x="-2.6579373" y="0" z="-9.269331"/>
+                    <translate x="-1.6744689" y="0" z="-9.4963827"/>
                     <scale x="0.061143998" y="0.061143998" z="0.061143998"/>
                 </transform>
             </group>
@@ -785,7 +785,7 @@
                     <model file="sphere_1_20_20.3d"/>
                 </models>
                 <transform>
-                    <translate x="-5.5309281" y="0" z="-7.8989844"/>
+                    <translate x="3.9221125" y="0" z="8.8092089"/>
                     <scale x="0.20597839" y="0.20597839" z="0.20597839"/>
                 </transform>
             </group>
@@ -794,7 +794,7 @@
                     <model file="sphere_1_20_20.3d"/>
                 </models>
                 <transform>
-                    <translate x="-1.6744689" y="0" z="-9.4963827"/>
+                    <translate x="-5.5309296" y="0" z="7.8989835"/>
                     <scale x="0.0108" y="0.0108" z="0.0108"/>
                 </transform>
             </group>
@@ -803,7 +803,7 @@
                     <model file="sphere_1_20_20.3d"/>
                 </models>
                 <transform>
-                    <translate x="-8.1776247" y="0" z="5.1099496"/>
+                    <translate x="4.0752578" y="0" z="-8.7394161"/>
                     <scale x="0.058847997" y="0.058847997" z="0.058847997"/>
                 </transform>
             </group>
@@ -812,7 +812,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="-6.4523454" y="0" z="7.1660566"/>
+                    <translate x="5.8032293" y="0" z="7.7011461"/>
                     <scale x="0.0085199997" y="0.0085199997" z="0.0085199997"/>
                 </transform>
             </group>
@@ -821,7 +821,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="-9.5900545" y="0" z="1.0079544"/>
+                    <translate x="-6.068459" y="0" z="7.493926"/>
                     <scale x="0.00716" y="0.00716" z="0.00716"/>
                 </transform>
             </group>
@@ -830,7 +830,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="9.269331" y="0" z="-2.6579378"/>
+                    <translate x="-9.2215328" y="0" z="2.819303"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -839,7 +839,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="6.8185453" y="0" z="6.8185453"/>
+                    <translate x="0.5046702" y="0" z="-9.6296644"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -848,7 +848,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="1.3420302" y="0" z="-9.5490351"/>
+                    <translate x="-9.1709232" y="0" z="-2.9798145"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -857,7 +857,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="-9.4657135" y="0" z="-1.8399467"/>
+                    <translate x="4.6749606" y="0" z="8.4338522"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -866,7 +866,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="-7.2775736" y="0" z="-6.3262982"/>
+                    <translate x="4.0752568" y="0" z="8.7394161"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -875,7 +875,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="-5.667943" y="0" z="7.8012528"/>
+                    <translate x="6.1983232" y="0" z="7.3868742"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -884,7 +884,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="-1.0079551" y="0" z="-9.5900545"/>
+                    <translate x="5.2518888" y="0" z="-8.0871992"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -893,7 +893,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="-5.8032293" y="0" z="7.7011461"/>
+                    <translate x="2.6579378" y="0" z="-9.269331"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -902,7 +902,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="-7.0523548" y="0" z="6.5764279"/>
+                    <translate x="6.4523458" y="0" z="-7.1660557"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -911,7 +911,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="-4.3777761" y="0" z="-8.5918684"/>
+                    <translate x="-8.4338522" y="0" z="4.6749611"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -920,7 +920,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="-2.8193059" y="0" z="-9.2215309"/>
+                    <translate x="-9.5241594" y="0" z="1.5084794"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -929,7 +929,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="0.33653119" y="0" z="-9.6370058"/>
+                    <translate x="-9.3957329" y="0" z="2.1691773"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -938,7 +938,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="6.0684605" y="0" z="7.4939246"/>
+                    <translate x="-9.0613432" y="0" z="-3.2980583"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -947,7 +947,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="5.5309286" y="0" z="-7.8989844"/>
+                    <translate x="-2.9798131" y="0" z="9.1709232"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -956,7 +956,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="3.6122863" y="0" z="8.9407225"/>
+                    <translate x="4.22716" y="0" z="-8.6669626"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -965,7 +965,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="-8.5141573" y="0" z="4.5270586"/>
+                    <translate x="3.9221117" y="0" z="-8.8092089"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -974,7 +974,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="-2.0048683" y="0" z="-9.4321594"/>
+                    <translate x="-6.1983247" y="0" z="7.3868732"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -983,7 +983,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="9.0024033" y="0" z="3.4556992"/>
+                    <translate x="6.3262978" y="0" z="-7.2775745"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -992,7 +992,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="6.4523458" y="0" z="-7.1660557"/>
+                    <translate x="4.0752568" y="0" z="8.7394161"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -1001,7 +1001,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="-9.5241594" y="0" z="1.5084794"/>
+                    <translate x="-4.9664488" y="0" z="-8.2655621"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -1010,7 +1010,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="-5.9367485" y="0" z="-7.5986934"/>
+                    <translate x="-8.5141573" y="0" z="4.5270586"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -1019,7 +1019,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="8.5141573" y="0" z="-4.5270576"/>
+                    <translate x="5.2518888" y="0" z="-8.0871992"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -1028,7 +1028,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="0.84043133" y="0" z="-9.6061859"/>
+                    <translate x="-1.0079572" y="0" z="9.5900545"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -1037,7 +1037,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="-9.6061859" y="0" z="-0.84043205"/>
+                    <translate x="8.876318" y="0" z="3.7677727"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -1046,7 +1046,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="-4.8214417" y="0" z="8.3509779"/>
+                    <translate x="-2.9798131" y="0" z="9.1709232"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -1055,7 +1055,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="-2.0048683" y="0" z="-9.4321594"/>
+                    <translate x="-7.8012547" y="0" z="5.6679406"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -1064,7 +1064,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="-1.0079551" y="0" z="-9.5900545"/>
+                    <translate x="-9.3143063" y="0" z="2.4957604"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -1073,7 +1073,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="2.6579378" y="0" z="9.269331"/>
+                    <translate x="-1.1751722" y="0" z="9.571003"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -1082,7 +1082,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="9.3564444" y="0" z="2.3328238"/>
+                    <translate x="4.6749601" y="0" z="-8.4338531"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -1091,7 +1091,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="-3.4557002" y="0" z="9.0024033"/>
+                    <translate x="9.0613422" y="0" z="3.2980592"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -1100,7 +1100,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="5.8032308" y="0" z="-7.7011456"/>
+                    <translate x="6.4523458" y="0" z="-7.1660557"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -1109,7 +1109,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="9.4963827" y="0" z="1.6744689"/>
+                    <translate x="9.6193905" y="0" z="-0.67265332"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -1118,7 +1118,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="1.5084788" y="0" z="9.5241594"/>
+                    <translate x="8.1776257" y="0" z="5.1099477"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -1127,7 +1127,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="-4.3777757" y="0" z="8.5918684"/>
+                    <translate x="-7.0523548" y="0" z="6.5764279"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -1136,7 +1136,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="-0.16829133" y="0" z="-9.6414108"/>
+                    <translate x="-7.0523558" y="0" z="-6.5764279"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -1145,7 +1145,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="5.9367495" y="0" z="7.5986929"/>
+                    <translate x="-4.6749592" y="0" z="8.4338531"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -1154,7 +1154,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="8.7394161" y="0" z="-4.0752578"/>
+                    <translate x="2.9798141" y="0" z="-9.1709232"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -1163,7 +1163,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="-4.6749616" y="0" z="-8.4338522"/>
+                    <translate x="-9.571003" y="0" z="1.1751695"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -1172,7 +1172,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="8.6669626" y="0" z="-4.22716"/>
+                    <translate x="5.667942" y="0" z="7.8012533"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -1181,7 +1181,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="-9.1175213" y="0" z="3.139415"/>
+                    <translate x="-9.1709232" y="0" z="2.9798148"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -1190,7 +1190,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="8.8092089" y="0" z="-3.9221129"/>
+                    <translate x="-9.3564444" y="0" z="-2.332824"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -1199,7 +1199,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="-9.1175213" y="0" z="-3.1394145"/>
+                    <translate x="9.6061859" y="0" z="-0.84043258"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -1208,7 +1208,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="7.0523558" y="0" z="6.5764279"/>
+                    <translate x="9.1709232" y="0" z="2.9798133"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -1217,7 +1217,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="6.5764279" y="0" z="7.0523558"/>
+                    <translate x="1.1751708" y="0" z="-9.571003"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -1226,7 +1226,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="5.8032308" y="0" z="-7.7011456"/>
+                    <translate x="-1.5084777" y="0" z="9.5241594"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -1235,7 +1235,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="-4.2271595" y="0" z="-8.6669636"/>
+                    <translate x="9.1175213" y="0" z="3.1394143"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -1244,7 +1244,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="-3.7677729" y="0" z="-8.876318"/>
+                    <translate x="3.6122861" y="0" z="8.9407225"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -1253,7 +1253,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="1.1751708" y="0" z="-9.571003"/>
+                    <translate x="7.898984" y="0" z="-5.5309286"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -1262,7 +1262,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="7.5986929" y="0" z="-5.936749"/>
+                    <translate x="-9.2215328" y="0" z="2.819303"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -1271,7 +1271,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="-9.5490351" y="0" z="-1.3420309"/>
+                    <translate x="-1.8399477" y="0" z="-9.4657125"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -1280,7 +1280,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="6.6985078" y="0" z="-6.9365063"/>
+                    <translate x="5.1099482" y="0" z="-8.1776247"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -1288,7 +1288,7 @@
         <group name="Planetery of Uranus">
             <models/>
             <transform>
-                <translate x="-97.324509" y="0" z="-73.339302"/>
+                <translate x="-90.562225" y="0" z="81.542618"/>
                 <rotate x="1" y="0" z="0" angle="0.80000001"/>
             </transform>
             <group name="Planet Uranus">
@@ -1304,7 +1304,7 @@
                     <model file="sphere_1_20_20.3d"/>
                 </models>
                 <transform>
-                    <translate x="-3.2225225" y="0" z="-2.5177107"/>
+                    <translate x="0.56914002" y="0" z="4.0496416"/>
                     <scale x="0.046312001" y="0.046312001" z="0.046312001"/>
                 </transform>
             </group>
@@ -1313,7 +1313,7 @@
                     <model file="sphere_1_20_20.3d"/>
                 </models>
                 <transform>
-                    <translate x="4.0000758" y="0" z="-0.85024256"/>
+                    <translate x="0.14271921" y="0" z="-4.0869489"/>
                     <scale x="0.046776" y="0.046776" z="0.046776"/>
                 </transform>
             </group>
@@ -1322,7 +1322,7 @@
                     <model file="sphere_1_20_20.3d"/>
                 </models>
                 <transform>
-                    <translate x="-0.6397289" y="0" z="4.0390921"/>
+                    <translate x="-1.5319313" y="0" z="3.7916627"/>
                     <scale x="0.063112006" y="0.063112006" z="0.063112006"/>
                 </transform>
             </group>
@@ -1331,7 +1331,7 @@
                     <model file="sphere_1_20_20.3d"/>
                 </models>
                 <transform>
-                    <translate x="-3.2225225" y="0" z="-2.5177107"/>
+                    <translate x="3.0390463" y="0" z="2.7363691"/>
                     <scale x="0.060912002" y="0.060912002" z="0.060912002"/>
                 </transform>
             </group>
@@ -1340,7 +1340,7 @@
                     <model file="sphere_1_20_20.3d"/>
                 </models>
                 <transform>
-                    <translate x="-1.4655247" y="0" z="3.8178208"/>
+                    <translate x="2.2867858" y="0" z="3.3902996"/>
                     <scale x="0.018864" y="0.018864" z="0.018864"/>
                 </transform>
             </group>
@@ -1349,7 +1349,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="0.14271921" y="0" z="-4.0869489"/>
+                    <translate x="-3.3902996" y="0" z="2.2867858"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -1358,7 +1358,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="2.788991" y="0" z="-2.9908273"/>
+                    <translate x="-0.42746276" y="0" z="-4.0670376"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -1367,7 +1367,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="3.8178213" y="0" z="-1.4655242"/>
+                    <translate x="-4.0894399" y="0" z="4.8766083e-08"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -1376,7 +1376,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="-2.5735672" y="0" z="3.1780922"/>
+                    <translate x="0.71012425" y="0" z="-4.0273118"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -1385,7 +1385,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="-2.6286418" y="0" z="3.1326921"/>
+                    <translate x="2.5735679" y="0" z="3.1780915"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -1394,7 +1394,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="-2.403713" y="0" z="-3.3084261"/>
+                    <translate x="4.0000758" y="0" z="-0.85024256"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -1403,7 +1403,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="-3.9107511" y="0" z="1.1956356"/>
+                    <translate x="-3.0863395" y="0" z="-2.682914"/>
                     <scale x="0.0055999998" y="0.0055999998" z="0.0055999998"/>
                 </transform>
             </group>
@@ -1412,7 +1412,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="-1.8565669" y="0" z="3.6437175"/>
+                    <translate x="-3.4296925" y="0" z="2.2272689"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -1421,7 +1421,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="-3.5767047" y="0" z="1.9825999"/>
+                    <translate x="3.9107506" y="0" z="-1.1956367"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -1430,7 +1430,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="1.1272024" y="0" z="3.9310219"/>
+                    <translate x="2.2272687" y="0" z="-3.4296927"/>
                     <scale x="0.00648" y="0.00648" z="0.00648"/>
                 </transform>
             </group>
@@ -1439,7 +1439,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="2.6286411" y="0" z="3.1326926"/>
+                    <translate x="3.8666413" y="0" z="1.3313913"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -1448,7 +1448,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="0.35641775" y="0" z="-4.0738783"/>
+                    <translate x="-2.2867861" y="0" z="-3.3902991"/>
                     <scale x="0.0060000001" y="0.0060000001" z="0.0060000001"/>
                 </transform>
             </group>
@@ -1457,7 +1457,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="-4.0670376" y="0" z="-0.42746234"/>
+                    <translate x="0.63972938" y="0" z="4.0390921"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -1466,7 +1466,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="0.71012425" y="0" z="-4.0273118"/>
+                    <translate x="-0.07137052" y="0" z="-4.0888171"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -1475,7 +1475,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="-2.5735672" y="0" z="3.1780922"/>
+                    <translate x="-0.85024273" y="0" z="-4.0000758"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -1484,7 +1484,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="2.2867854" y="0" z="-3.3902996"/>
+                    <translate x="2.7889915" y="0" z="2.9908271"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -1493,7 +1493,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="0.49837738" y="0" z="4.0589576"/>
+                    <translate x="-2.403713" y="0" z="-3.3084261"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -1502,7 +1502,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="-3.6755645" y="0" z="-1.7926917"/>
+                    <translate x="3.0863395" y="0" z="-2.6829138"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -1511,7 +1511,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="2.2272687" y="0" z="-3.4296927"/>
+                    <translate x="-3.541559" y="0" z="-2.0447195"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -1520,7 +1520,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="0.427463" y="0" z="-4.0670376"/>
+                    <translate x="-4.0738783" y="0" z="-0.35641804"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -1529,7 +1529,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="0.63972926" y="0" z="-4.0390921"/>
+                    <translate x="1.2637064" y="0" z="3.8892884"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -1538,7 +1538,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="-1.3313918" y="0" z="-3.8666413"/>
+                    <translate x="-3.1780918" y="0" z="2.5735679"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -1546,7 +1546,7 @@
         <group name="Planetery of Neptune">
             <models/>
             <transform>
-                <translate x="-78.931389" y="0" z="169.26883"/>
+                <translate x="13.028242" y="0" z="186.31255"/>
                 <rotate x="1" y="0" z="0" angle="1.7999998"/>
             </transform>
             <group name="Planet Neptune">
@@ -1562,7 +1562,7 @@
                     <model file="sphere_1_20_20.3d"/>
                 </models>
                 <transform>
-                    <translate x="3.4654531" y="0" z="1.9209319"/>
+                    <translate x="-3.2848461" y="0" z="-2.2156565"/>
                     <scale x="0.108272" y="0.108272" z="0.108272"/>
                 </transform>
             </group>
@@ -1571,7 +1571,7 @@
                     <model file="sphere_1_20_20.3d"/>
                 </models>
                 <transform>
-                    <translate x="1.0255035" y="0" z="-3.82723"/>
+                    <translate x="3.9236796" y="0" z="0.55143726"/>
                     <scale x="0.0136" y="0.0136" z="0.0136"/>
                 </transform>
             </group>
@@ -1580,7 +1580,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="-3.7891092" y="0" z="1.158446"/>
+                    <translate x="0.20736763" y="0" z="3.9568098"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -1589,7 +1589,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="-2.2726474" y="0" z="-3.245677"/>
+                    <translate x="-3.0792389" y="0" z="-2.4935181"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -1598,7 +1598,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="1.7988194" y="0" z="3.5303817"/>
+                    <translate x="-2.0996673" y="0" z="-3.3601701"/>
                     <scale x="0.0060000001" y="0.0060000001" z="0.0060000001"/>
                 </transform>
             </group>
@@ -1607,7 +1607,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="3.5910089" y="0" z="-1.6745152"/>
+                    <translate x="-3.323014" y="0" z="-2.1579909"/>
                     <scale x="0.0070400001" y="0.0070400001" z="0.0070400001"/>
                 </transform>
             </group>
@@ -1616,7 +1616,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="2.7524033" y="0" z="2.8501968"/>
+                    <translate x="1.0255032" y="0" z="3.82723"/>
                     <scale x="0.0077599999" y="0.0077599999" z="0.0077599999"/>
                 </transform>
             </group>
@@ -1625,7 +1625,7 @@
                     <model file="sphere_1_20_20.3d"/>
                 </models>
                 <transform>
-                    <translate x="1.2899792" y="0" z="3.7463715"/>
+                    <translate x="-2.5994635" y="0" z="-2.9903402"/>
                     <scale x="0.016799999" y="0.016799999" z="0.016799999"/>
                 </transform>
             </group>
@@ -1634,7 +1634,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="-3.5910091" y="0" z="-1.6745147"/>
+                    <translate x="-3.9327064" y="0" z="0.48287478"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -1643,7 +1643,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="3.7463715" y="0" z="1.2899791"/>
+                    <translate x="-3.9236796" y="0" z="-0.55143785"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -1652,7 +1652,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="-0.61983049" y="0" z="3.9134583"/>
+                    <translate x="-0.75603169" y="0" z="3.8894424"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -1661,7 +1661,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="-3.9020445" y="0" z="0.68803567"/>
+                    <translate x="1.3551662" y="0" z="-3.7232876"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -1670,7 +1670,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="-2.7524033" y="0" z="-2.8501968"/>
+                    <translate x="-2.9903405" y="0" z="-2.5994632"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>
@@ -1679,7 +1679,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate x="-3.9598262" y="0" z="-0.13827935"/>
+                    <translate x="0.34533194" y="0" z="3.9471626"/>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
                 </transform>
             </group>

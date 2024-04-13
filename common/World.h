@@ -116,7 +116,7 @@ namespace world
         Window m_window;
         Camera m_camera;
         Camera m_default_camera;
-        WorldGroup m_parent_world_group = WorldGroup("Main Group");
+        WorldGroup m_parent_world_group;
 
         std::vector<std::string> m_model_names = {};
 
@@ -143,6 +143,10 @@ namespace world
         void ResetCamera() { m_camera = m_default_camera; }
 
         explicit World(std::string file_path) : m_file_path(std::move(file_path)) {}
+        World(std::string file_path, std::string main_group_name) :
+            m_file_path(std::move(file_path)), m_parent_world_group(WorldGroup(main_group_name))
+        {
+        }
     };
 } // namespace world
 

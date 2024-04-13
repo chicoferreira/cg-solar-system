@@ -71,7 +71,7 @@ namespace generator::solarsystem
     void GenerateSolarSystem(float sun_size_scale_factor, float planet_distance_scale_factor, float scene_scale_factor)
     {
         std::vector<Planet> planets = LoadPlanets("assets/planets/planets.csv", "assets/planets/satellites.csv");
-        world::World world("assets/scenes/solar_system.xml");
+        world::World world("assets/scenes/solar_system.xml", "Solar System");
 
         world.GetWindow() = world::Window(1200, 1000);
         world.GetCamera() = world::Camera(

@@ -449,13 +449,14 @@ namespace engine
     void Engine::renderImGuiWorldGroupMenu(world::WorldGroup &world_group)
     {
         auto &model_indexes = world_group.models;
-        if (ImGui::TreeNode(&world_group, "Group (%s)", world_group.name->c_str()))
+        auto world_group_name = world_group.name.has_value() ? world_group.name->c_str() : "unknown";
+        if (ImGui::TreeNode(&world_group, "Group (%s)", world_group_name))
         {
             if (ImGui::TreeNodeEx(&model_indexes, ImGuiTreeNodeFlags_DefaultOpen, "Models (%zu)", model_indexes.size()))
             {
                 for (int i = 0; i < model_indexes.size(); ++i)
                 {
-                    auto &model_index = model_indexes[i];
+                    size_t &model_index = model_indexes[i];
                     ImGui::Text("Model #%lu (%s)", model_index, m_models[model_index].GetName().c_str());
                 }
                 ImGui::TreePop();

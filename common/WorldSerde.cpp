@@ -163,7 +163,7 @@ namespace world::serde
         if (!succ)
             return false;
 
-        if (parent_group)
+        if (parent_group.has_value())
             world.GetParentWorldGroup() = parent_group.value();
 
         world.GetDefaultCamera() = world.GetCamera();
@@ -185,6 +185,9 @@ namespace world::serde
         World &world
     )
     {
+        if (group.name != std::nullopt)
+            parent_element->SetAttribute("name", group.name->c_str());
+
         tinyxml2::XMLElement *models_element = doc.NewElement("models");
         parent_element->InsertEndChild(models_element);
 
@@ -235,8 +238,6 @@ namespace world::serde
         for (WorldGroup &child_group : group.children)
         {
             tinyxml2::XMLElement *group_element = doc.NewElement("group");
-            if (child_group.name != std::nullopt)
-                group_element->SetAttribute("name", child_group.name->c_str());
             parent_element->InsertEndChild(group_element);
             SaveWorldGroupToXml(doc, group_element, child_group, world);
         }
