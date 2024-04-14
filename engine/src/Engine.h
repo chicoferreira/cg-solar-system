@@ -56,6 +56,16 @@ namespace engine
         bool cull_faces;
     };
 
+    class EngineSimulationTime
+    {
+    public:
+        void Update(float timestep);
+
+        bool m_is_paused = false;
+        float m_current_time = 0.0f; // seconds
+        float m_current_simulation_speed_p_s = 1.0f; // 1.0f = 1 second per second
+    };
+
     class Engine
     {
     public:
@@ -85,6 +95,8 @@ namespace engine
             true, // render_axis
             true, // cull_faces
         };
+
+        EngineSimulationTime m_simulation_time;
 
         EngineSystemEnvironment m_system_environment;
         ImGuiIO *io = nullptr;

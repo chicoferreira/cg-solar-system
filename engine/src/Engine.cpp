@@ -378,6 +378,12 @@ namespace engine
         lastY = ypos;
     }
 
+    void EngineSimulationTime::Update(float timestep)
+    {
+        if (!m_is_paused)
+            m_current_time += timestep * m_current_simulation_speed_p_s;
+    }
+
     void Engine::Run()
     {
         float currentTime = glfwGetTime();
@@ -390,6 +396,8 @@ namespace engine
             const float timestep = newTime - currentTime;
             ProcessInput(timestep);
             currentTime = newTime;
+
+            m_simulation_time.Update(timestep);
 
             Render();
 
@@ -733,6 +741,14 @@ namespace engine
                     ImGui::TreePop();
                 }
 
+                ImGui::TreePop();
+            }
+
+            if (ImGui::TreeNodeEx("Simulation", ImGuiTreeNodeFlags_Framed))
+            {
+                ImGui::Text("Current Time: %.2f", m_simulation_time.m_current_time);
+                ImGui::Checkbox("Paused", &m_simulation_time.m_is_paused);
+                ImGui::DragFloat("Simulation Speed", &m_simulation_time.m_current_simulation_speed_p_s, 0.05f);
                 ImGui::TreePop();
             }
 
