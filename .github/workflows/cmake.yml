@@ -2,15 +2,12 @@ name: CMake on multiple platforms
 
 on:
   push:
-    branches:
-      - '**'
     paths:
       - '**.cpp'
       - '**.h'
       - '**CMakeLists.txt'
       - '**vcpkg.json'
   pull_request:
-    branches: [ fix-action ]
     paths:
       - '**.cpp'
       - '**.h'
