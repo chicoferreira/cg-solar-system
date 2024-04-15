@@ -2,14 +2,12 @@ name: CMake on multiple platforms
 
 on:
   push:
-    branches: [ main ]
     paths:
       - '**.cpp'
       - '**.h'
       - '**CMakeLists.txt'
       - '**vcpkg.json'
   pull_request:
-    branches: [ main ]
     paths:
       - '**.cpp'
       - '**.h'
@@ -66,7 +64,7 @@ jobs:
 
       - name: vcpkg Linux dependencies
         if: matrix.os == 'ubuntu-latest'
-        run: sudo apt install libxinerama-dev libxcursor-dev xorg-dev libglu1-mesa-dev pkg-config
+        run: sudo apt update && sudo apt install libxinerama-dev libxcursor-dev xorg-dev libglu1-mesa-dev pkg-config
 
       - name: vcpkg build
         uses: johnwason/vcpkg-action@v6
