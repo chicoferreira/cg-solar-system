@@ -109,3 +109,44 @@ Mat4f Mat4fRotateZ(const float angle)
     const auto s = sinf(angle);
     return {{{c, -s, 0, 0}, {s, c, 0, 0}, {0, 0, 1, 0}, {0, 0, 0, 1}}};
 }
+
+void getCatmullRomPointSegment(
+    float time,
+    const Vec3f &p0,
+    const Vec3f &p1,
+    const Vec3f &p2,
+    const Vec3f &p3,
+    Vec3f &position,
+    Vec3f &derivative
+)
+{
+    Mat4f catmull_rom_matrix = {
+        {{-0.5f, 1.5f, -1.5f, 0.5f}, {1.0f, -2.5f, 2.0f, -0.5f}, {-0.5f, 0.0f, 0.5f, 0.0f}, {0.0f, 1.0f, 0.0f, 0.0f}}
+    };
+
+    Vec4f time_vector = {time * time * time, time * time, time, 1};
+    Vec4f time_derivative_vector = {3 * time * time, 2 * time, 1, 0};
+
+    for (int i = 0; i < 3; ++i)
+    {
+        Vec4f points = {p0[i], p1[i], p2[i], p3[i]};
+        Vec4f result = catmull_rom_matrix * points;
+
+        // position[0] = x, position[1] = y, position[2] = z
+        position[i] = time_vector.matrixMult(result);
+        derivative[i] = time_derivative_vector.matrixMult(result);
+    }
+}
+
+void getCatmullRomPoint(float time, std::vector<Vec3f> points, Vec3f &position, Vec3f &derivative)
+{
+    int index = floor(time * points.size());
+    float time_in_segment = time - floor(time);
+
+    const auto &p0 = points[(index - 1 + points.size()) % points.size()];
+    const auto &p1 = points[index];
+    const auto &p2 = points[(index + 1) % points.size()];
+    const auto &p3 = points[(index + 2) % points.size()];
+
+    getCatmullRomPointSegment(time_in_segment, p0, p1, p2, p3, position, derivative);
+}

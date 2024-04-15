@@ -106,6 +106,8 @@ struct Vec4f
         }
     }
     Vec3f ToVec3f() const { return {x, y, z}; }
+
+    constexpr float matrixMult(Vec4f &other) { return x * other.x + y * other.y + z * other.z + w * other.w; }
 };
 
 inline float degrees_to_radians(const float degrees) { return degrees * M_PI / 180.0f; }
