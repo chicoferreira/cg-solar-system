@@ -2,10 +2,14 @@
 #define WORLD_H
 
 #include <algorithm>
+#include <iostream>
 #include <optional>
 #include <string>
 #include <variant>
 #include <vector>
+
+#define _USE_MATH_DEFINES
+#include <math.h>
 
 #include "Mat.h"
 #include "Vec.h"
@@ -48,17 +52,33 @@ namespace world
             float angle_rads{0};
             Vec3f axis{0, 0, 0};
 
-            Mat4f GetTransform() const { return Mat4fRotate(angle_rads, axis.x, axis.y, axis.z); }
+            Mat4f GetTransform(float) const { return Mat4fRotate(angle_rads, axis.x, axis.y, axis.z); }
 
             Rotation() = default;
             explicit Rotation(const float angle_rads, Vec3f axis) : angle_rads(angle_rads), axis(std::move(axis)) {}
+        };
+
+        struct RotationWithTime
+        {
+            float time_to_complete;
+            Vec3f axis{0, 0, 0};
+
+            Mat4f GetTransform(float time) const
+            {
+                return Mat4fRotate(time * M_PI * 2 / time_to_complete, axis.x, axis.y, axis.z);
+            }
+
+            explicit RotationWithTime(const float time_to_complete, Vec3f axis) :
+                time_to_complete(time_to_complete), axis(std::move(axis))
+            {
+            }
         };
 
         struct Translation
         {
             Vec3f translation{0, 0, 0};
 
-            Mat4f GetTransform() const { return Mat4fTranslate(translation.x, translation.y, translation.z); }
+            Mat4f GetTransform(float) const { return Mat4fTranslate(translation.x, translation.y, translation.z); }
 
             Translation() = default;
             explicit Translation(Vec3f translation) : translation(std::move(translation)) {}
@@ -68,34 +88,32 @@ namespace world
         {
             Vec3f scale{1, 1, 1};
 
-            Mat4f GetTransform() const { return Mat4fScale(scale.x, scale.y, scale.z); }
+            Mat4f GetTransform(float) const { return Mat4fScale(scale.x, scale.y, scale.z); }
 
             Scale() = default;
             explicit Scale(Vec3f scale) : scale(std::move(scale)) {}
         };
 
-        using Transform = std::variant<Rotation, Translation, Scale>;
+        using Transform = std::variant<Rotation, RotationWithTime, Translation, Scale>;
     } // namespace transform
 
     class GroupTransform
     {
-        Mat4f m_final_transform = Mat4fIdentity;
         std::vector<transform::Transform> m_transformations = {};
 
     public:
-        Mat4f GetTransformMatrix() const { return m_final_transform; }
         void AddTransform(const transform::Transform &transform) { m_transformations.push_back(transform); }
         std::vector<transform::Transform> &GetTransformations() { return m_transformations; }
         void RemoveTransform(const size_t index) { m_transformations.erase(m_transformations.begin() + index); }
-        inline void UpdateTransformMatrix()
+        inline Mat4f GetTransformMatrix(float time)
         {
-            m_final_transform = Mat4fIdentity;
+            auto transform = Mat4fIdentity;
             for (auto &transformation : GetTransformations())
             {
-                std::visit([&](auto &&arg) { m_final_transform *= arg.GetTransform(); }, transformation);
+                std::visit([&](auto &&arg) { transform *= arg.GetTransform(time); }, transformation);
             }
 
-            m_final_transform = m_final_transform.transpose();
+            return transform.transpose();
         }
     };
 

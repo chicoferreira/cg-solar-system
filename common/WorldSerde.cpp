@@ -71,17 +71,30 @@ namespace world::serde
                 else if (strcmp(transform_element->Name(), "rotate") == 0)
                 {
                     Vec3f axis;
-                    float angle;
+                    float angle_or_time_to_full_rotation;
                     LOAD_VEC3F(transform_element, axis, std::nullopt)
-                    EARLY_RETURN_R(
-                        transform_element->QueryFloatAttribute("angle", &angle) != tinyxml2::XML_SUCCESS,
-                        "Rotate missing angle attribute.",
-                        std::nullopt
-                    )
-                    group.transformations.AddTransform(transform::Rotation(degrees_to_radians(angle), axis));
+
+                    if (transform_element->QueryFloatAttribute("angle", &angle_or_time_to_full_rotation) ==
+                        tinyxml2::XML_SUCCESS)
+                    {
+                        group.transformations.AddTransform(
+                            transform::Rotation(degrees_to_radians(angle_or_time_to_full_rotation), axis)
+                        );
+                    }
+                    else if (transform_element->QueryFloatAttribute("time", &angle_or_time_to_full_rotation) ==
+                             tinyxml2::XML_SUCCESS)
+                    {
+                        group.transformations.AddTransform(
+                            transform::RotationWithTime(angle_or_time_to_full_rotation, axis)
+                        );
+                    }
+                    else
+                    {
+                        std::cerr << "Rotation is missing rotate angle or time attribute." << std::endl;
+                        return std::nullopt;
+                    }
                 }
             }
-            group.transformations.UpdateTransformMatrix();
         }
 
         for (auto child_group_element = group_element->FirstChildElement("group"); child_group_element;

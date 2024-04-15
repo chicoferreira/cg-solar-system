@@ -179,7 +179,7 @@ namespace engine
     {
         glPushMatrix();
 
-        glMultMatrixf(*group.transformations.GetTransformMatrix().mat);
+        glMultMatrixf(*group.transformations.GetTransformMatrix(m_simulation_time.m_current_time).mat);
 
         for (auto &model_index : group.models)
         {
@@ -492,21 +492,18 @@ namespace engine
                     if (ImGui::MenuItem("Rotation"))
                     {
                         world_group.transformations.AddTransform(world::transform::Rotation());
-                        world_group.transformations.UpdateTransformMatrix();
                         ImGui::CloseCurrentPopup();
                     }
 
                     if (ImGui::MenuItem("Translation"))
                     {
                         world_group.transformations.AddTransform(world::transform::Translation());
-                        world_group.transformations.UpdateTransformMatrix();
                         ImGui::CloseCurrentPopup();
                     }
 
                     if (ImGui::MenuItem("Scale"))
                     {
                         world_group.transformations.AddTransform(world::transform::Scale());
-                        world_group.transformations.UpdateTransformMatrix();
                         ImGui::CloseCurrentPopup();
                     }
 
@@ -538,39 +535,28 @@ namespace engine
                     if (ImGui::SmallButton("Remove"))
                     {
                         world_group.transformations.RemoveTransform(i);
-                        world_group.transformations.UpdateTransformMatrix();
                     }
 
                     if (std::holds_alternative<world::transform::Rotation>(transform))
                     {
                         auto &rotation = std::get<world::transform::Rotation>(transform);
                         float angle = radians_to_degrees(rotation.angle_rads);
-                        if (ImGui::DragFloat3("Axis", &rotation.axis.x, 0.05f))
-                        {
-                            world_group.transformations.UpdateTransformMatrix();
-                        }
+                        ImGui::DragFloat3("Axis", &rotation.axis.x, 0.05f);
 
                         if (ImGui::DragFloat("Angle", &angle, 1, -360.0f, 360.0f))
                         {
                             rotation.angle_rads = degrees_to_radians(angle);
-                            world_group.transformations.UpdateTransformMatrix();
                         }
                     }
                     else if (std::holds_alternative<world::transform::Translation>(transform))
                     {
-                        if (auto &translation = std::get<world::transform::Translation>(transform);
-                            ImGui::DragFloat3("Coordinates", &translation.translation.x, 0.05f))
-                        {
-                            world_group.transformations.UpdateTransformMatrix();
-                        }
+                        auto &translation = std::get<world::transform::Translation>(transform);
+                        ImGui::DragFloat3("Coordinates", &translation.translation.x, 0.05f);
                     }
                     else if (std::holds_alternative<world::transform::Scale>(transform))
                     {
-                        if (auto &scale = std::get<world::transform::Scale>(transform);
-                            ImGui::DragFloat3("Axis", &scale.scale.x, 0.05f))
-                        {
-                            world_group.transformations.UpdateTransformMatrix();
-                        }
+                        auto &scale = std::get<world::transform::Scale>(transform);
+                        ImGui::DragFloat3("Axis", &scale.scale.x, 0.05f);
                     }
                     ImGui::EndGroup();
                     ImGui::PopID();
@@ -589,10 +575,6 @@ namespace engine
                                 auto &origin = target_group_transformations[transform_payload.group_index];
                                 auto &target = world_group.transformations.GetTransformations()[i];
                                 std::swap(origin, target);
-
-                                world_group.transformations.UpdateTransformMatrix();
-                                if (transform_payload.group != &world_group)
-                                    transform_payload.group->transformations.UpdateTransformMatrix();
                             }
                         }
                         ImGui::EndDragDropTarget();
@@ -611,10 +593,6 @@ namespace engine
 
                     world_group.transformations.AddTransform(*transform_payload.origin);
                     transform_payload.group->transformations.RemoveTransform(transform_payload.group_index);
-
-                    world_group.transformations.UpdateTransformMatrix();
-                    if (transform_payload.group != &world_group)
-                        transform_payload.group->transformations.UpdateTransformMatrix();
                 }
                 ImGui::EndDragDropTarget();
             }
