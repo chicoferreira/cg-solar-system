@@ -2,7 +2,8 @@ name: CMake on multiple platforms
 
 on:
   push:
-    branches: [ fix-action ]
+    branches:
+      - '**'
     paths:
       - '**.cpp'
       - '**.h'
