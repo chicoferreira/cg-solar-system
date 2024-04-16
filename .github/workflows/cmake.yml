@@ -54,7 +54,7 @@ jobs:
 
       - name: vcpkg Linux dependencies
         if: matrix.os == 'self-hosted'
-        run: sudo apt update && yes Y | sudo apt install libxinerama-dev libxcursor-dev xorg-dev libglu1-mesa-dev pkg-config python3-pip && pip install cmake --upgrade
+        run: sudo apt update && sudo apt -y install libxinerama-dev libxcursor-dev xorg-dev libglu1-mesa-dev pkg-config python3-pip && pip install cmake --upgrade
 
       - name: vcpkg build
         uses: johnwason/vcpkg-action@v6
