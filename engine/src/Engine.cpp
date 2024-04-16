@@ -534,7 +534,7 @@ namespace engine
                         ImGui::CloseCurrentPopup();
                     }
 
-                    if (ImGui::MenuItem("Rotation with Time"))
+                    if (ImGui::MenuItem("Rotation (with Time)"))
                     {
                         world_group.transformations.AddTransform(world::transform::RotationWithTime());
                         ImGui::CloseCurrentPopup();
@@ -546,7 +546,7 @@ namespace engine
                         ImGui::CloseCurrentPopup();
                     }
 
-                    if (ImGui::MenuItem("Translation Through Points"))
+                    if (ImGui::MenuItem("Translation (Through Points)"))
                     {
                         world_group.transformations.AddTransform(world::transform::TranslationThroughPoints());
                         ImGui::CloseCurrentPopup();
@@ -599,6 +599,14 @@ namespace engine
                             rotation.angle_rads = degrees_to_radians(angle);
                         }
                     }
+                    else if (std::holds_alternative<world::transform::RotationWithTime>(transform))
+                    {
+                        auto &rotation_with_time = std::get<world::transform::RotationWithTime>(transform);
+                        ImGui::DragFloat3("Axis", &rotation_with_time.axis.x, 0.05f);
+                        ImGui::DragFloat(
+                            "Time to 360º", &rotation_with_time.time_to_complete, 0.01f, 0.0f, 0.0f, "%.3f s"
+                        );
+                    }
                     else if (std::holds_alternative<world::transform::Translation>(transform))
                     {
                         auto &translation = std::get<world::transform::Translation>(transform);
@@ -613,7 +621,7 @@ namespace engine
                         ImGui::Checkbox("Align to Path", &translation.align_to_path);
                         ImGui::Checkbox("Render Path", &translation.render_path);
 
-                        ImGui::SeparatorText("Points to Follow");
+                        ImGui::Text("Points to Follow:");
 
                         if (translation.points_to_follow.size() < 4)
                         {
@@ -632,12 +640,11 @@ namespace engine
                             if (ImGui::SmallButton("Remove"))
                             {
                                 translation.points_to_follow.erase(translation.points_to_follow.begin() + point_index);
-                                std::cout << "Removed point " << point_index << std::endl;
                             }
                             ImGui::PopID();
                         }
 
-                        if (ImGui::Button("Add New Point"))
+                        if (ImGui::SmallButton("Add New Point"))
                         {
                             translation.points_to_follow.push_back({});
                         }
