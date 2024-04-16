@@ -179,7 +179,7 @@ namespace engine
     {
         glPushMatrix();
 
-        glMultMatrixf(*group.transformations.GetTransformMatrix(m_simulation_time.m_current_time).mat);
+        renderTransformations(group.transformations, m_simulation_time.m_current_time);
 
         for (auto &model_index : group.models)
         {
@@ -193,6 +193,39 @@ namespace engine
         }
 
         glPopMatrix();
+    }
+
+    void Engine::renderTransformations(world::GroupTransform &transformations, float time)
+    {
+        for (auto &transformation : transformations.GetTransformations())
+        {
+            Mat4f matrix = std::visit([&](auto &&arg) { return arg.GetTransform(time); }, transformation);
+            if (std::holds_alternative<world::transform::TranslationThroughPoints>(transformation))
+            {
+                auto &translation = std::get<world::transform::TranslationThroughPoints>(transformation);
+                renderCatmullRomCurves(translation);
+            }
+
+            glMultMatrixf(*matrix.transpose().mat);
+        }
+    }
+
+    void Engine::renderCatmullRomCurves(world::transform::TranslationThroughPoints &translation) const
+    {
+        glBegin(GL_LINE_LOOP);
+        if (!translation.render_path || translation.points_to_follow.size() < 4)
+            return;
+
+        const size_t NUM_SEGMENTS = 100;
+
+        for (int i = 0; i < NUM_SEGMENTS; ++i)
+        {
+            const float time = static_cast<float>(i) / static_cast<float>(NUM_SEGMENTS);
+            Vec3f position, derivative;
+            getCatmullRomPoint(time, translation.points_to_follow, position, derivative);
+            glVertex3f(position.x, position.y, position.z);
+        }
+        glEnd();
     }
 
     void Engine::Render()

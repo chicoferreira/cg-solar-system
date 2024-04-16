@@ -110,6 +110,8 @@ namespace engine
         void renderImGui();
         static void postRenderImGui();
         void renderImGuiWorldGroupMenu(world::WorldGroup &world_group);
+        void renderTransformations(world::GroupTransform &transformations, float time);
+        void renderCatmullRomCurves(world::transform::TranslationThroughPoints &translation) const;
         void renderGroup(world::WorldGroup &group);
 
         bool loadWorld();

@@ -88,8 +88,9 @@ namespace world
         {
             float time_to_complete;
             bool align_to_path;
-
             std::vector<Vec3f> points_to_follow;
+
+            bool render_path = true;
 
             Mat4f GetTransform(float time) const
             {
@@ -132,16 +133,6 @@ namespace world
         void AddTransform(const transform::Transform &transform) { m_transformations.push_back(transform); }
         std::vector<transform::Transform> &GetTransformations() { return m_transformations; }
         void RemoveTransform(const size_t index) { m_transformations.erase(m_transformations.begin() + index); }
-        inline Mat4f GetTransformMatrix(float time)
-        {
-            auto transform = Mat4fIdentity;
-            for (auto &transformation : GetTransformations())
-            {
-                std::visit([&](auto &&arg) { transform *= arg.GetTransform(time); }, transformation);
-            }
-
-            return transform.transpose();
-        }
     };
 
     struct WorldGroup
