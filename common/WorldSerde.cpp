@@ -61,6 +61,10 @@ namespace world::serde
                     if (transform_element->QueryFloatAttribute("time", &time_to_complete) == tinyxml2::XML_SUCCESS)
                     {
                         const char *align_string = transform_element->Attribute("align");
+
+#ifdef _MSC_VER
+#define strcasecmp _stricmp
+#endif
                         bool align = align_string != nullptr && strcasecmp(align_string, "true") == 0;
 
                         std::vector<Vec3f> points_to_follow;
