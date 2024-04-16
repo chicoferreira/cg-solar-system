@@ -84,6 +84,33 @@ namespace world
             explicit Translation(Vec3f translation) : translation(std::move(translation)) {}
         };
 
+        struct TranslationThroughPoints
+        {
+            float time_to_complete;
+            bool align_to_path;
+
+            std::vector<Vec3f> points_to_follow;
+
+            Mat4f GetTransform(float time) const
+            {
+                if (points_to_follow.size() < 4)
+                    return Mat4fIdentity;
+
+                Vec3f position;
+                Vec3f derivative;
+                getCatmullRomPoint(time / time_to_complete, points_to_follow, position, derivative);
+
+                return Mat4fTranslate(position.x, position.y, position.z);
+            }
+
+            TranslationThroughPoints() = default;
+
+            explicit TranslationThroughPoints(const float time, bool align, std::vector<Vec3f> points) :
+                time_to_complete(time), align_to_path(align), points_to_follow(std::move(points))
+            {
+            }
+        };
+
         struct Scale
         {
             Vec3f scale{1, 1, 1};
@@ -94,7 +121,7 @@ namespace world
             explicit Scale(Vec3f scale) : scale(std::move(scale)) {}
         };
 
-        using Transform = std::variant<Rotation, RotationWithTime, Translation, Scale>;
+        using Transform = std::variant<Rotation, RotationWithTime, Translation, TranslationThroughPoints, Scale>;
     } // namespace transform
 
     class GroupTransform

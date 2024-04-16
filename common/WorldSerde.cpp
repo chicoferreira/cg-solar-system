@@ -57,10 +57,31 @@ namespace world::serde
             {
                 if (strcmp(transform_element->Name(), "translate") == 0)
                 {
-                    Vec3f translate;
-                    LOAD_VEC3F(transform_element, translate, std::nullopt)
+                    float time_to_complete;
+                    if (transform_element->QueryFloatAttribute("time", &time_to_complete) == tinyxml2::XML_SUCCESS)
+                    {
+                        const char *align_string = transform_element->Attribute("align");
+                        bool align = align_string != nullptr && strcasecmp(align_string, "true") == 0;
 
-                    group.transformations.AddTransform(transform::Translation(translate));
+                        std::vector<Vec3f> points_to_follow;
+                        for (auto point_element = transform_element->FirstChildElement("point"); point_element;
+                             point_element = point_element->NextSiblingElement("point"))
+                        {
+                            Vec3f point;
+                            LOAD_VEC3F(point_element, point, std::nullopt)
+                            points_to_follow.push_back(point);
+                        }
+
+                        group.transformations.AddTransform(
+                            transform::TranslationThroughPoints(time_to_complete, align, points_to_follow)
+                        );
+                    }
+                    else
+                    {
+                        Vec3f translate;
+                        LOAD_VEC3F(transform_element, translate, std::nullopt)
+                        group.transformations.AddTransform(transform::Translation(translate));
+                    }
                 }
                 else if (strcmp(transform_element->Name(), "scale") == 0)
                 {

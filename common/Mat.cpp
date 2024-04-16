@@ -140,13 +140,16 @@ void getCatmullRomPointSegment(
 
 void getCatmullRomPoint(float time, std::vector<Vec3f> points, Vec3f &position, Vec3f &derivative)
 {
-    int index = floor(time * points.size());
-    float time_in_segment = time - floor(time);
+    size_t points_size = points.size();
 
-    const auto &p0 = points[(index - 1 + points.size()) % points.size()];
-    const auto &p1 = points[index];
-    const auto &p2 = points[(index + 1) % points.size()];
-    const auto &p3 = points[(index + 2) % points.size()];
+    float t = time * points_size;
+    int index = floor(t);
+    float time_in_segment = t - index;
+
+    const auto &p0 = points[(index + points_size - 1) % points_size];
+    const auto &p1 = points[(index) % points_size];
+    const auto &p2 = points[(index + 1) % points_size];
+    const auto &p3 = points[(index + 2) % points_size];
 
     getCatmullRomPointSegment(time_in_segment, p0, p1, p2, p3, position, derivative);
 }
