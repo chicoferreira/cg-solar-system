@@ -24,15 +24,12 @@ jobs:
             c_compiler: gcc
             cpp_compiler: g++
             vcpkg_triplet: x64-linux-release
+         
+        exclude:
           - os: windows-latest
             c_compiler: cl
-            cpp_compiler: cl
-            vcpkg_triplet: x64-windows-release
           - os: macos-latest
             c_compiler: clang
-            cpp_compiler: clang++
-            vcpkg_triplet: x64-osx-release
-        exclude:
           - os: windows-latest
             c_compiler: gcc
           - os: windows-latest
@@ -57,7 +54,7 @@ jobs:
 
       - name: vcpkg Linux dependencies
         if: matrix.os == 'self-hosted'
-        run: sudo apt update && yes Y | sudo apt install libxinerama-dev libxcursor-dev xorg-dev libglu1-mesa-dev pkg-config
+        run: sudo apt update && yes Y | sudo apt install libxinerama-dev libxcursor-dev xorg-dev libglu1-mesa-dev pkg-config cmake
 
       - name: vcpkg build
         uses: johnwason/vcpkg-action@v6
