@@ -212,20 +212,22 @@ namespace engine
 
     void Engine::renderCatmullRomCurves(world::transform::TranslationThroughPoints &translation) const
     {
+        glColor3f(1.0f, 1.0f, 0.0f);
         glBegin(GL_LINE_LOOP);
-        if (!translation.render_path || translation.points_to_follow.size() < 4)
-            return;
-
-        const size_t NUM_SEGMENTS = 100;
-
-        for (int i = 0; i < NUM_SEGMENTS; ++i)
+        if (translation.render_path && translation.points_to_follow.size() >= 4)
         {
-            const float time = static_cast<float>(i) / static_cast<float>(NUM_SEGMENTS);
-            Vec3f position, derivative;
-            getCatmullRomPoint(time, translation.points_to_follow, position, derivative);
-            glVertex3f(position.x, position.y, position.z);
+            const size_t NUM_SEGMENTS = 100;
+
+            for (int i = 0; i < NUM_SEGMENTS; ++i)
+            {
+                const float time = static_cast<float>(i) / static_cast<float>(NUM_SEGMENTS);
+                Vec3f position, derivative;
+                getCatmullRomPoint(time, translation.points_to_follow, position, derivative);
+                glVertex3f(position.x, position.y, position.z);
+            }
         }
         glEnd();
+        glColor3f(1.0f, 1.0f, 1.0f);
     }
 
     void Engine::Render()
@@ -484,6 +486,10 @@ namespace engine
             return "Translation";
         if (std::holds_alternative<world::transform::Scale>(transform))
             return "Scale";
+        if (std::holds_alternative<world::transform::TranslationThroughPoints>(transform))
+            return "Translation Through Points";
+        if (std::holds_alternative<world::transform::RotationWithTime>(transform))
+            return "Rotation with Time";
         return "Unknown";
     }
 
@@ -528,9 +534,21 @@ namespace engine
                         ImGui::CloseCurrentPopup();
                     }
 
+                    if (ImGui::MenuItem("Rotation with Time"))
+                    {
+                        world_group.transformations.AddTransform(world::transform::RotationWithTime());
+                        ImGui::CloseCurrentPopup();
+                    }
+
                     if (ImGui::MenuItem("Translation"))
                     {
                         world_group.transformations.AddTransform(world::transform::Translation());
+                        ImGui::CloseCurrentPopup();
+                    }
+
+                    if (ImGui::MenuItem("Translation Through Points"))
+                    {
+                        world_group.transformations.AddTransform(world::transform::TranslationThroughPoints());
                         ImGui::CloseCurrentPopup();
                     }
 
@@ -585,6 +603,44 @@ namespace engine
                     {
                         auto &translation = std::get<world::transform::Translation>(transform);
                         ImGui::DragFloat3("Coordinates", &translation.translation.x, 0.05f);
+                    }
+                    else if (std::holds_alternative<world::transform::TranslationThroughPoints>(transform))
+                    {
+                        auto &translation = std::get<world::transform::TranslationThroughPoints>(transform);
+                        ImGui::DragFloat(
+                            "Time to Complete", &translation.time_to_complete, 0.01f, 0.0f, 0.0f, "%.3f s"
+                        );
+                        ImGui::Checkbox("Align to Path", &translation.align_to_path);
+                        ImGui::Checkbox("Render Path", &translation.render_path);
+
+                        ImGui::SeparatorText("Points to Follow");
+
+                        if (translation.points_to_follow.size() < 4)
+                        {
+                            ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(255, 255, 0, 255));
+                            ImGui::Text("This transformation needs at least 4 points to work.");
+                            ImGui::PopStyleColor();
+                        }
+
+                        for (int point_index = 0; point_index < translation.points_to_follow.size(); ++point_index)
+                        {
+                            auto &point_to_follow = translation.points_to_follow[point_index];
+                            ImGui::PushID(&point_to_follow);
+                            std::string name = "Point " + std::to_string(point_index + 1);
+                            ImGui::DragFloat3(name.c_str(), &point_to_follow.x, 0.05f);
+                            ImGui::SameLine();
+                            if (ImGui::SmallButton("Remove"))
+                            {
+                                translation.points_to_follow.erase(translation.points_to_follow.begin() + point_index);
+                                std::cout << "Removed point " << point_index << std::endl;
+                            }
+                            ImGui::PopID();
+                        }
+
+                        if (ImGui::Button("Add New Point"))
+                        {
+                            translation.points_to_follow.push_back({});
+                        }
                     }
                     else if (std::holds_alternative<world::transform::Scale>(transform))
                     {

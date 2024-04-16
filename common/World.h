@@ -60,14 +60,15 @@ namespace world
 
         struct RotationWithTime
         {
-            float time_to_complete;
-            Vec3f axis{0, 0, 0};
+            float time_to_complete = {1};
+            Vec3f axis{0, 1, 0};
 
             Mat4f GetTransform(float time) const
             {
                 return Mat4fRotate(time * M_PI * 2 / time_to_complete, axis.x, axis.y, axis.z);
             }
 
+            RotationWithTime() = default;
             explicit RotationWithTime(const float time_to_complete, Vec3f axis) :
                 time_to_complete(time_to_complete), axis(std::move(axis))
             {
@@ -86,10 +87,9 @@ namespace world
 
         struct TranslationThroughPoints
         {
-            float time_to_complete;
+            float time_to_complete = {1};
             bool align_to_path;
             std::vector<Vec3f> points_to_follow;
-
             bool render_path = true;
 
             Mat4f GetTransform(float time) const
