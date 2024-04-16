@@ -92,7 +92,9 @@ namespace world
             std::vector<Vec3f> points_to_follow;
             bool render_path = true;
 
-            Mat4f GetTransform(float time) const
+            Vec3f last_y_vector = {0, 1, 0};
+
+            Mat4f GetTransform(float time)
             {
                 if (points_to_follow.size() < 4)
                     return Mat4fIdentity;
@@ -101,7 +103,24 @@ namespace world
                 Vec3f derivative;
                 getCatmullRomPoint(time / time_to_complete, points_to_follow, position, derivative);
 
-                return Mat4fTranslate(position.x, position.y, position.z);
+                Mat4f result = Mat4fTranslate(position.x, position.y, position.z);
+
+                if (align_to_path)
+                {
+                    Vec3f x_vector = derivative.Normalize();
+                    Vec3f z_vector = x_vector.Cross(last_y_vector).Normalize();
+                    Vec3f y_vector = z_vector.Cross(x_vector).Normalize();
+
+                    last_y_vector = y_vector;
+
+                    result *=
+                        {{{x_vector.x, y_vector.x, z_vector.x, 0},
+                          {x_vector.y, y_vector.y, z_vector.y, 0},
+                          {x_vector.z, y_vector.z, z_vector.z, 0},
+                          {0, 0, 0, 1}}};
+                }
+
+                return result;
             }
 
             TranslationThroughPoints() = default;
