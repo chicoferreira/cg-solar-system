@@ -5,7 +5,7 @@
 
 #include "WorldSerde.h"
 #include "imgui_impl_glfw.h"
-#include "imgui_impl_opengl2.h"
+#include "imgui_impl_opengl3.h"
 
 namespace engine
 {
@@ -111,26 +111,6 @@ namespace engine
         }
     }
 
-    void GLAPIENTRY MessageCallback(
-        GLenum source,
-        GLenum type,
-        GLuint id,
-        GLenum severity,
-        GLsizei length,
-        const GLchar *message,
-        const void *userParam
-    )
-    {
-        fprintf(
-            stderr,
-            "GL CALLBACK: %s type = 0x%x, severity = 0x%x, message = %s\n",
-            (type == GL_DEBUG_TYPE_ERROR ? "** GL ERROR **" : ""),
-            type,
-            severity,
-            message
-        );
-    }
-
     bool Engine::Init()
     {
         glfwSetErrorCallback(glfw_error_callback);
@@ -169,8 +149,9 @@ namespace engine
         glEnable(GL_DEPTH_TEST);
         SetCullFaces(m_settings.cull_faces);
 
+#ifndef NDEBUG
         glEnable(GL_DEBUG_OUTPUT);
-        glDebugMessageCallback(MessageCallback, 0);
+#endif
 
         initImGui();
 
@@ -229,14 +210,10 @@ namespace engine
 
     void Engine::renderModel(uint32_t model_index, size_t index_count)
     {
-        //        glBindBuffer(GL_ARRAY_BUFFER, m_models_vertex_buffers[model_index]);
-        //        std::cout << "Model index: " << model_index << std::endl;
-        //        std::cout << "Index count: " << index_count << std::endl;
-        //        std::cout << "Vertex buffer: " << m_models_vertex_buffers[model_index] << std::endl;
-        //        std::cout << "Index buffer: " << m_models_index_buffers[model_index] << std::endl;
-        //        glVertexPointer(3, GL_FLOAT, 0, 0);
-        //        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_models_index_buffers[model_index]);
-        //        glDrawElements(GL_TRIANGLES, index_count, GL_UNSIGNED_INT, 0);
+        glBindBuffer(GL_ARRAY_BUFFER, m_models_vertex_buffers[model_index]);
+        glVertexPointer(3, GL_FLOAT, 0, 0);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_models_index_buffers[model_index]);
+        glDrawElements(GL_TRIANGLES, index_count, GL_UNSIGNED_INT, 0);
     }
 
     void Engine::renderGroup(world::WorldGroup &group)
@@ -507,7 +484,7 @@ namespace engine
 
     void Engine::Shutdown() const
     {
-        ImGui_ImplOpenGL2_Shutdown();
+        ImGui_ImplOpenGL3_Shutdown();
         ImGui_ImplGlfw_Shutdown();
         ImGui::DestroyContext();
 
@@ -539,7 +516,7 @@ namespace engine
         ImGui::StyleColorsDark();
 
         ImGui_ImplGlfw_InitForOpenGL(m_window, true);
-        ImGui_ImplOpenGL2_Init();
+        ImGui_ImplOpenGL3_Init();
     }
 
     const char *getTransformationName(const world::transform::Transform &transform)
@@ -768,7 +745,7 @@ namespace engine
 
     void Engine::renderImGui()
     {
-        ImGui_ImplOpenGL2_NewFrame();
+        ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
 
@@ -834,43 +811,79 @@ namespace engine
                         auto &model = m_models[i];
                         if (ImGui::TreeNode(&model, "Model #%zu (%s)", i, model.GetName().c_str()))
                         {
-                            ImGui::Text("Triangle Count: %zu", model.GetVertex().size() / 3);
                             ImGui::Text("Vertex Count: %zu", model.GetVertex().size());
+                            ImGui::Text("Index Count: %zu", model.GetIndexes().size());
+                            ImGui::Text("Triangle Count: %zu", model.GetIndexes().size() / 3);
 
-                            if (ImGui::TreeNodeEx("Vertices", ImGuiTreeNodeFlags_DefaultOpen))
+                            flags = ImGuiTableFlags_ScrollY | ImGuiTableFlags_RowBg | ImGuiTableFlags_BordersOuter |
+                                ImGuiTableFlags_BordersV | ImGuiTableFlags_Resizable;
+                            ImVec2 outer_size_vertex = ImVec2(
+                                0, TEXT_BASE_HEIGHT * (std::min(model.GetVertex().size(), static_cast<size_t>(10)) + 1)
+                            );
+
+                            ImGui::Text("Vertex Table");
+                            if (ImGui::BeginTable("vertex_table", 4, flags, outer_size_vertex))
                             {
-                                ImGui::TreePop();
-                                flags = ImGuiTableFlags_ScrollY | ImGuiTableFlags_RowBg | ImGuiTableFlags_BordersOuter |
-                                    ImGuiTableFlags_BordersV | ImGuiTableFlags_Resizable;
-                                ImVec2 outer_size = ImVec2(0, TEXT_BASE_HEIGHT * 10);
-                                if (ImGui::BeginTable("vertex_table", 4, flags, outer_size))
-                                {
-                                    ImGui::TableSetupScrollFreeze(0, 1); // Make top row always visible
-                                    ImGui::TableSetupColumn("Index", ImGuiTableColumnFlags_None);
-                                    ImGui::TableSetupColumn("x", ImGuiTableColumnFlags_None);
-                                    ImGui::TableSetupColumn("y", ImGuiTableColumnFlags_None);
-                                    ImGui::TableSetupColumn("z", ImGuiTableColumnFlags_None);
-                                    ImGui::TableHeadersRow();
+                                ImGui::TableSetupScrollFreeze(0, 1); // Make top row always visible
+                                ImGui::TableSetupColumn("Index", ImGuiTableColumnFlags_None);
+                                ImGui::TableSetupColumn("x", ImGuiTableColumnFlags_None);
+                                ImGui::TableSetupColumn("y", ImGuiTableColumnFlags_None);
+                                ImGui::TableSetupColumn("z", ImGuiTableColumnFlags_None);
+                                ImGui::TableHeadersRow();
 
-                                    // Demonstrate using clipper for large vertical lists
-                                    ImGuiListClipper clipper;
-                                    clipper.Begin(model.GetVertex().size());
-                                    while (clipper.Step())
+                                // Demonstrate using clipper for large vertical lists
+                                ImGuiListClipper clipper;
+                                clipper.Begin(model.GetVertex().size());
+                                while (clipper.Step())
+                                {
+                                    for (int row = clipper.DisplayStart; row < clipper.DisplayEnd; row++)
                                     {
-                                        for (int row = clipper.DisplayStart; row < clipper.DisplayEnd; row++)
+                                        ImGui::TableNextRow();
+                                        ImGui::TableSetColumnIndex(0);
+                                        ImGui::Text("%d", row);
+                                        for (int column = 1; column < 4; column++)
                                         {
-                                            ImGui::TableNextRow();
-                                            ImGui::TableSetColumnIndex(0);
-                                            ImGui::Text("%d", row);
-                                            for (int column = 1; column < 4; column++)
-                                            {
-                                                ImGui::TableSetColumnIndex(column);
-                                                ImGui::Text("%.3f", model.GetVertex()[row][column]);
-                                            }
+                                            ImGui::TableSetColumnIndex(column);
+                                            ImGui::Text("%.3f", model.GetVertex()[row][column - 1]);
                                         }
                                     }
-                                    ImGui::EndTable();
                                 }
+                                ImGui::EndTable();
+                            }
+
+                            ImGui::Text("Triangle Table");
+                            ImVec2 outer_size_index = ImVec2(
+                                0,
+                                TEXT_BASE_HEIGHT *
+                                    (std::min(model.GetIndexes().size() / 3, static_cast<size_t>(10)) + 1)
+                            );
+                            if (ImGui::BeginTable("index_table", 4, flags, outer_size_index))
+                            {
+                                ImGui::TableSetupScrollFreeze(0, 1); // Make top row always visible
+                                ImGui::TableSetupColumn("Triangle No.", ImGuiTableColumnFlags_None);
+                                ImGui::TableSetupColumn("Vertex 1", ImGuiTableColumnFlags_None);
+                                ImGui::TableSetupColumn("Vertex 2", ImGuiTableColumnFlags_None);
+                                ImGui::TableSetupColumn("Vertex 3", ImGuiTableColumnFlags_None);
+                                ImGui::TableHeadersRow();
+
+                                // Demonstrate using clipper for large vertical lists
+                                ImGuiListClipper clipper;
+                                clipper.Begin(model.GetIndexes().size() / 3);
+                                while (clipper.Step())
+                                {
+                                    for (int row = clipper.DisplayStart; row < clipper.DisplayEnd; row++)
+                                    {
+                                        ImGui::TableNextRow();
+                                        ImGui::TableSetColumnIndex(0);
+                                        ImGui::Text("%d", row);
+                                        for (int column = 1; column < 4; column++)
+                                        {
+                                            ImGui::TableSetColumnIndex(column);
+                                            ImGui::Text("%d", model.GetIndexes()[row * 3 + (column - 1)]);
+                                        }
+                                    }
+                                }
+                                ImGui::EndTable();
                             }
 
                             ImGui::TreePop();
@@ -939,6 +952,6 @@ namespace engine
         ImGui::Render();
     }
 
-    void Engine::postRenderImGui() { ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData()); }
+    void Engine::postRenderImGui() { ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData()); }
 
 } // namespace engine
