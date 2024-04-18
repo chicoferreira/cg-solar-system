@@ -9,7 +9,7 @@ namespace generator
     struct GeneratorResult
     {
         std::vector<Vec3f> vertex;
-        std::vector<uint32_t> normals;
+        std::vector<uint32_t> indexes;
     };
 
     GeneratorResult GeneratePlane(float length, size_t divisions);

@@ -13,23 +13,32 @@ namespace generator
     GeneratorResult GeneratePlane(const float length, const size_t divisions)
     {
         std::vector<Vec3f> vertex;
+        std::vector<uint32_t> indexes;
         const auto side = length / divisions;
 
-        for (int x = 0; x < divisions; ++x)
+        for (int z = 0; z < divisions + 1; ++z)
         {
-            for (int z = 0; z < divisions; ++z)
+            for (int x = 0; x < divisions + 1; ++x)
             {
-                const Vec3f top_left = {-length / 2 + x * side, 0, -length / 2 + z * side};
-                const Vec3f top_right = {-length / 2 + (x + 1) * side, 0, -length / 2 + z * side};
-                const Vec3f bottom_left = {-length / 2 + x * side, 0, -length / 2 + (z + 1) * side};
-                const Vec3f bottom_right = {-length / 2 + (x + 1) * side, 0, -length / 2 + (z + 1) * side};
-
-                vertex.insert(vertex.end(), {top_left, bottom_left, bottom_right});
-                vertex.insert(vertex.end(), {top_left, bottom_right, top_right});
+                vertex.push_back({-length / 2 + x * side, 0, -length / 2 + z * side});
             }
         }
 
-        return {vertex};
+        for (int z = 0; z < divisions; ++z)
+        {
+            for (int x = 0; x < divisions; ++x)
+            {
+                const uint32_t top_left_index = x * (divisions + 1) + z;
+                const uint32_t top_right_index = top_left_index + 1;
+                const uint32_t bottom_left_index = (x + 1) * (divisions + 1) + z;
+                const uint32_t bottom_right_index = bottom_left_index + 1;
+
+                indexes.insert(indexes.end(), {top_left_index, bottom_left_index, bottom_right_index});
+                indexes.insert(indexes.end(), {top_left_index, bottom_right_index, top_right_index});
+            }
+        }
+
+        return {vertex, indexes};
     }
 
     GeneratorResult GenerateSphere(const float radius, const size_t slices, const size_t stacks)
@@ -172,22 +181,25 @@ namespace generator
         std::ofstream file(path, std::ios::trunc);
         if (!file.is_open())
         {
-            std::cout << "Failed to open file " << filename << std::endl;
+            std::cout << "Failed to open file " << filename << "\n";
             return false;
         }
 
-        file << model.vertex.size() << " " << model.normals.size() << std::endl;
+        file << model.vertex.size() << " " << model.indexes.size() << "\n";
 
         for (const auto &vec : model.vertex)
         {
-            file << vec.x << " " << vec.y << " " << vec.z << std::endl;
+            file << vec.x << " " << vec.y << " " << vec.z << "\n";
         }
 
-        for (const auto &normal : model.normals)
+        file << "\n";
+
+        for (size_t i = 0; i < model.indexes.size(); ++i)
         {
-            file << normal << " ";
+            file << model.indexes[i] << (((i + 1) % 3 == 0) ? "\n" : " ");
         }
-        file << std::endl;
+
+        file.flush();
 
         return true;
     }
