@@ -73,17 +73,23 @@ namespace engine::model
 
     void Model::LoadFrom3dFormatStream(std::istream &file)
     {
-        std::string line;
-        std::getline(file, line);
-        m_vertex.resize(std::stoi(line));
+        size_t vertex_size, indexes_size;
+        file >> vertex_size >> indexes_size;
+
+        m_vertex.resize(vertex_size);
+        m_indexes.resize(indexes_size);
 
         for (auto &pos : m_vertex)
         {
-            std::getline(file, line);
-            std::istringstream iss(line);
-            iss >> pos.x >> pos.y >> pos.z;
+            file >> pos.x >> pos.y >> pos.z;
+        }
+
+        for (auto &index : m_indexes)
+        {
+            file >> index;
         }
     }
+
     std::optional<Model> LoadModelFromFile(const std::string &file_path)
     {
         if (const auto model_load_format = GetModelLoadFormat(file_path))

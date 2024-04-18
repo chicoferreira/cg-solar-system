@@ -50,6 +50,39 @@ namespace engine
         return true;
     }
 
+    void createModelBuffers(model::Model &model, uint32_t &vertex_buffer, uint32_t &index_buffer)
+    {
+        glGenBuffers(1, &vertex_buffer);
+        glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer);
+        glBufferData(
+            GL_ARRAY_BUFFER, model.GetVertex().size() * sizeof(Vec3f), model.GetVertex().data(), GL_STATIC_DRAW
+        );
+
+        glGenBuffers(1, &index_buffer);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, index_buffer);
+        glBufferData(
+            GL_ELEMENT_ARRAY_BUFFER,
+            model.GetIndexes().size() * sizeof(uint32_t),
+            model.GetIndexes().data(),
+            GL_STATIC_DRAW
+        );
+    }
+
+    void Engine::uploadModelsToGPU()
+    {
+        m_models_vertex_buffers.resize(m_models.size());
+        m_models_index_buffers.resize(m_models.size());
+
+        for (int i = 0; i < m_models.size(); ++i)
+        {
+            uint32_t vertex_buffer, index_buffer;
+            createModelBuffers(m_models[i], vertex_buffer, index_buffer);
+
+            m_models_vertex_buffers[i] = vertex_buffer;
+            m_models_index_buffers[i] = index_buffer;
+        }
+    }
+
     OperatingSystem getOS()
     {
 #ifdef _WIN32
@@ -76,6 +109,26 @@ namespace engine
             case OperatingSystem::UNKNOWN:
                 return "Unknown";
         }
+    }
+
+    void GLAPIENTRY MessageCallback(
+        GLenum source,
+        GLenum type,
+        GLuint id,
+        GLenum severity,
+        GLsizei length,
+        const GLchar *message,
+        const void *userParam
+    )
+    {
+        fprintf(
+            stderr,
+            "GL CALLBACK: %s type = 0x%x, severity = 0x%x, message = %s\n",
+            (type == GL_DEBUG_TYPE_ERROR ? "** GL ERROR **" : ""),
+            type,
+            severity,
+            message
+        );
     }
 
     bool Engine::Init()
@@ -116,11 +169,22 @@ namespace engine
         glEnable(GL_DEPTH_TEST);
         SetCullFaces(m_settings.cull_faces);
 
+        glEnable(GL_DEBUG_OUTPUT);
+        glDebugMessageCallback(MessageCallback, 0);
+
         initImGui();
 
         setupEnvironment();
 
-        return loadModels();
+        auto result = loadModels();
+        if (!result)
+            return false;
+
+        glEnableClientState(GL_VERTEX_ARRAY);
+
+        uploadModelsToGPU();
+
+        return true;
     }
 
     void SetRenderWireframeMode(const bool enable) { glPolygonMode(GL_FRONT_AND_BACK, enable ? GL_LINE : GL_FILL); }
@@ -163,16 +227,16 @@ namespace engine
         );
     }
 
-    void renderModel(model::Model &model)
+    void Engine::renderModel(uint32_t model_index, size_t index_count)
     {
-        glBegin(GL_TRIANGLES);
-
-        for (const auto &[x, y, z] : model.GetVertex())
-        {
-            glVertex3f(x, y, z);
-        }
-
-        glEnd();
+        //        glBindBuffer(GL_ARRAY_BUFFER, m_models_vertex_buffers[model_index]);
+        //        std::cout << "Model index: " << model_index << std::endl;
+        //        std::cout << "Index count: " << index_count << std::endl;
+        //        std::cout << "Vertex buffer: " << m_models_vertex_buffers[model_index] << std::endl;
+        //        std::cout << "Index buffer: " << m_models_index_buffers[model_index] << std::endl;
+        //        glVertexPointer(3, GL_FLOAT, 0, 0);
+        //        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_models_index_buffers[model_index]);
+        //        glDrawElements(GL_TRIANGLES, index_count, GL_UNSIGNED_INT, 0);
     }
 
     void Engine::renderGroup(world::WorldGroup &group)
@@ -184,7 +248,7 @@ namespace engine
         for (auto &model_index : group.models)
         {
             auto &model = m_models[model_index];
-            renderModel(model);
+            renderModel(model_index, model.GetIndexes().size());
         }
 
         for (auto &child : group.children)
