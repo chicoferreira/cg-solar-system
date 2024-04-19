@@ -44,34 +44,69 @@ namespace generator
     GeneratorResult GenerateSphere(const float radius, const size_t slices, const size_t stacks)
     {
         std::vector<Vec3f> vertex;
+        std::vector<uint32_t> indexes;
 
         const auto slice_size = 2 * M_PI / slices;
         const auto stack_size = M_PI / stacks;
+
+        vertex.push_back(Vec3f(0, radius, 0)); // top
+        vertex.push_back(Vec3f(0, -radius, 0)); // bottom
+
+        for (int slice = 0; slice < slices; ++slice)
+        {
+            for (int stack = 1; stack < stacks; ++stack)
+            {
+                // alpha from 0 to 2PI
+                // beta from -PI/2 to PI/2
+                vertex.push_back(Vec3fSpherical(radius, slice * slice_size, stack * stack_size - M_PI_2));
+            }
+        }
 
         for (int slice = 0; slice < slices; ++slice)
         {
             for (int stack = 0; stack < stacks; ++stack)
             {
-                // alpha from 0 to 2PI
-                // beta from -PI/2 to PI/2
-                const Vec3f bottom_left = Vec3fSpherical(radius, slice * slice_size, stack * stack_size - M_PI_2);
-                const Vec3f bottom_right =
-                    Vec3fSpherical(radius, (slice + 1) * slice_size, stack * stack_size - M_PI_2);
-                const Vec3f top_left = Vec3fSpherical(radius, slice * slice_size, (stack + 1) * stack_size - M_PI_2);
-                const Vec3f top_right =
-                    Vec3fSpherical(radius, (slice + 1) * slice_size, (stack + 1) * stack_size - M_PI_2);
+                // 2 the array starts at 2 because of top and bottom already being there
+                // (stack - 1) the current stack - 1 because we don't count the bottom vertex
+                // (slice * (stacks - 1)) how many slices have we traversed (stacks - 1)
+                // because we don't traverse one of the top/bottom vertex
+                uint32_t bottom_left_index = 2 + (stack - 1) + (slice * (stacks - 1));
+                uint32_t bottom_right_index = bottom_left_index + stacks - 1;
+
+                // Merge vertex when right index completes a full rotation
+                if (slice == slices - 1)
+                {
+                    bottom_right_index = 2 + (stack - 1);
+                }
+
+                uint32_t top_left_index = bottom_left_index + 1;
+                uint32_t top_right_index = bottom_right_index + 1;
+
+                // Merge bottom vertex
+                if (stack == 0)
+                {
+                    bottom_right_index = 1;
+                    bottom_left_index = 1;
+                }
+
+                // Merge top vertex
+                if (stack == stacks - 1)
+                {
+                    top_left_index = 0;
+                    top_right_index = 0;
+                }
 
                 // Avoid drawing extra line in bottom stack (it is just one triangle)
                 if (stack != 0)
-                    vertex.insert(vertex.end(), {top_left, bottom_left, bottom_right});
+                    indexes.insert(indexes.end(), {top_left_index, bottom_left_index, bottom_right_index});
 
                 // Avoid drawing extra line in top stack (it is just one triangle)
                 if (stack != stacks - 1)
-                    vertex.insert(vertex.end(), {top_left, bottom_right, top_right});
+                    indexes.insert(indexes.end(), {top_left_index, bottom_right_index, top_right_index});
             }
         }
 
-        return {vertex};
+        return {vertex, indexes};
     }
 
     GeneratorResult GenerateCone(const float radius, const float height, const size_t slices, const size_t stacks)
