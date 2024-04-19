@@ -516,7 +516,11 @@ namespace engine
         ImGui::StyleColorsDark();
 
         ImGui_ImplGlfw_InitForOpenGL(m_window, true);
+#ifdef __APPLE__
+        ImGui_ImplOpenGL3_Init("#version 120");
+#else
         ImGui_ImplOpenGL3_Init();
+#endif
     }
 
     const char *getTransformationName(const world::transform::Transform &transform)
