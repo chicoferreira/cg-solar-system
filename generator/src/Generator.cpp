@@ -144,34 +144,48 @@ namespace generator
         return {vertex};
     }
 
-    void applyMat4fTransform(const std::vector<Vec3f> &plane, const Mat4f &transform, std::vector<Vec3f> &result)
+    void applyMat4fTransform(
+        const std::vector<Vec3f> &vertex,
+        const std::vector<u_int32_t> &indexes,
+        u_int32_t start_index,
+        const Mat4f &transform,
+        std::vector<Vec3f> &result_vertex,
+        std::vector<u_int32_t> &result_indexes
+    )
     {
-        for (size_t i = 0; i < plane.size(); ++i)
+        for (auto v : vertex)
         {
-            result.push_back((transform * plane[i].ToVec4f()).ToVec3f());
+            result_vertex.push_back((transform * v.ToVec4f()).ToVec3f());
+        }
+
+        for (unsigned int index : indexes)
+        {
+            result_indexes.push_back(index + start_index);
         }
     }
 
     GeneratorResult GenerateBox(const float length, const size_t divisions)
     {
-        std::vector<Vec3f> result;
+        std::vector<Vec3f> vertex;
+        std::vector<u_int32_t> indexes;
         const auto plane = GeneratePlane(length, divisions);
+        const auto vertex_size = plane.vertex.size();
 
-        const auto move_up = Mat4fTranslate(0, length / 2, 0);
-        const auto move_down = Mat4fTranslate(0, -length / 2, 0) * Mat4fRotateX_M_PI;
-        const auto move_left = Mat4fTranslate(-length / 2, 0, 0) * Mat4fRotateZ_M_PI_2;
-        const auto move_right = Mat4fTranslate(length / 2, 0, 0) * Mat4fRotateZ_NEGATIVE_M_PI_2;
-        const auto move_front = Mat4fTranslate(0, 0, length / 2) * Mat4fRotateX_M_PI_2;
-        const auto move_back = Mat4fTranslate(0, 0, -length / 2) * Mat4fRotateX_NEGATIVE_M_PI_2;
+        std::vector<Mat4f> transforms = {
+            Mat4fTranslate(0, length / 2, 0), // up
+            Mat4fTranslate(0, -length / 2, 0) * Mat4fRotateX_M_PI, // down
+            Mat4fTranslate(-length / 2, 0, 0) * Mat4fRotateZ_M_PI_2, // left
+            Mat4fTranslate(length / 2, 0, 0) * Mat4fRotateZ_NEGATIVE_M_PI_2, // right
+            Mat4fTranslate(0, 0, length / 2) * Mat4fRotateX_M_PI_2, // front
+            Mat4fTranslate(0, 0, -length / 2) * Mat4fRotateX_NEGATIVE_M_PI_2 // back
+        };
 
-        //        applyMat4fTransform(plane, move_up, result);
-        //        applyMat4fTransform(plane, move_down, result);
-        //        applyMat4fTransform(plane, move_left, result);
-        //        applyMat4fTransform(plane, move_right, result);
-        //        applyMat4fTransform(plane, move_front, result);
-        //        applyMat4fTransform(plane, move_back, result);
+        for (int i = 0; i < transforms.size(); ++i)
+        {
+            applyMat4fTransform(plane.vertex, plane.indexes, i * vertex_size, transforms[i], vertex, indexes);
+        }
 
-        return {result};
+        return {vertex, indexes};
     }
 
     GeneratorResult GenerateCylinder(const float radius, const float height, const size_t slices)
