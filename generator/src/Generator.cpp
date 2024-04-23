@@ -144,26 +144,6 @@ namespace generator
         return {vertex};
     }
 
-    void applyMat4fTransform(
-        const std::vector<Vec3f> &vertex,
-        const std::vector<uint32_t> &indexes,
-        uint32_t start_index,
-        const Mat4f &transform,
-        std::vector<Vec3f> &result_vertex,
-        std::vector<uint32_t> &result_indexes
-    )
-    {
-        for (auto v : vertex)
-        {
-            result_vertex.push_back((transform * v.ToVec4f()).ToVec3f());
-        }
-
-        for (unsigned int index : indexes)
-        {
-            result_indexes.push_back(index + start_index);
-        }
-    }
-
     GeneratorResult GenerateBox(const float length, const size_t divisions)
     {
         std::vector<Vec3f> vertex;
@@ -182,7 +162,15 @@ namespace generator
 
         for (int i = 0; i < transforms.size(); ++i)
         {
-            applyMat4fTransform(plane.vertex, plane.indexes, i * vertex_size, transforms[i], vertex, indexes);
+            for (auto &v : plane.vertex)
+            {
+                vertex.push_back((transforms[i] * v.ToVec4f()).ToVec3f());
+            }
+
+            for (auto index : plane.indexes)
+            {
+                indexes.push_back(index + i * vertex_size);
+            }
         }
 
         return {vertex, indexes};
