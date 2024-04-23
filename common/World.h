@@ -90,8 +90,10 @@ namespace world
             float time_to_complete = {1};
             bool align_to_path;
             std::vector<Vec3f> points_to_follow;
-            bool render_path = true;
 
+            uint32_t render_path_gpu_buffer = 0; // the buffer associated with the data uploaded to the GPU
+            bool render_path_dirty = true; // true if new data needs to be uploaded to the GPU (points change)
+            bool render_path = true;
             Vec3f last_y_vector = {0, 1, 0};
 
             Mat4f GetTransform(float time)
@@ -122,6 +124,8 @@ namespace world
 
                 return result;
             }
+
+            void updatePoints() { render_path_dirty = true; }
 
             TranslationThroughPoints() = default;
 

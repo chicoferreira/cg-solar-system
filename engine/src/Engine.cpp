@@ -266,21 +266,35 @@ namespace engine
 
     void Engine::renderCatmullRomCurves(world::transform::TranslationThroughPoints &translation) const
     {
-        glColor3f(1.0f, 1.0f, 0.0f);
-        glBegin(GL_LINE_LOOP);
-        if (translation.render_path && translation.points_to_follow.size() >= 4)
+        if (!translation.render_path || translation.points_to_follow.size() < 4)
+            return;
+
+        if (translation.render_path_gpu_buffer == 0)
+            glGenBuffers(1, &translation.render_path_gpu_buffer);
+
+        if (translation.render_path_dirty)
         {
             const size_t NUM_SEGMENTS = 100;
 
+            std::vector<Vec3f> vertex;
             for (int i = 0; i < NUM_SEGMENTS; ++i)
             {
                 const float time = static_cast<float>(i) / static_cast<float>(NUM_SEGMENTS);
                 Vec3f position, derivative;
                 getCatmullRomPoint(time, translation.points_to_follow, position, derivative);
-                glVertex3f(position.x, position.y, position.z);
+                vertex.push_back(position);
             }
+
+            glBindBuffer(GL_ARRAY_BUFFER, translation.render_path_gpu_buffer);
+            glBufferData(GL_ARRAY_BUFFER, sizeof(Vec3f) * vertex.size(), vertex.data(), GL_STATIC_DRAW);
+            std::cout << "Uploading new data to GPU" << "\n";
+            translation.render_path_dirty = false;
         }
-        glEnd();
+
+        glColor3f(1.0f, 1.0f, 0.0f);
+        glBindBuffer(GL_ARRAY_BUFFER, translation.render_path_gpu_buffer);
+        glVertexPointer(3, GL_FLOAT, 0, 0);
+        glDrawArrays(GL_LINE_LOOP, 0, 100);
         glColor3f(1.0f, 1.0f, 1.0f);
     }
 
@@ -696,11 +710,14 @@ namespace engine
                             auto &point_to_follow = translation.points_to_follow[point_index];
                             ImGui::PushID(&point_to_follow);
                             std::string name = "Point " + std::to_string(point_index + 1);
-                            ImGui::DragFloat3(name.c_str(), &point_to_follow.x, 0.05f);
+                            if (ImGui::DragFloat3(name.c_str(), &point_to_follow.x, 0.05f)) {
+                                translation.updatePoints();
+                            }
                             ImGui::SameLine();
                             if (ImGui::SmallButton("Remove"))
                             {
                                 translation.points_to_follow.erase(translation.points_to_follow.begin() + point_index);
+                                translation.updatePoints();
                             }
                             ImGui::PopID();
                         }
@@ -708,6 +725,7 @@ namespace engine
                         if (ImGui::SmallButton("Add New Point"))
                         {
                             translation.points_to_follow.push_back({});
+                            translation.updatePoints();
                         }
                     }
                     else if (std::holds_alternative<world::transform::Scale>(transform))
