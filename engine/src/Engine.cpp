@@ -83,6 +83,14 @@ namespace engine
         }
     }
 
+    void Engine::destroyModels() {
+        for (int i = 0; i < m_models.size(); ++i)
+        {
+            glDeleteBuffers(1, &m_models_vertex_buffers[i]);
+            glDeleteBuffers(1, &m_models_index_buffers[i]);
+        }
+    }
+
     OperatingSystem getOS()
     {
 #ifdef _WIN32
@@ -769,10 +777,12 @@ namespace engine
 
                 if (ImGui::Button("Reload"))
                 {
+                    destroyModels();
                     auto previous_window = m_world.GetWindow();
                     loadWorld();
                     m_world.GetWindow() = previous_window; // Window cannot be reloaded
                     loadModels();
+                    uploadModelsToGPU();
                 }
 
                 if (ImGui::TreeNodeEx("Camera", ImGuiTreeNodeFlags_Framed))

@@ -120,6 +120,7 @@ namespace engine
         bool loadWorld();
         bool loadModels();
         void uploadModelsToGPU();
+        void destroyModels();
     };
 } // namespace engine
 
