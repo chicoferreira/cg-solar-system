@@ -3,6 +3,7 @@
 
 #include <array>
 #include <filesystem>
+#include <optional>
 #include <vector>
 #include "Generator.h"
 namespace generator::bezier
