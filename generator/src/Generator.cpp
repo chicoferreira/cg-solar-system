@@ -112,36 +112,61 @@ namespace generator
     GeneratorResult GenerateCone(const float radius, const float height, const size_t slices, const size_t stacks)
     {
         std::vector<Vec3f> vertex;
+        std::vector<uint32_t> indexes;
 
         const auto slice_size = 2 * M_PI / slices;
         const auto stack_size = height / stacks;
 
-        constexpr auto base_middle = Vec3f{0, 0, 0};
+        vertex.push_back(Vec3f{0, 0, 0});
+        vertex.push_back(Vec3f{0, height, 0});
+
+        for (int slice = 0; slice < slices; ++slice)
+        {
+            vertex.push_back(Vec3fPolar(radius, slice * slice_size, 0)); // base vertice
+
+            for (int stack = 0; stack < stacks; ++stack)
+            {
+                const float current_radius = radius - stack * radius / stacks;
+                vertex.push_back(Vec3fPolar(current_radius, slice * slice_size, stack * stack_size));
+            }
+        }
 
         for (int slice = 0; slice < slices; ++slice)
         {
             for (int stack = 0; stack < stacks; ++stack)
             {
-                const float current_radius = radius - stack * radius / stacks;
-                const float next_radius = radius - (stack + 1) * radius / stacks;
+                uint32_t bottom_left_index = 2 + (stack + 1) + (slice * (stacks + 1));
+                uint32_t bottom_right_index = bottom_left_index + stacks + 1;
 
-                const Vec3f bottom_left = Vec3fPolar(current_radius, slice * slice_size, stack * stack_size);
-                const Vec3f bottom_right = Vec3fPolar(current_radius, (slice + 1) * slice_size, stack * stack_size);
-                const Vec3f top_left = Vec3fPolar(next_radius, slice * slice_size, (stack + 1) * stack_size);
-                const Vec3f top_right = Vec3fPolar(next_radius, (slice + 1) * slice_size, (stack + 1) * stack_size);
+                // Merge vertex when right index completes a full rotation
+                if (slice == slices - 1)
+                    bottom_right_index = 2 + (stack + 1);
 
-                vertex.insert(vertex.end(), {top_left, bottom_left, bottom_right});
+
+                uint32_t top_left_index = bottom_left_index + 1;
+                uint32_t top_right_index = bottom_right_index + 1;
+
+                // Merge top vertex
+                if (stack == stacks - 1)
+                {
+                    top_left_index = 1;
+                    top_right_index = 1;
+                }
+
+                indexes.insert(indexes.end(), {top_left_index, bottom_left_index, bottom_right_index});
+
+                // Avoid drawing extra line in top stack (it is just one triangle)
                 if (stack != stacks - 1)
-                    vertex.insert(vertex.end(), {top_left, bottom_right, top_right});
+                    indexes.insert(indexes.end(), {top_left_index, bottom_right_index, top_right_index});
             }
 
-            const Vec3f base_bottom_left = Vec3fPolar(radius, slice * slice_size, 0);
-            const Vec3f base_bottom_right = Vec3fPolar(radius, (slice + 1) * slice_size, 0);
+            uint32_t base_left_index = 2 + (slice * (stacks + 1));
+            uint32_t base_right_index = slice == slices - 1 ? 2 : base_left_index + stacks + 1;
 
-            vertex.insert(vertex.end(), {base_middle, base_bottom_right, base_bottom_left});
+            indexes.insert(indexes.end(), {base_right_index, base_left_index, 0}); // base triangle
         }
 
-        return {vertex};
+        return {vertex, indexes};
     }
 
     GeneratorResult GenerateBox(const float length, const size_t divisions)
