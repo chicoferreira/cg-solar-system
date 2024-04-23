@@ -12,6 +12,7 @@ enum CommandType
     CONE,
     BOX,
     CYLINDER,
+    BEZIER,
     SOLAR_SYSTEM,
 };
 
@@ -29,6 +30,7 @@ const auto commands = {
     Command{CONE, "cone", "<radius> <height> <slices> <stacks>", 4},
     Command{BOX, "box", "<length> <divisions>", 2},
     Command{CYLINDER, "cylinder", "<radius> <height> <slices>", 3},
+    Command{BEZIER, "bezier", "<file> <tesselation>", 2},
     Command{
         SOLAR_SYSTEM,
         "solar-system",
@@ -131,6 +133,12 @@ void runGenerator(const Command &cmd, char *args[])
                 PARSE_FLOAT(height, args[1])
                 PARSE_INT(slices, args[2])
                 generator::SaveModel(generator::GenerateCylinder(radius, height, slices), args[3]);
+                break;
+            }
+        case BEZIER:
+            {
+                PARSE_INT(tesselation, args[1])
+                generator::SaveModel(generator::GenerateBezier(args[0], tesselation), args[2]);
                 break;
             }
         case SOLAR_SYSTEM:

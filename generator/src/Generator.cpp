@@ -153,6 +153,82 @@ std::vector<Vec3f> generator::GenerateCylinder(const float radius, const float h
     return result;
 }
 
+Vec3f getBezierPatchPoint(const Mat4f &bezier_patch_matrix, float u, float v)
+{
+    Vec4f u_vec = {u * u * u, u * u, u, 1};
+    Vec4f v_vec = {v * v * v, v * v, v, 1};
+
+    // TODO: u_vec * bezier_matrix * v_vec
+    return {0, 0, 0};
+} 
+
+std::vector<Vec3f> generator::GenerateBezier(const char* file_path, size_t tesselation)
+{
+    std::ifstream file(file_path);
+    if (!file.is_open())
+    {
+        std::cerr << "Failed to open file " << file_path << std::endl;
+        return {};
+    }
+
+    size_t num_patches;
+    file >> num_patches;
+
+    std::vector<std::vector<size_t>> patches(num_patches, std::vector<size_t>(16));
+    for (int i = 0; i < num_patches; ++i)
+    {
+        for (int j = 0; j < 16; ++j)
+        {
+            size_t index;
+            file >> index;
+
+            patches[i][j] = index;
+        }
+    }
+
+    size_t num_points;
+    file >> num_points;
+
+    std::vector<Vec3f> control_points(num_points);
+    for (int i = 0; i < num_points; ++i)
+    {
+        float x, y, z;
+        file >> x;
+        file >> y;
+        file >> z;
+
+        control_points[i] = {x, y, z};
+    }
+
+    float u = 0.0f, v = 0.0f, delta = 1.0f / tesselation;
+
+    std::vector<Vec3f> result;
+    for (auto& patch : patches)
+    {
+        // TODO: Calculate current patch points and bezier matrix
+        Mat4f patch_points;
+        Mat4f bezier_patch_matrix = getBezierPatchMatrix(patch_points);
+
+        for (int i = 0; i < tesselation; i++, u += delta)
+        {
+            for (int j = 0; j < tesselation; j++, v += delta)
+            {
+                Vec3f p0 = getBezierPatchPoint(bezier_patch_matrix, u, v);
+                Vec3f p1 = getBezierPatchPoint(bezier_patch_matrix, u, v + delta);
+                Vec3f p2 = getBezierPatchPoint(bezier_patch_matrix, u + delta, v);
+                Vec3f p3 = getBezierPatchPoint(bezier_patch_matrix, u + delta, v + delta);
+
+                result.insert(result.end(), {p2, p0, p1});
+                result.insert(result.end(), {p1, p3, p2});
+            }
+            v = 0.0f;
+        }
+        u = v = 0.0f;
+    }
+
+    return result;
+}
+
 constexpr std::string_view default_folder = "assets/models/";
 
 bool generator::SaveModel(const std::vector<Vec3f> &vertex, const char *filename)
