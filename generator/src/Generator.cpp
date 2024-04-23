@@ -190,28 +190,48 @@ namespace generator
 
     GeneratorResult GenerateCylinder(const float radius, const float height, const size_t slices)
     {
-        std::vector<Vec3f> result;
+        std::vector<Vec3f> vertex;
+        std::vector<uint32_t> indexes;
 
         const float alpha = 2.0f * M_PI / static_cast<float>(slices);
 
-        constexpr auto base_middle = Vec3f(0, 0, 0);
-        const auto up_middle = Vec3f(0, height, 0);
+        vertex.push_back(Vec3f(0, 0, 0));
+        vertex.push_back(Vec3f(0, height, 0));
+
+        const uint32_t base_middle = 0;
+        const uint32_t up_middle = 1;
 
         for (int i = 0; i < slices; i++)
         {
-            Vec3f base_vertex_left = Vec3fPolar(radius, static_cast<float>(i) * alpha);
-            Vec3f base_vertex_right = Vec3fPolar(radius, static_cast<float>(i + 1) * alpha);
+            const uint32_t current_index = vertex.size();
 
-            Vec3f up_vertex_left = base_vertex_left.with_y(height);
-            Vec3f up_vertex_right = base_vertex_right.with_y(height);
+            Vec3f bottom_vertice = Vec3fPolar(radius, static_cast<float>(i) * alpha);
+            Vec3f upper_vertice = bottom_vertice.with_y(height);
 
-            result.insert(result.end(), {up_middle, up_vertex_left, up_vertex_right});
-            result.insert(result.end(), {up_vertex_right, up_vertex_left, base_vertex_right});
-            result.insert(result.end(), {base_vertex_left, base_vertex_right, up_vertex_left});
-            result.insert(result.end(), {base_middle, base_vertex_right, base_vertex_left});
+            vertex.push_back(bottom_vertice); // base
+            vertex.push_back(bottom_vertice); // side
+            vertex.push_back(upper_vertice); // side
+            vertex.push_back(upper_vertice); // top
+
+            const uint32_t bottom_base_vertex_left = current_index;
+            const uint32_t bottom_side_vertex_left = current_index + 1;
+            const uint32_t upper_side_vertex_left = current_index + 2;
+            const uint32_t upper_top_vertex_left = current_index + 3;
+
+            const uint32_t right_start = i + 1 == slices ? 2 : current_index + 4;
+
+            const uint32_t bottom_base_vertex_right = right_start;
+            const uint32_t bottom_side_vertex_right = right_start + 1;
+            const uint32_t upper_side_vertex_right = right_start + 2;
+            const uint32_t upper_top_vertex_right = right_start + 3;
+
+            indexes.insert(indexes.end(), {up_middle, upper_top_vertex_left, upper_top_vertex_right});
+            indexes.insert(indexes.end(), {upper_side_vertex_right, upper_side_vertex_left, bottom_side_vertex_right});
+            indexes.insert(indexes.end(), {bottom_side_vertex_left, bottom_side_vertex_right, upper_side_vertex_left});
+            indexes.insert(indexes.end(), {base_middle, bottom_base_vertex_right, bottom_base_vertex_left});
         }
 
-        return {result};
+        return {vertex, indexes};
     }
 
     constexpr std::string_view default_folder = "assets/models/";
