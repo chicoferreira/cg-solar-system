@@ -106,6 +106,9 @@ namespace engine
         GLFWwindow *m_window = nullptr;
         OperatingSystem m_os = OperatingSystem::UNKNOWN;
 
+        size_t m_current_rendered_models_size = 0;
+        size_t m_current_rendered_triangles_size = 0;
+
         void setupEnvironment();
 
         void initImGui();

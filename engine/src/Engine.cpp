@@ -83,7 +83,8 @@ namespace engine
         }
     }
 
-    void Engine::destroyModels() {
+    void Engine::destroyModels()
+    {
         for (int i = 0; i < m_models.size(); ++i)
         {
             glDeleteBuffers(1, &m_models_vertex_buffers[i]);
@@ -233,7 +234,11 @@ namespace engine
         for (auto &model_index : group.models)
         {
             auto &model = m_models[model_index];
-            renderModel(model_index, model.GetIndexes().size());
+            auto model_index_size = model.GetIndexes().size();
+            renderModel(model_index, model_index_size);
+
+            m_current_rendered_models_size += 1;
+            m_current_rendered_triangles_size += model_index_size;
         }
 
         for (auto &child : group.children)
@@ -292,6 +297,9 @@ namespace engine
 
         SetRenderWireframeMode(m_settings.wireframe);
 
+
+        m_current_rendered_models_size = 0;
+        m_current_rendered_triangles_size = 0;
         renderGroup(m_world.GetParentWorldGroup());
 
         postRenderImGui();
@@ -959,6 +967,11 @@ namespace engine
                 ImGui::TreePop();
             }
 
+            ImGui::Text(
+                "Rendering %zu models (%zu triangles)",
+                m_current_rendered_models_size,
+                m_current_rendered_triangles_size
+            );
             ImGui::Text("%.3f ms/frame (%.1f FPS)", 1000.0f / io->Framerate, io->Framerate);
             ImGui::End();
         }

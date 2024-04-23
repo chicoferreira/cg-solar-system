@@ -146,11 +146,11 @@ namespace generator
 
     void applyMat4fTransform(
         const std::vector<Vec3f> &vertex,
-        const std::vector<u_int32_t> &indexes,
-        u_int32_t start_index,
+        const std::vector<uint32_t> &indexes,
+        uint32_t start_index,
         const Mat4f &transform,
         std::vector<Vec3f> &result_vertex,
-        std::vector<u_int32_t> &result_indexes
+        std::vector<uint32_t> &result_indexes
     )
     {
         for (auto v : vertex)
@@ -167,7 +167,7 @@ namespace generator
     GeneratorResult GenerateBox(const float length, const size_t divisions)
     {
         std::vector<Vec3f> vertex;
-        std::vector<u_int32_t> indexes;
+        std::vector<uint32_t> indexes;
         const auto plane = GeneratePlane(length, divisions);
         const auto vertex_size = plane.vertex.size();
 
