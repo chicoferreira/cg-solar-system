@@ -1,6 +1,7 @@
 #ifndef GENERATOR_H
 #define GENERATOR_H
 #include <vector>
+#include <cstdint>
 
 #include "Vec.h"
 

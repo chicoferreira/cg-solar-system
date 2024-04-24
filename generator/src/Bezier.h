@@ -5,6 +5,7 @@
 #include <filesystem>
 #include <optional>
 #include <vector>
+#include <cstdint>
 #include "Generator.h"
 namespace generator::bezier
 {
