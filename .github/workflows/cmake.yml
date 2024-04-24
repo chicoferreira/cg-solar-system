@@ -40,7 +40,7 @@ jobs:
           - os: macos-latest
             c_compiler: clang
             cpp_compiler: clang++
-            vcpkg_triplet: x64-osx-release
+            vcpkg_triplet: arm64-osx-release
         exclude:
           - os: windows-latest
             c_compiler: gcc

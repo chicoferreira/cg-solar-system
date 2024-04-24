@@ -2,8 +2,10 @@
 #include <iostream>
 #include <string>
 
+#include "Bezier.h"
 #include "Generator.h"
 #include "SolarSystem.h"
+#include "Utils.h"
 
 enum CommandType
 {
@@ -12,6 +14,7 @@ enum CommandType
     CONE,
     BOX,
     CYLINDER,
+    BEZIER_PATCH,
     SOLAR_SYSTEM,
 };
 
@@ -29,6 +32,7 @@ const auto commands = {
     Command{CONE, "cone", "<radius> <height> <slices> <stacks>", 4},
     Command{BOX, "box", "<length> <divisions>", 2},
     Command{CYLINDER, "cylinder", "<radius> <height> <slices>", 3},
+    Command{BEZIER_PATCH, "patch", "<patch_file> <tesselation>", 2},
     Command{
         SOLAR_SYSTEM,
         "solar-system",
@@ -131,6 +135,24 @@ void runGenerator(const Command &cmd, char *args[])
                 PARSE_FLOAT(height, args[1])
                 PARSE_INT(slices, args[2])
                 generator::SaveModel(generator::GenerateCylinder(radius, height, slices), args[3]);
+                break;
+            }
+        case BEZIER_PATCH:
+            {
+                const auto file_path = engine::utils::FindFile({"./", "assets/patches"}, args[0]);
+                if (!file_path)
+                {
+                    std::cerr << "Patch file not found";
+                    return;
+                }
+                auto surface = generator::bezier::LoadSurfaceFromPatchFile(file_path.value());
+                if (!surface)
+                {
+                    std::cerr << "Couldn't surface read from '" << file_path.value() << "'";
+                    return;
+                }
+                PARSE_INT(tesselation, args[1])
+                generator::SaveModel(generator::bezier::GenerateBezierSurface(surface.value(), tesselation), args[2]);
                 break;
             }
         case SOLAR_SYSTEM:

@@ -20,6 +20,7 @@ namespace engine::model
     {
         std::string m_name;
         std::vector<Vec3f> m_vertex;
+        std::vector<uint32_t> m_indexes;
 
     public:
         explicit Model(std::string name) : m_name(std::move(name)) {}
@@ -31,6 +32,7 @@ namespace engine::model
 
         const std::string &GetName() const { return m_name; }
         std::vector<Vec3f> &GetVertex() { return m_vertex; }
+        std::vector<uint32_t> &GetIndexes() { return m_indexes; }
 
         void LoadFromObjStream(std::istream &file);
         void LoadFrom3dFormatStream(std::istream &file);

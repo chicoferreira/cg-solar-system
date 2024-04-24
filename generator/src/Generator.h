@@ -1,18 +1,25 @@
 #ifndef GENERATOR_H
 #define GENERATOR_H
 #include <vector>
+#include <cstdint>
 
 #include "Vec.h"
 
 namespace generator
 {
-    std::vector<Vec3f> GeneratePlane(float length, size_t divisions);
-    std::vector<Vec3f> GenerateSphere(float radius, size_t slices, size_t stacks);
-    std::vector<Vec3f> GenerateCone(float radius, float height, size_t slices, size_t stacks);
-    std::vector<Vec3f> GenerateBox(float length, size_t divisions);
-    std::vector<Vec3f> GenerateCylinder(float radius, float height, size_t slices);
+    struct GeneratorResult
+    {
+        std::vector<Vec3f> vertex;
+        std::vector<uint32_t> indexes;
+    };
 
-    bool SaveModel(const std::vector<Vec3f> &vertex, const char *filename);
+    GeneratorResult GeneratePlane(float length, size_t divisions);
+    GeneratorResult GenerateSphere(float radius, size_t slices, size_t stacks);
+    GeneratorResult GenerateCone(float radius, float height, size_t slices, size_t stacks);
+    GeneratorResult GenerateBox(float length, size_t divisions);
+    GeneratorResult GenerateCylinder(float radius, float height, size_t slices);
+
+    bool SaveModel(const GeneratorResult &result, const char *filename);
 } // namespace generator
 
 

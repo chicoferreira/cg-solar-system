@@ -5,7 +5,7 @@
 
 #include "WorldSerde.h"
 #include "imgui_impl_glfw.h"
-#include "imgui_impl_opengl2.h"
+#include "imgui_impl_opengl3.h"
 
 namespace engine
 {
@@ -48,6 +48,48 @@ namespace engine
             m_models.push_back(std::move(model_optional.value()));
         }
         return true;
+    }
+
+    void createModelBuffers(model::Model &model, uint32_t &vertex_buffer, uint32_t &index_buffer)
+    {
+        glGenBuffers(1, &vertex_buffer);
+        glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer);
+        glBufferData(
+            GL_ARRAY_BUFFER, model.GetVertex().size() * sizeof(Vec3f), model.GetVertex().data(), GL_STATIC_DRAW
+        );
+
+        glGenBuffers(1, &index_buffer);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, index_buffer);
+        glBufferData(
+            GL_ELEMENT_ARRAY_BUFFER,
+            model.GetIndexes().size() * sizeof(uint32_t),
+            model.GetIndexes().data(),
+            GL_STATIC_DRAW
+        );
+    }
+
+    void Engine::uploadModelsToGPU()
+    {
+        m_models_vertex_buffers.resize(m_models.size());
+        m_models_index_buffers.resize(m_models.size());
+
+        for (int i = 0; i < m_models.size(); ++i)
+        {
+            uint32_t vertex_buffer, index_buffer;
+            createModelBuffers(m_models[i], vertex_buffer, index_buffer);
+
+            m_models_vertex_buffers[i] = vertex_buffer;
+            m_models_index_buffers[i] = index_buffer;
+        }
+    }
+
+    void Engine::destroyModels()
+    {
+        for (int i = 0; i < m_models.size(); ++i)
+        {
+            glDeleteBuffers(1, &m_models_vertex_buffers[i]);
+            glDeleteBuffers(1, &m_models_index_buffers[i]);
+        }
     }
 
     OperatingSystem getOS()
@@ -116,11 +158,23 @@ namespace engine
         glEnable(GL_DEPTH_TEST);
         SetCullFaces(m_settings.cull_faces);
 
+#ifndef NDEBUG
+        glEnable(GL_DEBUG_OUTPUT);
+#endif
+
         initImGui();
 
         setupEnvironment();
 
-        return loadModels();
+        auto result = loadModels();
+        if (!result)
+            return false;
+
+        glEnableClientState(GL_VERTEX_ARRAY);
+
+        uploadModelsToGPU();
+
+        return true;
     }
 
     void SetRenderWireframeMode(const bool enable) { glPolygonMode(GL_FRONT_AND_BACK, enable ? GL_LINE : GL_FILL); }
@@ -163,16 +217,12 @@ namespace engine
         );
     }
 
-    void renderModel(model::Model &model)
+    void Engine::renderModel(uint32_t model_index, size_t index_count)
     {
-        glBegin(GL_TRIANGLES);
-
-        for (const auto &[x, y, z] : model.GetVertex())
-        {
-            glVertex3f(x, y, z);
-        }
-
-        glEnd();
+        glBindBuffer(GL_ARRAY_BUFFER, m_models_vertex_buffers[model_index]);
+        glVertexPointer(3, GL_FLOAT, 0, 0);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_models_index_buffers[model_index]);
+        glDrawElements(GL_TRIANGLES, index_count, GL_UNSIGNED_INT, 0);
     }
 
     void Engine::renderGroup(world::WorldGroup &group)
@@ -184,7 +234,11 @@ namespace engine
         for (auto &model_index : group.models)
         {
             auto &model = m_models[model_index];
-            renderModel(model);
+            auto model_index_size = model.GetIndexes().size();
+            renderModel(model_index, model_index_size);
+
+            m_current_rendered_models_size += 1;
+            m_current_rendered_triangles_size += model_index_size;
         }
 
         for (auto &child : group.children)
@@ -212,21 +266,35 @@ namespace engine
 
     void Engine::renderCatmullRomCurves(world::transform::TranslationThroughPoints &translation) const
     {
-        glColor3f(1.0f, 1.0f, 0.0f);
-        glBegin(GL_LINE_LOOP);
-        if (translation.render_path && translation.points_to_follow.size() >= 4)
+        if (!translation.render_path || translation.points_to_follow.size() < 4)
+            return;
+
+        if (translation.render_path_gpu_buffer == 0)
+            glGenBuffers(1, &translation.render_path_gpu_buffer);
+
+        if (translation.render_path_dirty)
         {
             const size_t NUM_SEGMENTS = 100;
 
+            std::vector<Vec3f> vertex;
             for (int i = 0; i < NUM_SEGMENTS; ++i)
             {
                 const float time = static_cast<float>(i) / static_cast<float>(NUM_SEGMENTS);
                 Vec3f position, derivative;
                 getCatmullRomPoint(time, translation.points_to_follow, position, derivative);
-                glVertex3f(position.x, position.y, position.z);
+                vertex.push_back(position);
             }
+
+            glBindBuffer(GL_ARRAY_BUFFER, translation.render_path_gpu_buffer);
+            glBufferData(GL_ARRAY_BUFFER, sizeof(Vec3f) * vertex.size(), vertex.data(), GL_STATIC_DRAW);
+            std::cout << "Uploading new data to GPU" << "\n";
+            translation.render_path_dirty = false;
         }
-        glEnd();
+
+        glColor3f(1.0f, 1.0f, 0.0f);
+        glBindBuffer(GL_ARRAY_BUFFER, translation.render_path_gpu_buffer);
+        glVertexPointer(3, GL_FLOAT, 0, 0);
+        glDrawArrays(GL_LINE_LOOP, 0, 100);
         glColor3f(1.0f, 1.0f, 1.0f);
     }
 
@@ -243,6 +311,9 @@ namespace engine
 
         SetRenderWireframeMode(m_settings.wireframe);
 
+
+        m_current_rendered_models_size = 0;
+        m_current_rendered_triangles_size = 0;
         renderGroup(m_world.GetParentWorldGroup());
 
         postRenderImGui();
@@ -443,7 +514,7 @@ namespace engine
 
     void Engine::Shutdown() const
     {
-        ImGui_ImplOpenGL2_Shutdown();
+        ImGui_ImplOpenGL3_Shutdown();
         ImGui_ImplGlfw_Shutdown();
         ImGui::DestroyContext();
 
@@ -475,7 +546,11 @@ namespace engine
         ImGui::StyleColorsDark();
 
         ImGui_ImplGlfw_InitForOpenGL(m_window, true);
-        ImGui_ImplOpenGL2_Init();
+#ifdef __APPLE__
+        ImGui_ImplOpenGL3_Init("#version 120");
+#else
+        ImGui_ImplOpenGL3_Init();
+#endif
     }
 
     const char *getTransformationName(const world::transform::Transform &transform)
@@ -635,11 +710,14 @@ namespace engine
                             auto &point_to_follow = translation.points_to_follow[point_index];
                             ImGui::PushID(&point_to_follow);
                             std::string name = "Point " + std::to_string(point_index + 1);
-                            ImGui::DragFloat3(name.c_str(), &point_to_follow.x, 0.05f);
+                            if (ImGui::DragFloat3(name.c_str(), &point_to_follow.x, 0.05f)) {
+                                translation.updatePoints();
+                            }
                             ImGui::SameLine();
                             if (ImGui::SmallButton("Remove"))
                             {
                                 translation.points_to_follow.erase(translation.points_to_follow.begin() + point_index);
+                                translation.updatePoints();
                             }
                             ImGui::PopID();
                         }
@@ -647,6 +725,7 @@ namespace engine
                         if (ImGui::SmallButton("Add New Point"))
                         {
                             translation.points_to_follow.push_back({});
+                            translation.updatePoints();
                         }
                     }
                     else if (std::holds_alternative<world::transform::Scale>(transform))
@@ -704,7 +783,7 @@ namespace engine
 
     void Engine::renderImGui()
     {
-        ImGui_ImplOpenGL2_NewFrame();
+        ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
 
@@ -724,10 +803,12 @@ namespace engine
 
                 if (ImGui::Button("Reload"))
                 {
+                    destroyModels();
                     auto previous_window = m_world.GetWindow();
                     loadWorld();
                     m_world.GetWindow() = previous_window; // Window cannot be reloaded
                     loadModels();
+                    uploadModelsToGPU();
                 }
 
                 if (ImGui::TreeNodeEx("Camera", ImGuiTreeNodeFlags_Framed))
@@ -770,43 +851,79 @@ namespace engine
                         auto &model = m_models[i];
                         if (ImGui::TreeNode(&model, "Model #%zu (%s)", i, model.GetName().c_str()))
                         {
-                            ImGui::Text("Triangle Count: %zu", model.GetVertex().size() / 3);
                             ImGui::Text("Vertex Count: %zu", model.GetVertex().size());
+                            ImGui::Text("Index Count: %zu", model.GetIndexes().size());
+                            ImGui::Text("Triangle Count: %zu", model.GetIndexes().size() / 3);
 
-                            if (ImGui::TreeNodeEx("Vertices", ImGuiTreeNodeFlags_DefaultOpen))
+                            flags = ImGuiTableFlags_ScrollY | ImGuiTableFlags_RowBg | ImGuiTableFlags_BordersOuter |
+                                ImGuiTableFlags_BordersV | ImGuiTableFlags_Resizable;
+                            ImVec2 outer_size_vertex = ImVec2(
+                                0, TEXT_BASE_HEIGHT * (std::min(model.GetVertex().size(), static_cast<size_t>(10)) + 1)
+                            );
+
+                            ImGui::Text("Vertex Table");
+                            if (ImGui::BeginTable("vertex_table", 4, flags, outer_size_vertex))
                             {
-                                ImGui::TreePop();
-                                flags = ImGuiTableFlags_ScrollY | ImGuiTableFlags_RowBg | ImGuiTableFlags_BordersOuter |
-                                    ImGuiTableFlags_BordersV | ImGuiTableFlags_Resizable;
-                                ImVec2 outer_size = ImVec2(0, TEXT_BASE_HEIGHT * 10);
-                                if (ImGui::BeginTable("vertex_table", 4, flags, outer_size))
-                                {
-                                    ImGui::TableSetupScrollFreeze(0, 1); // Make top row always visible
-                                    ImGui::TableSetupColumn("Index", ImGuiTableColumnFlags_None);
-                                    ImGui::TableSetupColumn("x", ImGuiTableColumnFlags_None);
-                                    ImGui::TableSetupColumn("y", ImGuiTableColumnFlags_None);
-                                    ImGui::TableSetupColumn("z", ImGuiTableColumnFlags_None);
-                                    ImGui::TableHeadersRow();
+                                ImGui::TableSetupScrollFreeze(0, 1); // Make top row always visible
+                                ImGui::TableSetupColumn("Index", ImGuiTableColumnFlags_None);
+                                ImGui::TableSetupColumn("x", ImGuiTableColumnFlags_None);
+                                ImGui::TableSetupColumn("y", ImGuiTableColumnFlags_None);
+                                ImGui::TableSetupColumn("z", ImGuiTableColumnFlags_None);
+                                ImGui::TableHeadersRow();
 
-                                    // Demonstrate using clipper for large vertical lists
-                                    ImGuiListClipper clipper;
-                                    clipper.Begin(model.GetVertex().size());
-                                    while (clipper.Step())
+                                // Demonstrate using clipper for large vertical lists
+                                ImGuiListClipper clipper;
+                                clipper.Begin(model.GetVertex().size());
+                                while (clipper.Step())
+                                {
+                                    for (int row = clipper.DisplayStart; row < clipper.DisplayEnd; row++)
                                     {
-                                        for (int row = clipper.DisplayStart; row < clipper.DisplayEnd; row++)
+                                        ImGui::TableNextRow();
+                                        ImGui::TableSetColumnIndex(0);
+                                        ImGui::Text("%d", row);
+                                        for (int column = 1; column < 4; column++)
                                         {
-                                            ImGui::TableNextRow();
-                                            ImGui::TableSetColumnIndex(0);
-                                            ImGui::Text("%d", row);
-                                            for (int column = 1; column < 4; column++)
-                                            {
-                                                ImGui::TableSetColumnIndex(column);
-                                                ImGui::Text("%.3f", model.GetVertex()[row][column]);
-                                            }
+                                            ImGui::TableSetColumnIndex(column);
+                                            ImGui::Text("%.3f", model.GetVertex()[row][column - 1]);
                                         }
                                     }
-                                    ImGui::EndTable();
                                 }
+                                ImGui::EndTable();
+                            }
+
+                            ImGui::Text("Triangle Table");
+                            ImVec2 outer_size_index = ImVec2(
+                                0,
+                                TEXT_BASE_HEIGHT *
+                                    (std::min(model.GetIndexes().size() / 3, static_cast<size_t>(10)) + 1)
+                            );
+                            if (ImGui::BeginTable("index_table", 4, flags, outer_size_index))
+                            {
+                                ImGui::TableSetupScrollFreeze(0, 1); // Make top row always visible
+                                ImGui::TableSetupColumn("Triangle No.", ImGuiTableColumnFlags_None);
+                                ImGui::TableSetupColumn("Vertex 1", ImGuiTableColumnFlags_None);
+                                ImGui::TableSetupColumn("Vertex 2", ImGuiTableColumnFlags_None);
+                                ImGui::TableSetupColumn("Vertex 3", ImGuiTableColumnFlags_None);
+                                ImGui::TableHeadersRow();
+
+                                // Demonstrate using clipper for large vertical lists
+                                ImGuiListClipper clipper;
+                                clipper.Begin(model.GetIndexes().size() / 3);
+                                while (clipper.Step())
+                                {
+                                    for (int row = clipper.DisplayStart; row < clipper.DisplayEnd; row++)
+                                    {
+                                        ImGui::TableNextRow();
+                                        ImGui::TableSetColumnIndex(0);
+                                        ImGui::Text("%d", row);
+                                        for (int column = 1; column < 4; column++)
+                                        {
+                                            ImGui::TableSetColumnIndex(column);
+                                            ImGui::Text("%d", model.GetIndexes()[row * 3 + (column - 1)]);
+                                        }
+                                    }
+                                }
+                                ImGui::EndTable();
                             }
 
                             ImGui::TreePop();
@@ -868,6 +985,11 @@ namespace engine
                 ImGui::TreePop();
             }
 
+            ImGui::Text(
+                "Rendering %zu models (%zu triangles)",
+                m_current_rendered_models_size,
+                m_current_rendered_triangles_size
+            );
             ImGui::Text("%.3f ms/frame (%.1f FPS)", 1000.0f / io->Framerate, io->Framerate);
             ImGui::End();
         }
@@ -875,6 +997,6 @@ namespace engine
         ImGui::Render();
     }
 
-    void Engine::postRenderImGui() { ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData()); }
+    void Engine::postRenderImGui() { ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData()); }
 
 } // namespace engine

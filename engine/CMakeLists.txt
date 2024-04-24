@@ -11,8 +11,8 @@ add_executable(cg-solar-system src/main.cpp
         ../common/World.h
         ../common/WorldSerde.cpp
         ../common/WorldSerde.h
-        src/Utils.h
-        src/Utils.cpp
+        ../common/Utils.h
+        ../common/Utils.cpp
         src/Input.h
 )
 

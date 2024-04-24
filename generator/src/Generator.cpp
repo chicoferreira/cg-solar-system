@@ -8,176 +8,282 @@
 #include <math.h>
 #include "Mat.h"
 
-std::vector<Vec3f> generator::GeneratePlane(const float length, const size_t divisions)
+namespace generator
 {
-    std::vector<Vec3f> vertex;
-    const auto side = length / divisions;
-
-    for (int x = 0; x < divisions; ++x)
+    GeneratorResult GeneratePlane(const float length, const size_t divisions)
     {
+        std::vector<Vec3f> vertex;
+        std::vector<uint32_t> indexes;
+        const auto side = length / divisions;
+
+        for (int z = 0; z < divisions + 1; ++z)
+        {
+            for (int x = 0; x < divisions + 1; ++x)
+            {
+                vertex.push_back({-length / 2 + x * side, 0, -length / 2 + z * side});
+            }
+        }
+
         for (int z = 0; z < divisions; ++z)
         {
-            const Vec3f top_left = {-length / 2 + x * side, 0, -length / 2 + z * side};
-            const Vec3f top_right = {-length / 2 + (x + 1) * side, 0, -length / 2 + z * side};
-            const Vec3f bottom_left = {-length / 2 + x * side, 0, -length / 2 + (z + 1) * side};
-            const Vec3f bottom_right = {-length / 2 + (x + 1) * side, 0, -length / 2 + (z + 1) * side};
+            for (int x = 0; x < divisions; ++x)
+            {
+                const uint32_t top_left_index = x * (divisions + 1) + z;
+                const uint32_t top_right_index = top_left_index + 1;
+                const uint32_t bottom_left_index = (x + 1) * (divisions + 1) + z;
+                const uint32_t bottom_right_index = bottom_left_index + 1;
 
-            vertex.insert(vertex.end(), {top_left, bottom_left, bottom_right});
-            vertex.insert(vertex.end(), {top_left, bottom_right, top_right});
+                indexes.insert(indexes.end(), {top_left_index, bottom_left_index, bottom_right_index});
+                indexes.insert(indexes.end(), {top_left_index, bottom_right_index, top_right_index});
+            }
         }
+
+        return {vertex, indexes};
     }
 
-    return vertex;
-}
-
-std::vector<Vec3f> generator::GenerateSphere(const float radius, const size_t slices, const size_t stacks)
-{
-    std::vector<Vec3f> vertex;
-
-    const auto slice_size = 2 * M_PI / slices;
-    const auto stack_size = M_PI / stacks;
-
-    for (int slice = 0; slice < slices; ++slice)
+    GeneratorResult GenerateSphere(const float radius, const size_t slices, const size_t stacks)
     {
-        for (int stack = 0; stack < stacks; ++stack)
+        std::vector<Vec3f> vertex;
+        std::vector<uint32_t> indexes;
+
+        const auto slice_size = 2 * M_PI / slices;
+        const auto stack_size = M_PI / stacks;
+
+        vertex.push_back(Vec3f(0, radius, 0)); // top
+        vertex.push_back(Vec3f(0, -radius, 0)); // bottom
+
+        for (int slice = 0; slice < slices; ++slice)
         {
-            // alpha from 0 to 2PI
-            // beta from -PI/2 to PI/2
-            const Vec3f bottom_left = Vec3fSpherical(radius, slice * slice_size, stack * stack_size - M_PI_2);
-            const Vec3f bottom_right = Vec3fSpherical(radius, (slice + 1) * slice_size, stack * stack_size - M_PI_2);
-            const Vec3f top_left = Vec3fSpherical(radius, slice * slice_size, (stack + 1) * stack_size - M_PI_2);
-            const Vec3f top_right = Vec3fSpherical(radius, (slice + 1) * slice_size, (stack + 1) * stack_size - M_PI_2);
-
-            // Avoid drawing extra line in bottom stack (it is just one triangle)
-            if (stack != 0)
-                vertex.insert(vertex.end(), {top_left, bottom_left, bottom_right});
-
-            // Avoid drawing extra line in top stack (it is just one triangle)
-            if (stack != stacks - 1)
-                vertex.insert(vertex.end(), {top_left, bottom_right, top_right});
+            for (int stack = 1; stack < stacks; ++stack)
+            {
+                // alpha from 0 to 2PI
+                // beta from -PI/2 to PI/2
+                vertex.push_back(Vec3fSpherical(radius, slice * slice_size, stack * stack_size - M_PI_2));
+            }
         }
-    }
 
-    return vertex;
-}
-
-std::vector<Vec3f>
-generator::GenerateCone(const float radius, const float height, const size_t slices, const size_t stacks)
-{
-    std::vector<Vec3f> vertex;
-
-    const auto slice_size = 2 * M_PI / slices;
-    const auto stack_size = height / stacks;
-
-    constexpr auto base_middle = Vec3f{0, 0, 0};
-
-    for (int slice = 0; slice < slices; ++slice)
-    {
-        for (int stack = 0; stack < stacks; ++stack)
+        for (int slice = 0; slice < slices; ++slice)
         {
-            const float current_radius = radius - stack * radius / stacks;
-            const float next_radius = radius - (stack + 1) * radius / stacks;
+            for (int stack = 0; stack < stacks; ++stack)
+            {
+                // 2 the array starts at 2 because of top and bottom already being there
+                // (stack - 1) the current stack - 1 because we don't count the bottom vertex
+                // (slice * (stacks - 1)) how many slices have we traversed (stacks - 1)
+                // because we don't traverse one of the top/bottom vertex
+                uint32_t bottom_left_index = 2 + (stack - 1) + (slice * (stacks - 1));
+                uint32_t bottom_right_index = bottom_left_index + stacks - 1;
 
-            const Vec3f bottom_left = Vec3fPolar(current_radius, slice * slice_size, stack * stack_size);
-            const Vec3f bottom_right = Vec3fPolar(current_radius, (slice + 1) * slice_size, stack * stack_size);
-            const Vec3f top_left = Vec3fPolar(next_radius, slice * slice_size, (stack + 1) * stack_size);
-            const Vec3f top_right = Vec3fPolar(next_radius, (slice + 1) * slice_size, (stack + 1) * stack_size);
+                // Merge vertex when right index completes a full rotation
+                if (slice == slices - 1)
+                {
+                    bottom_right_index = 2 + (stack - 1);
+                }
 
-            vertex.insert(vertex.end(), {top_left, bottom_left, bottom_right});
-            if (stack != stacks - 1)
-                vertex.insert(vertex.end(), {top_left, bottom_right, top_right});
+                uint32_t top_left_index = bottom_left_index + 1;
+                uint32_t top_right_index = bottom_right_index + 1;
+
+                // Merge bottom vertex
+                if (stack == 0)
+                {
+                    bottom_right_index = 1;
+                    bottom_left_index = 1;
+                }
+
+                // Merge top vertex
+                if (stack == stacks - 1)
+                {
+                    top_left_index = 0;
+                    top_right_index = 0;
+                }
+
+                // Avoid drawing extra line in bottom stack (it is just one triangle)
+                if (stack != 0)
+                    indexes.insert(indexes.end(), {top_left_index, bottom_left_index, bottom_right_index});
+
+                // Avoid drawing extra line in top stack (it is just one triangle)
+                if (stack != stacks - 1)
+                    indexes.insert(indexes.end(), {top_left_index, bottom_right_index, top_right_index});
+            }
         }
 
-        const Vec3f base_bottom_left = Vec3fPolar(radius, slice * slice_size, 0);
-        const Vec3f base_bottom_right = Vec3fPolar(radius, (slice + 1) * slice_size, 0);
-
-        vertex.insert(vertex.end(), {base_middle, base_bottom_right, base_bottom_left});
+        return {vertex, indexes};
     }
 
-    return vertex;
-}
-
-void applyMat4fTransform(const std::vector<Vec3f> &plane, const Mat4f &transform, std::vector<Vec3f> &result)
-{
-    for (size_t i = 0; i < plane.size(); ++i)
+    GeneratorResult GenerateCone(const float radius, const float height, const size_t slices, const size_t stacks)
     {
-        result.push_back((transform * plane[i].ToVec4f()).ToVec3f());
+        std::vector<Vec3f> vertex;
+        std::vector<uint32_t> indexes;
+
+        const auto slice_size = 2 * M_PI / slices;
+        const auto stack_size = height / stacks;
+
+        vertex.push_back(Vec3f{0, 0, 0});
+        vertex.push_back(Vec3f{0, height, 0});
+
+        for (int slice = 0; slice < slices; ++slice)
+        {
+            vertex.push_back(Vec3fPolar(radius, slice * slice_size, 0)); // base vertice
+
+            for (int stack = 0; stack < stacks; ++stack)
+            {
+                const float current_radius = radius - stack * radius / stacks;
+                vertex.push_back(Vec3fPolar(current_radius, slice * slice_size, stack * stack_size));
+            }
+        }
+
+        for (int slice = 0; slice < slices; ++slice)
+        {
+            for (int stack = 0; stack < stacks; ++stack)
+            {
+                uint32_t bottom_left_index = 2 + (stack + 1) + (slice * (stacks + 1));
+                uint32_t bottom_right_index = bottom_left_index + stacks + 1;
+
+                // Merge vertex when right index completes a full rotation
+                if (slice == slices - 1)
+                    bottom_right_index = 2 + (stack + 1);
+
+
+                uint32_t top_left_index = bottom_left_index + 1;
+                uint32_t top_right_index = bottom_right_index + 1;
+
+                // Merge top vertex
+                if (stack == stacks - 1)
+                {
+                    top_left_index = 1;
+                    top_right_index = 1;
+                }
+
+                indexes.insert(indexes.end(), {top_left_index, bottom_left_index, bottom_right_index});
+
+                // Avoid drawing extra line in top stack (it is just one triangle)
+                if (stack != stacks - 1)
+                    indexes.insert(indexes.end(), {top_left_index, bottom_right_index, top_right_index});
+            }
+
+            uint32_t base_left_index = 2 + (slice * (stacks + 1));
+            uint32_t base_right_index = slice == slices - 1 ? 2 : base_left_index + stacks + 1;
+
+            indexes.insert(indexes.end(), {base_right_index, base_left_index, 0}); // base triangle
+        }
+
+        return {vertex, indexes};
     }
-}
 
-std::vector<Vec3f> generator::GenerateBox(const float length, const size_t divisions)
-{
-    std::vector<Vec3f> result;
-    const auto plane = GeneratePlane(length, divisions);
-
-    const auto move_up = Mat4fTranslate(0, length / 2, 0);
-    const auto move_down = Mat4fTranslate(0, -length / 2, 0) * Mat4fRotateX_M_PI;
-    const auto move_left = Mat4fTranslate(-length / 2, 0, 0) * Mat4fRotateZ_M_PI_2;
-    const auto move_right = Mat4fTranslate(length / 2, 0, 0) * Mat4fRotateZ_NEGATIVE_M_PI_2;
-    const auto move_front = Mat4fTranslate(0, 0, length / 2) * Mat4fRotateX_M_PI_2;
-    const auto move_back = Mat4fTranslate(0, 0, -length / 2) * Mat4fRotateX_NEGATIVE_M_PI_2;
-
-    applyMat4fTransform(plane, move_up, result);
-    applyMat4fTransform(plane, move_down, result);
-    applyMat4fTransform(plane, move_left, result);
-    applyMat4fTransform(plane, move_right, result);
-    applyMat4fTransform(plane, move_front, result);
-    applyMat4fTransform(plane, move_back, result);
-
-    return result;
-}
-
-std::vector<Vec3f> generator::GenerateCylinder(const float radius, const float height, const size_t slices)
-{
-    std::vector<Vec3f> result;
-
-    const float alpha = 2.0f * M_PI / static_cast<float>(slices);
-
-    constexpr auto base_middle = Vec3f(0, 0, 0);
-    const auto up_middle = Vec3f(0, height, 0);
-
-    for (int i = 0; i < slices; i++)
+    GeneratorResult GenerateBox(const float length, const size_t divisions)
     {
-        Vec3f base_vertex_left = Vec3fPolar(radius, static_cast<float>(i) * alpha);
-        Vec3f base_vertex_right = Vec3fPolar(radius, static_cast<float>(i + 1) * alpha);
+        std::vector<Vec3f> vertex;
+        std::vector<uint32_t> indexes;
+        const auto plane = GeneratePlane(length, divisions);
+        const auto vertex_size = plane.vertex.size();
 
-        Vec3f up_vertex_left = base_vertex_left.with_y(height);
-        Vec3f up_vertex_right = base_vertex_right.with_y(height);
+        std::vector<Mat4f> transforms = {
+            Mat4fTranslate(0, length / 2, 0), // up
+            Mat4fTranslate(0, -length / 2, 0) * Mat4fRotateX_M_PI, // down
+            Mat4fTranslate(-length / 2, 0, 0) * Mat4fRotateZ_M_PI_2, // left
+            Mat4fTranslate(length / 2, 0, 0) * Mat4fRotateZ_NEGATIVE_M_PI_2, // right
+            Mat4fTranslate(0, 0, length / 2) * Mat4fRotateX_M_PI_2, // front
+            Mat4fTranslate(0, 0, -length / 2) * Mat4fRotateX_NEGATIVE_M_PI_2 // back
+        };
 
-        result.insert(result.end(), {up_middle, up_vertex_left, up_vertex_right});
-        result.insert(result.end(), {up_vertex_right, up_vertex_left, base_vertex_right});
-        result.insert(result.end(), {base_vertex_left, base_vertex_right, up_vertex_left});
-        result.insert(result.end(), {base_middle, base_vertex_right, base_vertex_left});
+        for (int i = 0; i < transforms.size(); ++i)
+        {
+            for (auto &v : plane.vertex)
+            {
+                vertex.push_back((transforms[i] * v.ToVec4f()).ToVec3f());
+            }
+
+            for (auto index : plane.indexes)
+            {
+                indexes.push_back(index + i * vertex_size);
+            }
+        }
+
+        return {vertex, indexes};
     }
 
-    return result;
-}
-
-constexpr std::string_view default_folder = "assets/models/";
-
-bool generator::SaveModel(const std::vector<Vec3f> &vertex, const char *filename)
-{
-    std::filesystem::path path = default_folder;
-    path.append(filename);
-
-    if (!exists(path.parent_path()))
+    GeneratorResult GenerateCylinder(const float radius, const float height, const size_t slices)
     {
-        create_directories(path.parent_path());
+        std::vector<Vec3f> vertex;
+        std::vector<uint32_t> indexes;
+
+        const float alpha = 2.0f * M_PI / static_cast<float>(slices);
+
+        vertex.push_back(Vec3f(0, 0, 0));
+        vertex.push_back(Vec3f(0, height, 0));
+
+        const uint32_t base_middle = 0;
+        const uint32_t up_middle = 1;
+
+        for (int i = 0; i < slices; i++)
+        {
+            const uint32_t current_index = vertex.size();
+
+            Vec3f bottom_vertice = Vec3fPolar(radius, static_cast<float>(i) * alpha);
+            Vec3f upper_vertice = bottom_vertice.with_y(height);
+
+            vertex.push_back(bottom_vertice); // base
+            vertex.push_back(bottom_vertice); // side
+            vertex.push_back(upper_vertice); // side
+            vertex.push_back(upper_vertice); // top
+
+            const uint32_t bottom_base_vertex_left = current_index;
+            const uint32_t bottom_side_vertex_left = current_index + 1;
+            const uint32_t upper_side_vertex_left = current_index + 2;
+            const uint32_t upper_top_vertex_left = current_index + 3;
+
+            const uint32_t right_start = i + 1 == slices ? 2 : current_index + 4;
+
+            const uint32_t bottom_base_vertex_right = right_start;
+            const uint32_t bottom_side_vertex_right = right_start + 1;
+            const uint32_t upper_side_vertex_right = right_start + 2;
+            const uint32_t upper_top_vertex_right = right_start + 3;
+
+            indexes.insert(indexes.end(), {up_middle, upper_top_vertex_left, upper_top_vertex_right});
+            indexes.insert(indexes.end(), {upper_side_vertex_right, upper_side_vertex_left, bottom_side_vertex_right});
+            indexes.insert(indexes.end(), {bottom_side_vertex_left, bottom_side_vertex_right, upper_side_vertex_left});
+            indexes.insert(indexes.end(), {base_middle, bottom_base_vertex_right, bottom_base_vertex_left});
+        }
+
+        return {vertex, indexes};
     }
 
-    // write to file
-    std::ofstream file(path, std::ios::trunc);
-    if (!file.is_open())
+    constexpr std::string_view default_folder = "assets/models/";
+
+    bool SaveModel(const GeneratorResult &model, const char *filename)
     {
-        std::cout << "Failed to open file " << filename << std::endl;
-        return false;
+        std::filesystem::path path = default_folder;
+        path.append(filename);
+
+        if (!exists(path.parent_path()))
+        {
+            create_directories(path.parent_path());
+        }
+
+        // write to file
+        std::ofstream file(path, std::ios::trunc);
+        if (!file.is_open())
+        {
+            std::cout << "Failed to open file " << filename << "\n";
+            return false;
+        }
+
+        file << model.vertex.size() << " " << model.indexes.size() << "\n";
+
+        for (const auto &vec : model.vertex)
+        {
+            file << vec.x << " " << vec.y << " " << vec.z << "\n";
+        }
+
+        file << "\n";
+
+        for (size_t i = 0; i < model.indexes.size(); ++i)
+        {
+            file << model.indexes[i] << (((i + 1) % 3 == 0) ? "\n" : " ");
+        }
+
+        file.flush();
+
+        return true;
     }
 
-    file << vertex.size() << std::endl;
-
-    for (const auto &vec : vertex)
-    {
-        file << vec.x << " " << vec.y << " " << vec.z << std::endl;
-    }
-    return true;
-}
+} // namespace generator
