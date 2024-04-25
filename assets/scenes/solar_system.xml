@@ -3679,7 +3679,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="30.632343" align="false">
+                    <translate time="30.632343" align="true">
                         <point x="5.5003672" y="1.1386253" z="49.944893"/>
                         <point x="42.477917" y="1.1386253" z="26.839771"/>
                         <point x="47.468723" y="1.1386253" z="-16.476248"/>
@@ -3697,7 +3697,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="30.329752" align="false">
+                    <translate time="30.329752" align="true">
                         <point x="49.3591" y="0.82286042" z="9.3051596"/>
                         <point x="38.049969" y="0.82286042" z="-32.788822"/>
                         <point x="-1.911574" y="0.82286042" z="-50.192158"/>
@@ -3715,7 +3715,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="31.597034" align="false">
+                    <translate time="31.597034" align="true">
                         <point x="41.164059" y="0.83213806" z="-27.509087"/>
                         <point x="4.157907" y="0.83213806" z="-49.334995"/>
                         <point x="-35.979244" y="0.83213806" z="-34.010643"/>
@@ -3733,7 +3733,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="34.034393" align="false">
+                    <translate time="34.034393" align="true">
                         <point x="-46.814022" y="0.88133389" z="16.910749"/>
                         <point x="-15.966713" y="0.88133389" z="47.144352"/>
                         <point x="26.903852" y="0.88133389" z="41.877308"/>
@@ -3751,7 +3751,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="34.503006" align="false">
+                    <translate time="34.503006" align="true">
                         <point x="-47.446274" y="0.81480354" z="15.732868"/>
                         <point x="-17.28182" y="0.81480354" z="46.90427"/>
                         <point x="25.896193" y="0.81480354" z="42.75581"/>
@@ -3769,7 +3769,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="31.268501" align="false">
+                    <translate time="31.268501" align="true">
                         <point x="27.760496" y="0.84023565" z="-40.956104"/>
                         <point x="-14.71238" y="0.84023565" z="-47.239746"/>
                         <point x="-46.106541" y="0.84023565" z="-17.950891"/>
@@ -3787,7 +3787,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="32.139042" align="false">
+                    <translate time="32.139042" align="true">
                         <point x="20.763876" y="1.1402529" z="44.897861"/>
                         <point x="48.048626" y="1.1402529" z="11.759507"/>
                         <point x="39.151779" y="1.1402529" z="-30.233999"/>
@@ -3805,7 +3805,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="31.127811" align="false">
+                    <translate time="31.127811" align="true">
                         <point x="-15.713811" y="0.4030478" z="-47.518337"/>
                         <point x="-46.94873" y="0.4030478" z="-17.34165"/>
                         <point x="-42.830303" y="0.4030478" z="25.89365"/>
@@ -3823,7 +3823,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="30.673544" align="false">
+                    <translate time="30.673544" align="true">
                         <point x="-46.115253" y="0.14750613" z="18.532509"/>
                         <point x="-14.263095" y="0.14750613" z="47.609184"/>
                         <point x="28.329458" y="0.14750613" z="40.835182"/>
@@ -3841,7 +3841,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="33.948181" align="false">
+                    <translate time="33.948181" align="true">
                         <point x="-29.692228" y="1.0508133" z="39.810192"/>
                         <point x="12.612054" y="1.0508133" z="48.035568"/>
                         <point x="45.419205" y="1.0508133" z="20.089191"/>
@@ -3859,7 +3859,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="34.283272" align="false">
+                    <translate time="34.283272" align="true">
                         <point x="37.941093" y="0.82029688" z="-32.98772"/>
                         <point x="-2.1349473" y="0.82029688" z="-50.231049"/>
                         <point x="-40.603329" y="0.82029688" z="-29.649382"/>
@@ -3877,7 +3877,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="31.247749" align="false">
+                    <translate time="31.247749" align="true">
                         <point x="49.28006" y="1.151443" z="5.5296202"/>
                         <point x="35.048851" y="1.151443" z="-35.081039"/>
                         <point x="-5.5748649" y="1.151443" z="-49.274963"/>
@@ -3895,7 +3895,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="30.407118" align="false">
+                    <translate time="30.407118" align="true">
                         <point x="17.406384" y="1.3131098" z="46.880756"/>
                         <point x="47.505554" y="1.3131098" z="15.620813"/>
                         <point x="41.832073" y="1.3131098" z="-27.401915"/>
@@ -3913,7 +3913,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="31.293985" align="false">
+                    <translate time="31.293985" align="true">
                         <point x="28.727369" y="0.56906849" z="40.904301"/>
                         <point x="49.891491" y="0.56906849" z="3.0434515"/>
                         <point x="33.486301" y="0.56906849" z="-37.10918"/>
@@ -3931,7 +3931,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="30.625477" align="false">
+                    <translate time="30.625477" align="true">
                         <point x="40.708134" y="0.31035289" z="29.839748"/>
                         <point x="48.710758" y="0.31035289" z="-13.222119"/>
                         <point x="20.033188" y="0.31035289" z="-46.327465"/>
@@ -3949,7 +3949,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="30.293589" align="false">
+                    <translate time="30.293589" align="true">
                         <point x="15.573746" y="0.10681479" z="48.066841"/>
                         <point x="47.290241" y="0.10681479" z="17.793139"/>
                         <point x="43.396221" y="0.10681479" z="-25.879154"/>
@@ -3967,7 +3967,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="32.163914" align="false">
+                    <translate time="32.163914" align="true">
                         <point x="28.882481" y="1.219601" z="-40.486965"/>
                         <point x="-13.646048" y="1.219601" z="-47.824444"/>
                         <point x="-45.898827" y="1.219601" z="-19.149147"/>
@@ -3985,7 +3985,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="34.210487" align="false">
+                    <translate time="34.210487" align="true">
                         <point x="-11.646647" y="1.116245" z="-49.186138"/>
                         <point x="-45.716843" y="1.116245" z="-21.561335"/>
                         <point x="-45.361317" y="1.116245" z="22.299587"/>
@@ -4003,7 +4003,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="30.021667" align="false">
+                    <translate time="30.021667" align="true">
                         <point x="50.068127" y="0.53024894" z="-3.7635393"/>
                         <point x="28.274513" y="0.53024894" z="-41.491367"/>
                         <point x="-14.810382" y="0.53024894" z="-47.975349"/>
@@ -4021,7 +4021,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="31.205481" align="false">
+                    <translate time="31.205481" align="true">
                         <point x="29.005554" y="1.2730695" z="-40.709011"/>
                         <point x="-13.742912" y="1.2730695" z="-48.059109"/>
                         <point x="-46.142693" y="1.2730695" z="-19.219719"/>
@@ -4039,7 +4039,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="34.726402" align="false">
+                    <translate time="34.726402" align="true">
                         <point x="-46.168373" y="0.34017965" z="-19.365616"/>
                         <point x="-43.926163" y="0.34017965" z="24.021618"/>
                         <point x="-8.6066618" y="0.34017965" z="49.320087"/>
@@ -4057,7 +4057,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="34.704887" align="false">
+                    <translate time="34.704887" align="true">
                         <point x="3.1153185" y="1.1869665" z="49.767925"/>
                         <point x="40.852497" y="1.1869665" z="28.594139"/>
                         <point x="47.826916" y="1.1869665" z="-14.111619"/>
@@ -4075,7 +4075,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="30.712149" align="false">
+                    <translate time="30.712149" align="true">
                         <point x="-23.979174" y="1.0482091" z="-43.973633"/>
                         <point x="-49.330742" y="1.0482091" z="-8.6694298"/>
                         <point x="-37.535252" y="1.0482091" z="33.163021"/>
@@ -4093,7 +4093,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="32.089603" align="false">
+                    <translate time="32.089603" align="true">
                         <point x="2.1956639" y="0.51067638" z="49.532463"/>
                         <point x="40.095013" y="0.51067638" z="29.166348"/>
                         <point x="47.801998" y="0.51067638" z="-13.162625"/>
@@ -4111,7 +4111,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="30.324259" align="false">
+                    <translate time="30.324259" align="true">
                         <point x="-38.47578" y="0.87990969" z="30.974411"/>
                         <point x="0.22750679" y="0.87990969" z="49.39381"/>
                         <point x="38.75948" y="0.87990969" z="30.61867"/>
@@ -4129,7 +4129,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="34.013489" align="false">
+                    <translate time="34.013489" align="true">
                         <point x="-47.309311" y="0.88275808" z="-17.279211"/>
                         <point x="-43.00631" y="0.88275808" z="26.214491"/>
                         <point x="-6.3186855" y="0.88275808" z="49.968155"/>
@@ -4147,7 +4147,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="33.447525" align="false">
+                    <translate time="33.447525" align="true">
                         <point x="39.605423" y="0.91417181" z="30.505117"/>
                         <point x="48.543438" y="0.91417181" z="-11.945139"/>
                         <point x="20.927254" y="0.91417181" z="-45.400459"/>
@@ -4165,7 +4165,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="34.343395" align="false">
+                    <translate time="34.343395" align="true">
                         <point x="10.606814" y="1.0369782" z="49.123112"/>
                         <point x="45.019238" y="1.0369782" z="22.335018"/>
                         <point x="45.531258" y="1.0369782" z="-21.271795"/>
@@ -4183,7 +4183,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="32.759941" align="false">
+                    <translate time="32.759941" align="true">
                         <point x="26.395905" y="0.94208604" z="42.634254"/>
                         <point x="49.790379" y="0.94208604" z="5.9448767"/>
                         <point x="35.691681" y="0.94208604" z="-35.221123"/>
@@ -4201,7 +4201,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="30.725883" align="false">
+                    <translate time="30.725883" align="true">
                         <point x="49.782154" y="0.078371532" z="-8.7688322"/>
                         <point x="24.182915" y="0.078371532" z="-44.388531"/>
                         <point x="-19.626545" y="0.078371532" z="-46.582764"/>
@@ -4219,7 +4219,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="34.612415" align="false">
+                    <translate time="34.612415" align="true">
                         <point x="48.582775" y="0.82664472" z="-14.122222"/>
                         <point x="19.249668" y="0.82664472" z="-46.788605"/>
                         <point x="-24.578829" y="0.82664472" z="-44.222218"/>
@@ -4237,7 +4237,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="30.779594" align="false">
+                    <translate time="30.779594" align="true">
                         <point x="48.973911" y="0.9260537" z="8.8926001"/>
                         <point x="37.487255" y="0.9260537" z="-32.744896"/>
                         <point x="-2.2280772" y="0.9260537" z="-49.724823"/>
@@ -4255,7 +4255,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="30.532091" align="false">
+                    <translate time="30.532091" align="true">
                         <point x="-27.86754" y="0.69525236" z="41.037731"/>
                         <point x="14.709459" y="0.69525236" z="47.374329"/>
                         <point x="46.209938" y="0.69525236" z="18.0371"/>
@@ -4273,7 +4273,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="33.910488" align="false">
+                    <translate time="33.910488" align="true">
                         <point x="25.121893" y="0.58896655" z="43.794388"/>
                         <point x="49.903076" y="0.58896655" z="7.664269"/>
                         <point x="37.106224" y="0.58896655" z="-34.237202"/>
@@ -4291,7 +4291,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="34.35194" align="false">
+                    <translate time="34.35194" align="true">
                         <point x="-48.713654" y="1.2991934" z="8.865016"/>
                         <point x="-23.441523" y="1.2991934" z="43.613113"/>
                         <point x="19.48255" y="1.2991934" z="45.519653"/>
@@ -4309,7 +4309,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="33.753166" align="false">
+                    <translate time="33.753166" align="true">
                         <point x="2.0335469" y="0.60882396" z="49.523788"/>
                         <point x="39.987152" y="0.60882396" z="29.287687"/>
                         <point x="47.829617" y="0.60882396" z="-13.002643"/>
@@ -4327,7 +4327,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="34.963074" align="false">
+                    <translate time="34.963074" align="true">
                         <point x="45.503708" y="0.53960794" z="-19.323645"/>
                         <point x="13.263269" y="0.53960794" z="-47.624325"/>
                         <point x="-28.964687" y="0.53960794" z="-40.06292"/>
@@ -4345,7 +4345,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="31.238441" align="false">
+                    <translate time="31.238441" align="true">
                         <point x="46.102062" y="0.33611053" z="17.568455"/>
                         <point x="42.479744" y="0.33611053" z="-25.090288"/>
                         <point x="6.8693023" y="0.33611053" z="-48.855537"/>
@@ -4363,7 +4363,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="34.695427" align="false">
+                    <translate time="34.695427" align="true">
                         <point x="-31.986729" y="0.82709235" z="37.763004"/>
                         <point x="9.5808992" y="0.82709235" z="48.553082"/>
                         <point x="43.933918" y="0.82709235" z="22.781706"/>
@@ -4381,7 +4381,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="33.283791" align="false">
+                    <translate time="33.283791" align="true">
                         <point x="-39.776489" y="1.0395418" z="-29.539661"/>
                         <point x="-47.895271" y="1.0395418" z="12.680827"/>
                         <point x="-19.947948" y="1.0395418" z="45.352398"/>
@@ -4399,7 +4399,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="33.320873" align="false">
+                    <translate time="33.320873" align="true">
                         <point x="-23.187456" y="0.60727769" z="44.858391"/>
                         <point x="20.614553" y="0.60727769" z="46.097435"/>
                         <point x="48.893391" y="0.60727769" z="12.624179"/>
@@ -4417,7 +4417,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="32.110203" align="false">
+                    <translate time="32.110203" align="true">
                         <point x="-21.718792" y="0.84845525" z="-44.464897"/>
                         <point x="-48.3055" y="0.84845525" z="-10.742967"/>
                         <point x="-38.517181" y="0.84845525" z="31.068628"/>
@@ -4435,7 +4435,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="32.68227" align="false">
+                    <translate time="32.68227" align="true">
                         <point x="-24.722969" y="0.72076583" z="-44.082554"/>
                         <point x="-49.879646" y="0.72076583" z="-8.1558323"/>
                         <point x="-37.475941" y="0.72076583" z="33.912395"/>
@@ -4453,7 +4453,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="30.183111" align="false">
+                    <translate time="30.183111" align="true">
                         <point x="39.583309" y="0.52927238" z="-29.930037"/>
                         <point x="1.2795526" y="0.52927238" z="-49.608551"/>
                         <point x="-37.987743" y="0.52927238" z="-31.930817"/>
@@ -4471,7 +4471,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="31.947081" align="false">
+                    <translate time="31.947081" align="true">
                         <point x="22.308222" y="0.26201159" z="45.132721"/>
                         <point x="49.195129" y="0.26201159" z="10.698521"/>
                         <point x="39.037106" y="0.26201159" z="-31.791878"/>
@@ -4489,7 +4489,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="30.779442" align="false">
+                    <translate time="30.779442" align="true">
                         <point x="47.664806" y="0.094566688" z="15.339641"/>
                         <point x="41.711536" y="0.094566688" z="-27.701733"/>
                         <point x="4.3486252" y="0.094566688" z="-49.883141"/>
@@ -4507,7 +4507,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="33.48674" align="false">
+                    <translate time="33.48674" align="true">
                         <point x="-31.247362" y="0.60577208" z="-39.217361"/>
                         <point x="-50.143776" y="0.60577208" z="-0.021447048"/>
                         <point x="-31.280907" y="0.60577208" z="39.190609"/>
@@ -4525,7 +4525,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="34.178593" align="false">
+                    <translate time="34.178593" align="true">
                         <point x="29.490631" y="0.91262555" z="-40.219711"/>
                         <point x="-13.057924" y="0.91262555" z="-48.133286"/>
                         <point x="-45.773605" y="0.91262555" z="-19.801512"/>
@@ -4543,7 +4543,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="34.380016" align="false">
+                    <translate time="34.380016" align="true">
                         <point x="-14.802275" y="0.26612142" z="47.836456"/>
                         <point x="28.170975" y="0.26612142" z="41.39843"/>
                         <point x="49.930912" y="0.26612142" z="3.7865489"/>
@@ -4561,7 +4561,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="34.478592" align="false">
+                    <translate time="34.478592" align="true">
                         <point x="46.085499" y="1.3166093" z="18.890688"/>
                         <point x="43.503174" y="1.3166093" z="-24.252945"/>
                         <point x="8.162075" y="1.3166093" z="-49.133614"/>
@@ -4579,7 +4579,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="33.542587" align="false">
+                    <translate time="33.542587" align="true">
                         <point x="-36.510334" y="0.58941418" z="-34.235336"/>
                         <point x="-49.530087" y="0.58941418" z="7.1995544"/>
                         <point x="-25.252668" y="0.58941418" z="43.213024"/>
@@ -4597,7 +4597,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="32.038177" align="false">
+                    <translate time="32.038177" align="true">
                         <point x="49.186832" y="0.38074893" z="-4.0199509"/>
                         <point x="27.52457" y="0.38074893" z="-40.962212"/>
                         <point x="-14.864264" y="0.38074893" z="-47.059097"/>
@@ -4615,7 +4615,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="34.48027" align="false">
+                    <translate time="34.48027" align="true">
                         <point x="-50.127571" y="0.94692832" z="-5.9412799"/>
                         <point x="-35.899113" y="0.94692832" z="35.48698"/>
                         <point x="5.3621025" y="0.94692832" z="50.192825"/>
@@ -4633,7 +4633,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="31.543016" align="false">
+                    <translate time="31.543016" align="true">
                         <point x="-27.569901" y="0.52988273" z="41.483486"/>
                         <point x="15.243536" y="0.52988273" z="47.419548"/>
                         <point x="46.578281" y="0.52988273" z="17.647734"/>
@@ -4651,7 +4651,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="33.668476" align="false">
+                    <translate time="33.668476" align="true">
                         <point x="39.094044" y="0.76076543" z="-30.853018"/>
                         <point x="0.2528818" y="0.76076543" z="-49.801498"/>
                         <point x="-38.778713" y="0.76076543" z="-31.248432"/>
@@ -4669,7 +4669,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="30.696585" align="false">
+                    <translate time="30.696585" align="true">
                         <point x="-50.218269" y="0.9818415" z="-2.4597268"/>
                         <point x="-33.233677" y="0.9818415" z="37.728607"/>
                         <point x="8.7765493" y="0.9818415" z="49.506535"/>
@@ -4687,7 +4687,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="34.555649" align="false">
+                    <translate time="34.555649" align="true">
                         <point x="-45.253044" y="0.36345512" z="-20.187111"/>
                         <point x="-43.997734" y="0.36345512" z="22.793793"/>
                         <point x="-9.6112394" y="0.36345512" z="48.610508"/>
@@ -4705,7 +4705,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="34.537186" align="false">
+                    <translate time="34.537186" align="true">
                         <point x="32.244499" y="0.69020665" z="37.919056"/>
                         <point x="49.750431" y="0.69020665" z="-1.5676168"/>
                         <point x="29.793272" y="0.69020665" z="-39.873844"/>
@@ -4723,7 +4723,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="32.192604" align="false">
+                    <translate time="32.192604" align="true">
                         <point x="-41.438168" y="0.69061357" z="-27.177536"/>
                         <point x="-47.084534" y="0.69061357" z="15.452744"/>
                         <point x="-17.27529" y="0.69061357" z="46.446793"/>
@@ -4741,7 +4741,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="30.378887" align="false">
+                    <translate time="30.378887" align="true">
                         <point x="24.828802" y="0.12056846" z="43.631683"/>
                         <point x="49.593128" y="0.12056846" z="7.7919726"/>
                         <point x="37.012817" y="0.12056846" z="-33.915253"/>
@@ -4759,7 +4759,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="33.486435" align="false">
+                    <translate time="33.486435" align="true">
                         <point x="45.857327" y="0.47344384" z="-18.158733"/>
                         <point x="14.394511" y="0.47344384" z="-47.174484"/>
                         <point x="-27.907673" y="0.47344384" z="-40.666889"/>
@@ -4777,7 +4777,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="33.378704" align="false">
+                    <translate time="33.378704" align="true">
                         <point x="21.239737" y="0.52646464" z="44.683769"/>
                         <point x="48.177937" y="0.52646464" z="11.253982"/>
                         <point x="38.837166" y="0.52646464" z="-30.65029"/>
@@ -4795,7 +4795,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="33.078556" align="false">
+                    <translate time="33.078556" align="true">
                         <point x="-47.469841" y="0.26494136" z="-16.486435"/>
                         <point x="-42.48658" y="0.26494136" z="26.834288"/>
                         <point x="-5.5100641" y="0.26494136" z="49.948246"/>
@@ -4813,7 +4813,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="32.72683" align="false">
+                    <translate time="32.72683" align="true">
                         <point x="29.756197" y="0.72532326" z="40.377964"/>
                         <point x="50.121449" y="0.72532326" z="1.9109209"/>
                         <point x="32.744228" y="0.72532326" z="-37.995087"/>
@@ -4831,7 +4831,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="34.84985" align="false">
+                    <translate time="34.84985" align="true">
                         <point x="10.216619" y="1.2994375" z="-48.281731"/>
                         <point x="-31.378214" y="1.2994375" z="-38.090843"/>
                         <point x="-49.34462" y="1.2994375" z="0.78321719"/>
@@ -4849,7 +4849,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="33.464005" align="false">
+                    <translate time="33.464005" align="true">
                         <point x="-45.828621" y="0.70794803" z="-20.623247"/>
                         <point x="-44.697586" y="0.70794803" z="22.971869"/>
                         <point x="-9.9083633" y="0.70794803" z="49.268703"/>
@@ -4867,7 +4867,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="34.048889" align="false">
+                    <translate time="34.048889" align="true">
                         <point x="16.194864" y="0.51816362" z="47.072884"/>
                         <point x="46.900394" y="0.51816362" z="16.687809"/>
                         <point x="42.288971" y="0.51816362" z="-26.263525"/>
@@ -4885,7 +4885,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="33.92239" align="false">
+                    <translate time="33.92239" align="true">
                         <point x="45.64204" y="0.081097856" z="-19.186415"/>
                         <point x="13.456807" y="0.081097856" z="-47.646915"/>
                         <point x="-28.861683" y="0.081097856" z="-40.228321"/>
@@ -4903,7 +4903,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="30.045778" align="false">
+                    <translate time="30.045778" align="true">
                         <point x="3.9069977" y="0.42921233" z="-49.413746"/>
                         <point x="-36.197243" y="0.42921233" z="-33.863586"/>
                         <point x="-49.044231" y="0.42921233" z="7.1865411"/>
@@ -4921,7 +4921,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="33.792686" align="false">
+                    <translate time="33.792686" align="true">
                         <point x="-31.479675" y="0.67714471" z="-38.680248"/>
                         <point x="-49.868694" y="0.67714471" z="0.4950532"/>
                         <point x="-30.705578" y="0.67714471" z="39.297573"/>
@@ -4939,7 +4939,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="34.711601" align="false">
+                    <translate time="34.711601" align="true">
                         <point x="-41.129879" y="0.46640423" z="28.112438"/>
                         <point x="-3.6648757" y="0.46640423" z="49.684452"/>
                         <point x="36.559853" y="0.46640423" z="33.843067"/>
@@ -4957,7 +4957,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="32.814266" align="false">
+                    <translate time="32.814266" align="true">
                         <point x="17.344795" y="1.3297118" z="47.018574"/>
                         <point x="47.574905" y="1.3297118" z="15.754894"/>
                         <point x="41.980145" y="1.3297118" z="-27.372538"/>
@@ -4975,7 +4975,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="31.421095" align="false">
+                    <translate time="31.421095" align="true">
                         <point x="46.988892" y="0.51568145" z="-18.325968"/>
                         <point x="14.969282" y="0.51568145" z="-48.163448"/>
                         <point x="-28.322512" y="0.51568145" z="-41.732872"/>
@@ -4993,7 +4993,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="30.093081" align="false">
+                    <translate time="30.093081" align="true">
                         <point x="30.481762" y="0.81675673" z="-38.773079"/>
                         <point x="-11.30894" y="0.81675673" z="-48.006222"/>
                         <point x="-44.583786" y="0.81675673" z="-21.089699"/>
@@ -5011,7 +5011,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="34.683826" align="false">
+                    <translate time="34.683826" align="true">
                         <point x="-37.864918" y="0.60760319" z="31.61182"/>
                         <point x="1.1067196" y="0.60760319" z="49.313633"/>
                         <point x="39.244976" y="0.60760319" z="29.881285"/>
@@ -5029,7 +5029,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="34.04187" align="false">
+                    <translate time="34.04187" align="true">
                         <point x="-32.798412" y="0.96971548" z="-37.501328"/>
                         <point x="-49.769196" y="0.96971548" z="2.2611306"/>
                         <point x="-29.262768" y="0.96971548" z="40.320915"/>
@@ -5047,7 +5047,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="30.395061" align="false">
+                    <translate time="30.395061" align="true">
                         <point x="-29.087118" y="0.77679783" z="-41.222977"/>
                         <point x="-50.364941" y="0.77679783" z="-2.9608865"/>
                         <point x="-33.716946" y="0.77679783" z="37.530811"/>
@@ -5065,7 +5065,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="32.947174" align="false">
+                    <translate time="32.947174" align="true">
                         <point x="-27.87718" y="0.61627048" z="-41.91901"/>
                         <point x="-50.154739" y="0.61627048" z="-4.3408122"/>
                         <point x="-34.664757" y="0.61627048" z="36.5061"/>
@@ -5083,7 +5083,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="31.717886" align="false">
+                    <translate time="31.717886" align="true">
                         <point x="-44.664272" y="1.0880866" z="-22.571327"/>
                         <point x="-45.494694" y="1.0880866" z="20.846937"/>
                         <point x="-12.066692" y="1.0880866" z="48.567039"/>
@@ -5101,7 +5101,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="31.160467" align="false">
+                    <translate time="31.160467" align="true">
                         <point x="40.888058" y="0.35641551" z="-27.540678"/>
                         <point x="3.9611254" y="0.35641551" z="-49.138901"/>
                         <point x="-35.948624" y="0.35641551" z="-33.734531"/>
@@ -5119,7 +5119,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="30.584276" align="false">
+                    <translate time="30.584276" align="true">
                         <point x="-36.098553" y="0.49566129" z="35.046566"/>
                         <point x="4.8934221" y="0.49566129" z="50.074162"/>
                         <point x="42.200554" y="0.49566129" z="27.394901"/>
@@ -5137,7 +5137,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="30.915098" align="false">
+                    <translate time="30.915098" align="true">
                         <point x="-30.36746" y="0.83856726" z="40.038624"/>
                         <point x="12.36965" y="0.83856726" z="48.70591"/>
                         <point x="45.792164" y="0.83856726" z="20.696665"/>
@@ -5155,7 +5155,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="34.826046" align="false">
+                    <translate time="34.826046" align="true">
                         <point x="-48.936779" y="1.2026734" z="10.250265"/>
                         <point x="-22.497606" y="1.2026734" z="44.651245"/>
                         <point x="20.882715" y="1.2026734" z="45.428936"/>
@@ -5173,7 +5173,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="34.766991" align="false">
+                    <translate time="34.766991" align="true">
                         <point x="-47.103893" y="1.2020631" z="15.369107"/>
                         <point x="-17.352751" y="1.2020631" z="46.409786"/>
                         <point x="25.465366" y="1.2020631" z="42.502956"/>
@@ -5191,7 +5191,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="30.927305" align="false">
+                    <translate time="30.927305" align="true">
                         <point x="-37.073391" y="1.1871294" z="-34.166924"/>
                         <point x="-49.82766" y="1.1871294" z="7.6824107"/>
                         <point x="-25.060692" y="1.1871294" z="43.746735"/>
@@ -5209,7 +5209,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="33.660999" align="false">
+                    <translate time="33.660999" align="true">
                         <point x="50.095631" y="0.35332295" z="-1.0786279"/>
                         <point x="30.390808" y="0.35332295" z="-39.838856"/>
                         <point x="-12.198906" y="0.35332295" z="-48.599613"/>
@@ -5227,7 +5227,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="32.404705" align="false">
+                    <translate time="32.404705" align="true">
                         <point x="-49.235535" y="0.22791223" z="-10.4653"/>
                         <point x="-38.879959" y="0.22791223" z="31.96888"/>
                         <point x="0.75301403" y="0.22791223" z="50.329849"/>
@@ -5245,7 +5245,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="30.623188" align="false">
+                    <translate time="30.623188" align="true">
                         <point x="-38.427429" y="1.0753909" z="31.032757"/>
                         <point x="0.30326959" y="1.0753909" z="49.392384"/>
                         <point x="38.805603" y="1.0753909" z="30.558546"/>
@@ -5263,7 +5263,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="33.810234" align="false">
+                    <translate time="33.810234" align="true">
                         <point x="7.5414476" y="0.76442766" z="-49.119072"/>
                         <point x="-33.700817" y="0.76442766" z="-36.521385"/>
                         <point x="-49.565685" y="0.76442766" z="3.5776429"/>
@@ -5281,7 +5281,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="30.076754" align="false">
+                    <translate time="30.076754" align="true">
                         <point x="-0.68377733" y="0.97036654" z="49.535774"/>
                         <point x="38.302296" y="0.97036654" z="31.419651"/>
                         <point x="48.445965" y="0.97036654" z="-10.356102"/>
@@ -5299,7 +5299,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="30.360577" align="false">
+                    <translate time="30.360577" align="true">
                         <point x="44.953243" y="0.92218798" z="22.227135"/>
                         <point x="45.405769" y="0.92218798" z="-21.287464"/>
                         <point x="11.666817" y="0.92218798" z="-48.772179"/>
@@ -5317,7 +5317,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="32.783287" align="false">
+                    <translate time="32.783287" align="true">
                         <point x="-41.635239" y="0.90216786" z="27.051033"/>
                         <point x="-4.8098025" y="0.90216786" z="49.417782"/>
                         <point x="35.637508" y="0.90216786" z="34.571941"/>
@@ -5335,7 +5335,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="33.19117" align="false">
+                    <translate time="33.19117" align="true">
                         <point x="49.567406" y="1.0393384" z="4.5917802"/>
                         <point x="34.494778" y="1.0393384" z="-35.890427"/>
                         <point x="-6.5531316" y="1.0393384" z="-49.346413"/>
@@ -5353,7 +5353,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="31.408735" align="false">
+                    <translate time="31.408735" align="true">
                         <point x="-8.1224022" y="0.27279478" z="48.923893"/>
                         <point x="33.186001" y="0.27279478" z="36.853901"/>
                         <point x="49.504673" y="0.27279478" z="-2.9678228"/>
@@ -5371,7 +5371,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="30.23484" align="false">
+                    <translate time="30.23484" align="true">
                         <point x="40.71912" y="1.0256253" z="27.819788"/>
                         <point x="47.138344" y="1.0256253" z="-14.490136"/>
                         <point x="18.061426" y="1.0256253" z="-45.888695"/>
@@ -5389,7 +5389,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="31.716208" align="false">
+                    <translate time="31.716208" align="true">
                         <point x="-39.264786" y="0.46477658" z="-29.807222"/>
                         <point x="-47.785419" y="0.46477658" z="12.113943"/>
                         <point x="-20.322666" y="0.46477658" z="44.913063"/>
@@ -5407,7 +5407,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="32.725914" align="false">
+                    <translate time="32.725914" align="true">
                         <point x="27.609577" y="0.55535549" z="41.490715"/>
                         <point x="49.653034" y="0.55535549" z="4.2830057"/>
                         <point x="34.306751" y="0.55535549" z="-36.149895"/>
@@ -5425,7 +5425,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="34.381237" align="false">
+                    <translate time="34.381237" align="true">
                         <point x="-42.450127" y="0.45065668" z="-26.827913"/>
                         <point x="-47.442131" y="0.45065668" z="16.461908"/>
                         <point x="-16.709251" y="0.45065668" z="47.355583"/>
@@ -5443,7 +5443,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="32.328869" align="false">
+                    <translate time="32.328869" align="true">
                         <point x="17.457085" y="0.76003301" z="46.852043"/>
                         <point x="47.514717" y="0.76003301" z="15.563272"/>
                         <point x="41.792797" y="0.76003301" z="-27.44496"/>
@@ -5461,7 +5461,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="32.432934" align="false">
+                    <translate time="32.432934" align="true">
                         <point x="-36.997967" y="0.56906849" z="33.081993"/>
                         <point x="2.7966828" y="0.56906849" z="49.55246"/>
                         <point x="40.485371" y="0.56906849" z="28.708923"/>
@@ -5479,7 +5479,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="33.89233" align="false">
+                    <translate time="33.89233" align="true">
                         <point x="-48.013042" y="0.7544176" z="-11.628905"/>
                         <point x="-39.027489" y="0.7544176" z="30.287596"/>
                         <point x="-0.65344906" y="0.7544176" z="49.396927"/>
@@ -5497,7 +5497,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="34.32188" align="false">
+                    <translate time="34.32188" align="true">
                         <point x="48.36422" y="1.1340679" z="-14.310487"/>
                         <point x="18.966208" y="1.1340679" z="-46.735111"/>
                         <point x="-24.713737" y="1.1340679" z="-43.967247"/>
@@ -5515,7 +5515,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="33.828091" align="false">
+                    <translate time="33.828091" align="true">
                         <point x="-43.7253" y="0.99579865" z="24.547401"/>
                         <point x="-8.0703526" y="0.99579865" z="49.490871"/>
                         <point x="33.661732" y="0.99579865" z="37.16671"/>
@@ -5533,7 +5533,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="32.609791" align="false">
+                    <translate time="32.609791" align="true">
                         <point x="-25.594622" y="1.2110965" z="43.47226"/>
                         <point x="18.029993" y="1.2110965" z="47.115192"/>
                         <point x="48.077656" y="1.2110965" z="15.279432"/>
@@ -5551,7 +5551,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="34.115269" align="false">
+                    <translate time="34.115269" align="true">
                         <point x="39.059509" y="0.14351839" z="-31.008501"/>
                         <point x="0.10979064" y="0.14351839" z="-49.871437"/>
                         <point x="-38.922611" y="0.14351839" z="-31.180166"/>
@@ -5569,7 +5569,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="33.2873" align="false">
+                    <translate time="33.2873" align="true">
                         <point x="1.1377105" y="0.22644734" z="49.841976"/>
                         <point x="39.677376" y="0.22644734" z="30.186466"/>
                         <point x="48.339169" y="0.22644734" z="-12.200069"/>
@@ -5587,7 +5587,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="31.928312" align="false">
+                    <translate time="31.928312" align="true">
                         <point x="27.649439" y="0.08496353" z="42.038261"/>
                         <point x="50.10598" y="0.08496353" z="4.5932283"/>
                         <point x="34.831692" y="0.08496353" z="-36.310604"/>
@@ -5605,7 +5605,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="30.714285" align="false">
+                    <translate time="30.714285" align="true">
                         <point x="41.844463" y="1.0768151" z="27.726011"/>
                         <point x="47.766666" y="1.0768151" z="-15.428428"/>
                         <point x="17.719597" y="1.0768151" z="-46.964951"/>
@@ -5623,7 +5623,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="34.892117" align="false">
+                    <translate time="34.892117" align="true">
                         <point x="6.5949588" y="0.46152127" z="48.906631"/>
                         <point x="42.348633" y="0.46152127" z="25.336639"/>
                         <point x="46.212921" y="0.46152127" z="-17.312359"/>
@@ -5641,7 +5641,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="33.187351" align="false">
+                    <translate time="33.187351" align="true">
                         <point x="-25.002411" y="0.071535386" z="43.470901"/>
                         <point x="18.398165" y="0.071535386" z="46.651337"/>
                         <point x="47.94455" y="0.071535386" z="14.702374"/>
@@ -5659,7 +5659,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="31.959745" align="false">
+                    <translate time="31.959745" align="true">
                         <point x="49.839184" y="0.028077029" z="1.450475"/>
                         <point x="32.208248" y="0.028077029" z="-38.061485"/>
                         <point x="-9.6761484" y="0.028077029" z="-48.912373"/>
@@ -5677,7 +5677,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="34.130222" align="false">
+                    <translate time="34.130222" align="true">
                         <point x="8.0346851" y="1.0425123" z="49.508957"/>
                         <point x="43.717205" y="1.0425123" z="24.586561"/>
                         <point x="46.479778" y="1.0425123" z="-18.850019"/>
@@ -5695,7 +5695,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="34.917446" align="false">
+                    <translate time="34.917446" align="true">
                         <point x="-16.223494" y="0.84568828" z="-46.73333"/>
                         <point x="-46.652771" y="0.84568828" z="-16.453722"/>
                         <point x="-41.951569" y="0.84568828" z="26.215872"/>
@@ -5713,7 +5713,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="33.910793" align="false">
+                    <translate time="33.910793" align="true">
                         <point x="47.112007" y="0.28638572" z="-16.45372"/>
                         <point x="16.509823" y="0.28638572" z="-47.092373"/>
                         <point x="-26.524599" y="0.28638572" z="-42.269512"/>
@@ -5731,7 +5731,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="30.512558" align="false">
+                    <translate time="30.512558" align="true">
                         <point x="-31.898136" y="0.64080733" z="-38.166931"/>
                         <point x="-49.728271" y="0.64080733" z="1.14228"/>
                         <point x="-30.112001" y="0.64080733" z="39.59132"/>
@@ -5749,7 +5749,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="32.282021" align="false">
+                    <translate time="32.282021" align="true">
                         <point x="41.607307" y="1.007762" z="28.790859"/>
                         <point x="48.451332" y="1.007762" z="-14.579094"/>
                         <point x="18.810522" y="1.007762" z="-46.970692"/>
@@ -5767,7 +5767,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="33.20826" align="false">
+                    <translate time="33.20826" align="true">
                         <point x="-49.442375" y="1.331665" z="8.8801346"/>
                         <point x="-23.884054" y="1.331665" z="44.192276"/>
                         <point x="19.659445" y="1.331665" z="46.226742"/>
@@ -5785,7 +5785,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="31.449018" align="false">
+                    <translate time="31.449018" align="true">
                         <point x="-46.701939" y="1.2614725" z="-18.172392"/>
                         <point x="-43.325932" y="1.2614725" z="25.182741"/>
                         <point x="-7.3246236" y="1.2614725" z="49.57476"/>
@@ -5803,7 +5803,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="33.561813" align="false">
+                    <translate time="33.561813" align="true">
                         <point x="-15.765873" y="0.38717818" z="-47.492382"/>
                         <point x="-46.960899" y="0.38717818" z="-17.284765"/>
                         <point x="-42.793415" y="0.38717818" z="25.938631"/>
@@ -5821,7 +5821,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="34.760277" align="false">
+                    <translate time="34.760277" align="true">
                         <point x="1.4313916" y="0.72890413" z="-49.592598"/>
                         <point x="-37.880592" y="0.72890413" z="-32.039589"/>
                         <point x="-48.667725" y="0.72890413" z="9.6398764"/>
@@ -5839,7 +5839,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="32.228767" align="false">
+                    <translate time="32.228767" align="true">
                         <point x="-35.736229" y="1.0202135" z="-35.223991"/>
                         <point x="-49.8204" y="1.0202135" z="5.9779038"/>
                         <point x="-26.388802" y="1.0202135" z="42.678318"/>
@@ -5857,7 +5857,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="31.023132" align="false">
+                    <translate time="31.023132" align="true">
                         <point x="-2.6247175" y="0.99404889" z="50.281219"/>
                         <point x="37.674953" y="0.99404889" z="33.40192"/>
                         <point x="49.604622" y="0.99404889" z="-8.6297264"/>
@@ -5875,7 +5875,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="34.591969" align="false">
+                    <translate time="34.591969" align="true">
                         <point x="-27.932146" y="1.2130904" z="-41.619793"/>
                         <point x="-49.955074" y="1.2130904" z="-4.11129"/>
                         <point x="-34.360821" y="1.2130904" z="36.493095"/>
@@ -5893,7 +5893,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="34.446701" align="false">
+                    <translate time="34.446701" align="true">
                         <point x="14.690313" y="0.65252644" z="-47.750065"/>
                         <point x="-28.173239" y="0.65252644" z="-41.25703"/>
                         <point x="-49.82177" y="0.65252644" z="-3.6966066"/>
@@ -5911,7 +5911,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="31.015045" align="false">
+                    <translate time="31.015045" align="true">
                         <point x="50.516132" y="0.24390393" z="-1.5044876"/>
                         <point x="30.32004" y="0.24390393" z="-40.433136"/>
                         <point x="-12.70766" y="0.24390393" z="-48.91481"/>
@@ -5929,7 +5929,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="30.206762" align="false">
+                    <translate time="30.206762" align="true">
                         <point x="-36.17062" y="1.2548398" z="-34.894394"/>
                         <point x="-49.833546" y="1.2548398" z="6.5230384"/>
                         <point x="-25.970797" y="1.2548398" z="43.028481"/>
@@ -5947,7 +5947,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="32.722404" align="false">
+                    <translate time="32.722404" align="true">
                         <point x="-18.202642" y="0.046021912" z="-46.718979"/>
                         <point x="-47.87553" y="0.046021912" z="-14.897412"/>
                         <point x="-41.497177" y="0.046021912" z="28.142206"/>
@@ -5965,7 +5965,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="30.638752" align="false">
+                    <translate time="30.638752" align="true">
                         <point x="-0.37281036" y="0.0818303" z="49.878384"/>
                         <point x="38.764046" y="0.0818303" z="31.390144"/>
                         <point x="48.710793" y="0.0818303" z="-10.735512"/>
@@ -5983,7 +5983,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="33.301186" align="false">
+                    <translate time="33.301186" align="true">
                         <point x="44.708504" y="0.067140721" z="22.577536"/>
                         <point x="45.527126" y="0.067140721" z="-20.877647"/>
                         <point x="12.062891" y="0.067140721" z="-48.611546"/>
@@ -6001,7 +6001,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="32.052673" align="false">
+                    <translate time="32.052673" align="true">
                         <point x="-41.366722" y="0.42127752" z="-27.598196"/>
                         <point x="-47.36887" y="0.42127752" z="15.134607"/>
                         <point x="-17.7013" y="0.42127752" z="46.470745"/>
@@ -6019,7 +6019,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="30.832239" align="false">
+                    <translate time="30.832239" align="true">
                         <point x="-45.281185" y="0.29550058" z="-20.85911"/>
                         <point x="-44.540668" y="0.29550058" z="22.396809"/>
                         <point x="-10.260128" y="0.29550058" z="48.787479"/>
@@ -6037,7 +6037,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="32.175358" align="false">
+                    <translate time="32.175358" align="true">
                         <point x="-46.941124" y="0.67685986" z="17.068668"/>
                         <point x="-15.922495" y="0.67685986" z="47.342186"/>
                         <point x="27.086096" y="0.67685986" z="41.966084"/>
@@ -6055,7 +6055,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="30.642872" align="false">
+                    <translate time="30.642872" align="true">
                         <point x="34.039928" y="0.45265055" z="-35.649059"/>
                         <point x="-6.6480036" y="0.45265055" z="-48.840313"/>
                         <point x="-42.329857" y="0.45265055" z="-25.253826"/>
@@ -6073,7 +6073,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="33.216652" align="false">
+                    <translate time="33.216652" align="true">
                         <point x="-31.15292" y="0.9777317" z="39.603325"/>
                         <point x="11.539591" y="0.9777317" z="49.048599"/>
                         <point x="45.542557" y="0.9777317" z="21.559294"/>
@@ -6091,7 +6091,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="33.685871" align="false">
+                    <translate time="33.685871" align="true">
                         <point x="-49.978371" y="0.68597472" z="-4.1711078"/>
                         <point x="-34.422112" y="0.68597472" z="36.474018"/>
                         <point x="7.0546932" y="0.68597472" z="49.653469"/>
@@ -6109,7 +6109,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="30.56093" align="false">
+                    <translate time="30.56093" align="true">
                         <point x="37.706989" y="0.6211127" z="-33.683479"/>
                         <point x="-2.8248737" y="0.6211127" z="-50.481815"/>
                         <point x="-41.229549" y="0.6211127" z="-29.266325"/>
@@ -6127,7 +6127,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="30.543383" align="false">
+                    <translate time="30.543383" align="true">
                         <point x="13.303421" y="1.0949634" z="-48.706757"/>
                         <point x="-29.785923" y="1.0949634" z="-40.769203"/>
                         <point x="-50.445866" y="1.0949634" z="-2.1316023"/>
@@ -6145,7 +6145,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="32.083347" align="false">
+                    <translate time="32.083347" align="true">
                         <point x="13.128036" y="1.0151677" z="48.705688"/>
                         <point x="46.264839" y="1.0151677" z="20.103588"/>
                         <point x="44.563274" y="1.0151677" z="-23.636919"/>
@@ -6163,7 +6163,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="31.056398" align="false">
+                    <translate time="31.056398" align="true">
                         <point x="43.916222" y="0.090334788" z="24.998652"/>
                         <point x="46.926048" y="0.090334788" z="-18.748682"/>
                         <point x="14.599604" y="0.090334788" z="-48.377876"/>
@@ -6181,7 +6181,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="33.091373" align="false">
+                    <translate time="33.091373" align="true">
                         <point x="34.099098" y="0.78815073" z="35.799721"/>
                         <point x="49.24979" y="0.78815073" z="-4.3389845"/>
                         <point x="27.314386" y="0.78815073" z="-41.21035"/>
@@ -6199,7 +6199,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="34.578236" align="false">
+                    <translate time="34.578236" align="true">
                         <point x="-49.81591" y="0.92039758" z="-4.918469"/>
                         <point x="-34.905132" y="0.92039758" z="35.881027"/>
                         <point x="6.2899189" y="0.92039758" z="49.661385"/>
@@ -6217,7 +6217,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="31.890926" align="false">
+                    <translate time="31.890926" align="true">
                         <point x="-46.461136" y="0.39800206" z="18.951471"/>
                         <point x="-14.151192" y="0.39800206" z="48.140827"/>
                         <point x="28.814886" y="0.39800206" z="41.079166"/>
@@ -6235,7 +6235,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="30.85284" align="false">
+                    <translate time="30.85284" align="true">
                         <point x="48.794708" y="1.0300201" z="13.450683"/>
                         <point x="40.939175" y="1.0300201" z="-29.762871"/>
                         <point x="2.2556009" y="1.0300201" z="-50.564381"/>
@@ -6253,7 +6253,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="30.978119" align="false">
+                    <translate time="30.978119" align="true">
                         <point x="-25.016333" y="0.24162522" z="-43.0634"/>
                         <point x="-49.265751" y="0.24162522" z="-7.2910266"/>
                         <point x="-36.417049" y="0.24162522" z="33.97163"/>
@@ -6271,7 +6271,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="31.519974" align="false">
+                    <translate time="31.519974" align="true">
                         <point x="33.55735" y="0.25366986" z="-37.824715"/>
                         <point x="-8.6498823" y="0.25366986" z="-49.819515"/>
                         <point x="-44.343578" y="0.25366986" z="-24.299215"/>
@@ -6289,7 +6289,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="33.855862" align="false">
+                    <translate time="33.855862" align="true">
                         <point x="14.987754" y="0.26420891" z="47.119541"/>
                         <point x="46.184254" y="0.26420891" z="17.660652"/>
                         <point x="42.603065" y="0.26420891" z="-25.097065"/>
@@ -6307,7 +6307,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="32.243111" align="false">
+                    <translate time="32.243111" align="true">
                         <point x="1.437109" y="1.1747185" z="50.278854"/>
                         <point x="40.205616" y="1.1747185" z="30.224777"/>
                         <point x="48.698471" y="1.1747185" z="-12.589173"/>
@@ -6325,7 +6325,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="32.474289" align="false">
+                    <translate time="32.474289" align="true">
                         <point x="11.142118" y="1.0687176" z="-48.592094"/>
                         <point x="-31.043829" y="1.0687176" z="-39.007938"/>
                         <point x="-49.853146" y="1.0687176" z="-0.050015353"/>
@@ -6343,7 +6343,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="30.463728" align="false">
+                    <translate time="30.463728" align="true">
                         <point x="-19.14995" y="0.31800288" z="-46.49456"/>
                         <point x="-48.290714" y="0.31800288" z="-14.016847"/>
                         <point x="-41.067581" y="0.31800288" z="29.015835"/>
@@ -6361,7 +6361,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="30.298166" align="false">
+                    <translate time="30.298166" align="true">
                         <point x="-38.96244" y="1.1917682" z="32.149586"/>
                         <point x="0.8428691" y="1.1917682" z="50.507"/>
                         <point x="40.013481" y="1.1917682" z="30.831623"/>
@@ -6379,7 +6379,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="33.780327" align="false">
+                    <translate time="33.780327" align="true">
                         <point x="-49.93919" y="0.84271783" z="-0.0022140006"/>
                         <point x="-31.138311" y="0.84271783" z="39.042648"/>
                         <point x="11.110346" y="0.84271783" z="48.687603"/>
@@ -6397,7 +6397,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="30.998108" align="false">
+                    <translate time="30.998108" align="true">
                         <point x="-47.67572" y="1.2132125" z="13.774324"/>
                         <point x="-18.956129" y="1.2132125" z="45.862526"/>
                         <point x="24.037809" y="1.2132125" z="43.415318"/>
@@ -6415,7 +6415,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="33.951843" align="false">
+                    <translate time="33.951843" align="true">
                         <point x="-7.8094497" y="0.068320774" z="-49.408424"/>
                         <point x="-43.498177" y="0.068320774" z="-24.699968"/>
                         <point x="-46.431885" y="0.068320774" z="18.608059"/>
@@ -6433,7 +6433,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="32.766808" align="false">
+                    <translate time="32.766808" align="true">
                         <point x="-49.986168" y="0.032064781" z="-4.8772101"/>
                         <point x="-34.979027" y="0.032064781" z="36.039864"/>
                         <point x="6.3680291" y="0.032064781" z="49.818192"/>
@@ -6451,7 +6451,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="31.527145" align="false">
+                    <translate time="31.527145" align="true">
                         <point x="-48.060383" y="1.167394" z="15.518209"/>
                         <point x="-17.832539" y="1.167394" z="47.250565"/>
                         <point x="25.823566" y="1.167394" z="43.40229"/>
@@ -6469,7 +6469,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="33.259834" align="false">
+                    <translate time="33.259834" align="true">
                         <point x="16.979271" y="0.64251637" z="46.828045"/>
                         <point x="47.19804" y="0.64251637" z="15.921879"/>
                         <point x="41.875725" y="0.64251637" z="-26.973783"/>
@@ -6487,7 +6487,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="31.098667" align="false">
+                    <translate time="31.098667" align="true">
                         <point x="-49.20763" y="1.0247709" z="2.7748592"/>
                         <point x="-28.51099" y="1.0247709" z="40.202168"/>
                         <point x="13.655005" y="1.0247709" z="47.356434"/>
@@ -6505,7 +6505,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="30.163427" align="false">
+                    <translate time="30.163427" align="true">
                         <point x="-43.867493" y="0.076703191" z="-22.912949"/>
                         <point x="-45.265003" y="0.076703191" z="20.010994"/>
                         <point x="-12.577048" y="0.076703191" z="47.866253"/>
@@ -6523,7 +6523,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="32.181309" align="false">
+                    <translate time="32.181309" align="true">
                         <point x="-47.220619" y="0.93048906" z="15.647999"/>
                         <point x="-17.207483" y="0.93048906" z="46.674934"/>
                         <point x="25.763237" y="0.93048906" z="42.554703"/>
@@ -6541,7 +6541,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="32.384869" align="false">
+                    <translate time="32.384869" align="true">
                         <point x="48.302986" y="0.84739733" z="-15.051133"/>
                         <point x="18.348969" y="0.84739733" z="-47.149025"/>
                         <point x="-25.422192" y="0.84739733" z="-43.742741"/>
@@ -6559,7 +6559,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="30.716116" align="false">
+                    <translate time="30.716116" align="true">
                         <point x="30.610823" y="0.10571612" z="40.102718"/>
                         <point x="50.439102" y="0.10571612" z="1.0711303"/>
                         <point x="32.285713" y="0.10571612" z="-38.767036"/>
@@ -6577,7 +6577,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="31.869106" align="false">
+                    <translate time="31.869106" align="true">
                         <point x="45.826965" y="1.2239957" z="-18.646698"/>
                         <point x="13.994076" y="1.2239957" z="-47.45499"/>
                         <point x="-28.376648" y="1.2239957" z="-40.528706"/>
@@ -6595,7 +6595,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="31.199987" align="false">
+                    <translate time="31.199987" align="true">
                         <point x="-45.974525" y="0.06217638" z="20.578102"/>
                         <point x="-12.576044" y="0.06217638" z="48.774567"/>
                         <point x="30.292454" y="0.06217638" z="40.242798"/>
@@ -6613,7 +6613,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="31.040071" align="false">
+                    <translate time="31.040071" align="true">
                         <point x="49.994446" y="0.34201077" z="-6.9980497"/>
                         <point x="25.69973" y="0.34201077" z="-43.450443"/>
                         <point x="-17.947399" y="0.34201077" z="-47.183769"/>
@@ -6631,7 +6631,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="34.438461" align="false">
+                    <translate time="34.438461" align="true">
                         <point x="-34.483494" y="1.1282083" z="35.638561"/>
                         <point x="6.3632374" y="1.1282083" z="49.180557"/>
                         <point x="42.41832" y="1.1282083" z="25.688602"/>
@@ -6649,7 +6649,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="30.867641" align="false">
+                    <translate time="30.867641" align="true">
                         <point x="13.659994" y="0.81236207" z="48.525024"/>
                         <point x="46.455257" y="0.81236207" z="19.575048"/>
                         <point x="44.268768" y="0.81236207" z="-24.115341"/>
@@ -6667,7 +6667,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="30.925322" align="false">
+                    <translate time="30.925322" align="true">
                         <point x="14.700266" y="0.4745425" z="-47.29789"/>
                         <point x="-27.813511" y="0.4745425" z="-40.982883"/>
                         <point x="-49.383152" y="0.4745425" z="-3.8069389"/>
@@ -6685,7 +6685,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="34.558395" align="false">
+                    <translate time="34.558395" align="true">
                         <point x="-15.3327" y="0.83071387" z="-48.092258"/>
                         <point x="-47.159821" y="0.83071387" z="-17.99745"/>
                         <point x="-43.474644" y="0.83071387" z="25.649799"/>
@@ -6703,7 +6703,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="34.846645" align="false">
+                    <translate time="34.846645" align="true">
                         <point x="0.66147494" y="0.97419155" z="49.977093"/>
                         <point x="39.48608" y="0.97419155" z="30.643047"/>
                         <point x="48.576874" y="0.97419155" z="-11.765828"/>
@@ -6721,7 +6721,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="31.872005" align="false">
+                    <translate time="31.872005" align="true">
                         <point x="40.705067" y="1.1202735" z="29.789528"/>
                         <point x="48.66959" y="1.1202735" z="-13.251032"/>
                         <point x="19.984913" y="1.1202735" z="-46.313301"/>
@@ -6739,7 +6739,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="33.709068" align="false">
+                    <translate time="33.709068" align="true">
                         <point x="-7.2966495" y="0.22795293" z="49.124889"/>
                         <point x="33.857998" y="0.22795293" z="36.333622"/>
                         <point x="49.516884" y="0.22795293" z="-3.8175983"/>
@@ -6757,7 +6757,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="34.063541" align="false">
+                    <translate time="34.063541" align="true">
                         <point x="-40.236267" y="0.041179642" z="-30.085127"/>
                         <point x="-48.608402" y="0.041179642" z="12.700205"/>
                         <point x="-20.37743" y="0.041179642" z="45.922024"/>
@@ -6775,7 +6775,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="33.594471" align="false">
+                    <translate time="33.594471" align="true">
                         <point x="36.078659" y="1.0908943" z="34.99987"/>
                         <point x="49.858677" y="1.0908943" z="-6.3853641"/>
                         <point x="26.094099" y="1.0908943" z="-42.962292"/>
@@ -6793,7 +6793,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="34.44838" align="false">
+                    <translate time="34.44838" align="true">
                         <point x="-24.472853" y="0.86644083" z="43.354378"/>
                         <point x="18.637238" y="0.86644083" z="46.164661"/>
                         <point x="47.713112" y="0.86644083" z="14.212023"/>
@@ -6811,7 +6811,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="30.037844" align="false">
+                    <translate time="30.037844" align="true">
                         <point x="14.757649" y="1.0313222" z="-47.068245"/>
                         <point x="-27.598188" y="1.0313222" z="-40.884567"/>
                         <point x="-49.172031" y="1.0313222" z="-3.9139738"/>
@@ -6829,7 +6829,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="34.595173" align="false">
+                    <translate time="34.595173" align="true">
                         <point x="41.763985" y="0.55795974" z="26.737362"/>
                         <point x="46.943531" y="0.55795974" z="-15.981926"/>
                         <point x="16.773643" y="0.55795974" z="-46.666496"/>
@@ -6847,7 +6847,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="34.532608" align="false">
+                    <translate time="34.532608" align="true">
                         <point x="-49.901684" y="0.32382175" z="2.2767589"/>
                         <point x="-29.333151" y="0.32382175" z="40.434238"/>
                         <point x="13.323833" y="0.32382175" z="48.143921"/>
@@ -6865,7 +6865,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="31.141239" align="false">
+                    <translate time="31.141239" align="true">
                         <point x="-49.009113" y="0.042807296" z="7.4312005"/>
                         <point x="-24.74674" y="0.042807296" z="42.950142"/>
                         <point x="18.150429" y="0.042807296" z="46.126759"/>
@@ -6883,7 +6883,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="31.658072" align="false">
+                    <translate time="31.658072" align="true">
                         <point x="-39.568665" y="1.0751874" z="30.610476"/>
                         <point x="-0.73843241" y="1.0751874" z="50.021347"/>
                         <point x="38.647858" y="1.0751874" z="31.765135"/>
@@ -6901,7 +6901,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="33.234352" align="false">
+                    <translate time="33.234352" align="true">
                         <point x="-35.989868" y="1.3223875" z="34.713871"/>
                         <point x="4.7010779" y="1.3223875" z="49.781757"/>
                         <point x="41.852016" y="1.3223875" z="27.362972"/>
@@ -6919,7 +6919,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="31.834467" align="false">
+                    <translate time="31.834467" align="true">
                         <point x="35.322842" y="1.0837326" z="-34.803692"/>
                         <point x="-5.1871858" y="1.0837326" z="-49.316257"/>
                         <point x="-41.791157" y="1.0837326" z="-26.692684"/>
@@ -6937,7 +6937,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="30.598927" align="false">
+                    <translate time="30.598927" align="true">
                         <point x="28.83359" y="0.74839526" z="-40.027504"/>
                         <point x="-13.317309" y="0.74839526" z="-47.499752"/>
                         <point x="-45.44001" y="0.74839526" z="-19.203712"/>
@@ -6955,7 +6955,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="34.70092" align="false">
+                    <translate time="34.70092" align="true">
                         <point x="47.678871" y="1.1986856" z="14.092398"/>
                         <point x="40.745171" y="1.1986856" z="-28.49037"/>
                         <point x="3.1295233" y="1.1986856" z="-49.619312"/>
@@ -6973,7 +6973,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="32.227852" align="false">
+                    <translate time="32.227852" align="true">
                         <point x="-29.883604" y="1.1324402" z="39.400673"/>
                         <point x="12.172559" y="1.1324402" z="47.929863"/>
                         <point x="45.062542" y="1.1324402" z="20.366896"/>
@@ -6991,7 +6991,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="33.120213" align="false">
+                    <translate time="33.120213" align="true">
                         <point x="-19.075441" y="0.84633934" z="-45.76445"/>
                         <point x="-47.673435" y="0.84633934" z="-13.619883"/>
                         <point x="-40.372356" y="0.84633934" z="28.780731"/>
@@ -7009,7 +7009,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="30.698111" align="false">
+                    <translate time="30.698111" align="true">
                         <point x="-36.994518" y="0.021973327" z="33.412315"/>
                         <point x="3.0570891" y="0.021973327" z="49.755714"/>
                         <point x="40.806648" y="0.021973327" z="28.632057"/>
@@ -7027,7 +7027,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="32.807243" align="false">
+                    <translate time="32.807243" align="true">
                         <point x="-45.488697" y="0.38929412" z="-19.875301"/>
                         <point x="-43.900879" y="0.38929412" z="23.172441"/>
                         <point x="-9.2548103" y="0.38929412" z="48.77087"/>
@@ -7045,7 +7045,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="32.11356" align="false">
+                    <translate time="32.11356" align="true">
                         <point x="-48.893806" y="0.80963576" z="12.885018"/>
                         <point x="-20.410883" y="0.80963576" z="46.260395"/>
                         <point x="23.441849" y="0.80963576" z="44.800755"/>
@@ -7063,7 +7063,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="32.58263" align="false">
+                    <translate time="32.58263" align="true">
                         <point x="38.522045" y="0.98595136" z="32.461948"/>
                         <point x="49.397873" y="0.98595136" z="-9.8780527"/>
                         <point x="23.076092" y="0.98595136" z="-44.779682"/>
@@ -7081,7 +7081,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="31.669363" align="false">
+                    <translate time="31.669363" align="true">
                         <point x="-49.310284" y="0.0093183182" z="0.33821651"/>
                         <point x="-30.480034" y="0.0093183182" z="38.763203"/>
                         <point x="11.302297" y="0.0093183182" z="47.998714"/>
@@ -7099,7 +7099,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="30.252541" align="false">
+                    <translate time="30.252541" align="true">
                         <point x="-50.061718" y="0.61635184" z="6.5431204"/>
                         <point x="-26.097357" y="0.61635184" z="43.219391"/>
                         <point x="17.518841" y="0.61635184" z="47.35059"/>
@@ -7117,7 +7117,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="34.845425" align="false">
+                    <translate time="34.845425" align="true">
                         <point x="-46.02858" y="0.032227546" z="-19.848974"/>
                         <point x="-44.216904" y="0.032227546" z="23.610956"/>
                         <point x="-9.1090059" y="0.032227546" z="49.291355"/>
@@ -7135,7 +7135,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="34.111759" align="false">
+                    <translate time="34.111759" align="true">
                         <point x="49.60693" y="0.9418419" z="-5.8606443"/>
                         <point x="26.347383" y="0.9418419" z="-42.438309"/>
                         <point x="-16.752287" y="0.9418419" z="-47.059063"/>
@@ -7153,7 +7153,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="34.221169" align="false">
+                    <translate time="34.221169" align="true">
                         <point x="49.880947" y="0.79628897" z="-5.1571598"/>
                         <point x="27.06823" y="0.79628897" z="-42.213932"/>
                         <point x="-16.127409" y="0.79628897" z="-47.482754"/>
@@ -7171,7 +7171,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="30.072481" align="false">
+                    <translate time="30.072481" align="true">
                         <point x="39.545776" y="0.9975484" z="-30.429445"/>
                         <point x="0.86569393" y="0.9975484" z="-49.890579"/>
                         <point x="-38.466278" y="0.9975484" z="-31.783089"/>
@@ -7189,7 +7189,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="31.918089" align="false">
+                    <translate time="31.918089" align="true">
                         <point x="27.627148" y="0.83531195" z="-41.578281"/>
                         <point x="-15.281959" y="0.83531195" z="-47.523411"/>
                         <point x="-46.683441" y="0.83531195" z="-17.682451"/>
@@ -7207,7 +7207,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="34.419384" align="false">
+                    <translate time="34.419384" align="true">
                         <point x="-28.897171" y="0.3851029" z="-39.969532"/>
                         <point x="-49.266529" y="0.3851029" z="-2.3278713"/>
                         <point x="-32.537186" y="0.3851029" z="37.066715"/>
@@ -7225,7 +7225,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="32.665638" align="false">
+                    <translate time="32.665638" align="true">
                         <point x="32.795914" y="1.2420627" z="-37.557117"/>
                         <point x="-8.9154129" y="1.2420627" z="-49.057358"/>
                         <point x="-43.913258" y="1.2420627" z="-23.616405"/>
@@ -7243,7 +7243,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="32.187107" align="false">
+                    <translate time="32.187107" align="true">
                         <point x="-36.362701" y="1.2989899" z="33.287476"/>
                         <point x="3.3534174" y="1.2989899" z="49.18391"/>
                         <point x="40.544346" y="1.2989899" z="28.043861"/>
@@ -7261,7 +7261,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="32.492752" align="false">
+                    <translate time="32.492752" align="true">
                         <point x="-30.808977" y="0.44394261" z="-39.656097"/>
                         <point x="-50.213467" y="0.44394261" z="-0.63774884"/>
                         <point x="-31.806202" y="0.44394261" z="38.860836"/>
@@ -7279,7 +7279,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="31.165197" align="false">
+                    <translate time="31.165197" align="true">
                         <point x="34.020096" y="0.05200354" z="-36.684013"/>
                         <point x="-7.4695282" y="0.05200354" z="-49.470089"/>
                         <point x="-43.334446" y="0.05200354" z="-25.004189"/>
@@ -7297,7 +7297,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="33.044067" align="false">
+                    <translate time="33.044067" align="true">
                         <point x="-10.437944" y="1.1460311" z="49.444729"/>
                         <point x="32.14949" y="1.1460311" z="38.989002"/>
                         <point x="50.527706" y="1.1460311" z="-0.82623231"/>
@@ -7315,7 +7315,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="31.526535" align="false">
+                    <translate time="31.526535" align="true">
                         <point x="26.877516" y="0.10193183" z="-42.236629"/>
                         <point x="-16.264065" y="0.10193183" z="-47.347797"/>
                         <point x="-47.158474" y="0.10193183" z="-16.805117"/>
@@ -7333,7 +7333,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="31.521347" align="false">
+                    <translate time="31.521347" align="true">
                         <point x="-34.746861" y="0.1067334" z="35.883179"/>
                         <point x="6.3902793" y="0.1067334" z="49.538986"/>
                         <point x="42.715412" y="0.1067334" z="25.890938"/>
@@ -7351,7 +7351,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="31.081118" align="false">
+                    <translate time="31.081118" align="true">
                         <point x="-27.287376" y="1.2438531" z="-42.286816"/>
                         <point x="-50.074566" y="1.2438531" z="-5.0312762"/>
                         <point x="-35.154594" y="1.2438531" z="36.012917"/>
@@ -7369,7 +7369,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="31.250343" align="false">
+                    <translate time="31.250343" align="true">
                         <point x="-34.625462" y="0.74762213" z="35.593575"/>
                         <point x="6.2395492" y="0.74762213" z="49.263508"/>
                         <point x="42.406055" y="0.74762213" z="25.837021"/>
@@ -7387,7 +7387,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="31.15543" align="false">
+                    <translate time="31.15543" align="true">
                         <point x="-36.351852" y="0.96951205" z="33.871738"/>
                         <point x="3.8169734" y="0.96951205" z="49.539707"/>
                         <point x="41.111546" y="0.96951205" z="27.903275"/>
@@ -7405,7 +7405,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="32.871639" align="false">
+                    <translate time="32.871639" align="true">
                         <point x="-30.82185" y="0.5957213" z="38.782997"/>
                         <point x="11.104652" y="0.5957213" z="48.278297"/>
                         <point x="44.669128" y="0.5957213" z="21.419064"/>
@@ -7423,7 +7423,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="33.095951" align="false">
+                    <translate time="33.095951" align="true">
                         <point x="18.735931" y="1.3269855" z="45.625946"/>
                         <point x="47.353466" y="1.3269855" z="13.798971"/>
                         <point x="40.31287" y="1.3269855" z="-28.418913"/>
@@ -7441,7 +7441,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="31.157415" align="false">
+                    <translate time="31.157415" align="true">
                         <point x="33.721504" y="0.22644734" z="36.410488"/>
                         <point x="49.491882" y="0.22644734" z="-3.6629615"/>
                         <point x="27.993864" y="0.22644734" z="-40.97813"/>
@@ -7459,7 +7459,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="30.398113" align="false">
+                    <translate time="30.398113" align="true">
                         <point x="16.048742" y="1.2797428" z="47.295803"/>
                         <point x="46.983574" y="1.2797428" z="16.941038"/>
                         <point x="42.538815" y="1.2797428" z="-26.170671"/>
@@ -7477,7 +7477,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="32.452774" align="false">
+                    <translate time="32.452774" align="true">
                         <point x="-5.7144089" y="0.3729769" z="-49.405502"/>
                         <point x="-42.189648" y="0.3729769" z="-26.336128"/>
                         <point x="-46.895229" y="0.3729769" z="16.564886"/>
@@ -7495,7 +7495,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="31.460768" align="false">
+                    <translate time="31.460768" align="true">
                         <point x="-30.255985" y="1.2329478" z="-39.598476"/>
                         <point x="-49.823635" y="1.2329478" z="-1.0341569"/>
                         <point x="-31.873068" y="1.2329478" z="38.308895"/>
@@ -7513,7 +7513,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="32.741783" align="false">
+                    <translate time="32.741783" align="true">
                         <point x="-14.1976" y="0.53553879" z="47.857445"/>
                         <point x="28.564396" y="0.53553879" z="40.938766"/>
                         <point x="49.816826" y="0.53553879" z="3.192364"/>
@@ -7531,7 +7531,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="32.964264" align="false">
+                    <translate time="32.964264" align="true">
                         <point x="-47.478397" y="1.0592364" z="16.904148"/>
                         <point x="-16.386106" y="1.0592364" z="47.659668"/>
                         <point x="27.045254" y="1.0592364" z="42.526497"/>
@@ -7549,7 +7549,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="31.339609" align="false">
+                    <translate time="31.339609" align="true">
                         <point x="-17.992636" y="0.42408523" z="47.126858"/>
                         <point x="25.627031" y="0.42408523" z="43.450329"/>
                         <point x="49.949028" y="0.42408523" z="7.0548229"/>
@@ -7567,7 +7567,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="33.874477" align="false">
+                    <translate time="33.874477" align="true">
                         <point x="36.932034" y="0.95836258" z="34.504536"/>
                         <point x="50.003479" y="0.95836258" z="-7.3613982"/>
                         <point x="25.421284" y="0.95836258" z="-43.684052"/>
@@ -7585,7 +7585,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="30.208136" align="false">
+                    <translate time="30.208136" align="true">
                         <point x="9.1839724" y="0.23454492" z="49.063019"/>
                         <point x="44.085129" y="0.23454492" z="23.409971"/>
                         <point x="45.78928" y="0.23454492" z="-19.871262"/>
@@ -7603,7 +7603,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="30.072329" align="false">
+                    <translate time="30.072329" align="true">
                         <point x="38.219055" y="1.149734" z="32.069004"/>
                         <point x="48.901749" y="1.149734" z="-9.8861599"/>
                         <point x="22.760424" y="1.149734" z="-44.396851"/>
@@ -7621,7 +7621,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="33.898281" align="false">
+                    <translate time="33.898281" align="true">
                         <point x="-47.144024" y="1.0913826" z="15.312214"/>
                         <point x="-17.422253" y="1.0913826" z="46.405689"/>
                         <point x="25.418829" y="1.0913826" z="42.554745"/>
@@ -7639,7 +7639,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="34.607533" align="false">
+                    <translate time="34.607533" align="true">
                         <point x="-49.00869" y="0.39832759" z="10.697737"/>
                         <point x="-22.192595" y="0.39832759" z="44.986465"/>
                         <point x="21.334972" y="0.39832759" z="45.399471"/>
@@ -7657,7 +7657,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="30.115055" align="false">
+                    <translate time="30.115055" align="true">
                         <point x="-0.4883036" y="0.32349622" z="-50.40514"/>
                         <point x="-39.712772" y="0.32349622" z="-31.045322"/>
                         <point x="-49.032722" y="0.32349622" z="11.692248"/>
@@ -7675,7 +7675,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="33.576618" align="false">
+                    <translate time="33.576618" align="true">
                         <point x="38.25132" y="0.041179642" z="-31.237423"/>
                         <point x="-0.57308924" y="0.041179642" z="-49.382298"/>
                         <point x="-38.965946" y="0.041179642" z="-30.341305"/>
@@ -7693,7 +7693,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="30.910521" align="false">
+                    <translate time="30.910521" align="true">
                         <point x="47.324032" y="0.24056724" z="-15.606777"/>
                         <point x="17.304186" y="0.24056724" z="-46.730083"/>
                         <point x="-25.746073" y="0.24056724" z="-42.664684"/>
@@ -7711,7 +7711,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="32.628101" align="false">
+                    <translate time="32.628101" align="true">
                         <point x="18.803947" y="0.1796523" z="46.629124"/>
                         <point x="48.180183" y="0.1796523" z="14.371262"/>
                         <point x="41.275761" y="0.1796523" z="-28.708452"/>
@@ -7729,7 +7729,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="34.499344" align="false">
+                    <translate time="34.499344" align="true">
                         <point x="42.281708" y="1.0756351" z="26.241735"/>
                         <point x="46.878834" y="1.0756351" z="-16.695719"/>
                         <point x="16.175234" y="1.0756351" z="-47.060955"/>
@@ -7747,7 +7747,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="34.090397" align="false">
+                    <translate time="34.090397" align="true">
                         <point x="45.294502" y="0.038982309" z="19.868082"/>
                         <point x="43.774155" y="0.038982309" z="-23.025116"/>
                         <point x="9.2909727" y="0.038982309" z="-48.579937"/>
@@ -7765,7 +7765,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="32.699669" align="false">
+                    <translate time="32.699669" align="true">
                         <point x="40.199211" y="0.76092821" z="-29.083767"/>
                         <point x="2.3251989" y="0.76092821" z="-49.562443"/>
                         <point x="-37.299744" y="0.76092821" z="-32.719585"/>
@@ -7783,7 +7783,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="34.726402" align="false">
+                    <translate time="34.726402" align="true">
                         <point x="-19.838167" y="1.1610055" z="46.082508"/>
                         <point x="23.659855" y="1.1610055" z="44.242081"/>
                         <point x="49.34153" y="1.1610055" z="9.0864716"/>
@@ -7801,7 +7801,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="34.001282" align="false">
+                    <translate time="34.001282" align="true">
                         <point x="-18.410223" y="0.20431125" z="-45.868153"/>
                         <point x="-47.339752" y="0.20431125" z="-14.204627"/>
                         <point x="-40.621483" y="0.20431125" z="28.155266"/>
@@ -7819,7 +7819,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="34.112064" align="false">
+                    <translate time="34.112064" align="true">
                         <point x="-35.67366" y="0.096682638" z="35.713268"/>
                         <point x="5.6795912" y="0.096682638" z="50.15765"/>
                         <point x="42.755993" y="0.096682638" z="26.832302"/>
@@ -7837,7 +7837,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="32.254707" align="false">
+                    <translate time="32.254707" align="true">
                         <point x="-44.336449" y="0.7317118" z="-22.683844"/>
                         <point x="-45.378269" y="0.7317118" z="20.520481"/>
                         <point x="-12.249334" y="0.7317118" z="48.272469"/>
@@ -7855,7 +7855,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="33.640247" align="false">
+                    <translate time="33.640247" align="true">
                         <point x="-4.6968536" y="1.2659485" z="49.437229"/>
                         <point x="35.723141" y="1.2659485" z="34.495762"/>
                         <point x="49.242882" y="1.2659485" z="-6.4217138"/>
@@ -7873,7 +7873,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="30.989716" align="false">
+                    <translate time="30.989716" align="true">
                         <point x="37.509682" y="0.36317027" z="33.178371"/>
                         <point x="49.326797" y="0.36317027" z="-8.6398706"/>
                         <point x="23.999828" y="0.36317027" z="-43.952118"/>
@@ -7891,7 +7891,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="31.149632" align="false">
+                    <translate time="31.149632" align="true">
                         <point x="38.968845" y="0.64980012" z="-31.46381"/>
                         <point x="-0.30271393" y="0.64980012" z="-50.084438"/>
                         <point x="-39.346333" y="0.64980012" z="-30.990458"/>
@@ -7909,7 +7909,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="33.355663" align="false">
+                    <translate time="33.355663" align="true">
                         <point x="-15.150187" y="0.92239147" z="47.56823"/>
                         <point x="27.744347" y="0.92239147" z="41.503201"/>
                         <point x="49.746826" y="0.92239147" z="4.1854248"/>
@@ -7927,7 +7927,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="31.179083" align="false">
+                    <translate time="31.179083" align="true">
                         <point x="-5.1863332" y="0.31670076" z="-50.328243"/>
                         <point x="-42.581829" y="0.31670076" z="-27.324314"/>
                         <point x="-47.912346" y="0.31670076" z="16.255379"/>
@@ -7945,7 +7945,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="32.687458" align="false">
+                    <translate time="32.687458" align="true">
                         <point x="44.354252" y="0.64581239" z="-24.106798"/>
                         <point x="8.8069763" y="0.64581239" z="-49.707893"/>
                         <point x="-33.372143" y="0.64581239" z="-37.877934"/>
@@ -7963,7 +7963,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="30.846127" align="false">
+                    <translate time="30.846127" align="true">
                         <point x="40.314713" y="0.4487035" z="-29.652956"/>
                         <point x="1.9522036" y="0.4487035" z="-50.007629"/>
                         <point x="-37.880356" y="0.4487035" z="-32.705544"/>
@@ -7981,7 +7981,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="33.698387" align="false">
+                    <translate time="33.698387" align="true">
                         <point x="-22.384405" y="0.29236734" z="44.341881"/>
                         <point x="20.711424" y="0.29236734" z="45.147549"/>
                         <point x="48.211132" y="0.29236734" z="11.956196"/>
@@ -7999,7 +7999,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="31.350445" align="false">
+                    <translate time="31.350445" align="true">
                         <point x="-46.762726" y="0.86725467" z="-18.693432"/>
                         <point x="-43.771198" y="0.86725467" z="24.905401"/>
                         <point x="-7.8190751" y="0.86725467" z="49.749962"/>
@@ -8017,7 +8017,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="34.295326" align="false">
+                    <translate time="34.295326" align="true">
                         <point x="-49.664867" y="0.085899435" z="-8.0131807"/>
                         <point x="-37.230499" y="0.085899435" z="33.83342"/>
                         <point x="3.2391887" y="0.085899435" z="50.202766"/>
@@ -8035,7 +8035,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="30.103916" align="false">
+                    <translate time="30.103916" align="true">
                         <point x="4.0346489" y="0.059165217" z="-49.57618"/>
                         <point x="-36.244656" y="0.059165217" z="-34.064663"/>
                         <point x="-49.230995" y="0.059165217" z="7.0982466"/>
@@ -8053,7 +8053,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="33.020264" align="false">
+                    <translate time="33.020264" align="true">
                         <point x="-13.559901" y="0.82469153" z="-48.543964"/>
                         <point x="-46.407661" y="0.82469153" z="-19.665104"/>
                         <point x="-44.309505" y="0.82469153" z="24.021975"/>
@@ -8071,7 +8071,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="33.483688" align="false">
+                    <translate time="33.483688" align="true">
                         <point x="-39.116264" y="1.03649" z="-31.212357"/>
                         <point x="-48.791393" y="1.03649" z="11.121735"/>
                         <point x="-21.725618" y="1.03649" z="45.080933"/>
@@ -8089,7 +8089,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="32.117527" align="false">
+                    <translate time="32.117527" align="true">
                         <point x="42.59819" y="1.1573433" z="26.744637"/>
                         <point x="47.469334" y="1.1573433" z="-16.629599"/>
                         <point x="16.595102" y="1.1573433" z="-47.481407"/>
@@ -8107,7 +8107,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="30.21073" align="false">
+                    <translate time="30.21073" align="true">
                         <point x="18.191559" y="0.028565325" z="-46.93087"/>
                         <point x="-25.349775" y="0.028565325" z="-43.483654"/>
                         <point x="-49.802216" y="0.028565325" z="-7.2923689"/>
@@ -8125,7 +8125,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="31.224251" align="false">
+                    <translate time="31.224251" align="true">
                         <point x="21.568932" y="0.35901976" z="45.063915"/>
                         <point x="48.680397" y="0.35901976" z="11.23362"/>
                         <point x="39.134533" y="0.35901976" z="-31.055817"/>
@@ -8143,7 +8143,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="30.355083" align="false">
+                    <translate time="30.355083" align="true">
                         <point x="-34.239426" y="0.67527288" z="-37.248116"/>
                         <point x="-50.469681" y="0.67527288" z="3.5456338"/>
                         <point x="-28.69525" y="0.67527288" z="41.669453"/>
@@ -8161,7 +8161,7 @@
                     <model file="bezier_1.3d"/>
                 </models>
                 <transform>
-                    <translate time="31.687368" align="false">
+                    <translate time="31.687368" align="true">
                         <point x="-37.777691" y="1.2740461" z="32.409325"/>
                         <point x="1.7846203" y="1.2740461" z="49.742672"/>
                         <point x="40.003075" y="1.2740461" z="29.61878"/>

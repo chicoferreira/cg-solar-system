@@ -194,7 +194,7 @@ namespace generator::solarsystem
 
             asteroid_group.transformations.AddTransform(world::transform::TranslationThroughPoints(
                 30.0f + (double)rand() / RAND_MAX * 5,
-                false,
+                true,
                 generatePointsInCircle(
                     asteroid_belt_distance_from_sun + distance_offset_xz,
                     7,
@@ -204,7 +204,7 @@ namespace generator::solarsystem
             ));
 
             asteroid_group.transformations.AddTransform(world::transform::Rotation(-M_PI_2, {1, 0, 0}));
-            asteroid_group.transformations.AddTransform(world::transform::Scale({900 / scene_scale_factor}));
+            asteroid_group.transformations.AddTransform(world::transform::Scale(Vec3f(900 / scene_scale_factor)));
 
             asteroid_group.models.push_back(asteroid_id);
 

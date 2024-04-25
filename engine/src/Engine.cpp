@@ -115,7 +115,7 @@ namespace engine
                 return "Linux";
             case OperatingSystem::MACOS:
                 return "MacOS";
-            case OperatingSystem::UNKNOWN:
+            default:
                 return "Unknown";
         }
     }
