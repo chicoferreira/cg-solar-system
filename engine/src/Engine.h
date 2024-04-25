@@ -41,10 +41,11 @@ namespace engine
             const bool vsync,
             const bool wireframe,
             const bool render_axis,
-            const bool cull_faces
+            const bool cull_faces,
+            const bool render_transform_through_points_path
         ) :
             mssa_samples(mssa_samples), mssa(mssa), vsync(vsync), wireframe(wireframe), render_axis(render_axis),
-            cull_faces(cull_faces)
+            cull_faces(cull_faces), render_transform_through_points_path(render_transform_through_points_path)
         {
         }
 
@@ -54,6 +55,7 @@ namespace engine
         bool wireframe;
         bool render_axis;
         bool cull_faces;
+        bool render_transform_through_points_path;
     };
 
     class EngineSimulationTime
@@ -96,6 +98,7 @@ namespace engine
             true, // wireframe
             true, // render_axis
             true, // cull_faces
+            true, // render_transform_through_points_path
         };
 
         EngineSimulationTime m_simulation_time;

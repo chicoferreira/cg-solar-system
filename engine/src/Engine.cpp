@@ -266,7 +266,8 @@ namespace engine
 
     void Engine::renderCatmullRomCurves(world::transform::TranslationThroughPoints &translation) const
     {
-        if (!translation.render_path || translation.points_to_follow.size() < 4)
+        if (!m_settings.render_transform_through_points_path || !translation.render_path ||
+            translation.points_to_follow.size() < 4)
             return;
 
         if (translation.render_path_gpu_buffer == 0)
@@ -287,7 +288,6 @@ namespace engine
 
             glBindBuffer(GL_ARRAY_BUFFER, translation.render_path_gpu_buffer);
             glBufferData(GL_ARRAY_BUFFER, sizeof(Vec3f) * vertex.size(), vertex.data(), GL_STATIC_DRAW);
-            std::cout << "Uploading new data to GPU" << "\n";
             translation.render_path_dirty = false;
         }
 
@@ -696,6 +696,12 @@ namespace engine
                         ImGui::Checkbox("Align to Path", &translation.align_to_path);
                         ImGui::Checkbox("Render Path", &translation.render_path);
 
+                        if (!m_settings.render_transform_through_points_path)
+                        {
+                            ImGui::SameLine();
+                            ImGui::TextDisabled("(Disabled on Settings Page)");
+                        }
+
                         ImGui::Text("Points to Follow:");
 
                         if (translation.points_to_follow.size() < 4)
@@ -710,7 +716,8 @@ namespace engine
                             auto &point_to_follow = translation.points_to_follow[point_index];
                             ImGui::PushID(&point_to_follow);
                             std::string name = "Point " + std::to_string(point_index + 1);
-                            if (ImGui::DragFloat3(name.c_str(), &point_to_follow.x, 0.05f)) {
+                            if (ImGui::DragFloat3(name.c_str(), &point_to_follow.x, 0.05f))
+                            {
                                 translation.updatePoints();
                             }
                             ImGui::SameLine();
@@ -945,6 +952,10 @@ namespace engine
 
             if (ImGui::TreeNodeEx("Settings", ImGuiTreeNodeFlags_Framed))
             {
+                ImGui::Checkbox(
+                    "Render Transform Through Points Path", &m_settings.render_transform_through_points_path
+                );
+
                 if (ImGui::Checkbox("VSync", &m_settings.vsync))
                 {
                     SetVsync(m_settings.vsync);
