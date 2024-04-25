@@ -3,6 +3,7 @@
 #include <istream>
 #include <optional>
 #include <vector>
+#include <cstdint>
 
 #include "Vec.h"
 

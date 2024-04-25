@@ -7,6 +7,7 @@
 #include <string>
 #include <variant>
 #include <vector>
+#include <cstdint>
 
 #define _USE_MATH_DEFINES
 #include <math.h>
