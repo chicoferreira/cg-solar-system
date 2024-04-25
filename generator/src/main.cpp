@@ -36,8 +36,8 @@ const auto commands = {
     Command{
         SOLAR_SYSTEM,
         "solar-system",
-        "<sun size scale factor> <planet distance scale factor> <scene scale factor>",
-        3
+        "<sun size scale factor> <planet distance scale factor> <scene scale factor> <number of asteroids>",
+        4
     },
 };
 
@@ -160,7 +160,10 @@ void runGenerator(const Command &cmd, char *args[])
                 PARSE_FLOAT(sun_size_scaling, args[0])
                 PARSE_FLOAT(planet_distance_scaling, args[1])
                 PARSE_FLOAT(scene_scaling, args[2])
-                generator::solarsystem::GenerateSolarSystem(sun_size_scaling, planet_distance_scaling, scene_scaling);
+                PARSE_INT(number_of_asteroids, args[3])
+                generator::solarsystem::GenerateSolarSystem(
+                    sun_size_scaling, planet_distance_scaling, scene_scaling, number_of_asteroids, args[4]
+                );
                 break;
             }
     }

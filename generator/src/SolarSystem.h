@@ -30,7 +30,13 @@ namespace generator::solarsystem
         std::vector<Satellite> moons;
     };
 
-    void GenerateSolarSystem(float sun_size_scale_factor, float planet_distance_scale_factor, float scene_scale_factor);
+    void GenerateSolarSystem(
+        float sun_size_scale_factor,
+        float planet_distance_scale_factor,
+        float scene_scale_factor,
+        int number_of_asteroids,
+        const char* output_file
+    );
 } // namespace generator::solarsystem
 
 
