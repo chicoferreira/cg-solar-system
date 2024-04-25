@@ -8,7 +8,7 @@ jobs:
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                fase: [1, 2]
+                fase: [1, 2, 3]
         steps:
             - uses: actions/checkout@v4
             - uses: typst-community/setup-typst@v3
