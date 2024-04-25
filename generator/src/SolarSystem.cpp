@@ -68,6 +68,21 @@ namespace generator::solarsystem
         return planets;
     }
 
+    std::vector<Vec3f> generatePointsInElipsis(
+        float distance_a,
+        float distance_b,
+        size_t number_of_points,
+        float offset_angle = 0.0f,
+        float y = 0.0f
+    )
+    {
+        std::vector<Vec3f> points;
+        for (int i = 0; i < number_of_points; ++i)
+            points.push_back(Vec3fElipse(distance_a, distance_b, offset_angle + i * M_PI * 2 / number_of_points, y));
+
+        return points;
+    }
+
     std::vector<Vec3f>
     generatePointsInCircle(float distance, size_t number_of_points, float offset_angle = 0.0f, float y = 0.0f)
     {
@@ -77,6 +92,10 @@ namespace generator::solarsystem
 
         return points;
     }
+
+    float randomBetween(float start, float end) { return start + (double)rand() / RAND_MAX * (end - start); }
+
+    float randomRadians() { return randomBetween(0, 2 * M_PI); }
 
     double log2sign(double x) { return x < 0 ? -log2(-x) : log2(x); }
 
@@ -105,14 +124,21 @@ namespace generator::solarsystem
         auto sphere_id = world.AddModelName("sphere_1_20_20.3d");
         auto sphere_low_poly_id = world.AddModelName("sphere_1_10_10.3d");
         auto asteroid_id = world.AddModelName("bezier_1.3d");
+        auto comet_id = world.AddModelName("bezier_5.3d");
 
         constexpr float sun_diameter = 1392700.0f;
+        constexpr float sun_rotational_period = 648.0f;
+        constexpr float sun_tilt = degrees_to_radians(7.25f);
         const float real_sun_diameter = sun_diameter / scene_scale_factor / sun_size_scale_factor;
         {
             world::WorldGroup sun_group = world::WorldGroup("Sun");
             sun_group.models.push_back(sphere_id);
 
             sun_group.transformations.AddTransform(world::transform::Scale(Vec3f(real_sun_diameter)));
+            sun_group.transformations.AddTransform(world::transform::Rotation(sun_tilt * 2, {1, 0, 0}));
+            sun_group.transformations.AddTransform(
+                world::transform::RotationWithTime(log2sign(sun_rotational_period) * 5, {0, 1, 0})
+            );
 
             world.GetParentWorldGroup().children.push_back(sun_group);
         }
@@ -165,9 +191,7 @@ namespace generator::solarsystem
                 moon_group.transformations.AddTransform(world::transform::TranslationThroughPoints(
                     log2sign(planet.orbital_period) * 2,
                     false,
-                    generatePointsInCircle(
-                        moon_distance_to_planet + random_distance_offset, 10, degrees_to_radians(rand() % 360 + 1)
-                    )
+                    generatePointsInCircle(moon_distance_to_planet + random_distance_offset, 10, randomRadians())
                 ));
                 moon_group.transformations.AddTransform(
                     world::transform::Scale(Vec3f(std::max(0.005f, real_moon_diameter)))
@@ -187,19 +211,17 @@ namespace generator::solarsystem
         {
             world::WorldGroup asteroid_group = world::WorldGroup("Asteroid " + std::to_string(i + 1));
 
-            const auto distance_offset_max = 10.0f * 1000000 / scene_scale_factor / planet_distance_scale_factor;
+            const auto distance_offset_min = -5.0f * 1000000 / scene_scale_factor / planet_distance_scale_factor;
+            const auto distance_offset_max = 5.0f * 1000000 / scene_scale_factor / planet_distance_scale_factor;
 
-            const auto distance_offset_xz = (double)rand() / RAND_MAX * distance_offset_max;
-            const auto distance_offset_y = (double)rand() / RAND_MAX * distance_offset_max;
+            const auto distance_offset_xz = randomBetween(distance_offset_min, distance_offset_max);
+            const auto distance_offset_y = randomBetween(distance_offset_min, distance_offset_max);
 
             asteroid_group.transformations.AddTransform(world::transform::TranslationThroughPoints(
-                30.0f + (double)rand() / RAND_MAX * 5,
+                randomBetween(30, 35),
                 true,
                 generatePointsInCircle(
-                    asteroid_belt_distance_from_sun + distance_offset_xz,
-                    7,
-                    degrees_to_radians((double)rand() / (RAND_MAX) * 360 + 1),
-                    distance_offset_y
+                    asteroid_belt_distance_from_sun + distance_offset_xz, 7, randomRadians(), distance_offset_y
                 )
             ));
 
@@ -212,6 +234,26 @@ namespace generator::solarsystem
         }
 
         world.GetParentWorldGroup().children.push_back(asteroid_belt_group);
+
+        world::WorldGroup comet_group = world::WorldGroup("Comet");
+        comet_group.models.push_back(comet_id);
+
+        const auto comet_distance_a_from_sun =
+            1500.0f * 1000000 / scene_scale_factor / planet_distance_scale_factor + real_sun_diameter;
+        const auto comet_distance_b_from_sun =
+            1800.0f * 1000000 / scene_scale_factor / planet_distance_scale_factor + real_sun_diameter;
+
+        comet_group.transformations.AddTransform(world::transform::Translation({comet_distance_a_from_sun / 1.2f, 0, 0})
+        );
+        comet_group.transformations.AddTransform(world::transform::TranslationThroughPoints(
+            60.0f,
+            true,
+            generatePointsInElipsis(comet_distance_a_from_sun, comet_distance_b_from_sun, 10, randomRadians())
+        ));
+        comet_group.transformations.AddTransform(world::transform::Rotation(-M_PI_2, {1, 0, 0}));
+        comet_group.transformations.AddTransform(world::transform::RotationWithTime(20.0f, {1, 0, 0}));
+
+        world.GetParentWorldGroup().children.push_back(comet_group);
 
         world::serde::SaveWorldToXml(world.GetFilePath().c_str(), world);
     }

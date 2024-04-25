@@ -4,8 +4,8 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 
-float degrees_to_radians(float degrees);
-float radians_to_degrees(float radians);
+constexpr float degrees_to_radians(float degrees);
+constexpr float radians_to_degrees(float radians);
 
 struct Vec4f;
 
@@ -74,6 +74,11 @@ inline Vec3f Vec3fPolar(const float radius, const float alpha, const float y = 0
     return {radius * sinf(alpha), y, radius * cosf(alpha)};
 }
 
+inline Vec3f Vec3fElipse(const float a, const float b, const float alpha, const float y = 0)
+{
+    return {a * sinf(alpha), y, b * cosf(alpha)};
+}
+
 struct Vec4f
 {
     float x = 0, y = 0, z = 0, w = 0;
@@ -110,9 +115,9 @@ struct Vec4f
     constexpr float matrixMult(Vec4f &other) { return x * other.x + y * other.y + z * other.z + w * other.w; }
 };
 
-inline float degrees_to_radians(const float degrees) { return degrees * M_PI / 180.0f; }
+inline constexpr float degrees_to_radians(const float degrees) { return degrees * M_PI / 180.0f; }
 
-inline float radians_to_degrees(const float radians) { return radians * 180.0f / M_PI; }
+inline constexpr float radians_to_degrees(const float radians) { return radians * 180.0f / M_PI; }
 
 inline Vec4f Vec3f::ToVec4f() const { return {x, y, z, 1}; }
 
