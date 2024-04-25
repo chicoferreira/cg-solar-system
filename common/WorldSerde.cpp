@@ -271,6 +271,33 @@ namespace world::serde
                     float angle = radians_to_degrees(angle_rads);
                     rotate_element->SetAttribute("angle", angle);
                 }
+                else if (std::holds_alternative<transform::RotationWithTime>(transform))
+                {
+                    tinyxml2::XMLElement *rotate_element = doc.NewElement("rotate");
+                    transform_element->InsertEndChild(rotate_element);
+
+                    float time = std::get<transform::RotationWithTime>(transform).time_to_complete;
+                    rotate_element->SetAttribute("time", time);
+
+                    const Vec3f &axis = std::get<transform::RotationWithTime>(transform).axis;
+                    XmlSetVec3fAttribute(rotate_element, axis);
+                }
+                else if (std::holds_alternative<transform::TranslationThroughPoints>(transform))
+                {
+                    const auto translation = std::get<transform::TranslationThroughPoints>(transform);
+                    tinyxml2::XMLElement *translate_element = doc.NewElement("translate");
+                    transform_element->InsertEndChild(translate_element);
+
+                    translate_element->SetAttribute("time", translation.time_to_complete);
+                    translate_element->SetAttribute("align", translation.align_to_path);
+
+                    for (const auto &point : translation.points_to_follow)
+                    {
+                        tinyxml2::XMLElement *point_element = doc.NewElement("point");
+                        XmlSetVec3fAttribute(point_element, point);
+                        translate_element->InsertEndChild(point_element);
+                    }
+                }
             }
         }
         for (WorldGroup &child_group : group.children)
