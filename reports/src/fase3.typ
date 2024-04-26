@@ -14,9 +14,7 @@
 
 #heading(numbering: none)[Introdução]
 
-#text(fill:red)[A FAZER]
-
-Adicionado parametro de nome nos grupos
+Este relatório descreve a terceira fase do projeto de Computação Gráfica. Nesta fase foram implementadas novas funcionalidades, tais como as transformações temporais - no caso específico da translação, com recurso a curvas de _Catmull Rom_. Foi também implementado o suporte à geração de modelos com _VBOs_ com índices, melhorando, assim, a performance da renderização de modelos mais complexos. Por fim, foi implementado o suporte à geração de modelos mais complexos, em termos geométricos, com recurso a _Bezier Patches_.
 
 = Simulação de tempo
 
@@ -405,16 +403,19 @@ O processo de indexação de vértices passa essencialmente no mesmo que a gera�
 
 = Sistema Solar com rotações temporais e asteroides
 
+#text(fill: red)[ADICIONADO PARAMETRO DE NOME NOS GRUPOS]
+
 == Adição do tempo 
 
 == Asteroides
 
 == Cometa
 
-
 #heading(numbering: none)[Conclusão]
 
-#text(fill:red)[A FAZER]
+De um modo geral, o projeto está a avançar de acordo com o planeado. A implementação das transformações temporais, a geração de modelos com _VBOs_ com índices e a geração de modelos com _Bezier Patches_ foram implementadas com sucesso. A implementação dos _VBOs_ provou ser uma melhoria significativa na performance do programa, especialmente em modelos mais complexos.
+
+De facto, à medida que as fases vão avançado, o grupo tem vindo a adquirir imenso conhecimento sobre este mundo da computação gráfica e está ansioso para a fase final.
 
 #pagebreak()
 
