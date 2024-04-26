@@ -26,7 +26,7 @@ Como já tinhamos implementado o processamento do tempo na fase anterior para as
 
 Agora, a `Engine` guarda também o tempo atual, que é atualizado a cada _frame_. A cada _frame_ é somado ao tempo atual o tempo que passou desde o último _frame_, permitindo assim a simulação do tempo. Com esta abordagem também é possível controlar a velocidade do tempo através de um fator de escala e também pausá-lo.
 
-#figure(```cpp
+#align(center, ```cpp
 void Engine::Run()
 {
     float currentTime = glfwGetTime();
@@ -286,7 +286,7 @@ Não foi possível escolher uma cena mais recente, visto que os modelos sofreram
 
 Nesta fase foi implementada a capacidade do programa _generator_ de gerar modelos a partir de _Bezier Patches_. Estas _Bezier Patches_ encontram-se num ficheiro _.patch_ e seguem o formato enunciado pela equipa docente.
 
-De forma análoga às fases anteriores, mas neste caso específico, basta correr o _generator_ da seguinte forma: `./generator <ficheiro.patch> <tesselation> <output.3d>`. O segundo parâmetro, a tesselação, consiste no número de divisões que cada _Bezier Patch_ terá. Ou seja, quanto maior o número, mais detalhado será o modelo. No entanto, é importante denotar que um número muito elevado #footnote[Um número próximo de 64, por exemplo.] irá levar a um número de vértices (e respetivos triângulos) gerados muito elevado, o que levaria a uma perda de desempenho aquando da renderização de tal modelo.
+De forma análoga às fases anteriores, mas neste caso específico, basta correr o _generator_ da seguinte forma: `./generator patch <ficheiro.patch> <tesselation level> <output.3d>`. O segundo parâmetro, a tesselação, consiste no número de divisões que cada _Bezier Patch_ terá, ou seja, quanto maior o número, mais detalhado será o modelo. No entanto, é importante denotar que um número muito elevado #footnote[Um número acima de 10, por exemplo.] irá levar a um número de vértices gerados muito elevado, o que levaria a que a renderização de tal modelo fosse pesada desnecessariamente.
 
 == Estrutura de um ficheiro _.patch_
 
@@ -304,7 +304,7 @@ De forma análoga às fases anteriores, mas neste caso específico, basta correr
 1.5, -0.84, 2.4
 ```, supplement: [Figura], caption: [Exemplo de um ficheiro .patch])
 
-A primeira linha do ficheiro indica o número de _Bezier Patches_. De seguida, cada linha indica os índices dos pontos de controlo que formam a _Bezier Patch_. A linha imediatamente a seguir indica o número de pontos de controlo. Por fim, cada uma das linhas seguintes indica as coordenadas dos pontos de controlo.
+A primeira linha do ficheiro indica o número de total de _Bezier Patches_. De seguida, cada linha indica os índices dos pontos de controlo que formam a _Bezier Patch_. A linha imediatamente a seguir a todas essas indica o número de pontos de controlo. Por fim, cada uma das linhas seguintes indica as coordenadas dos pontos de controlo.
 
 Assim, o _parser_ para ler um ficheiro _.patch_ é relativamente simples, visto que o mesmo segue um formato bem definido.
 
@@ -344,7 +344,7 @@ $
 
 Esta matriz, $M$, é derivada a partir dos coeficientes dos polinómios de _Bersntein_#footnote[Estes coeficientes podem ser derivados, por exemplo, a partir do Triângulo de Pascal.]. Neste caso, os polinómios de grau 3 , visto que estamos a lidar com curvas com 4 pontos de controlo cada.
 
-De notar que, uma vez que $u$, $v in [0, 1]$, a geração de pontos é feita para todos os valores das ditas variáveis com passo de $1/"tessellation"$.
+De notar que, uma vez que $u$, $v in [0, 1]$, a geração de pontos é feita para todos os valores das ditas variáveis com passo de $1/"tesselation"$.
 
 De notar também que, o cálculo $M A M^T$, onde $A$ é a matriz dos pontos de controlo, é feito apenas uma vez para cada _patch_, visto que o mesmo é sempre constante.
 
@@ -365,10 +365,12 @@ Essencialmente, por cada _patch_ um ponto irá formar um retângulo com os seus 
 
     for x in range(0, divisions) {
       for z in range(0, divisions) {
-        let top_left = project(-length / 2 + x * side, 0, -length / 2 + z * side, size);
-        let top_right = project(-length / 2 + (x + 1) * side, 0, -length / 2 + z * side, size);
-        let bottom_left = project(-length / 2 + x * side, 0, -length / 2 + (z + 1) * side, size);
-        let bottom_right = project(-length / 2 + (x + 1) * side, 0, -length / 2 + (z + 1) * side, size);
+        let y(o) = if x + o == 0 { 0 } else if x + o == 1 or x + o == 2 { 0.2 } else { 0 }
+
+        let top_left = project(-length / 2 + x * side, y(0), -length / 2 + z * side, size);
+        let top_right = project(-length / 2 + (x + 1) * side, y(1), -length / 2 + z * side, size);
+        let bottom_left = project(-length / 2 + x * side, y(0), -length / 2 + (z + 1) * side, size);
+        let bottom_right = project(-length / 2 + (x + 1) * side, y(1), -length / 2 + (z + 1) * side, size);
 
         set line(stroke: gray.darken(20%))
 
@@ -395,7 +397,11 @@ Essencialmente, por cada _patch_ um ponto irá formar um retângulo com os seus 
   })
 }
 
-#figure(generate_plane(length: 1.4, divisions: 3, iteration: 0), caption: [Exemplificação do agrupamento dos pontos em triângulos])
+#figure(generate_plane(length: 1.4, divisions: 3, iteration: 1), caption: [Exemplificação do agrupamento dos pontos em triângulos])
+
+Neste caso, $P_1$ será gerado com $u=0.333$ e $v=0$, $P_2$ com $u=0.666$ e $v=0$, $P_3$ com $u=0.333$ e $v=0.333$ e $P_4$ com $u=0.666$ e $v=0.333$.
+
+O processo de indexação de vértices passa essencialmente no mesmo que a geração do plano.
 
 = Sistema Solar com rotações temporais e asteroides
 
