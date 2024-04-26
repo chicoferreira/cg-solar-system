@@ -116,6 +116,7 @@
                         <point x="0.39598426" y="0" z="-4.191678"/>
                     </translate>
                     <scale x="0.23166667" y="0.23166667" z="0.23166667"/>
+                    <rotate time="8.5125427" x="0" y="1" z="0"/>
                 </transform>
             </group>
         </group>
@@ -163,6 +164,7 @@
                         <point x="-2.0719821" y="0" z="0.61557746"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="9.4241667" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Deimos">
@@ -183,6 +185,7 @@
                         <point x="-2.0974729" y="0" z="-1.5933529"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="9.4241667" x="0" y="1" z="0"/>
                 </transform>
             </group>
         </group>
@@ -230,6 +233,7 @@
                         <point x="-24.946436" y="0" z="-29.962315"/>
                     </translate>
                     <scale x="0.24288" y="0.24288" z="0.24288"/>
+                    <rotate time="12.080484" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Europa">
@@ -250,6 +254,7 @@
                         <point x="37.039421" y="0" z="11.015081"/>
                     </translate>
                     <scale x="0.20810667" y="0.20810667" z="0.20810667"/>
+                    <rotate time="12.080484" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Ganymede">
@@ -270,6 +275,7 @@
                         <point x="-2.0594213" y="0" z="38.088413"/>
                     </translate>
                     <scale x="0.35082665" y="0.35082665" z="0.35082665"/>
+                    <rotate time="12.080484" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Callisto">
@@ -290,6 +296,7 @@
                         <point x="11.27537" y="0" z="36.805122"/>
                     </translate>
                     <scale x="0.32137334" y="0.32137334" z="0.32137334"/>
+                    <rotate time="12.080484" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Amalthea">
@@ -310,6 +317,7 @@
                         <point x="-24.682508" y="0" z="29.27931"/>
                     </translate>
                     <scale x="0.011126666" y="0.011126666" z="0.011126666"/>
+                    <rotate time="12.080484" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Himalia">
@@ -330,6 +338,7 @@
                         <point x="4.6141648" y="0" z="38.297802"/>
                     </translate>
                     <scale x="0.011333333" y="0.011333333" z="0.011333333"/>
+                    <rotate time="12.080484" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Elara">
@@ -350,6 +359,7 @@
                         <point x="-20.652822" y="0" z="32.056866"/>
                     </translate>
                     <scale x="0.0057333335" y="0.0057333335" z="0.0057333335"/>
+                    <rotate time="12.080484" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Pasiphae">
@@ -370,6 +380,7 @@
                         <point x="16.030531" y="0" z="-35.011528"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="12.080484" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Sinope">
@@ -390,6 +401,7 @@
                         <point x="-0.42893037" y="0" z="-38.697876"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="12.080484" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Lysithea">
@@ -410,6 +422,7 @@
                         <point x="15.659263" y="0" z="35.429977"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="12.080484" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Carme">
@@ -430,6 +443,7 @@
                         <point x="31.270069" y="0" z="-22.956713"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="12.080484" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Ananke">
@@ -450,6 +464,7 @@
                         <point x="-10.261589" y="0" z="37.087757"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="12.080484" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Leda">
@@ -470,6 +485,7 @@
                         <point x="-35.38633" y="0" z="-15.758924"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="12.080484" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Thebe">
@@ -490,6 +506,7 @@
                         <point x="18.780594" y="0" z="-34.102261"/>
                     </translate>
                     <scale x="0.0065733334" y="0.0065733334" z="0.0065733334"/>
+                    <rotate time="12.080484" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Adrastea">
@@ -510,6 +527,7 @@
                         <point x="-37.920406" y="0" z="6.2438517"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="12.080484" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Metis">
@@ -530,6 +548,7 @@
                         <point x="-30.566776" y="0" z="23.988352"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="12.080484" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Callirrhoe">
@@ -550,6 +569,7 @@
                         <point x="14.524365" y="0" z="-36.253536"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="12.080484" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Themisto">
@@ -570,6 +590,7 @@
                         <point x="29.167181" y="0" z="-24.778536"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="12.080484" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Megaclite">
@@ -590,6 +611,7 @@
                         <point x="-38.251007" y="0" z="2.9474318"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="12.080484" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Taygete">
@@ -610,6 +632,7 @@
                         <point x="-34.654549" y="0" z="-16.398655"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="12.080484" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Chaldene">
@@ -630,6 +653,7 @@
                         <point x="-23.537718" y="0" z="31.062016"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="12.080484" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Harpalyke">
@@ -650,6 +674,7 @@
                         <point x="-2.8247211" y="0" z="-39.026669"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="12.080484" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Kalyke">
@@ -670,6 +695,7 @@
                         <point x="33.305561" y="0" z="19.35577"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="12.080484" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Iocaste">
@@ -690,6 +716,7 @@
                         <point x="-38.352688" y="0" z="-2.3780761"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="12.080484" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Erinome">
@@ -710,6 +737,7 @@
                         <point x="37.650051" y="0" z="-6.1733627"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="12.080484" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Isonoe">
@@ -730,6 +758,7 @@
                         <point x="-17.822582" y="0" z="-33.812027"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="12.080484" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Praxidike">
@@ -750,6 +779,7 @@
                         <point x="-20.705359" y="0" z="32.08432"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="12.080484" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Autonoe">
@@ -770,6 +800,7 @@
                         <point x="34.89019" y="0" z="17.533106"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="12.080484" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Thyone">
@@ -790,6 +821,7 @@
                         <point x="2.9146888" y="0" z="-38.291191"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="12.080484" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Hermippe">
@@ -810,6 +842,7 @@
                         <point x="-38.702698" y="0" z="-3.0187972"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="12.080484" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Aitne">
@@ -830,6 +863,7 @@
                         <point x="25.706795" y="0" z="-29.13615"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="12.080484" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Eurydome">
@@ -850,6 +884,7 @@
                         <point x="-30.102612" y="0" z="-23.735226"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="12.080484" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Euanthe">
@@ -870,6 +905,7 @@
                         <point x="30.052691" y="0" z="-24.219925"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="12.080484" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Euporie">
@@ -890,6 +926,7 @@
                         <point x="-30.793089" y="0" z="-24.060202"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="12.080484" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Orthosie">
@@ -910,6 +947,7 @@
                         <point x="0.22874878" y="0" z="-38.236664"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="12.080484" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Sponde">
@@ -930,6 +968,7 @@
                         <point x="-28.891251" y="0" z="-25.468548"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="12.080484" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Kale">
@@ -950,6 +989,7 @@
                         <point x="6.6829414" y="0" z="-38.157223"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="12.080484" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Pasithee">
@@ -970,6 +1010,7 @@
                         <point x="12.251253" y="0" z="36.488602"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="12.080484" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Hegemone">
@@ -990,6 +1031,7 @@
                         <point x="34.157021" y="0" z="-17.445356"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="12.080484" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Mneme">
@@ -1010,6 +1052,7 @@
                         <point x="19.372904" y="0" z="-33.769615"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="12.080484" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Aoede">
@@ -1030,6 +1073,7 @@
                         <point x="-31.870247" y="0" z="-22.68453"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="12.080484" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Thelxinoe">
@@ -1050,6 +1094,7 @@
                         <point x="16.158472" y="0" z="34.917057"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="12.080484" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Arche">
@@ -1070,6 +1115,7 @@
                         <point x="24.365334" y="0" z="-30.178026"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="12.080484" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Kallichore">
@@ -1090,6 +1136,7 @@
                         <point x="-22.402241" y="0" z="-30.932425"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="12.080484" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Helike">
@@ -1110,6 +1157,7 @@
                         <point x="11.358977" y="0" z="36.926273"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="12.080484" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Carpo">
@@ -1130,6 +1178,7 @@
                         <point x="10.092649" y="0" z="37.752872"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="12.080484" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Eukelade">
@@ -1150,6 +1199,7 @@
                         <point x="-21.511" y="0" z="-32.572144"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="12.080484" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Cyllene">
@@ -1170,6 +1220,7 @@
                         <point x="34.070915" y="0" z="-17.782019"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="12.080484" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Kore">
@@ -1190,6 +1241,7 @@
                         <point x="-28.396364" y="0" z="25.550814"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="12.080484" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Herse">
@@ -1210,6 +1262,7 @@
                         <point x="12.741052" y="0" z="36.661377"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="12.080484" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon S/2000 J11">
@@ -1230,6 +1283,7 @@
                         <point x="-38.39045" y="0" z="-6.9040942"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="12.080484" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon S/2003 J2">
@@ -1250,6 +1304,7 @@
                         <point x="21.019167" y="0" z="32.507618"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="12.080484" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon S/2003 J3">
@@ -1270,6 +1325,7 @@
                         <point x="-37.496052" y="0" z="-7.8402114"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="12.080484" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon S/2003 J4">
@@ -1290,6 +1346,7 @@
                         <point x="13.202841" y="0" z="36.276432"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="12.080484" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon S/2003 J5">
@@ -1310,6 +1367,7 @@
                         <point x="-28.495136" y="0" z="-26.087065"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="12.080484" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon S/2003 J9">
@@ -1330,6 +1388,7 @@
                         <point x="34.823784" y="0" z="16.499205"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="12.080484" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon S/2003 J10">
@@ -1350,6 +1409,7 @@
                         <point x="-19.118492" y="0" z="-33.645264"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="12.080484" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon S/2003 J12">
@@ -1370,6 +1430,7 @@
                         <point x="-26.957758" y="0" z="-28.023493"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="12.080484" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon S/2003 J15">
@@ -1390,6 +1451,7 @@
                         <point x="5.5642729" y="0" z="38.201252"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="12.080484" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon S/2003 J16">
@@ -1410,6 +1472,7 @@
                         <point x="-38.318695" y="0" z="-3.6996009"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="12.080484" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon S/2003 J18">
@@ -1430,6 +1493,7 @@
                         <point x="19.009882" y="0" z="-33.092712"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="12.080484" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon S/2003 J19">
@@ -1450,6 +1514,7 @@
                         <point x="34.427792" y="0" z="-17.875971"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="12.080484" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon S/2003 J23">
@@ -1470,6 +1535,7 @@
                         <point x="-31.024778" y="0" z="22.344627"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="12.080484" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon S/2010 J1">
@@ -1490,6 +1556,7 @@
                         <point x="12.172967" y="0" z="-37.104668"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="12.080484" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon S/2010 J2">
@@ -1510,6 +1577,7 @@
                         <point x="27.760061" y="0" z="-26.640362"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="12.080484" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon S/2011 J1">
@@ -1530,6 +1598,7 @@
                         <point x="-38.497116" y="0" z="-0.73051816"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="12.080484" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon S/2011 J2">
@@ -1550,6 +1619,7 @@
                         <point x="30.214796" y="0" z="-23.773022"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="12.080484" x="0" y="1" z="0"/>
                 </transform>
             </group>
         </group>
@@ -1597,6 +1667,7 @@
                         <point x="31.360079" y="0" z="10.671033"/>
                     </translate>
                     <scale x="0.026426665" y="0.026426665" z="0.026426665"/>
+                    <rotate time="13.391646" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Enceladus">
@@ -1617,6 +1688,7 @@
                         <point x="6.7129664" y="0" z="-32.189594"/>
                     </translate>
                     <scale x="0.033613335" y="0.033613335" z="0.033613335"/>
+                    <rotate time="13.391646" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Tethys">
@@ -1637,6 +1709,7 @@
                         <point x="-27.446873" y="0" z="-17.101906"/>
                     </translate>
                     <scale x="0.07106667" y="0.07106667" z="0.07106667"/>
+                    <rotate time="13.391646" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Dione">
@@ -1657,6 +1730,7 @@
                         <point x="31.514788" y="0" z="-9.7290936"/>
                     </translate>
                     <scale x="0.074893333" y="0.074893333" z="0.074893333"/>
+                    <rotate time="13.391646" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Rhea">
@@ -1677,6 +1751,7 @@
                         <point x="-31.609892" y="0" z="8.1507463"/>
                     </translate>
                     <scale x="0.10190666" y="0.10190666" z="0.10190666"/>
+                    <rotate time="13.391646" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Titan">
@@ -1697,6 +1772,7 @@
                         <point x="-19.776703" y="0" z="25.373539"/>
                     </translate>
                     <scale x="0.34329733" y="0.34329733" z="0.34329733"/>
+                    <rotate time="13.391646" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Hyperion">
@@ -1717,6 +1793,7 @@
                         <point x="-10.010269" y="0" z="31.146427"/>
                     </translate>
                     <scale x="0.017999999" y="0.017999999" z="0.017999999"/>
+                    <rotate time="13.391646" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Iapetus">
@@ -1737,6 +1814,7 @@
                         <point x="18.206959" y="0" z="27.131418"/>
                     </translate>
                     <scale x="0.098079994" y="0.098079994" z="0.098079994"/>
+                    <rotate time="13.391646" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Phoebe">
@@ -1757,6 +1835,7 @@
                         <point x="-5.5198388" y="0" z="-32.520855"/>
                     </translate>
                     <scale x="0.0142" y="0.0142" z="0.0142"/>
+                    <rotate time="13.391646" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Janus">
@@ -1777,6 +1856,7 @@
                         <point x="18.91971" y="0" z="26.794035"/>
                     </translate>
                     <scale x="0.011933333" y="0.011933333" z="0.011933333"/>
+                    <rotate time="13.391646" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Epimetheus">
@@ -1797,6 +1877,7 @@
                         <point x="4.8169103" y="0" z="32.631485"/>
                     </translate>
                     <scale x="0.0077466667" y="0.0077466667" z="0.0077466667"/>
+                    <rotate time="13.391646" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Helene">
@@ -1817,6 +1898,7 @@
                         <point x="-25.250198" y="0" z="-20.06675"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="13.391646" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Telesto">
@@ -1837,6 +1919,7 @@
                         <point x="-27.28694" y="0" z="17.574978"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="13.391646" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Calypso">
@@ -1857,6 +1940,7 @@
                         <point x="32.309185" y="0" z="2.7851846"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="13.391646" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Atlas">
@@ -1877,6 +1961,7 @@
                         <point x="-23.957378" y="0" z="-21.639055"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="13.391646" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Prometheus">
@@ -1897,6 +1982,7 @@
                         <point x="-20.699558" y="0" z="-25.671919"/>
                     </translate>
                     <scale x="0.0057466663" y="0.0057466663" z="0.0057466663"/>
+                    <rotate time="13.391646" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Pandora">
@@ -1917,6 +2003,7 @@
                         <point x="-26.148987" y="0" z="-19.706491"/>
                     </translate>
                     <scale x="0.0054266667" y="0.0054266667" z="0.0054266667"/>
+                    <rotate time="13.391646" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Pan">
@@ -1937,6 +2024,7 @@
                         <point x="8.9353638" y="0" z="31.139008"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="13.391646" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Methone">
@@ -1957,6 +2045,7 @@
                         <point x="-7.7969742" y="0" z="31.184601"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="13.391646" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Pallene">
@@ -1977,6 +2066,7 @@
                         <point x="-32.944683" y="0" z="0.54367405"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="13.391646" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Polydeuces">
@@ -1997,6 +2087,7 @@
                         <point x="3.1669757" y="0" z="32.198135"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="13.391646" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Daphnis">
@@ -2017,6 +2108,7 @@
                         <point x="-16.775743" y="0" z="28.064426"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="13.391646" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Anthe">
@@ -2037,6 +2129,7 @@
                         <point x="25.548285" y="0" z="-19.692139"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="13.391646" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Aegaeon">
@@ -2057,6 +2150,7 @@
                         <point x="-16.94873" y="0" z="-28.192759"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="13.391646" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Ymir">
@@ -2077,6 +2171,7 @@
                         <point x="-5.3392544" y="0" z="32.247349"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="13.391646" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Paaliaq">
@@ -2097,6 +2192,7 @@
                         <point x="19.469849" y="0" z="26.121994"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="13.391646" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Tarvos">
@@ -2117,6 +2213,7 @@
                         <point x="30.559816" y="0" z="12.021133"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="13.391646" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Ijiraq">
@@ -2137,6 +2234,7 @@
                         <point x="24.087112" y="0" z="21.937244"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="13.391646" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Suttungr">
@@ -2157,6 +2255,7 @@
                         <point x="13.450351" y="0" z="-29.828491"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="13.391646" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Kiviuq">
@@ -2177,6 +2276,7 @@
                         <point x="12.100724" y="0" z="30.455725"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="13.391646" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Mundilfari">
@@ -2197,6 +2297,7 @@
                         <point x="-24.752655" y="0" z="21.28702"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="13.391646" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Albiorix">
@@ -2217,6 +2318,7 @@
                         <point x="-29.277967" y="0" z="14.872138"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="13.391646" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Skathi">
@@ -2237,6 +2339,7 @@
                         <point x="32.206936" y="0" z="2.8510511"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="13.391646" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Erriapus">
@@ -2257,6 +2360,7 @@
                         <point x="-19.781359" y="0" z="25.560968"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="13.391646" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Siarnaq">
@@ -2277,6 +2381,7 @@
                         <point x="-19.489239" y="0" z="26.133392"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="13.391646" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Thrymr">
@@ -2297,6 +2402,7 @@
                         <point x="-5.0778627" y="0" z="-31.838049"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="13.391646" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Narvi">
@@ -2317,6 +2423,7 @@
                         <point x="27.462788" y="0" z="-16.883146"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="13.391646" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Aegir">
@@ -2337,6 +2444,7 @@
                         <point x="-10.529799" y="0" z="31.353508"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="13.391646" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Bebhionn">
@@ -2357,6 +2465,7 @@
                         <point x="30.718868" y="0" z="12.158574"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="13.391646" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Bergelmir">
@@ -2377,6 +2486,7 @@
                         <point x="-28.274294" y="0" z="-15.760596"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="13.391646" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Bestla">
@@ -2397,6 +2507,7 @@
                         <point x="19.459314" y="0" z="26.097418"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="13.391646" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Farbauti">
@@ -2417,6 +2528,7 @@
                         <point x="-0.8532638" y="0" z="-32.759892"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="13.391646" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Fenrir">
@@ -2437,6 +2549,7 @@
                         <point x="24.265352" y="0" z="-21.762287"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="13.391646" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Fornjot">
@@ -2457,6 +2570,7 @@
                         <point x="-7.08674" y="0" z="-31.964598"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="13.391646" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Hati">
@@ -2477,6 +2591,7 @@
                         <point x="-32.705173" y="0" z="-4.3842449"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="13.391646" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Hyrrokkin">
@@ -2497,6 +2612,7 @@
                         <point x="-22.566998" y="0" z="-23.758226"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="13.391646" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Kari">
@@ -2517,6 +2633,7 @@
                         <point x="32.301685" y="0" z="-5.1438589"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="13.391646" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Loge">
@@ -2537,6 +2654,7 @@
                         <point x="-24.635426" y="0" z="-20.931885"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="13.391646" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Skoll">
@@ -2557,6 +2675,7 @@
                         <point x="-30.758881" y="0" z="11.092996"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="13.391646" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Surtur">
@@ -2577,6 +2696,7 @@
                         <point x="17.170694" y="0" z="27.459192"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="13.391646" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Jarnsaxa">
@@ -2597,6 +2717,7 @@
                         <point x="-18.999338" y="0" z="-26.672724"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="13.391646" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Greip">
@@ -2617,6 +2738,7 @@
                         <point x="32.72646" y="0" z="-0.26702178"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="13.391646" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Tarqeq">
@@ -2637,6 +2759,7 @@
                         <point x="-4.0120525" y="0" z="32.389858"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="13.391646" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon S/2004 S7">
@@ -2657,6 +2780,7 @@
                         <point x="-2.4870684" y="0" z="-32.78949"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="13.391646" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon S/2004 S12">
@@ -2677,6 +2801,7 @@
                         <point x="-17.750069" y="0" z="-27.538513"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="13.391646" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon S/2004 S13">
@@ -2697,6 +2822,7 @@
                         <point x="10.006614" y="0" z="31.391125"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="13.391646" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon S/2004 S17">
@@ -2717,6 +2843,7 @@
                         <point x="-32.516094" y="0" z="3.6379588"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="13.391646" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon S/2006 S1">
@@ -2737,6 +2864,7 @@
                         <point x="-3.0494702" y="0" z="-32.913525"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="13.391646" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon S/2006 S3">
@@ -2757,6 +2885,7 @@
                         <point x="-11.480834" y="0" z="30.800453"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="13.391646" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon S/2007 S2">
@@ -2777,6 +2906,7 @@
                         <point x="-22.976376" y="0" z="23.422825"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="13.391646" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon S/2007 S3">
@@ -2797,6 +2927,7 @@
                         <point x="6.2420549" y="0" z="-31.852079"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="13.391646" x="0" y="1" z="0"/>
                 </transform>
             </group>
         </group>
@@ -2844,6 +2975,7 @@
                         <point x="0.74165922" y="0" z="13.785456"/>
                     </translate>
                     <scale x="0.077186666" y="0.077186666" z="0.077186666"/>
+                    <rotate time="14.900725" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Umbriel">
@@ -2864,6 +2996,7 @@
                         <point x="-14.500084" y="0" z="0.11135775"/>
                     </translate>
                     <scale x="0.077959999" y="0.077959999" z="0.077959999"/>
+                    <rotate time="14.900725" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Titania">
@@ -2884,6 +3017,7 @@
                         <point x="4.8595452" y="0" z="13.529522"/>
                     </translate>
                     <scale x="0.10518667" y="0.10518667" z="0.10518667"/>
+                    <rotate time="14.900725" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Oberon">
@@ -2904,6 +3038,7 @@
                         <point x="-1.8061556" y="0" z="13.841033"/>
                     </translate>
                     <scale x="0.10152" y="0.10152" z="0.10152"/>
+                    <rotate time="14.900725" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Miranda">
@@ -2924,6 +3059,7 @@
                         <point x="-3.4907677" y="0" z="-13.256156"/>
                     </translate>
                     <scale x="0.031440001" y="0.031440001" z="0.031440001"/>
+                    <rotate time="14.900725" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Cordelia">
@@ -2944,6 +3080,7 @@
                         <point x="4.8874807" y="0" z="-13.599908"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="14.900725" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Ophelia">
@@ -2964,6 +3101,7 @@
                         <point x="13.123989" y="0" z="-5.0989709"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="14.900725" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Bianca">
@@ -2984,6 +3122,7 @@
                         <point x="10.416736" y="0" z="-9.2489166"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="14.900725" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Cressida">
@@ -3004,6 +3143,7 @@
                         <point x="4.5907187" y="0" z="13.366291"/>
                     </translate>
                     <scale x="0.0054666665" y="0.0054666665" z="0.0054666665"/>
+                    <rotate time="14.900725" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Desdemona">
@@ -3024,6 +3164,7 @@
                         <point x="-10.639432" y="0" z="-9.0294352"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="14.900725" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Juliet">
@@ -3044,6 +3185,7 @@
                         <point x="-13.795989" y="0" z="-2.035548"/>
                     </translate>
                     <scale x="0.0070666666" y="0.0070666666" z="0.0070666666"/>
+                    <rotate time="14.900725" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Portia">
@@ -3064,6 +3206,7 @@
                         <point x="-14.433819" y="0" z="2.1327856"/>
                     </translate>
                     <scale x="0.009333333" y="0.009333333" z="0.009333333"/>
+                    <rotate time="14.900725" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Rosalind">
@@ -3084,6 +3227,7 @@
                         <point x="13.655454" y="0" z="4.4314237"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="14.900725" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Belinda">
@@ -3104,6 +3248,7 @@
                         <point x="2.4817369" y="0" z="14.362631"/>
                     </translate>
                     <scale x="0.0060000001" y="0.0060000001" z="0.0060000001"/>
+                    <rotate time="14.900725" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Puck">
@@ -3124,6 +3269,7 @@
                         <point x="-12.569533" y="0" z="-5.4424467"/>
                     </translate>
                     <scale x="0.0108" y="0.0108" z="0.0108"/>
+                    <rotate time="14.900725" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Caliban">
@@ -3144,6 +3290,7 @@
                         <point x="-0.85670263" y="0" z="-14.130103"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="14.900725" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Sycorax">
@@ -3164,6 +3311,7 @@
                         <point x="-2.5289869" y="0" z="14.366689"/>
                     </translate>
                     <scale x="0.0099999998" y="0.0099999998" z="0.0099999998"/>
+                    <rotate time="14.900725" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Prospero">
@@ -3184,6 +3332,7 @@
                         <point x="-4.816133" y="0" z="-13.684332"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="14.900725" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Setebos">
@@ -3204,6 +3353,7 @@
                         <point x="0.42081809" y="0" z="13.947243"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="14.900725" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Stephano">
@@ -3224,6 +3374,7 @@
                         <point x="10.126318" y="0" z="9.8640156"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="14.900725" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Trinculo">
@@ -3244,6 +3395,7 @@
                         <point x="-12.597508" y="0" z="5.9260573"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="14.900725" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Francisco">
@@ -3264,6 +3416,7 @@
                         <point x="-5.4522305" y="0" z="-13.092754"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="14.900725" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Margaret">
@@ -3284,6 +3437,7 @@
                         <point x="8.5920115" y="0" z="-10.729861"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="14.900725" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Ferdinand">
@@ -3304,6 +3458,7 @@
                         <point x="8.46068" y="0" z="-11.167531"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="14.900725" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Perdita">
@@ -3324,6 +3479,7 @@
                         <point x="7.7855644" y="0" z="-12.143334"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="14.900725" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Mab">
@@ -3344,6 +3500,7 @@
                         <point x="-7.3718419" y="0" z="-11.9182"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="14.900725" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Cupid">
@@ -3364,6 +3521,7 @@
                         <point x="-0.55879474" y="0" z="-14.152591"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="14.900725" x="0" y="1" z="0"/>
                 </transform>
             </group>
         </group>
@@ -3411,6 +3569,7 @@
                         <point x="-8.2859535" y="0" z="-10.292511"/>
                     </translate>
                     <scale x="0.18045333" y="0.18045333" z="0.18045333"/>
+                    <rotate time="15.867858" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Nereid">
@@ -3431,6 +3590,7 @@
                         <point x="-1.921957" y="0" z="-13.168571"/>
                     </translate>
                     <scale x="0.022666667" y="0.022666667" z="0.022666667"/>
+                    <rotate time="15.867858" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Naiad">
@@ -3451,6 +3611,7 @@
                         <point x="8.8663902" y="0" z="-10.925755"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="15.867858" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Thalassa">
@@ -3471,6 +3632,7 @@
                         <point x="8.4205904" y="0" z="-11.127904"/>
                     </translate>
                     <scale x="0.0054666665" y="0.0054666665" z="0.0054666665"/>
+                    <rotate time="15.867858" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Despina">
@@ -3491,6 +3653,7 @@
                         <point x="-12.48235" y="0" z="-5.3677864"/>
                     </translate>
                     <scale x="0.0099999998" y="0.0099999998" z="0.0099999998"/>
+                    <rotate time="15.867858" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Galatea">
@@ -3511,6 +3674,7 @@
                         <point x="13.746601" y="0" z="-0.61339837"/>
                     </translate>
                     <scale x="0.011733334" y="0.011733334" z="0.011733334"/>
+                    <rotate time="15.867858" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Larissa">
@@ -3531,6 +3695,7 @@
                         <point x="-2.7280202" y="0" z="-13.897976"/>
                     </translate>
                     <scale x="0.012933333" y="0.012933333" z="0.012933333"/>
+                    <rotate time="15.867858" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Proteus">
@@ -3551,6 +3716,7 @@
                         <point x="13.229007" y="0" z="-2.0312793"/>
                     </translate>
                     <scale x="0.028000001" y="0.028000001" z="0.028000001"/>
+                    <rotate time="15.867858" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Halimede">
@@ -3571,6 +3737,7 @@
                         <point x="-10.4509" y="0" z="-8.289156"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="15.867858" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Psamathe">
@@ -3591,6 +3758,7 @@
                         <point x="-1.065479" y="0" z="-14.119041"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="15.867858" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Sao">
@@ -3611,6 +3779,7 @@
                         <point x="13.129305" y="0" z="1.6716853"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="15.867858" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Laomedeia">
@@ -3631,6 +3800,7 @@
                         <point x="-3.2346842" y="0" z="-12.862892"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="15.867858" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Neso">
@@ -3651,6 +3821,7 @@
                         <point x="-13.336835" y="0" z="-0.24540645"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="15.867858" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon S/2004 N1">
@@ -3671,6 +3842,7 @@
                         <point x="0.27574748" y="0" z="-14.06908"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
+                    <rotate time="15.867858" x="0" y="1" z="0"/>
                 </transform>
             </group>
         </group>

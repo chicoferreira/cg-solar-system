@@ -196,6 +196,9 @@ namespace generator::solarsystem
                 moon_group.transformations.AddTransform(
                     world::transform::Scale(Vec3f(std::max(0.005f, real_moon_diameter)))
                 );
+                moon_group.transformations.AddTransform(
+                    world::transform::RotationWithTime(log2sign(planet.orbital_period), {0, 1, 0})
+                );
 
                 planetery_group.children.push_back(moon_group);
             }
