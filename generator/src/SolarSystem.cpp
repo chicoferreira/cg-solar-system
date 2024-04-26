@@ -151,8 +151,10 @@ namespace generator::solarsystem
                 planet.distance_from_sun * 1000000 / scene_scale_factor / planet_distance_scale_factor +
                 real_sun_diameter;
 
+            const float planet_actual_translation_delta = log2sign(planet.orbital_period) * 5;
+
             planetery_group.transformations.AddTransform(world::transform::TranslationThroughPoints(
-                log2(planet.orbital_period) * 5,
+                planet_actual_translation_delta,
                 false,
                 generatePointsInCircle(distance, 10, degrees_to_radians(std::rand() % 360))
             ));
@@ -189,7 +191,7 @@ namespace generator::solarsystem
                 const auto random_distance_offset = fmod((double)rand() / (RAND_MAX), log2(moon_distance_to_planet));
 
                 moon_group.transformations.AddTransform(world::transform::TranslationThroughPoints(
-                    log2sign(planet.orbital_period) * 2,
+                    planet_actual_translation_delta / 5 * 2,
                     false,
                     generatePointsInCircle(moon_distance_to_planet + random_distance_offset, 10, randomRadians())
                 ));
@@ -197,7 +199,7 @@ namespace generator::solarsystem
                     world::transform::Scale(Vec3f(std::max(0.005f, real_moon_diameter)))
                 );
                 moon_group.transformations.AddTransform(
-                    world::transform::RotationWithTime(log2sign(planet.orbital_period), {0, 1, 0})
+                    world::transform::RotationWithTime(planet_actual_translation_delta / 5, {0, 1, 0})
                 );
 
                 planetery_group.children.push_back(moon_group);
