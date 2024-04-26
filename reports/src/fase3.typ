@@ -395,7 +395,7 @@ Essencialmente, por cada _patch_ um ponto irá formar um retângulo com os seus 
   })
 }
 
-#figure(generate_plane(length: 1.4, divisions: 3, iteration: 0), caption: [Exemplificação do agrupamento dos pontos em retângulos])
+#figure(generate_plane(length: 1.4, divisions: 3, iteration: 0), caption: [Exemplificação do agrupamento dos pontos em triângulos])
 
 = Sistema Solar com rotações temporais e asteroides
 
