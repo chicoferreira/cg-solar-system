@@ -116,7 +116,7 @@ Esta matriz $M$ é multiplicada com a matriz de translação calculada, para a f
 
 A transposta da matriz resultado é enviada para o _OpenGL_ @opengl, usando o `glMultiMatrixf()`, completando assim a transformação.
 
-=== Mostrar caminho da curva
+=== Mostrar caminho da curva <path>
 
 Para facilitar a visualização do comportamento da translação temporal, também foi adicionado a renderização do caminho da curva de Catmull Rom. Este caminho é calculado a partir das fórmulas anteriores.
 
@@ -130,7 +130,7 @@ O caminho é formado por pontos #footnote[Para já são 100 pontos, um valor nã
 
 #text(fill:red)[MOSTRAR ADICIONAR PONTO, REMOVER PONTO, ALTERAR PONTO, MENOS QUE 4 PONTOS = ERRO, MOSTRAR CAMINHO LIGADO LOCALMENTE E GLOBALMENTE]
 
-= VBOs com Índices
+= _VBOs_ com Índices
 
 Devido ao grande número de vértices que a cena do sistema solar tem vindo a ter, a renderização no modo imediato estava a tornar-se um fator limitante. Com isto, foi implementado o uso de _VBOs_ com índices para a renderização dos modelos.
 
@@ -150,13 +150,13 @@ O novo formato de ficheiros _.3d_ agora inclui o número de vértices e o númer
 2 1 3
 ```, supplement: [Figura], caption: [Exemplo de um ficheiro .3d com índices])
 
-Os índices são (opcionalmente) agrupados por triângulo a cada linha para melhor visualização.
+Os índices são (opcionalmente) agrupados por triângulo em cada linha para melhor visualização.
 
 Na próxima fase este formato terá que ser alterado novamente para guardar informações de normais. A geração dos modelos já foi implementada para fácil adição das normais.
 
 A geração de modelos teve grande consideração na poupança de pontos, evitando duplicações de vértices onde não é necessário.
 
-Na _engine_ os vértices e índices são carregados para _buffers_ da GPU e são renderizados posteriormente com `glDrawElements()`.
+Na _engine_, o modelo agora é representado por uma lista de vértices e uma lista de índices. Os vértices e índices são carregados para _buffers_ da GPU e são renderizados posteriormente com `glDrawElements()`.
 
 ```cpp
 void Engine::renderModel(uint32_t model_index, size_t index_count)
@@ -168,23 +168,119 @@ void Engine::renderModel(uint32_t model_index, size_t index_count)
 }
 ```
 
-== Considerações na geração do Plano
+== Considerações nas gerações
 
+De modo geral, a novas gerações de modelos passam de uma primeira fase de cálculo de vértices, e depois de todos os vértices calculados, são calculados os índices a partir das posições dos vértices.
 
+Isto vai assegurar que na próxima fase, bastará adicionar a geração de normais na mesma fase de cálculo de vértices.
 
-== Considerações na geração da Esfera
+=== Do Plano
 
-== Considerações na geração da Caixa
+O plano, por ser o tipo de geometria mais simples, também tem o processo de nova geração mais simples. O cálculo de índices passa simplesmente por fazer com que pontos fora das bordas apontem para o mesmo vértice, que é partilhado entre vários triângulos.
 
-== Considerações na geração do Cilindro
+#import "fase1/3d.typ": *
 
-== Considerações na geração do Cone
+#let generate_plane(length: 1, divisions: 1, iteration: 0) = {
+  let side = length / divisions
 
-== Suporte a OBJ ainda continua
+  let size = 200pt
+  let h_size = 150pt
 
-== Caminho de translação temporal VBOs <path_vbo>
+  let origin = (size / 2, size / 2)
+  
+  box(width: size, height: h_size, {
+    place(line(stroke: red, start: origin, end: project(1,0,0, size)))
+    place(line(stroke: green, start: origin, end: project(0,1,0, size)))
+    place(line(stroke: blue, start: origin, end: project(0,0,1, size)))
+
+    let points = ()
+
+    for x in range(0, divisions) {
+      for z in range(0, divisions) {
+        let top_left = project(-length / 2 + x * side, 0, -length / 2 + z * side, size);
+        let top_right = project(-length / 2 + (x + 1) * side, 0, -length / 2 + z * side, size);
+        let bottom_left = project(-length / 2 + x * side, 0, -length / 2 + (z + 1) * side, size);
+        let bottom_right = project(-length / 2 + (x + 1) * side, 0, -length / 2 + (z + 1) * side, size);
+
+        set line(stroke: gray.darken(20%))
+
+        place(line(start: top_left, end: bottom_left))
+        place(line(start: bottom_left, end: bottom_right))
+        place(line(start: top_left, end: top_right))
+        place(line(start: top_right, end: bottom_right))
+        place(line(start: top_left, end: bottom_right))
+
+        if(x * divisions + z == iteration) {
+          points += (top_left, top_right, bottom_left, bottom_right)
+        }
+      }
+    }
+
+    for (i, p) in points.enumerate() {
+      let x = p.at(0)
+      let y = p.at(1)
+
+      point(..p)
+      
+      place(dx: p.at(0), dy: p.at(1) - 13pt, $P$)
+    }
+
+    let origin = point(..project(0,0,0, size))
+    origin
+  })
+}
+
+#figure(
+  generate_plane(length: 2, divisions: 3, iteration: 4),
+  caption: [Pontos partilhados na geração de um plano]
+)
+
+=== Da Esfera
+A geração da esfera agora com índices passou a ser uma das mais complicadas. A nova geração de índices agora tem em conta que vértices do topo e do chão da esfera são partilhados entre todos os _slices_ e, ao fim de uma volta completa, os pontos da _slice_ atual são agrupados #footnote[Por agrupado, entende-se que os índices que formam o triângulo correspondente partilham o mesmo vértice.] com a _slice_ inicial. Com isto, nenhum vértice está duplicado.
+
+Também tem em consideração que na primeira e na última iteração da _stack_ só adiciona um triângulo em vez de dois, como foi enunciado no relatório da primeira fase, no capítulo *Problema dos polos da esfera*.
+
+=== Da Caixa
+
+Usando a estratégia de translações de matrizes a partir da geração do plano, a geração da caixa manteu-se práticamente inalterada, já que a lógica de geração dos pontos está toda na geração do plano. Só tem em consideração de *não* agrupar os pontos adjacentes entre os planos (as arestas do caixa) visto que esses terão normais diferentes.
+
+=== Do Cilindro
+
+No cilindro é onde tem mais duplicações de vértices. Como os pontos que unem as bases às laterais terão duas normais diferentes (uma de uma das base e uma da lateral), esses pontos tiveram que ser duplicados. Mesmo assim, o vértice do centro do topo e do centro da base são apenas adicionados uma vez, e vértices das laterais são reutilizados quando formam triângulos adjacentes. Também como na esfera, na geração ao fim da volta completa os pontos do último _slice_ são agrupados com o primeiro _slice_.
+
+=== Do Cone
+
+O cone segue uma união da lógica do cilindro e da esfera. Tem em conta o agrupamento de vértices no fim da volta completa, do centro da base e do topo do cone, duplicação de pontos na união da lateral e da base devido às normais, e geração de apenas um triângulo na última _stack_ de cada _slice_.
+
+== Suporte a modelos OBJ
+
+O suporte a modelos _Wavefront OBJ_ foi continuado. Agora, ao carregar um modelo desse tipo, os índices são usados individualmente e devidamente. Melhorias de desempenho foram notadas em modelos mais pesados.
+
+== Caminho de translação temporal com _VBOs_ <path_vbo>
+
+Como enunciado num #link(<path>)[capítulo anterior], a translação temporal tem a funcionalidade de mostrar o caminho por onde o trajeto da translação acontece. Com grande enfâse na performance desta fase e a possibilidade de haver uma grande quantidade de planetas/luas com esta transformação no sistema solar, se tais pontos do trajeto forem enviados em modo imediato poderão trazer grande perda de desempenho.
+
+Com isto, cada transformação destas tem o seu _buffer_ na GPU para onde são enviados tais pontos quando há alguma alteração nos parâmetros da transformação. A sua renderização, em semelhança aos modelos, é feita com uso de _VBOs_ (sem índices visto a estar ser renderizado no modo `GL_LINE_LOOP`).
 
 == Nova visualização de modelos no _ImGui_
+
+No _ImGui_, a visualização de modelos também foi alterada para acomodar o novo formato. Agora uma tabela de vértices e uma tabela de triângulos (índices agrupados de 3 em 3) são mostrados, tal como o número total de vértices, índices e triângulos do modelo. 
+
+#text(fill:red)[INSERIR PRINT DO IMGUI DOS MODELOS]
+
+== Diferenças de performance (_Benchmarks_)
+
+Para comparar diferenças da implementação de renderização imediata em comparação com a renderização com _VBOs_ com índices, foi escolhido o sistema solar da fase anterior. Para referência esta cena tem X triângulos com X índices.
+
+Não foi possível escolher uma cena mais recente, visto que os modelos sofreram alterações nos índices, pelo que, por exemplo, não temos desenvolvido geração de modelos sem índices para _patches_ de _Bezier_.
+
+#table(columns: 3, align: center + horizon, 
+  [Sistema solar], [_Frametime_ (ms)], [FPS],
+  [Sem _VBOs_], [], [],
+  [Com _VBOs_ com índices], [], []
+)
+
+#text(fill:red)[COMPLETAR BENCHMARK]
 
 = Geração de Bezier Patches
 
