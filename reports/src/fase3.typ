@@ -282,7 +282,120 @@ Não foi possível escolher uma cena mais recente, visto que os modelos sofreram
 
 #text(fill:red)[COMPLETAR BENCHMARK]
 
-= Geração de Bezier Patches
+= _Bezier Patches_
+
+Nesta fase foi implementada a capacidade do programa _generator_ de gerar modelos a partir de _Bezier Patches_. Estas _Bezier Patches_ encontram-se num ficheiro _.patch_ e seguem o formato enunciado pela equipa docente.
+
+De forma análoga às fases anteriores, mas neste caso específico, basta correr o _generator_ da seguinte forma: `./generator <ficheiro.patch> <tesselation> <output.3d>`. O segundo parâmetro, a tesselação, consiste no número de divisões que cada _Bezier Patch_ terá. Ou seja, quanto maior o número, mais detalhado será o modelo. No entanto, é importante denotar que um número muito elevado #footnote[Um número próximo de 64, por exemplo.] irá levar a um número de vértices (e respetivos triângulos) gerados muito elevado, o que levaria a uma perda de desempenho aquando da renderização de tal modelo.
+
+== Estrutura de um ficheiro _.patch_
+
+#figure(```
+2
+0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15
+3, 16, 17, 18, 7, 19, 20, 21, 11, 22, 23, 24, 15, 25, 26, 27
+28
+1.4, 0, 2.4
+1.4, -0.784, 2.4
+0.784, -1.4, 2.4
+...
+0, -1.4375, 2.53125
+1.5, 0, 2.4
+1.5, -0.84, 2.4
+```, supplement: [Figura], caption: [Exemplo de um ficheiro .patch])
+
+A primeira linha do ficheiro indica o número de _Bezier Patches_. De seguida, cada linha indica os índices dos pontos de controlo que formam a _Bezier Patch_. A linha imediatamente a seguir indica o número de pontos de controlo. Por fim, cada uma das linhas seguintes indica as coordenadas dos pontos de controlo.
+
+Assim, o _parser_ para ler um ficheiro _.patch_ é relativamente simples, visto que o mesmo segue um formato bem definido.
+
+== Geração de modelos
+
+A geração de modelos dá-se ao nível do _patch_, onde, para cada um dos _patches_ computamos os seus pontos a partir da seguinte fórmula:
+
+$
+cal(P)(u, v) =
+  mat(u^3, u^2, u, 1)
+  M
+  mat(
+    P_00, P_01, P_02, P_03 ;
+    P_10, P_11, P_12, P_13 ;
+    P_20, P_21, P_22, P_23 ;
+    P_30, P_31, P_32, P_33
+  )
+  M^T
+  mat(
+    v^3 ;
+    v^2 ;
+    v ;
+    1
+  )
+$
+
+Sendo $P_"ij"$ os pontos de controlo do dado _patch_, $u$, $v in [0, 1]$ e
+
+$
+M = M^T = mat(
+  -1, 3, -3, 1 ;
+  3, -6, 3, 0 ;
+  -3, 3, 0, 0 ;
+  1, 0, 0, 0
+)
+$
+
+Esta matriz, $M$, é derivada a partir dos coeficientes dos polinómios de _Bersntein_#footnote[Estes coeficientes podem ser derivados, por exemplo, a partir do Triângulo de Pascal.]. Neste caso, os polinómios de grau 3 , visto que estamos a lidar com curvas com 4 pontos de controlo cada.
+
+De notar que, uma vez que $u$, $v in [0, 1]$, a geração de pontos é feita para todos os valores das ditas variáveis com passo de $1/"tessellation"$.
+
+De notar também que, o cálculo $M A M^T$, onde $A$ é a matriz dos pontos de controlo, é feito apenas uma vez para cada _patch_, visto que o mesmo é sempre constante.
+
+Finalmente, após os pontos estarem todos computados, o problema reduz-se a agrupá-los de forma a formarem triângulos. O grupo escolheu, primeiramente, agrupá-los em retângulos e depois dividir esses retângulos em triângulos.
+
+Essencialmente, por cada _patch_ um ponto irá formar um retângulo com os seus vizinhos diretos, tal como desmonstra a figura seguinte. Se indexarmos os pontos com base nos valores de $u$ e $v$ usados para os gerar, um dado ponto $P_"ij"$ será agrupado com os pontos $P_"(i+1)j"$, $P_"i(j+1)"$ e $P_"(i+1)(j+1)"$.
+
+#let generate_plane(length: 1, divisions: 1, iteration: 0) = {
+  let side = length / divisions
+
+  let size = 200pt
+  let h_size = 150pt
+
+  let origin = (size / 2, size / 2)
+ 
+  box(width: size, height: h_size, {
+    let points = ()
+
+    for x in range(0, divisions) {
+      for z in range(0, divisions) {
+        let top_left = project(-length / 2 + x * side, 0, -length / 2 + z * side, size);
+        let top_right = project(-length / 2 + (x + 1) * side, 0, -length / 2 + z * side, size);
+        let bottom_left = project(-length / 2 + x * side, 0, -length / 2 + (z + 1) * side, size);
+        let bottom_right = project(-length / 2 + (x + 1) * side, 0, -length / 2 + (z + 1) * side, size);
+
+        set line(stroke: gray.darken(20%))
+
+        place(line(start: top_left, end: bottom_left))
+        place(line(start: bottom_left, end: bottom_right))
+        place(line(start: top_left, end: top_right))
+        place(line(start: top_right, end: bottom_right))
+        place(line(start: top_left, end: bottom_right))
+
+        if(x == iteration and z == 0) {
+          points += (top_left, top_right, bottom_left, bottom_right)
+        }
+      }
+    }
+
+    for (i, p) in points.enumerate() {
+      let x = p.at(0)
+      let y = p.at(1)
+
+      point(..p)
+ 
+      place(dx: p.at(0), dy: p.at(1) - 11pt, [$P_#(i + 1)$])
+    }
+  })
+}
+
+#figure(generate_plane(length: 1.4, divisions: 3, iteration: 0), caption: [Exemplificação do agrupamento dos pontos em retângulos])
 
 = Sistema Solar com rotações temporais e asteroides
 
