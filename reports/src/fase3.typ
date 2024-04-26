@@ -14,13 +14,13 @@
 
 #heading(numbering: none)[Introdução]
 
-Este relatório descreve a terceira fase do projeto de Computação Gráfica. Nesta fase foram implementadas novas funcionalidades, tais como as transformações temporais - no caso específico da translação, com recurso a curvas de _Catmull Rom_. Foi também implementado o suporte à geração de modelos com _VBOs_ com índices, melhorando, assim, a performance da renderização de modelos mais complexos. Por fim, foi implementado o suporte à geração de modelos mais complexos, em termos geométricos, com recurso a _Bezier Patches_.
+Este relatório descreve a terceira fase do projeto de Computação Gráfica. Nesta fase foram implementadas novas funcionalidades, tais como as transformações temporais - no caso específico da translação, com recurso a curvas de _Catmull Rom_. Foi também implementado o suporte à geração de modelos com _VBOs_ com índices, melhorando, assim, a performance da renderização de cenas mais complexas. Por fim, foi implementado o suporte à geração de modelos mais complexos, em termos geométricos, com recurso a _Bezier Patches_.
 
 = Simulação de tempo
 
-Com grande foco desta fase, uma componente temporal teve que ser adicionada ao projeto. Esta é responsável por simular o tempo passado, permitindo a implementação das várias funcionalidades temporais que foram pedidas.
+Com grande foco desta fase, uma componente temporal teve de ser adicionada ao projeto. Esta é responsável por simular o tempo passado, permitindo a implementação das várias funcionalidades temporais que foram pedidas.
 
-Como já tinhamos implementado o processamento do tempo na fase anterior para as acelerações e desacelerações da camera, foi relativamente simples adicionar a componente temporal ao projeto.
+Como já tínhamos implementado o processamento do tempo na fase anterior para as acelerações e desacelerações da câmera, foi relativamente simples adicionar a componente temporal ao projeto.
 
 Agora, a `Engine` guarda também o tempo atual, que é atualizado a cada _frame_. A cada _frame_ é somado ao tempo atual o tempo que passou desde o último _frame_, permitindo assim a simulação do tempo. Com esta abordagem também é possível controlar a velocidade do tempo através de um fator de escala e também pausá-lo.
 
@@ -35,7 +35,7 @@ void Engine::Run()
         const float timestep = newTime - currentTime;
         ...
         currentTime = newTime;
-        m_simulation_time += timestep;
+        m_simulation_time += timestep * m_time_speed;
         Render();
         ...
     }
@@ -44,17 +44,17 @@ void Engine::Run()
 
 == Integração no ImGui
 
-Desta forma, foi adicionado uma aba no _ImGui_ @imgui que permite fazer a gestão do tempo. A aba de simulação tem um _slider_ que permite controlar a velocidade do tempo e um _checkbox_ que permite pausar o tempo.
+Desta forma, foi adicionada uma aba no _ImGui_ @imgui que permite fazer a gestão do tempo. A aba de simulação tem um _slider_ que permite controlar a velocidade do tempo e um _checkbox_ que permite pausar o tempo.
 
 #figure(image("fase3/simulation imgui.png"), caption: [Aba de Simulação no _ImGui_])
 
 = Novas transformações
 
-Com a simulação de tempo implementada, podemos passar agora às novas transformações temporais. Para isto, uma pequena restruturação no código de transformações foi necessária. Agora, a matriz resultado de cada transformação é dependente do tempo e não será uma matriz fixa. Para simplificação de implementação, a matriz de transformação não é mais guardada e alterada só quando necessário, mas sim calculada a cada _frame_. #footnote[Como os cálculos para as transformações não são muito complexos, a performance não é afetada.]
+Com a simulação de tempo implementada, podemos passar agora às novas transformações temporais. Para isto, uma pequena restruturação no código das transformações foi necessária. Agora, a matriz resultado de cada transformação é dependente do tempo e não será uma matriz fixa. Para simplificação de implementação, a matriz de transformação não é mais guardada e alterada só quando necessário como era na fase anterior, mas sim calculada a cada _frame_. #footnote[Como os cálculos para as transformações não são muito complexos, a performance não é afetada.]
 
 == Rotação temporal
 
-Uma das novas transformações adicionada foi a rotação temporal. Esta permite que um grupo seja transformado de forma a que este rode em torno de um eixo (arbitrário) com que faça uma rotação completa em um determinado intervalo de tempo.
+Uma das novas transformações adicionada foi a rotação temporal. Esta permite que um grupo seja transformado de forma a que este rode em torno de um eixo (arbitrário) fazendo uma rotação completa em um determinado intervalo de tempo.
 
 A implementação desta transformação é simples, pelo que, foi apenas necessário utilizar a matriz de rotação com um ângulo que é calculado com base no tempo:
 
@@ -62,7 +62,7 @@ $
 cal(R_T)(t, Delta t,x,y,z) = cal(R)((2 pi t)/(Delta t), x , y,z) 
 $
 
-Sendo que $Delta t$ é o tempo que demora a completar uma rotação completa, $t$ é o tempo atual, $x$, $y$ e $z$ os eixos de rotação, e $cal(R)$ a função que calcula a matriz de rotação (enunciada na fase 2).
+Sendo que $Delta t$ é o tempo que demora a completar uma rotação completa, $t$ o tempo atual, $x$, $y$ e $z$ os eixos de rotação, e $cal(R)$ a função que calcula a matriz de rotação (enunciada no relatório da fase 2).
 
 === Integração no ImGui
 
@@ -72,11 +72,11 @@ Como regra geral deste projeto, esta transformação também foi adicionada no _
 
 == Translação temporal (Catmull Rom)
 
-A outra transformação temporal adicionada foi a translação temporal entre pontos. Esta permite que um grupo se mova entre vários pontos de controlo, de forma a que a sua trajetória seja suave e contínua.
+A outra transformação temporal adicionada foi a translação temporal entre pontos. Esta permite que um grupo se mova entre vários pontos de controlo, de forma que a sua trajetória seja suave e contínua.
 
-Para a implementação desta transformação, foi utilizado o algoritmo de Catmull Rom para a posição de um ponto entre 4 pontos de controlo. Caso hajam mais de 4 pontos de controlo, a trajetória é calculada a partir dos 4 pontos de controlo mais próximos do ponto do tempo atual.
+Para a implementação desta transformação, foi utilizado o algoritmo de _Catmull Rom_ para a interpolação da posição de um ponto entre 4 pontos de controlo. Caso hajam mais de 4 pontos de controlo, a trajetória é calculada a partir dos 4 pontos de controlo mais próximos do ponto do tempo atual.
 
-O ponto final e a sua derivada é calculado a partir das seguintes fórmulas:
+O ponto final e a sua derivada são calculados a partir das seguintes fórmulas:
 
 $
 cal(C)(P_0, P_1, P_2, P_3) = mat(
@@ -110,13 +110,13 @@ $
 
 Sendo $i$ a iteração atual e $i-1$ a iteração anterior #footnote[Na primeira iteração, quando $i=0$, $arrow(Y_(i-1)) = (0,1,0)$.].
 
-Esta matriz $M$ é multiplicada com a matriz de translação calculada, para a finalidade de rotação de alinhamento à curva do caminho caso o parâmetro esteja ligado.
+Esta matriz $M$ é multiplicada com a matriz de translação calculada, para a finalidade de rotação de alinhamento do grupo à curva do caminho caso o parâmetro esteja ligado.
 
-A transposta da matriz resultado é enviada para o _OpenGL_ @opengl, usando o `glMultiMatrixf()`, completando assim a transformação.
+A transposta dessa matriz resultado é enviada para o _OpenGL_ @opengl, usando o `glMultiMatrixf()`, completando assim a transformação.
 
 === Mostrar caminho da curva <path>
 
-Para facilitar a visualização do comportamento da translação temporal, também foi adicionado a renderização do caminho da curva de Catmull Rom. Este caminho é calculado a partir das fórmulas anteriores.
+Para facilitar a visualização do comportamento da translação temporal, também foi adicionada a renderização do caminho da curva de Catmull Rom. Este caminho é calculado a partir das fórmulas anteriores.
 
 #figure(image("fase3/catmull rom path.png", width: 100%), caption: [Caminho da curva de Catmull Rom])
 
@@ -128,9 +128,9 @@ Esta transformação também é completamente editável em tempo real no _ImGui_
 
 #figure(image("fase3/catmull rom imgui.png"), caption: [Transformação temporal no _ImGui_])
 
-Como se pode ver, é possível adicionar pontos, remover pontos, esconder/mostrar o caminho para cada transformação individualmente (também é possível esconder globalmente), trocar entre alinhar e não alinhar o modelo ao caminho e alterar o tempo do trajeto completo.
+Como se pode ver, é possível adicionar pontos, remover pontos, esconder/mostrar o caminho para cada transformação individualmente (também é possível esconder globalmente na aba da `Settings`), trocar entre alinhar e não alinhar o modelo ao caminho e alterar o tempo do trajeto completo.
 
-Caso a transformação tenha menos de 4 pontos de controlo, uma mensagem de aviso é mostrada ao utilizador que a transformação não tem efeito até adicionar pelo menos 4 pontos necessários.
+Caso a transformação tenha menos de 4 pontos de controlo, uma mensagem de aviso é mostrada ao utilizador que a transformação não tem efeito até adicionar pelo menos os 4 pontos necessários.
 
 #figure(image("fase3/catmull rom imgui error.png"), caption: [Transformação temporal no _ImGui_ com menos de 4 pontos de controlo])
 
@@ -156,9 +156,9 @@ O novo formato de ficheiros _.3d_ agora inclui o número de vértices e o númer
 
 Os índices são (opcionalmente) agrupados por triângulo em cada linha para melhor visualização.
 
-Na próxima fase este formato terá que ser alterado novamente para guardar informações de normais. A geração dos modelos já foi implementada para fácil adição das normais.
+Na próxima fase este formato terá de ser alterado novamente para guardar informações de normais. A geração dos modelos já foi implementada para fácil adição das normais.
 
-A geração de modelos teve grande consideração na poupança de pontos, evitando duplicações de vértices onde não é necessário.
+A geração de modelos levou grandes mudanças e teve grande consideração na poupança de pontos, evitando duplicações de vértices onde não é necessário.
 
 Na _engine_, o modelo agora é representado por uma lista de vértices e uma lista de índices. Os vértices e índices são carregados para _buffers_ da GPU e são renderizados posteriormente com `glDrawElements()`.
 
@@ -174,9 +174,9 @@ void Engine::renderModel(uint32_t model_index, size_t index_count)
 
 == Considerações nas gerações
 
-De modo geral, a novas gerações de modelos passam de uma primeira fase de cálculo de vértices, e depois de todos os vértices calculados, são calculados os índices a partir das posições dos vértices.
+De modo geral, para que o cálculo dos índices seja facilitado, as novas gerações de modelos passam por uma primeira parte de cálculo de vértices, e depois de todos os vértices calculados, são calculados os índices a partir das posições dos vértices.
 
-Isto vai assegurar que na próxima fase, bastará adicionar a geração de normais na mesma fase de cálculo de vértices.
+Isto vai assegurar que na próxima fase do trabalho, bastará adicionar a geração de normais na mesma parte de cálculo de vértices.
 
 === Do Plano
 
@@ -240,17 +240,17 @@ O plano, por ser o tipo de geometria mais simples, também tem o processo de nov
 )
 
 === Da Esfera
-A geração da esfera agora com índices passou a ser uma das mais complicadas. A nova geração de índices agora tem em conta que vértices do topo e do chão da esfera são partilhados entre todos os _slices_ e, ao fim de uma volta completa, os pontos da _slice_ atual são agrupados #footnote[Por agrupado, entende-se que os índices que formam o triângulo correspondente partilham o mesmo vértice.] com a _slice_ inicial. Com isto, nenhum vértice está duplicado.
+A geração da esfera, agora com índices, passou a ser uma das mais complicadas. A nova geração de índices tem em conta que vértices do topo e do chão da esfera são partilhados entre todos os _slices_ e, ao fim de uma volta completa, os pontos da _slice_ atual são agrupados #footnote[Por agrupado, entende-se que os índices que formam o triângulo correspondente partilham o mesmo vértice.] com a _slice_ inicial. Com isto, nenhum vértice está duplicado.
 
 Também tem em consideração que na primeira e na última iteração da _stack_ só adiciona um triângulo em vez de dois, como foi enunciado no relatório da primeira fase, no capítulo *Problema dos polos da esfera*.
 
 === Da Caixa
 
-Usando a estratégia de translações de matrizes a partir da geração do plano, a geração da caixa manteu-se práticamente inalterada, já que a lógica de geração dos pontos está toda na geração do plano. Só tem em consideração de *não* agrupar os pontos adjacentes entre os planos (as arestas do caixa) visto que esses terão normais diferentes.
+Usando a estratégia de translações de matrizes a partir da geração do plano, a geração da caixa manteve-se praticamente inalterada, já que a lógica de geração dos pontos está toda na geração do plano. Tem consideração de *não* agrupar os pontos adjacentes entre os planos (as arestas do caixa) visto que esses terão normais diferentes.
 
 === Do Cilindro
 
-No cilindro é onde tem mais duplicações de vértices. Como os pontos que unem as bases às laterais terão duas normais diferentes (uma de uma das base e uma da lateral), esses pontos tiveram que ser duplicados. Mesmo assim, o vértice do centro do topo e do centro da base são apenas adicionados uma vez, e vértices das laterais são reutilizados quando formam triângulos adjacentes. Também como na esfera, na geração ao fim da volta completa os pontos do último _slice_ são agrupados com o primeiro _slice_.
+No cilindro é onde tem mais duplicações de vértices. Como os pontos que unem as bases às laterais terão duas normais diferentes (uma de uma das bases e uma da lateral), esses pontos tiveram de ser duplicados. Mesmo assim, o vértice do centro do topo e do centro da base são apenas adicionados uma vez. Vértices das laterais também são reutilizados quando formam triângulos adjacentes. Também como na esfera, na geração ao fim da volta completa os pontos do último _slice_ são agrupados com o primeiro _slice_.
 
 === Do Cone
 
@@ -258,13 +258,22 @@ O cone segue uma união da lógica do cilindro e da esfera. Tem em conta o agrup
 
 == Suporte a modelos OBJ
 
-O suporte a modelos _Wavefront OBJ_ foi continuado. Agora, ao carregar um modelo desse tipo, os índices são usados individualmente e devidamente. Melhorias de desempenho foram notadas em modelos mais pesados.
+O suporte a modelos _Wavefront OBJ_ foi continuado. Agora, ao carregar um modelo desse tipo, os índices são usados individualmente e como está no ficheiro (sem cálculo de vértices adicionais). Melhorias de desempenho foram notadas em modelos mais pesados.
 
 == Caminho de translação temporal com _VBOs_ <path_vbo>
 
-Como enunciado num #link(<path>)[capítulo anterior], a translação temporal tem a funcionalidade de mostrar o caminho por onde o trajeto da translação acontece. Com grande enfâse na performance desta fase e a possibilidade de haver uma grande quantidade de planetas/luas com esta transformação no sistema solar, se tais pontos do trajeto forem enviados em modo imediato poderão trazer grande perda de desempenho.
+Como enunciado num #link(<path>)[capítulo anterior], a translação temporal tem a funcionalidade de mostrar o caminho por onde o trajeto da translação acontece. Com grande enfâse na performance desta fase e a possibilidade de haver uma grande quantidade de planetas/satélites com esta transformação no sistema solar, se tais pontos do trajeto forem enviados em modo imediato poderão trazer grande perda de desempenho.
 
-Com isto, cada transformação destas tem o seu _buffer_ na GPU para onde são enviados tais pontos quando há alguma alteração nos parâmetros da transformação. A sua renderização, em semelhança aos modelos, é feita com uso de _VBOs_ (sem índices visto a estar ser renderizado no modo `GL_LINE_LOOP`).
+Com isto, cada transformação destas tem o seu _buffer_ na GPU para onde são enviados tais pontos quando há alguma alteração nos parâmetros da transformação. A sua renderização, em semelhança aos modelos, é feita com uso de _VBOs_ (sem índices visto estar a ser renderizado no modo `GL_LINE_LOOP`).
+
+#align(center, 
+```cpp
+glColor3f(1.0f, 1.0f, 0.0f);
+glBindBuffer(GL_ARRAY_BUFFER, translation.render_path_gpu_buffer);
+glVertexPointer(3, GL_FLOAT, 0, 0);
+glDrawArrays(GL_LINE_LOOP, 0, 100);
+glColor3f(1.0f, 1.0f, 1.0f);
+```)
 
 == Nova visualização de modelos no _ImGui_
 
@@ -274,9 +283,9 @@ No _ImGui_, a visualização de modelos também foi alterada para acomodar o nov
 
 == Diferenças de performance (_Benchmarks_)
 
-Para comparar diferenças da implementação de renderização imediata em comparação com a renderização com _VBOs_ com índices, foi escolhido o sistema solar da fase anterior. Para referência esta cena tem 149940 triângulos de 181 modelos e foi renderizada numa resolução de 2560$times$1369.
+Para comparar diferenças da implementação de renderização imediata em comparação com a renderização com _VBOs_ com índices, foi escolhido o sistema solar da fase anterior. Para referência, esta cena tem 149940 triângulos de 181 modelos e foi renderizada numa resolução de 2560$times$1369.
 
-Não foi possível escolher uma cena mais recente, visto que os modelos sofreram alterações nos índices, pelo que, por exemplo, não temos desenvolvido geração de modelos sem índices para _patches_ de _Bezier_.
+Não foi possível escolher uma cena mais recente, visto que os modelos sofreram alterações nos índices, pelo que, por exemplo, não temos desenvolvido geração de modelos sem índices para _patches_ de _Bezier_, que são usados no sistema solar desta fase.
 
 #figure(grid(columns: 2, column-gutter: 1em, align: center + horizon,
   table(columns: 2, align: center + horizon, 
@@ -293,13 +302,13 @@ Não foi possível escolher uma cena mais recente, visto que os modelos sofreram
   )
 ), caption: [Resultados do _Benckmark_])
 
-Acreditamos que a diferença seria ainda maior caso fosse usado a cena do sistema solar desta fase, que tem 432 modelos com um total de 218400 triângulos, cuja performance no mesmo ambiente ronda os 1900FPS.
+Acreditamos que a diferença seria ainda maior caso fosse usado a cena do sistema solar desta fase, que tem 432 modelos com um total de 218400 triângulos, cuja performance no mesmo ambiente ronda os 2000FPS.
 
 = _Bezier Patches_
 
-Nesta fase foi implementada a capacidade do programa _generator_ de gerar modelos a partir de _Bezier Patches_. Estas _Bezier Patches_ encontram-se num ficheiro _.patch_ e seguem o formato enunciado pela equipa docente.
+Nesta fase foi implementada a capacidade do programa _generator_ de gerar modelos a partir de _Bezier Patches_. Estas _Bezier Patches_ encontram-se num ficheiro `.patch` e seguem o formato enunciado pela equipa docente.
 
-De forma análoga às fases anteriores, mas neste caso específico, basta correr o _generator_ da seguinte forma: `./generator patch <ficheiro.patch> <tesselation level> <output.3d>`. O segundo parâmetro, a tesselação, consiste no número de divisões que cada _Bezier Patch_ terá, ou seja, quanto maior o número, mais detalhado será o modelo. No entanto, é importante denotar que um número muito elevado #footnote[Um número acima de 10, por exemplo.] irá levar a um número de vértices gerados muito elevado, o que levaria a que a renderização de tal modelo fosse pesada desnecessariamente.
+De forma análoga às fases anteriores, mas neste caso específico, basta correr o _generator_ da seguinte forma: `./generator patch <ficheiro.patch> <tesselation level> <output.3d>`. O segundo parâmetro, a tesselação, consiste no número de divisões que cada _Bezier Patch_ terá, ou seja, quanto maior o número, mais detalhado será o modelo. No entanto, é importante denotar que um número grande de tesselação #footnote[Um número acima de 10, por exemplo.] irá levar a um número de vértices gerados muito elevado, que faria com que a renderização de tal modelo fosse pesada desnecessariamente com poucos ganhos de fidelidade visual.
 
 == Estrutura de um ficheiro _.patch_
 
@@ -317,9 +326,9 @@ De forma análoga às fases anteriores, mas neste caso específico, basta correr
 1.5, -0.84, 2.4
 ```, supplement: [Figura], caption: [Exemplo de um ficheiro .patch])
 
-A primeira linha do ficheiro indica o número de total de _Bezier Patches_. De seguida, cada linha indica os índices dos pontos de controlo que formam a _Bezier Patch_. A linha imediatamente a seguir a todas essas indica o número de pontos de controlo. Por fim, cada uma das linhas seguintes indica as coordenadas dos pontos de controlo.
+A primeira linha do ficheiro indica o número de total de _Bezier Patches_. De seguida, cada linha indica os índices dos 16 pontos de controlo que formam a _Bezier Patch_. A linha imediatamente a seguir a todas essas indica o número de pontos de controlo. Por fim, cada uma das linhas seguintes indica as coordenadas dos pontos de controlo.
 
-Assim, o _parser_ para ler um ficheiro _.patch_ é relativamente simples, visto que o mesmo segue um formato bem definido.
+Assim, o _parser_ para ler um ficheiro `.patch` é relativamente simples, visto que o mesmo segue um formato bem definido.
 
 == Geração de modelos
 
@@ -355,15 +364,15 @@ M = M^T = mat(
 )
 $
 
-Esta matriz, $M$, é derivada a partir dos coeficientes dos polinómios de _Bersntein_#footnote[Estes coeficientes podem ser derivados, por exemplo, a partir do Triângulo de Pascal.]. Neste caso, os polinómios de grau 3 , visto que estamos a lidar com curvas com 4 pontos de controlo cada.
+Os pontos são calculados por cada componente $x$, $y$, $z$.
 
-De notar que, uma vez que $u$, $v in [0, 1]$, a geração de pontos é feita para todos os valores das ditas variáveis com passo de $1/"tesselation"$.
+Esta matriz, $M$, é derivada a partir dos coeficientes dos polinómios de _Bersntein_#footnote[Estes coeficientes podem ser derivados, por exemplo, a partir do Triângulo de Pascal.]. Neste caso, os polinómios de grau 3, visto que estamos a lidar com curvas com 4 pontos de controlo cada.
 
-De notar também que, o cálculo $M A M^T$, onde $A$ é a matriz dos pontos de controlo, é feito apenas uma vez para cada _patch_, visto que o mesmo é sempre constante.
+De notar que, uma vez que $u$, $v in [0, 1]$, a geração de pontos é feita para todos os valores das ditas variáveis com passo de $1/"tesselation"$ a cada iteração. De notar também que, o cálculo $M A M^T$, onde $A$ é a matriz dos pontos de controlo, é feito apenas uma vez para cada _patch_, visto que o mesmo é sempre constante.
 
-Finalmente, após os pontos estarem todos computados, o problema reduz-se a agrupá-los de forma a formarem triângulos. O grupo escolheu, primeiramente, agrupá-los em retângulos e depois dividir esses retângulos em triângulos.
+Finalmente, após os pontos estarem todos computados, o problema reduz-se a agrupá-los de forma a formarem triângulos.
 
-Essencialmente, por cada _patch_ um ponto irá formar um retângulo com os seus vizinhos diretos, tal como desmonstra a figura seguinte. Se indexarmos os pontos com base nos valores de $u$ e $v$ usados para os gerar, um dado ponto $P_"ij"$ será agrupado com os pontos $P_"(i+1)j"$, $P_"i(j+1)"$ e $P_"(i+1)(j+1)"$.
+Essencialmente, por cada _patch_ um ponto irá formar um retângulo com os seus vizinhos diretos, tal como demonstra a figura seguinte. Se indexarmos os pontos com base nos valores de $u$ e $v$ usados para os gerar, um dado ponto $P_"ij"$ será agrupado com os pontos $P_"(i+1)j"$, $P_"i(j+1)"$ e $P_"(i+1)(j+1)"$ para formar dois triângulos.
 
 #let generate_plane(length: 1, divisions: 1, iteration: 0) = {
   let side = length / divisions
@@ -422,15 +431,15 @@ Agora que temos a capacidade de gerar modelos a partir de _Bezier Patches_, de r
 
 == Adição do tempo
 
-Pelo _dataset_ dos planetas e satelites do sistema solar usado na fase anterior, já temos a informação necessária para tempos de rotações e translações de todos os corpos celestes.
+Pelo _dataset_ dos planetas e satélites do sistema solar usado na fase anterior, já temos a informação necessária para tempos de rotações e translações de todos os corpos celestes.
 
-Agora, com a capacidade de simular o tempo, podemos aplicar rotações e translações de forma a que os corpos celestes se movam e rodem de acordo com o tempo.
+Agora, com a capacidade de simular o tempo, podemos aplicar rotações e translações de forma que os corpos celestes se movam e rodem de acordo com o tempo.
 
 === Rotação dos planetas
 
 Para simular a rotação do planeta em torno do seu eixo, basta aplicar uma transformação de rotação temporal com o tempo de rotação do planeta.
 
-Este tempo tem que ser convertido para um tempo que seja visualmente agradavel, visto que o tempo de rotação real de um planeta é muito grande.
+Este tempo teve de ser convertido para um tempo que seja visualmente agradável, visto que o tempo de rotação real de um planeta é muito grande.
 
 A função que foi usada para mapear o tempo real para o tempo visual foi a seguinte:
 
@@ -440,7 +449,7 @@ $
 
 Sendo $Delta r_"visual"$ o tempo de rotação visual, $Delta r_"real"$ o tempo de rotação real e $log_2$ o logaritmo #footnote[Caso $Delta  r_"real"$ for negativo, i.e. o planeta roda no sentido contrário, $Delta r_"visual"$ será negativo.] na base 2.
 
-Esta função tem a propriedade logaritmica que ajuda a que os planetas que rodam exponecialmente mais devagar (por exemplo Venus com um dia a durar 5832 horas) tenham a sua rotação minimamente visível, apesar de mais lenta.
+Esta função tem a propriedade logarítmica que ajuda a que os planetas que rodam exponencialmente mais devagar (por exemplo, Vénus com um dia a durar 5832 horas) tenham a sua rotação minimamente visível, apesar de mais lenta.
 
 Por fim, é adicionada a transformação de rotação temporal no eixo $(0,1,0)$.
 
@@ -459,11 +468,11 @@ Delta t_"visual" = 5log_2(Delta  t_"real")
 $
 
 
-Como a translação necessita de pontos de controlo, estes são calculados a partir de uma circunferencia com o raio da distância do planeta ao sol. A partir daí, são retirados pontos de controlo igualmente espaçados ao longo da circunferência. Para já o número de pontos está fixo a 10, que já dá uma translação que parece ter a trajetória de uma circunferência.
+Como a translação necessita de pontos de controlo, estes são calculados a partir de uma circunferência com o raio da distância do planeta ao sol. A partir daí, são retirados pontos de controlo igualmente espaçados ao longo da circunferência. Para já o número de pontos está fixo a 10, que já dá uma translação que parece ter a trajetória de uma circunferência.
 
-Esta translação podia ser feita através de uma rotação temporal, mas a translação faz com que seja possível que o planeta tenha caminhos de translação mais complexos, como por exemplo, translações elipticas, que pretendemos implementar na próxima fase.
+Esta translação podia ser feita através de uma rotação temporal, mas a translação faz com que seja possível que o planeta tenha caminhos de translação mais complexos, como por exemplo, translações elípticas, que pretendemos implementar na próxima fase.
 
-=== Transformações nos satelites
+=== Transformações nos satélites
 
 Os satélites do sistema solar também têm translações e rotações em torno dos seus planetas. Estas são feitas de forma análoga às dos planetas, mas com tempos diferentes. Como o _dataset_ não tem informação sobre esses tempos, estes foram gerados a partir do tempo de translação do planeta: 
 
@@ -487,15 +496,15 @@ Cada asteroide tem a sua própria translação, com um tempo aleatório entre 30
 
 Para dar uso à performance adquirida com a implementação de _VBOs_ com índices, os asteroides são gerados a partir do patch do _teapot_. Ou seja, um _teapot_ é um asteroide. O número de asteroides é configurável na geração do sistema solar, mas como versão final desta fase, o número de asteroides é de 100. Isto é, 100 _teapots_ a moverem-se em torno do sol, uma cintura de _teapots_ portanto.
 
-Estes _teapots_ são gerados com uma tesselação mínima de 1 para que a renderização seja rápida. Visualmente não se nota a diferença visto que os asteroides são pequenos em relação aos tamanhos dos planetas.
+Estes _teapots_ são gerados com uma tesselação de 1 (minímo) para que a renderização seja rápida. Visualmente não se nota a diferença visto que os asteroides são pequenos em relação aos tamanhos dos planetas.
 
-#figure(image("fase3/asteroid ring.png"), caption: [Cintura de asteroides])
+#figure(image("fase3/asteroid ring.png", width: 90%), caption: [Cintura de asteroides])
 
-#figure(image("fase3/asteroid ring with path.png"), caption: [Cintura de asteroides com trajetória de transformações temporais])
+#figure(image("fase3/asteroid ring with path.png", width: 90%), caption: [Cintura de asteroides com trajetória de transformações temporais])
 
 == Cometa
 
-Como requisito deste enunciado, também foi adicionado um cometa que percorre uma trajetória eliptica entre perto de Marte e perto da trajetória de Urano. Os pontos da translação do cometa foram calculados de forma semelhante aos planetas, com também 10 pontos de controlo, mas esses pontos foram calculados de forma a que o cometa tenha uma trajetória elíptica usando as fórmulas de uma elipse. Numa próxima fase pretendemos expandir as trajetórias elipticas para os planetas também.
+Como requisito deste enunciado, também foi adicionado um cometa que percorre uma trajetória elíptica entre perto de Marte e perto da trajetória de Úrano. Os pontos da translação do cometa foram calculados de forma semelhante aos planetas, com também 10 pontos de controlo, mas esses pontos foram calculados de forma que o cometa tenha uma trajetória elíptica usando as fórmulas de uma elipse. Numa próxima fase pretendemos expandir as trajetórias elípticas para os planetas também.
 
 Este cometa tem como modelo também um _teapot_ mas com mais tesselação, 5, já que o seu tamanho é maior.
 
@@ -541,16 +550,18 @@ Com isto o novo sistema solar pode ser gerado e ele tem a seguinte estrutura:
       - Translação temporal (para o movimento de translação em torno do planeta)
       - Escala (para o seu tamanho)
       - Rotação temporal (para a rotação em torno do seu eixo)
-  - Grupo de Asteróides
-    - Asteróide 1
+  - Grupo de Asteroides
+    - Asteroide 1
       - Translação temporal (para o movimento em torno da cintura)
       - Rotação de 90º no eixo $x$ (para alinhar o _teapot_ horizontalmente)
-      - Escala (para o tamanho de um asteróide)
+      - Escala (para o tamanho de um asteroide)
   - Grupo do Cometa
     - Translação (para deslocamento fora do centro)
     - Translação temporal (para seguir o seu trajeto)
     - Rotação (para alinhar o _teapot_ horizontalmente)
     - Rotação temporal (para rotação em torno de si mesmo)
+
+#pagebreak()
 
 #figure(image("fase3/solar system with paths.png"), caption: [Sistema solar com trajetória de transformações temporais])
 
