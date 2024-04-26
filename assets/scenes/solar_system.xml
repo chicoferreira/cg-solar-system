@@ -123,7 +123,7 @@
         <group name="Planetery of Mars">
             <models/>
             <transform>
-                <translate time="47.120834" align="false">
+                <translate time="47.120831" align="false">
                     <point x="-35.656361" y="0" z="-17.39076"/>
                     <point x="-39.068634" y="0" z="6.8888535"/>
                     <point x="-27.558018" y="0" z="28.537176"/>
@@ -151,7 +151,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate time="18.848333" align="false">
+                    <translate time="18.848331" align="false">
                         <point x="-1.3144412" y="0" z="1.7158933"/>
                         <point x="-0.054828975" y="0" z="2.1607959"/>
                         <point x="1.2257268" y="0" z="1.7803479"/>
@@ -164,7 +164,7 @@
                         <point x="-2.0719821" y="0" z="0.61557746"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
-                    <rotate time="9.4241667" x="0" y="1" z="0"/>
+                    <rotate time="9.4241657" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Deimos">
@@ -172,7 +172,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate time="18.848333" align="false">
+                    <translate time="18.848331" align="false">
                         <point x="-2.6334405" y="0" z="-0.056185741"/>
                         <point x="-2.1635237" y="0" z="1.5024419"/>
                         <point x="-0.86721361" y="0" z="2.4871886"/>
@@ -185,14 +185,14 @@
                         <point x="-2.0974729" y="0" z="-1.5933529"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
-                    <rotate time="9.4241667" x="0" y="1" z="0"/>
+                    <rotate time="9.4241657" x="0" y="1" z="0"/>
                 </transform>
             </group>
         </group>
         <group name="Planetery of Jupiter">
             <models/>
             <transform>
-                <translate time="60.40242" align="false">
+                <translate time="60.402424" align="false">
                     <point x="-92.64447" y="0" z="64.870338"/>
                     <point x="-36.821144" y="0" z="106.93626"/>
                     <point x="33.06665" y="0" z="108.15617"/>
@@ -1654,7 +1654,7 @@
                     <model file="sphere_1_20_20.3d"/>
                 </models>
                 <transform>
-                    <translate time="26.783293" align="false">
+                    <translate time="26.783291" align="false">
                         <point x="31.643114" y="0" z="-9.7999411"/>
                         <point x="19.839558" y="0" z="-26.527676"/>
                         <point x="0.45796192" y="0" z="-33.122738"/>
@@ -1667,7 +1667,7 @@
                         <point x="31.360079" y="0" z="10.671033"/>
                     </translate>
                     <scale x="0.026426665" y="0.026426665" z="0.026426665"/>
-                    <rotate time="13.391646" x="0" y="1" z="0"/>
+                    <rotate time="13.391645" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Enceladus">
@@ -1675,7 +1675,7 @@
                     <model file="sphere_1_20_20.3d"/>
                 </models>
                 <transform>
-                    <translate time="26.783293" align="false">
+                    <translate time="26.783291" align="false">
                         <point x="-13.48966" y="0" z="-29.987713"/>
                         <point x="-28.539701" y="0" z="-16.331547"/>
                         <point x="-32.688545" y="0" z="3.56271"/>
@@ -1688,7 +1688,7 @@
                         <point x="6.7129664" y="0" z="-32.189594"/>
                     </translate>
                     <scale x="0.033613335" y="0.033613335" z="0.033613335"/>
-                    <rotate time="13.391646" x="0" y="1" z="0"/>
+                    <rotate time="13.391645" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Tethys">
@@ -1696,7 +1696,7 @@
                     <model file="sphere_1_20_20.3d"/>
                 </models>
                 <transform>
-                    <translate time="26.783293" align="false">
+                    <translate time="26.783291" align="false">
                         <point x="-32.257236" y="0" z="2.2971227"/>
                         <point x="-24.746441" y="0" z="20.818733"/>
                         <point x="-7.7833395" y="0" z="31.388306"/>
@@ -1709,7 +1709,7 @@
                         <point x="-27.446873" y="0" z="-17.101906"/>
                     </translate>
                     <scale x="0.07106667" y="0.07106667" z="0.07106667"/>
-                    <rotate time="13.391646" x="0" y="1" z="0"/>
+                    <rotate time="13.391645" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Dione">
@@ -1717,7 +1717,7 @@
                     <model file="sphere_1_20_20.3d"/>
                 </models>
                 <transform>
-                    <translate time="26.783293" align="false">
+                    <translate time="26.783291" align="false">
                         <point x="19.777391" y="0" z="-26.394922"/>
                         <point x="0.48569912" y="0" z="-32.978802"/>
                         <point x="-18.991514" y="0" z="-26.965897"/>
@@ -1730,7 +1730,7 @@
                         <point x="31.514788" y="0" z="-9.7290936"/>
                     </translate>
                     <scale x="0.074893333" y="0.074893333" z="0.074893333"/>
-                    <rotate time="13.391646" x="0" y="1" z="0"/>
+                    <rotate time="13.391645" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Rhea">
@@ -1738,7 +1738,7 @@
                     <model file="sphere_1_20_20.3d"/>
                 </models>
                 <transform>
-                    <translate time="26.783293" align="false">
+                    <translate time="26.783291" align="false">
                         <point x="-20.782047" y="0" z="25.173922"/>
                         <point x="-2.0161769" y="0" z="32.581512"/>
                         <point x="17.519817" y="0" z="27.544071"/>
@@ -1751,7 +1751,7 @@
                         <point x="-31.609892" y="0" z="8.1507463"/>
                     </translate>
                     <scale x="0.10190666" y="0.10190666" z="0.10190666"/>
-                    <rotate time="13.391646" x="0" y="1" z="0"/>
+                    <rotate time="13.391645" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Titan">
@@ -1759,7 +1759,7 @@
                     <model file="sphere_1_20_20.3d"/>
                 </models>
                 <transform>
-                    <translate time="26.783293" align="false">
+                    <translate time="26.783291" align="false">
                         <point x="-1.085495" y="0" z="32.152081"/>
                         <point x="18.020329" y="0" z="26.649622"/>
                         <point x="30.24301" y="0" z="10.967905"/>
@@ -1772,7 +1772,7 @@
                         <point x="-19.776703" y="0" z="25.373539"/>
                     </translate>
                     <scale x="0.34329733" y="0.34329733" z="0.34329733"/>
-                    <rotate time="13.391646" x="0" y="1" z="0"/>
+                    <rotate time="13.391645" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Hyperion">
@@ -1780,7 +1780,7 @@
                     <model file="sphere_1_20_20.3d"/>
                 </models>
                 <transform>
-                    <translate time="26.783293" align="false">
+                    <translate time="26.783291" align="false">
                         <point x="10.20894" y="0" z="31.081875"/>
                         <point x="26.528673" y="0" z="19.145102"/>
                         <point x="32.715355" y="0" z="-0.1044509"/>
@@ -1793,7 +1793,7 @@
                         <point x="-10.010269" y="0" z="31.146427"/>
                     </translate>
                     <scale x="0.017999999" y="0.017999999" z="0.017999999"/>
-                    <rotate time="13.391646" x="0" y="1" z="0"/>
+                    <rotate time="13.391645" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Iapetus">
@@ -1801,7 +1801,7 @@
                     <model file="sphere_1_20_20.3d"/>
                 </models>
                 <transform>
-                    <translate time="26.783293" align="false">
+                    <translate time="26.783291" align="false">
                         <point x="30.677185" y="0" z="11.247998"/>
                         <point x="31.429773" y="0" z="-8.931776"/>
                         <point x="20.177258" y="0" z="-25.699913"/>
@@ -1814,7 +1814,7 @@
                         <point x="18.206959" y="0" z="27.131418"/>
                     </translate>
                     <scale x="0.098079994" y="0.098079994" z="0.098079994"/>
-                    <rotate time="13.391646" x="0" y="1" z="0"/>
+                    <rotate time="13.391645" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Phoebe">
@@ -1822,7 +1822,7 @@
                     <model file="sphere_1_20_20.3d"/>
                 </models>
                 <transform>
-                    <translate time="26.783293" align="false">
+                    <translate time="26.783291" align="false">
                         <point x="-23.580915" y="0" z="-23.065454"/>
                         <point x="-32.634895" y="0" z="-4.7998381"/>
                         <point x="-29.223454" y="0" z="15.299165"/>
@@ -1835,7 +1835,7 @@
                         <point x="-5.5198388" y="0" z="-32.520855"/>
                     </translate>
                     <scale x="0.0142" y="0.0142" z="0.0142"/>
-                    <rotate time="13.391646" x="0" y="1" z="0"/>
+                    <rotate time="13.391645" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Janus">
@@ -1843,7 +1843,7 @@
                     <model file="sphere_1_20_20.3d"/>
                 </models>
                 <transform>
-                    <translate time="26.783293" align="false">
+                    <translate time="26.783291" align="false">
                         <point x="31.055504" y="0" z="10.556108"/>
                         <point x="31.329155" y="0" z="-9.7138977"/>
                         <point x="19.636133" y="0" z="-26.273523"/>
@@ -1856,7 +1856,7 @@
                         <point x="18.91971" y="0" z="26.794035"/>
                     </translate>
                     <scale x="0.011933333" y="0.011933333" z="0.011933333"/>
-                    <rotate time="13.391646" x="0" y="1" z="0"/>
+                    <rotate time="13.391645" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Epimetheus">
@@ -1864,7 +1864,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate time="26.783293" align="false">
+                    <translate time="26.783291" align="false">
                         <point x="23.077271" y="0" z="23.568111"/>
                         <point x="32.522892" y="0" z="5.5025258"/>
                         <point x="29.545876" y="0" z="-14.664841"/>
@@ -1877,7 +1877,7 @@
                         <point x="4.8169103" y="0" z="32.631485"/>
                     </translate>
                     <scale x="0.0077466667" y="0.0077466667" z="0.0077466667"/>
-                    <rotate time="13.391646" x="0" y="1" z="0"/>
+                    <rotate time="13.391645" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Helene">
@@ -1885,7 +1885,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate time="26.783293" align="false">
+                    <translate time="26.783291" align="false">
                         <point x="-32.222782" y="0" z="-1.3926445"/>
                         <point x="-26.887358" y="0" z="17.813396"/>
                         <point x="-11.28187" y="0" z="30.215336"/>
@@ -1898,7 +1898,7 @@
                         <point x="-25.250198" y="0" z="-20.06675"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
-                    <rotate time="13.391646" x="0" y="1" z="0"/>
+                    <rotate time="13.391645" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Telesto">
@@ -1906,7 +1906,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate time="26.783293" align="false">
+                    <translate time="26.783291" align="false">
                         <point x="-11.745297" y="0" z="30.257311"/>
                         <point x="8.282649" y="0" z="31.382393"/>
                         <point x="25.146915" y="0" z="20.520466"/>
@@ -1919,7 +1919,7 @@
                         <point x="-27.28694" y="0" z="17.574978"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
-                    <rotate time="13.391646" x="0" y="1" z="0"/>
+                    <rotate time="13.391645" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Calypso">
@@ -1927,7 +1927,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate time="26.783293" align="false">
+                    <translate time="26.783291" align="false">
                         <point x="27.775774" y="0" z="-16.737598"/>
                         <point x="12.63296" y="0" z="-29.867191"/>
                         <point x="-7.335216" y="0" z="-31.588533"/>
@@ -1940,7 +1940,7 @@
                         <point x="32.309185" y="0" z="2.7851846"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
-                    <rotate time="13.391646" x="0" y="1" z="0"/>
+                    <rotate time="13.391645" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Atlas">
@@ -1948,7 +1948,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate time="26.783293" align="false">
+                    <translate time="26.783291" align="false">
                         <point x="-32.101044" y="0" z="-3.424582"/>
                         <point x="-27.983212" y="0" z="16.097969"/>
                         <point x="-13.176738" y="0" z="29.471651"/>
@@ -1961,7 +1961,7 @@
                         <point x="-23.957378" y="0" z="-21.639055"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
-                    <rotate time="13.391646" x="0" y="1" z="0"/>
+                    <rotate time="13.391645" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Prometheus">
@@ -1969,7 +1969,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate time="26.783293" align="false">
+                    <translate time="26.783291" align="false">
                         <point x="-31.835865" y="0" z="-8.6021366"/>
                         <point x="-30.811968" y="0" z="11.753371"/>
                         <point x="-18.01894" y="0" z="27.619501"/>
@@ -1982,7 +1982,7 @@
                         <point x="-20.699558" y="0" z="-25.671919"/>
                     </translate>
                     <scale x="0.0057466663" y="0.0057466663" z="0.0057466663"/>
-                    <rotate time="13.391646" x="0" y="1" z="0"/>
+                    <rotate time="13.391645" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Pandora">
@@ -1990,7 +1990,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate time="26.783293" align="false">
+                    <translate time="26.783291" align="false">
                         <point x="-32.738159" y="0" z="-0.57289529"/>
                         <point x="-26.822472" y="0" z="18.77952"/>
                         <point x="-10.661503" y="0" z="30.958805"/>
@@ -2003,7 +2003,7 @@
                         <point x="-26.148987" y="0" z="-19.706491"/>
                     </translate>
                     <scale x="0.0054266667" y="0.0054266667" z="0.0054266667"/>
-                    <rotate time="13.391646" x="0" y="1" z="0"/>
+                    <rotate time="13.391645" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Pan">
@@ -2011,7 +2011,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate time="26.783293" align="false">
+                    <translate time="26.783291" align="false">
                         <point x="25.531908" y="0" z="19.939917"/>
                         <point x="32.376137" y="0" z="1.1244515"/>
                         <point x="26.853781" y="0" z="-18.120514"/>
@@ -2024,7 +2024,7 @@
                         <point x="8.9353638" y="0" z="31.139008"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
-                    <rotate time="13.391646" x="0" y="1" z="0"/>
+                    <rotate time="13.391645" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Methone">
@@ -2032,7 +2032,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate time="26.783293" align="false">
+                    <translate time="26.783291" align="false">
                         <point x="12.021968" y="0" z="29.811815"/>
                         <point x="27.248922" y="0" z="17.051931"/>
                         <point x="32.067715" y="0" z="-2.2212124"/>
@@ -2045,7 +2045,7 @@
                         <point x="-7.7969742" y="0" z="31.184601"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
-                    <rotate time="13.391646" x="0" y="1" z="0"/>
+                    <rotate time="13.391645" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Pallene">
@@ -2053,7 +2053,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate time="26.783293" align="false">
+                    <translate time="26.783291" align="false">
                         <point x="-26.333252" y="0" z="19.80423"/>
                         <point x="-9.6634216" y="0" z="31.500256"/>
                         <point x="10.697521" y="0" z="31.164255"/>
@@ -2066,7 +2066,7 @@
                         <point x="-32.944683" y="0" z="0.54367405"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
-                    <rotate time="13.391646" x="0" y="1" z="0"/>
+                    <rotate time="13.391645" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Polydeuces">
@@ -2074,7 +2074,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate time="26.783293" align="false">
+                    <translate time="26.783291" align="false">
                         <point x="21.487726" y="0" z="24.18734"/>
                         <point x="31.600897" y="0" z="6.937799"/>
                         <point x="29.643599" y="0" z="-12.961744"/>
@@ -2087,7 +2087,7 @@
                         <point x="3.1669757" y="0" z="32.198135"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
-                    <rotate time="13.391646" x="0" y="1" z="0"/>
+                    <rotate time="13.391645" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Daphnis">
@@ -2095,7 +2095,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate time="26.783293" align="false">
+                    <translate time="26.783291" align="false">
                         <point x="2.9239907" y="0" z="32.565132"/>
                         <point x="21.506863" y="0" z="24.627068"/>
                         <point x="31.874844" y="0" z="7.282299"/>
@@ -2108,7 +2108,7 @@
                         <point x="-16.775743" y="0" z="28.064426"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
-                    <rotate time="13.391646" x="0" y="1" z="0"/>
+                    <rotate time="13.391645" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Anthe">
@@ -2116,7 +2116,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate time="26.783293" align="false">
+                    <translate time="26.783291" align="false">
                         <point x="9.0942373" y="0" z="-30.948181"/>
                         <point x="-10.833492" y="0" z="-30.383062"/>
                         <point x="-26.623194" y="0" z="-18.212654"/>
@@ -2129,7 +2129,7 @@
                         <point x="25.548285" y="0" z="-19.692139"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
-                    <rotate time="13.391646" x="0" y="1" z="0"/>
+                    <rotate time="13.391645" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Aegaeon">
@@ -2137,7 +2137,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate time="26.783293" align="false">
+                    <translate time="26.783291" align="false">
                         <point x="-30.2831" y="0" z="-12.846204"/>
                         <point x="-32.050354" y="0" z="7.4071555"/>
                         <point x="-21.575457" y="0" z="24.831245"/>
@@ -2150,7 +2150,7 @@
                         <point x="-16.94873" y="0" z="-28.192759"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
-                    <rotate time="13.391646" x="0" y="1" z="0"/>
+                    <rotate time="13.391645" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Ymir">
@@ -2158,7 +2158,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate time="26.783293" align="false">
+                    <translate time="26.783291" align="false">
                         <point x="14.634965" y="0" z="29.226988"/>
                         <point x="29.019129" y="0" z="15.042916"/>
                         <point x="32.318974" y="0" z="-4.8870416"/>
@@ -2171,7 +2171,7 @@
                         <point x="-5.3392544" y="0" z="32.247349"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
-                    <rotate time="13.391646" x="0" y="1" z="0"/>
+                    <rotate time="13.391645" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Paaliaq">
@@ -2179,7 +2179,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate time="26.783293" align="false">
+                    <translate time="26.783291" align="false">
                         <point x="31.105562" y="0" z="9.6890469"/>
                         <point x="30.860008" y="0" z="-10.444787"/>
                         <point x="18.826982" y="0" z="-26.589066"/>
@@ -2192,7 +2192,7 @@
                         <point x="19.469849" y="0" z="26.121994"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
-                    <rotate time="13.391646" x="0" y="1" z="0"/>
+                    <rotate time="13.391645" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Tarvos">
@@ -2200,7 +2200,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate time="26.783293" align="false">
+                    <translate time="26.783291" align="false">
                         <point x="31.789253" y="0" z="-8.2373142"/>
                         <point x="20.876278" y="0" z="-25.34938"/>
                         <point x="1.989271" y="0" z="-32.778847"/>
@@ -2213,7 +2213,7 @@
                         <point x="30.559816" y="0" z="12.021133"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
-                    <rotate time="13.391646" x="0" y="1" z="0"/>
+                    <rotate time="13.391645" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Ijiraq">
@@ -2221,7 +2221,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate time="26.783293" align="false">
+                    <translate time="26.783291" align="false">
                         <point x="32.381271" y="0" z="3.589555"/>
                         <point x="28.306889" y="0" z="-16.129221"/>
                         <point x="13.420236" y="0" z="-29.687185"/>
@@ -2234,7 +2234,7 @@
                         <point x="24.087112" y="0" z="21.937244"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
-                    <rotate time="13.391646" x="0" y="1" z="0"/>
+                    <rotate time="13.391645" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Suttungr">
@@ -2242,7 +2242,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate time="26.783293" align="false">
+                    <translate time="26.783291" align="false">
                         <point x="-6.6511731" y="0" z="-32.037678"/>
                         <point x="-24.212187" y="0" z="-22.009563"/>
                         <point x="-32.524967" y="0" z="-3.5745444"/>
@@ -2255,7 +2255,7 @@
                         <point x="13.450351" y="0" z="-29.828491"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
-                    <rotate time="13.391646" x="0" y="1" z="0"/>
+                    <rotate time="13.391645" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Kiviuq">
@@ -2263,7 +2263,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate time="26.783293" align="false">
+                    <translate time="26.783291" align="false">
                         <point x="27.691114" y="0" z="17.526577"/>
                         <point x="32.704445" y="0" z="-2.097131"/>
                         <point x="25.22579" y="0" z="-20.919806"/>
@@ -2276,7 +2276,7 @@
                         <point x="12.100724" y="0" z="30.455725"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
-                    <rotate time="13.391646" x="0" y="1" z="0"/>
+                    <rotate time="13.391645" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Mundilfari">
@@ -2284,7 +2284,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate time="26.783293" align="false">
+                    <translate time="26.783291" align="false">
                         <point x="-7.513135" y="0" z="31.770802"/>
                         <point x="12.596148" y="0" z="30.11923"/>
                         <point x="27.894142" y="0" z="16.963133"/>
@@ -2297,7 +2297,7 @@
                         <point x="-24.752655" y="0" z="21.28702"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
-                    <rotate time="13.391646" x="0" y="1" z="0"/>
+                    <rotate time="13.391645" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Albiorix">
@@ -2305,7 +2305,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate time="26.783293" align="false">
+                    <translate time="26.783291" align="false">
                         <point x="-14.944762" y="0" z="29.240965"/>
                         <point x="5.0968342" y="0" z="32.44075"/>
                         <point x="23.191626" y="0" z="23.249268"/>
@@ -2318,7 +2318,7 @@
                         <point x="-29.277967" y="0" z="14.872138"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
-                    <rotate time="13.391646" x="0" y="1" z="0"/>
+                    <rotate time="13.391645" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Skathi">
@@ -2326,7 +2326,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate time="26.783293" align="false">
+                    <translate time="26.783291" align="false">
                         <point x="27.731768" y="0" z="-16.624208"/>
                         <point x="12.664005" y="0" z="-29.749592"/>
                         <point x="-7.2409763" y="0" z="-31.511641"/>
@@ -2339,7 +2339,7 @@
                         <point x="32.206936" y="0" z="2.8510511"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
-                    <rotate time="13.391646" x="0" y="1" z="0"/>
+                    <rotate time="13.391645" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Erriapus">
@@ -2347,7 +2347,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate time="26.783293" align="false">
+                    <translate time="26.783291" align="false">
                         <point x="-0.97909147" y="0" z="32.30645"/>
                         <point x="18.197145" y="0" z="26.711966"/>
                         <point x="30.422703" y="0" z="10.914412"/>
@@ -2360,7 +2360,7 @@
                         <point x="-19.781359" y="0" z="25.560968"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
-                    <rotate time="13.391646" x="0" y="1" z="0"/>
+                    <rotate time="13.391645" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Siarnaq">
@@ -2368,7 +2368,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate time="26.783293" align="false">
+                    <translate time="26.783291" align="false">
                         <point x="-0.4063164" y="0" z="32.597843"/>
                         <point x="18.83181" y="0" z="26.611042"/>
                         <point x="30.876833" y="0" z="10.459717"/>
@@ -2381,7 +2381,7 @@
                         <point x="-19.489239" y="0" z="26.133392"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
-                    <rotate time="13.391646" x="0" y="1" z="0"/>
+                    <rotate time="13.391645" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Thrymr">
@@ -2389,7 +2389,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate time="26.783293" align="false">
+                    <translate time="26.783291" align="false">
                         <point x="-22.822014" y="0" z="-22.772829"/>
                         <point x="-31.848928" y="0" z="-5.0091681"/>
                         <point x="-28.710634" y="0" z="14.667835"/>
@@ -2402,7 +2402,7 @@
                         <point x="-5.0778627" y="0" z="-31.838049"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
-                    <rotate time="13.391646" x="0" y="1" z="0"/>
+                    <rotate time="13.391645" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Narvi">
@@ -2410,7 +2410,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate time="26.783293" align="false">
+                    <translate time="26.783291" align="false">
                         <point x="12.294203" y="0" z="-29.80097"/>
                         <point x="-7.5703526" y="0" z="-31.335842"/>
                         <point x="-24.543285" y="0" z="-20.901495"/>
@@ -2423,7 +2423,7 @@
                         <point x="27.462788" y="0" z="-16.883146"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
-                    <rotate time="13.391646" x="0" y="1" z="0"/>
+                    <rotate time="13.391645" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Aegir">
@@ -2431,7 +2431,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate time="26.783293" align="false">
+                    <translate time="26.783291" align="false">
                         <point x="9.910347" y="0" z="31.554779"/>
                         <point x="26.565073" y="0" z="19.703197"/>
                         <point x="33.072845" y="0" z="0.32566309"/>
@@ -2444,7 +2444,7 @@
                         <point x="-10.529799" y="0" z="31.353508"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
-                    <rotate time="13.391646" x="0" y="1" z="0"/>
+                    <rotate time="13.391645" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Bebhionn">
@@ -2452,7 +2452,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate time="26.783293" align="false">
+                    <translate time="26.783291" align="false">
                         <point x="31.998718" y="0" z="-8.2196035"/>
                         <point x="21.056149" y="0" z="-25.458172"/>
                         <point x="2.0708425" y="0" z="-32.972588"/>
@@ -2465,7 +2465,7 @@
                         <point x="30.718868" y="0" z="12.158574"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
-                    <rotate time="13.391646" x="0" y="1" z="0"/>
+                    <rotate time="13.391645" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Bergelmir">
@@ -2473,7 +2473,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate time="26.783293" align="false">
+                    <translate time="26.783291" align="false">
                         <point x="-32.138229" y="0" z="3.8686268"/>
                         <point x="-23.726458" y="0" z="22.020157"/>
                         <point x="-6.2519755" y="0" z="31.760744"/>
@@ -2486,7 +2486,7 @@
                         <point x="-28.274294" y="0" z="-15.760596"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
-                    <rotate time="13.391646" x="0" y="1" z="0"/>
+                    <rotate time="13.391645" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Bestla">
@@ -2494,7 +2494,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate time="26.783293" align="false">
+                    <translate time="26.783291" align="false">
                         <point x="31.082594" y="0" z="9.6753531"/>
                         <point x="30.833378" y="0" z="-10.442366"/>
                         <point x="18.806858" y="0" z="-26.571455"/>
@@ -2507,7 +2507,7 @@
                         <point x="19.459314" y="0" z="26.097418"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
-                    <rotate time="13.391646" x="0" y="1" z="0"/>
+                    <rotate time="13.391645" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Farbauti">
@@ -2515,7 +2515,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate time="26.783293" align="false">
+                    <translate time="26.783291" align="false">
                         <point x="-19.946091" y="0" z="-26.001774"/>
                         <point x="-31.420183" y="0" z="-9.3118658"/>
                         <point x="-30.892836" y="0" z="10.93487"/>
@@ -2528,7 +2528,7 @@
                         <point x="-0.8532638" y="0" z="-32.759892"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
-                    <rotate time="13.391646" x="0" y="1" z="0"/>
+                    <rotate time="13.391645" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Fenrir">
@@ -2536,7 +2536,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate time="26.783293" align="false">
+                    <translate time="26.783291" align="false">
                         <point x="6.8395357" y="0" z="-31.868876"/>
                         <point x="-13.198755" y="0" z="-29.802641"/>
                         <point x="-28.195566" y="0" z="-16.352816"/>
@@ -2549,7 +2549,7 @@
                         <point x="24.265352" y="0" z="-21.762287"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
-                    <rotate time="13.391646" x="0" y="1" z="0"/>
+                    <rotate time="13.391645" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Fornjot">
@@ -2557,7 +2557,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate time="26.783293" align="false">
+                    <translate time="26.783291" align="false">
                         <point x="-24.52162" y="0" z="-21.694414"/>
                         <point x="-32.590065" y="0" z="-3.1377027"/>
                         <point x="-28.210213" y="0" z="16.617496"/>
@@ -2570,7 +2570,7 @@
                         <point x="-7.08674" y="0" z="-31.964598"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
-                    <rotate time="13.391646" x="0" y="1" z="0"/>
+                    <rotate time="13.391645" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Hati">
@@ -2578,7 +2578,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate time="26.783293" align="false">
+                    <translate time="26.783291" align="false">
                         <point x="-29.036034" y="0" z="15.676692"/>
                         <point x="-14.276123" y="0" z="29.74966"/>
                         <point x="5.9367938" y="0" z="32.459274"/>
@@ -2591,7 +2591,7 @@
                         <point x="-32.705173" y="0" z="-4.3842449"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
-                    <rotate time="13.391646" x="0" y="1" z="0"/>
+                    <rotate time="13.391645" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Hyrrokkin">
@@ -2599,7 +2599,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate time="26.783293" align="false">
+                    <translate time="26.783291" align="false">
                         <point x="-32.221817" y="0" z="-5.9562731"/>
                         <point x="-29.56901" y="0" z="14.120776"/>
                         <point x="-15.62184" y="0" z="28.80418"/>
@@ -2612,7 +2612,7 @@
                         <point x="-22.566998" y="0" z="-23.758226"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
-                    <rotate time="13.391646" x="0" y="1" z="0"/>
+                    <rotate time="13.391645" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Kari">
@@ -2620,7 +2620,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate time="26.783293" align="false">
+                    <translate time="26.783291" align="false">
                         <point x="23.109121" y="0" z="-23.14793"/>
                         <point x="5.0896587" y="0" z="-32.310272"/>
                         <point x="-14.87388" y="0" z="-29.131184"/>
@@ -2633,7 +2633,7 @@
                         <point x="32.301685" y="0" z="-5.1438589"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
-                    <rotate time="13.391646" x="0" y="1" z="0"/>
+                    <rotate time="13.391645" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Loge">
@@ -2641,7 +2641,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate time="26.783293" align="false">
+                    <translate time="26.783291" align="false">
                         <point x="-32.233932" y="0" z="-2.4539251"/>
                         <point x="-27.520182" y="0" z="16.961355"/>
                         <point x="-12.294653" y="0" z="29.897985"/>
@@ -2654,7 +2654,7 @@
                         <point x="-24.635426" y="0" z="-20.931885"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
-                    <rotate time="13.391646" x="0" y="1" z="0"/>
+                    <rotate time="13.391645" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Skoll">
@@ -2662,7 +2662,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate time="26.783293" align="false">
+                    <translate time="26.783291" align="false">
                         <point x="-18.364168" y="0" z="27.054031"/>
                         <point x="1.0450298" y="0" z="32.681358"/>
                         <point x="20.055073" y="0" z="25.825516"/>
@@ -2675,7 +2675,7 @@
                         <point x="-30.758881" y="0" z="11.092996"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
-                    <rotate time="13.391646" x="0" y="1" z="0"/>
+                    <rotate time="13.391645" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Surtur">
@@ -2683,7 +2683,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate time="26.783293" align="false">
+                    <translate time="26.783291" align="false">
                         <point x="30.031492" y="0" z="12.122273"/>
                         <point x="31.42128" y="0" z="-7.844943"/>
                         <point x="20.809212" y="0" z="-24.815657"/>
@@ -2696,7 +2696,7 @@
                         <point x="17.170694" y="0" z="27.459192"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
-                    <rotate time="13.391646" x="0" y="1" z="0"/>
+                    <rotate time="13.391645" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Jarnsaxa">
@@ -2704,7 +2704,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate time="26.783293" align="false">
+                    <translate time="26.783291" align="false">
                         <point x="-31.048618" y="0" z="-10.411167"/>
                         <point x="-31.238392" y="0" z="9.8271008"/>
                         <point x="-19.496159" y="0" z="26.311764"/>
@@ -2717,7 +2717,7 @@
                         <point x="-18.999338" y="0" z="-26.672724"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
-                    <rotate time="13.391646" x="0" y="1" z="0"/>
+                    <rotate time="13.391645" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Greip">
@@ -2725,7 +2725,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate time="26.783293" align="false">
+                    <translate time="26.783291" align="false">
                         <point x="26.319307" y="0" z="-19.452158"/>
                         <point x="9.8590755" y="0" z="-31.207226"/>
                         <point x="-10.366987" y="0" z="-31.042194"/>
@@ -2738,7 +2738,7 @@
                         <point x="32.72646" y="0" z="-0.26702178"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
-                    <rotate time="13.391646" x="0" y="1" z="0"/>
+                    <rotate time="13.391645" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Tarqeq">
@@ -2746,7 +2746,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate time="26.783293" align="false">
+                    <translate time="26.783291" align="false">
                         <point x="15.792459" y="0" z="28.562172"/>
                         <point x="29.564791" y="0" z="13.82471"/>
                         <point x="32.04438" y="0" z="-6.1933241"/>
@@ -2759,7 +2759,7 @@
                         <point x="-4.0120525" y="0" z="32.389858"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
-                    <rotate time="13.391646" x="0" y="1" z="0"/>
+                    <rotate time="13.391645" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon S/2004 S7">
@@ -2767,7 +2767,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate time="26.783293" align="false">
+                    <translate time="26.783291" align="false">
                         <point x="-21.285255" y="0" z="-25.065397"/>
                         <point x="-31.953205" y="0" z="-7.7671719"/>
                         <point x="-30.416119" y="0" z="12.497842"/>
@@ -2780,7 +2780,7 @@
                         <point x="-2.4870684" y="0" z="-32.78949"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
-                    <rotate time="13.391646" x="0" y="1" z="0"/>
+                    <rotate time="13.391645" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon S/2004 S12">
@@ -2788,7 +2788,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate time="26.783293" align="false">
+                    <translate time="26.783291" align="false">
                         <point x="-30.546841" y="0" z="-11.845896"/>
                         <point x="-31.675758" y="0" z="8.3714447"/>
                         <point x="-20.705608" y="0" z="25.39119"/>
@@ -2801,7 +2801,7 @@
                         <point x="-17.750069" y="0" z="-27.538513"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
-                    <rotate time="13.391646" x="0" y="1" z="0"/>
+                    <rotate time="13.391645" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon S/2004 S13">
@@ -2809,7 +2809,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate time="26.783293" align="false">
+                    <translate time="26.783291" align="false">
                         <point x="26.546766" y="0" z="19.51421"/>
                         <point x="32.946949" y="0" z="0.18352853"/>
                         <point x="26.76252" y="0" z="-19.217249"/>
@@ -2822,7 +2822,7 @@
                         <point x="10.006614" y="0" z="31.391125"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
-                    <rotate time="13.391646" x="0" y="1" z="0"/>
+                    <rotate time="13.391645" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon S/2004 S17">
@@ -2830,7 +2830,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate time="26.783293" align="false">
+                    <translate time="26.783291" align="false">
                         <point x="-24.167732" y="0" z="22.055653"/>
                         <point x="-6.5881257" y="0" z="32.048832"/>
                         <point x="13.507934" y="0" z="29.800449"/>
@@ -2843,7 +2843,7 @@
                         <point x="-32.516094" y="0" z="3.6379588"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
-                    <rotate time="13.391646" x="0" y="1" z="0"/>
+                    <rotate time="13.391645" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon S/2006 S1">
@@ -2851,7 +2851,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate time="26.783293" align="false">
+                    <translate time="26.783291" align="false">
                         <point x="-21.813147" y="0" z="-24.835175"/>
                         <point x="-32.244953" y="0" z="-7.2706394"/>
                         <point x="-30.360287" y="0" z="13.071045"/>
@@ -2864,7 +2864,7 @@
                         <point x="-3.0494702" y="0" z="-32.913525"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
-                    <rotate time="13.391646" x="0" y="1" z="0"/>
+                    <rotate time="13.391645" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon S/2006 S3">
@@ -2872,7 +2872,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate time="26.783293" align="false">
+                    <translate time="26.783291" align="false">
                         <point x="8.8158617" y="0" z="31.666355"/>
                         <point x="25.745199" y="0" z="20.436787"/>
                         <point x="32.840744" y="0" z="1.4010586"/>
@@ -2885,7 +2885,7 @@
                         <point x="-11.480834" y="0" z="30.800453"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
-                    <rotate time="13.391646" x="0" y="1" z="0"/>
+                    <rotate time="13.391645" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon S/2007 S2">
@@ -2893,7 +2893,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate time="26.783293" align="false">
+                    <translate time="26.783291" align="false">
                         <point x="-4.8206992" y="0" z="32.454636"/>
                         <point x="15.176322" y="0" z="29.089891"/>
                         <point x="29.376514" y="0" z="14.613791"/>
@@ -2906,7 +2906,7 @@
                         <point x="-22.976376" y="0" z="23.422825"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
-                    <rotate time="13.391646" x="0" y="1" z="0"/>
+                    <rotate time="13.391645" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon S/2007 S3">
@@ -2914,7 +2914,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate time="26.783293" align="false">
+                    <translate time="26.783291" align="false">
                         <point x="-13.672256" y="0" z="-29.437862"/>
                         <point x="-28.364225" y="0" z="-15.779386"/>
                         <point x="-32.222031" y="0" z="3.9062908"/>
@@ -2927,7 +2927,7 @@
                         <point x="6.2420549" y="0" z="-31.852079"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
-                    <rotate time="13.391646" x="0" y="1" z="0"/>
+                    <rotate time="13.391645" x="0" y="1" z="0"/>
                 </transform>
             </group>
         </group>
@@ -2962,7 +2962,7 @@
                     <model file="sphere_1_20_20.3d"/>
                 </models>
                 <transform>
-                    <translate time="29.801451" align="false">
+                    <translate time="29.801449" align="false">
                         <point x="8.7029047" y="0" z="10.71673"/>
                         <point x="13.339933" y="0" z="3.5545774"/>
                         <point x="12.881561" y="0" z="-4.9653029"/>
@@ -2975,7 +2975,7 @@
                         <point x="0.74165922" y="0" z="13.785456"/>
                     </translate>
                     <scale x="0.077186666" y="0.077186666" z="0.077186666"/>
-                    <rotate time="14.900725" x="0" y="1" z="0"/>
+                    <rotate time="14.900724" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Umbriel">
@@ -2983,7 +2983,7 @@
                     <model file="sphere_1_20_20.3d"/>
                 </models>
                 <transform>
-                    <translate time="29.801451" align="false">
+                    <translate time="29.801449" align="false">
                         <point x="-11.665359" y="0" z="8.6130276"/>
                         <point x="-4.374867" y="0" z="13.824811"/>
                         <point x="4.5866814" y="0" z="13.755988"/>
@@ -2996,7 +2996,7 @@
                         <point x="-14.500084" y="0" z="0.11135775"/>
                     </translate>
                     <scale x="0.077959999" y="0.077959999" z="0.077959999"/>
-                    <rotate time="14.900725" x="0" y="1" z="0"/>
+                    <rotate time="14.900724" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Titania">
@@ -3004,7 +3004,7 @@
                     <model file="sphere_1_20_20.3d"/>
                 </models>
                 <transform>
-                    <translate time="29.801451" align="false">
+                    <translate time="29.801449" align="false">
                         <point x="11.883907" y="0" z="8.0892439"/>
                         <point x="14.369021" y="0" z="-0.44084942"/>
                         <point x="11.365657" y="0" z="-8.8025551"/>
@@ -3017,7 +3017,7 @@
                         <point x="4.8595452" y="0" z="13.529522"/>
                     </translate>
                     <scale x="0.10518667" y="0.10518667" z="0.10518667"/>
-                    <rotate time="14.900725" x="0" y="1" z="0"/>
+                    <rotate time="14.900724" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Oberon">
@@ -3025,7 +3025,7 @@
                     <model file="sphere_1_20_20.3d"/>
                 </models>
                 <transform>
-                    <translate time="29.801451" align="false">
+                    <translate time="29.801449" align="false">
                         <point x="6.6743455" y="0" z="12.259262"/>
                         <point x="12.605473" y="0" z="5.9948692"/>
                         <point x="13.721737" y="0" z="-2.55936"/>
@@ -3038,7 +3038,7 @@
                         <point x="-1.8061556" y="0" z="13.841033"/>
                     </translate>
                     <scale x="0.10152" y="0.10152" z="0.10152"/>
-                    <rotate time="14.900725" x="0" y="1" z="0"/>
+                    <rotate time="14.900724" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Miranda">
@@ -3046,7 +3046,7 @@
                     <model file="sphere_1_20_20.3d"/>
                 </models>
                 <transform>
-                    <translate time="29.801451" align="false">
+                    <translate time="29.801449" align="false">
                         <point x="-10.615864" y="0" z="-8.6726322"/>
                         <point x="-13.686059" y="0" z="-0.77646202"/>
                         <point x="-11.528646" y="0" z="7.416296"/>
@@ -3059,7 +3059,7 @@
                         <point x="-3.4907677" y="0" z="-13.256156"/>
                     </translate>
                     <scale x="0.031440001" y="0.031440001" z="0.031440001"/>
-                    <rotate time="14.900725" x="0" y="1" z="0"/>
+                    <rotate time="14.900724" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Cordelia">
@@ -3067,7 +3067,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate time="29.801451" align="false">
+                    <translate time="29.801449" align="false">
                         <point x="-4.0397744" y="0" z="-13.875344"/>
                         <point x="-11.423968" y="0" z="-8.8508692"/>
                         <point x="-14.444594" y="0" z="-0.4456664"/>
@@ -3080,7 +3080,7 @@
                         <point x="4.8874807" y="0" z="-13.599908"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
-                    <rotate time="14.900725" x="0" y="1" z="0"/>
+                    <rotate time="14.900724" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Ophelia">
@@ -3088,7 +3088,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate time="29.801451" align="false">
+                    <translate time="29.801449" align="false">
                         <point x="7.6204324" y="0" z="-11.83924"/>
                         <point x="-0.79387188" y="0" z="-14.057323"/>
                         <point x="-8.9049435" y="0" z="-10.905987"/>
@@ -3101,7 +3101,7 @@
                         <point x="13.123989" y="0" z="-5.0989709"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
-                    <rotate time="14.900725" x="0" y="1" z="0"/>
+                    <rotate time="14.900724" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Bianca">
@@ -3109,7 +3109,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate time="29.801451" align="false">
+                    <translate time="29.801449" align="false">
                         <point x="2.9909387" y="0" z="-13.605334"/>
                         <point x="-5.5772948" y="0" z="-12.764977"/>
                         <point x="-12.015191" y="0" z="-7.048831"/>
@@ -3122,7 +3122,7 @@
                         <point x="10.416736" y="0" z="-9.2489166"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
-                    <rotate time="14.900725" x="0" y="1" z="0"/>
+                    <rotate time="14.900724" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Cressida">
@@ -3130,7 +3130,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate time="29.801451" align="false">
+                    <translate time="29.801449" align="false">
                         <point x="11.570478" y="0" z="8.1151991"/>
                         <point x="14.130708" y="0" z="-0.23562331"/>
                         <point x="11.293488" y="0" z="-8.4964457"/>
@@ -3143,7 +3143,7 @@
                         <point x="4.5907187" y="0" z="13.366291"/>
                     </translate>
                     <scale x="0.0054666665" y="0.0054666665" z="0.0054666665"/>
-                    <rotate time="14.900725" x="0" y="1" z="0"/>
+                    <rotate time="14.900724" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Desdemona">
@@ -3151,7 +3151,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate time="29.801451" align="false">
+                    <translate time="29.801449" align="false">
                         <point x="-13.914849" y="0" z="-1.0512706"/>
                         <point x="-11.875273" y="0" z="7.3284454"/>
                         <point x="-5.2997427" y="0" z="12.908948"/>
@@ -3164,7 +3164,7 @@
                         <point x="-10.639432" y="0" z="-9.0294352"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
-                    <rotate time="14.900725" x="0" y="1" z="0"/>
+                    <rotate time="14.900724" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Juliet">
@@ -3172,7 +3172,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate time="29.801451" align="false">
+                    <translate time="29.801449" align="false">
                         <point x="-12.357657" y="0" z="6.4622812"/>
                         <point x="-6.1991239" y="0" z="12.491743"/>
                         <point x="2.3272691" y="0" z="13.749785"/>
@@ -3185,7 +3185,7 @@
                         <point x="-13.795989" y="0" z="-2.035548"/>
                     </translate>
                     <scale x="0.0070666666" y="0.0070666666" z="0.0070666666"/>
-                    <rotate time="14.900725" x="0" y="1" z="0"/>
+                    <rotate time="14.900724" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Portia">
@@ -3193,7 +3193,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate time="29.801451" align="false">
+                    <translate time="29.801449" align="false">
                         <point x="-10.423589" y="0" z="10.209441"/>
                         <point x="-2.4319048" y="0" z="14.386443"/>
                         <point x="6.4886899" y="0" z="13.068314"/>
@@ -3206,7 +3206,7 @@
                         <point x="-14.433819" y="0" z="2.1327856"/>
                     </translate>
                     <scale x="0.009333333" y="0.009333333" z="0.009333333"/>
-                    <rotate time="14.900725" x="0" y="1" z="0"/>
+                    <rotate time="14.900724" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Rosalind">
@@ -3214,7 +3214,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate time="29.801451" align="false">
+                    <translate time="29.801449" align="false">
                         <point x="13.652221" y="0" z="-4.4413753"/>
                         <point x="8.4343033" y="0" z="-11.617723"/>
                         <point x="-0.0052313777" y="0" z="-14.356494"/>
@@ -3227,7 +3227,7 @@
                         <point x="13.655454" y="0" z="4.4314237"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
-                    <rotate time="14.900725" x="0" y="1" z="0"/>
+                    <rotate time="14.900724" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Belinda">
@@ -3235,7 +3235,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate time="29.801451" align="false">
+                    <translate time="29.801449" align="false">
                         <point x="10.449909" y="0" z="10.160885"/>
                         <point x="14.426573" y="0" z="2.078027"/>
                         <point x="12.892776" y="0" z="-6.7985678"/>
@@ -3248,7 +3248,7 @@
                         <point x="2.4817369" y="0" z="14.362631"/>
                     </translate>
                     <scale x="0.0060000001" y="0.0060000001" z="0.0060000001"/>
-                    <rotate time="14.900725" x="0" y="1" z="0"/>
+                    <rotate time="14.900724" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Puck">
@@ -3256,7 +3256,7 @@
                     <model file="sphere_1_20_20.3d"/>
                 </models>
                 <transform>
-                    <translate time="29.801451" align="false">
+                    <translate time="29.801449" align="false">
                         <point x="-13.367956" y="0" z="2.9851491"/>
                         <point x="-9.0602798" y="0" z="10.272522"/>
                         <point x="-1.2918799" y="0" z="13.636145"/>
@@ -3269,7 +3269,7 @@
                         <point x="-12.569533" y="0" z="-5.4424467"/>
                     </translate>
                     <scale x="0.0108" y="0.0108" z="0.0108"/>
-                    <rotate time="14.900725" x="0" y="1" z="0"/>
+                    <rotate time="14.900724" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Caliban">
@@ -3277,7 +3277,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate time="29.801451" align="false">
+                    <translate time="29.801449" align="false">
                         <point x="-8.9985571" y="0" z="-10.927933"/>
                         <point x="-13.703262" y="0" z="-3.5516646"/>
                         <point x="-13.17379" y="0" z="5.1812158"/>
@@ -3290,7 +3290,7 @@
                         <point x="-0.85670263" y="0" z="-14.130103"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
-                    <rotate time="14.900725" x="0" y="1" z="0"/>
+                    <rotate time="14.900724" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Sycorax">
@@ -3298,7 +3298,7 @@
                     <model file="sphere_1_20_20.3d"/>
                 </models>
                 <transform>
-                    <translate time="29.801451" align="false">
+                    <translate time="29.801449" align="false">
                         <point x="6.3985319" y="0" z="13.109399"/>
                         <point x="12.882032" y="0" z="6.8447638"/>
                         <point x="14.445034" y="0" z="-2.0343382"/>
@@ -3311,7 +3311,7 @@
                         <point x="-2.5289869" y="0" z="14.366689"/>
                     </translate>
                     <scale x="0.0099999998" y="0.0099999998" z="0.0099999998"/>
-                    <rotate time="14.900725" x="0" y="1" z="0"/>
+                    <rotate time="14.900724" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Prospero">
@@ -3319,7 +3319,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate time="29.801451" align="false">
+                    <translate time="29.801449" align="false">
                         <point x="-11.939782" y="0" z="-8.2400036"/>
                         <point x="-14.502839" y="0" z="0.35172191"/>
                         <point x="-11.526304" y="0" z="8.8091078"/>
@@ -3332,7 +3332,7 @@
                         <point x="-4.816133" y="0" z="-13.684332"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
-                    <rotate time="14.900725" x="0" y="1" z="0"/>
+                    <rotate time="14.900724" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Setebos">
@@ -3340,7 +3340,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate time="29.801451" align="false">
+                    <translate time="29.801449" align="false">
                         <point x="8.5384302" y="0" z="11.036206"/>
                         <point x="13.394655" y="0" z="3.9097152"/>
                         <point x="13.134577" y="0" z="-4.7101555"/>
@@ -3353,7 +3353,7 @@
                         <point x="0.42081809" y="0" z="13.947243"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
-                    <rotate time="14.900725" x="0" y="1" z="0"/>
+                    <rotate time="14.900724" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Stephano">
@@ -3361,7 +3361,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate time="29.801451" align="false">
+                    <translate time="29.801449" align="false">
                         <point x="13.990287" y="0" z="2.0280554"/>
                         <point x="12.510441" y="0" z="-6.5825529"/>
                         <point x="6.2520308" y="0" z="-12.678849"/>
@@ -3374,7 +3374,7 @@
                         <point x="10.126318" y="0" z="9.8640156"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
-                    <rotate time="14.900725" x="0" y="1" z="0"/>
+                    <rotate time="14.900724" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Trinculo">
@@ -3382,7 +3382,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate time="29.801451" align="false">
+                    <translate time="29.801449" align="false">
                         <point x="-6.7083535" y="0" z="12.198908"/>
                         <point x="1.7431629" y="0" z="13.812196"/>
                         <point x="9.5288563" y="0" z="10.149693"/>
@@ -3395,7 +3395,7 @@
                         <point x="-12.597508" y="0" z="5.9260573"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
-                    <rotate time="14.900725" x="0" y="1" z="0"/>
+                    <rotate time="14.900724" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Francisco">
@@ -3403,7 +3403,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate time="29.801451" align="false">
+                    <translate time="29.801449" align="false">
                         <point x="-12.106676" y="0" z="-7.3875189"/>
                         <point x="-14.136782" y="0" z="1.1394937"/>
                         <point x="-10.767117" y="0" z="9.2312641"/>
@@ -3416,7 +3416,7 @@
                         <point x="-5.4522305" y="0" z="-13.092754"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
-                    <rotate time="14.900725" x="0" y="1" z="0"/>
+                    <rotate time="14.900724" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Margaret">
@@ -3424,7 +3424,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate time="29.801451" align="false">
+                    <translate time="29.801449" align="false">
                         <point x="0.64422786" y="0" z="-13.730899"/>
                         <point x="-7.5496287" y="0" z="-11.487198"/>
                         <point x="-12.859784" y="0" z="-4.8557777"/>
@@ -3437,7 +3437,7 @@
                         <point x="8.5920115" y="0" z="-10.729861"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
-                    <rotate time="14.900725" x="0" y="1" z="0"/>
+                    <rotate time="14.900724" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Ferdinand">
@@ -3445,7 +3445,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate time="29.801451" align="false">
+                    <translate time="29.801449" align="false">
                         <point x="0.28072613" y="0" z="-14.007786"/>
                         <point x="-8.0064573" y="0" z="-11.497543"/>
                         <point x="-13.235446" y="0" z="-4.595633"/>
@@ -3458,7 +3458,7 @@
                         <point x="8.46068" y="0" z="-11.167531"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
-                    <rotate time="14.900725" x="0" y="1" z="0"/>
+                    <rotate time="14.900724" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Perdita">
@@ -3466,7 +3466,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate time="29.801451" align="false">
+                    <translate time="29.801449" align="false">
                         <point x="-0.83901274" y="0" z="-14.400404"/>
                         <point x="-9.1431217" y="0" z="-11.157012"/>
                         <point x="-13.954868" y="0" z="-3.6520207"/>
@@ -3479,7 +3479,7 @@
                         <point x="7.7855644" y="0" z="-12.143334"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
-                    <rotate time="14.900725" x="0" y="1" z="0"/>
+                    <rotate time="14.900724" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Mab">
@@ -3487,7 +3487,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate time="29.801451" align="false">
+                    <translate time="29.801449" align="false">
                         <point x="-12.969285" y="0" z="-5.3089709"/>
                         <point x="-13.612907" y="0" z="3.3281035"/>
                         <point x="-9.05686" y="0" z="10.69396"/>
@@ -3500,7 +3500,7 @@
                         <point x="-7.3718419" y="0" z="-11.9182"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
-                    <rotate time="14.900725" x="0" y="1" z="0"/>
+                    <rotate time="14.900724" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Cupid">
@@ -3508,7 +3508,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate time="29.801451" align="false">
+                    <translate time="29.801449" align="false">
                         <point x="-8.7707567" y="0" z="-11.121237"/>
                         <point x="-13.63259" y="0" z="-3.8419473"/>
                         <point x="-13.287238" y="0" z="4.9048314"/>
@@ -3521,7 +3521,7 @@
                         <point x="-0.55879474" y="0" z="-14.152591"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
-                    <rotate time="14.900725" x="0" y="1" z="0"/>
+                    <rotate time="14.900724" x="0" y="1" z="0"/>
                 </transform>
             </group>
         </group>
@@ -3556,7 +3556,7 @@
                     <model file="sphere_1_20_20.3d"/>
                 </models>
                 <transform>
-                    <translate time="31.735716" align="false">
+                    <translate time="31.735714" align="false">
                         <point x="-12.753262" y="0" z="-3.4564605"/>
                         <point x="-12.349263" y="0" z="4.699841"/>
                         <point x="-7.2282639" y="0" z="11.060967"/>
@@ -3569,7 +3569,7 @@
                         <point x="-8.2859535" y="0" z="-10.292511"/>
                     </translate>
                     <scale x="0.18045333" y="0.18045333" z="0.18045333"/>
-                    <rotate time="15.867858" x="0" y="1" z="0"/>
+                    <rotate time="15.867857" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Nereid">
@@ -3577,7 +3577,7 @@
                     <model file="sphere_1_20_20.3d"/>
                 </models>
                 <transform>
-                    <translate time="31.735716" align="false">
+                    <translate time="31.735714" align="false">
                         <point x="-9.2951908" y="0" z="-9.5238962"/>
                         <point x="-13.117973" y="0" z="-2.2414176"/>
                         <point x="-11.930136" y="0" z="5.897203"/>
@@ -3590,7 +3590,7 @@
                         <point x="-1.921957" y="0" z="-13.168571"/>
                     </translate>
                     <scale x="0.022666667" y="0.022666667" z="0.022666667"/>
-                    <rotate time="15.867858" x="0" y="1" z="0"/>
+                    <rotate time="15.867857" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Naiad">
@@ -3598,7 +3598,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate time="31.735716" align="false">
+                    <translate time="31.735714" align="false">
                         <point x="0.75106531" y="0" z="-14.050654"/>
                         <point x="-7.6511436" y="0" z="-11.808683"/>
                         <point x="-13.130874" y="0" z="-5.0561996"/>
@@ -3611,7 +3611,7 @@
                         <point x="8.8663902" y="0" z="-10.925755"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
-                    <rotate time="15.867858" x="0" y="1" z="0"/>
+                    <rotate time="15.867857" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Thalassa">
@@ -3619,7 +3619,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate time="31.735716" align="false">
+                    <translate time="31.735714" align="false">
                         <point x="0.27158484" y="0" z="-13.952161"/>
                         <point x="-7.9811578" y="0" z="-11.447169"/>
                         <point x="-13.185369" y="0" z="-4.5697503"/>
@@ -3632,7 +3632,7 @@
                         <point x="8.4205904" y="0" z="-11.127904"/>
                     </translate>
                     <scale x="0.0054666665" y="0.0054666665" z="0.0054666665"/>
-                    <rotate time="15.867858" x="0" y="1" z="0"/>
+                    <rotate time="15.867857" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Despina">
@@ -3640,7 +3640,7 @@
                     <model file="sphere_1_20_20.3d"/>
                 </models>
                 <transform>
-                    <translate time="31.735716" align="false">
+                    <translate time="31.735714" align="false">
                         <point x="-13.25354" y="0" z="2.9943061"/>
                         <point x="-8.9623327" y="0" z="10.212678"/>
                         <point x="-1.2478145" y="0" z="13.530157"/>
@@ -3653,7 +3653,7 @@
                         <point x="-12.48235" y="0" z="-5.3677864"/>
                     </translate>
                     <scale x="0.0099999998" y="0.0099999998" z="0.0099999998"/>
-                    <rotate time="15.867858" x="0" y="1" z="0"/>
+                    <rotate time="15.867857" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Galatea">
@@ -3661,7 +3661,7 @@
                     <model file="sphere_1_20_20.3d"/>
                 </models>
                 <transform>
-                    <translate time="31.735716" align="false">
+                    <translate time="31.735714" align="false">
                         <point x="10.760686" y="0" z="-8.5763006"/>
                         <point x="3.6645555" y="0" z="-13.263346"/>
                         <point x="-4.8313112" y="0" z="-12.884243"/>
@@ -3674,7 +3674,7 @@
                         <point x="13.746601" y="0" z="-0.61339837"/>
                     </translate>
                     <scale x="0.011733334" y="0.011733334" z="0.011733334"/>
-                    <rotate time="15.867858" x="0" y="1" z="0"/>
+                    <rotate time="15.867857" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Larissa">
@@ -3682,7 +3682,7 @@
                     <model file="sphere_1_20_20.3d"/>
                 </models>
                 <transform>
-                    <translate time="31.735716" align="false">
+                    <translate time="31.735714" align="false">
                         <point x="-10.376036" y="0" z="-9.6402121"/>
                         <point x="-14.060763" y="0" z="-1.7002178"/>
                         <point x="-12.374758" y="0" z="6.8892078"/>
@@ -3695,7 +3695,7 @@
                         <point x="-2.7280202" y="0" z="-13.897976"/>
                     </translate>
                     <scale x="0.012933333" y="0.012933333" z="0.012933333"/>
-                    <rotate time="15.867858" x="0" y="1" z="0"/>
+                    <rotate time="15.867857" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Proteus">
@@ -3703,7 +3703,7 @@
                     <model file="sphere_1_20_20.3d"/>
                 </models>
                 <transform>
-                    <translate time="31.735716" align="false">
+                    <translate time="31.735714" align="false">
                         <point x="9.5085325" y="0" z="-9.419158"/>
                         <point x="2.1561222" y="0" z="-13.209234"/>
                         <point x="-6.0198536" y="0" z="-11.953832"/>
@@ -3716,7 +3716,7 @@
                         <point x="13.229007" y="0" z="-2.0312793"/>
                     </translate>
                     <scale x="0.028000001" y="0.028000001" z="0.028000001"/>
-                    <rotate time="15.867858" x="0" y="1" z="0"/>
+                    <rotate time="15.867857" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Halimede">
@@ -3724,7 +3724,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate time="31.735716" align="false">
+                    <translate time="31.735714" align="false">
                         <point x="-13.327199" y="0" z="-0.56318855"/>
                         <point x="-11.112966" y="0" z="7.3778992"/>
                         <point x="-4.6539545" y="0" z="12.500885"/>
@@ -3737,7 +3737,7 @@
                         <point x="-10.4509" y="0" z="-8.289156"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
-                    <rotate time="15.867858" x="0" y="1" z="0"/>
+                    <rotate time="15.867857" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Psamathe">
@@ -3745,7 +3745,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate time="31.735716" align="false">
+                    <translate time="31.735714" align="false">
                         <point x="-9.1609507" y="0" z="-10.796275"/>
                         <point x="-13.757255" y="0" z="-3.3497012"/>
                         <point x="-13.098757" y="0" z="5.3763494"/>
@@ -3758,7 +3758,7 @@
                         <point x="-1.065479" y="0" z="-14.119041"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
-                    <rotate time="15.867858" x="0" y="1" z="0"/>
+                    <rotate time="15.867857" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Sao">
@@ -3766,7 +3766,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate time="31.735716" align="false">
+                    <translate time="31.735714" align="false">
                         <point x="11.604424" y="0" z="-6.3647881"/>
                         <point x="5.6470475" y="0" z="-11.970131"/>
                         <point x="-2.4673095" y="0" z="-13.00329"/>
@@ -3779,7 +3779,7 @@
                         <point x="13.129305" y="0" z="1.6716853"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
-                    <rotate time="15.867858" x="0" y="1" z="0"/>
+                    <rotate time="15.867857" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Laomedeia">
@@ -3787,7 +3787,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate time="31.735716" align="false">
+                    <translate time="31.735714" align="false">
                         <point x="-10.177529" y="0" z="-8.505002"/>
                         <point x="-13.232909" y="0" z="-0.89849287"/>
                         <point x="-11.233768" y="0" z="7.0512161"/>
@@ -3800,7 +3800,7 @@
                         <point x="-3.2346842" y="0" z="-12.862892"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
-                    <rotate time="15.867858" x="0" y="1" z="0"/>
+                    <rotate time="15.867857" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon Neso">
@@ -3808,7 +3808,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate time="31.735716" align="false">
+                    <translate time="31.735714" align="false">
                         <point x="-10.933972" y="0" z="7.6406579"/>
                         <point x="-4.3547058" y="0" z="12.608249"/>
                         <point x="3.8879147" y="0" z="12.759919"/>
@@ -3821,7 +3821,7 @@
                         <point x="-13.336835" y="0" z="-0.24540645"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
-                    <rotate time="15.867858" x="0" y="1" z="0"/>
+                    <rotate time="15.867857" x="0" y="1" z="0"/>
                 </transform>
             </group>
             <group name="Moon S/2004 N1">
@@ -3829,7 +3829,7 @@
                     <model file="sphere_1_10_10.3d"/>
                 </models>
                 <transform>
-                    <translate time="31.735716" align="false">
+                    <translate time="31.735714" align="false">
                         <point x="-8.0465117" y="0" z="-11.544207"/>
                         <point x="-13.29528" y="0" z="-4.6098385"/>
                         <point x="-13.465703" y="0" z="4.0853286"/>
@@ -3842,7 +3842,7 @@
                         <point x="0.27574748" y="0" z="-14.06908"/>
                     </translate>
                     <scale x="0.0049999999" y="0.0049999999" z="0.0049999999"/>
-                    <rotate time="15.867858" x="0" y="1" z="0"/>
+                    <rotate time="15.867857" x="0" y="1" z="0"/>
                 </transform>
             </group>
         </group>

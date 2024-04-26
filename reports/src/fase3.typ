@@ -46,7 +46,7 @@ void Engine::Run()
 
 Desta forma, foi adicionado uma aba no _ImGui_ @imgui que permite fazer a gestão do tempo. A aba de simulação tem um _slider_ que permite controlar a velocidade do tempo e um _checkbox_ que permite pausar o tempo.
 
-#text(fill:red)[IMAGEM DO IMGUI DA ABA DE SIMULAÇÃO]
+#figure(image("fase3/simulation imgui.png"), caption: [Aba de Simulação no _ImGui_])
 
 = Novas transformações
 
@@ -66,9 +66,9 @@ Sendo que $Delta t$ é o tempo que demora a completar uma rotação completa, $t
 
 === Integração no ImGui
 
-De regra geral deste projeto, esta transformação também foi adicionada no _ImGui_, onde é possível controlar o tempo que demora a completar uma rotação completa e o eixo de rotação.
+Como regra geral deste projeto, esta transformação também foi adicionada no _ImGui_, onde é possível controlar o tempo que demora a completar uma rotação completa e o seu eixo de rotação.
 
-#text(fill:red)[IMAGEM DO IMGUI DA ABA DE ROTAÇÃO TEMPORAL]
+#figure(image("fase3/temporal rotation imgui.png"), caption: [Rotação temporal no _ImGui_])
 
 == Translação temporal (Catmull Rom)
 
@@ -118,15 +118,21 @@ A transposta da matriz resultado é enviada para o _OpenGL_ @opengl, usando o `g
 
 Para facilitar a visualização do comportamento da translação temporal, também foi adicionado a renderização do caminho da curva de Catmull Rom. Este caminho é calculado a partir das fórmulas anteriores.
 
-#text(fill:red)[IMAGEM DO CAMINHO DA CURVA DE CATMULL ROM]
+#figure(image("fase3/catmull rom path.png", width: 100%), caption: [Caminho da curva de Catmull Rom])
 
 O caminho é formado por pontos #footnote[Para já são 100 pontos, um valor não configurável.] ligados entre si, espaçados uniformemente ao longo da curva. Estes pontos são enviados para o _OpenGL_ e são renderizados como `GL_LINE_LOOP`. A forma de como são enviados para o _OpenGL_ será explicada num #link(<path_vbo>)[capítulo posterior].
 
 === Integração no ImGui
 
-É possível adicionar e remover pontos na execução do programa.
+Esta transformação também é completamente editável em tempo real no _ImGui_.
 
-#text(fill:red)[MOSTRAR ADICIONAR PONTO, REMOVER PONTO, ALTERAR PONTO, MENOS QUE 4 PONTOS = ERRO, MOSTRAR CAMINHO LIGADO LOCALMENTE E GLOBALMENTE]
+#figure(image("fase3/catmull rom imgui.png"), caption: [Transformação temporal no _ImGui_])
+
+Como se pode ver, é possível adicionar pontos, remover pontos, esconder/mostrar o caminho para cada transformação individualmente (também é possível esconder globalmente), trocar entre alinhar e não alinhar o modelo ao caminho e alterar o tempo do trajeto completo.
+
+Caso a transformação tenha menos de 4 pontos de controlo, uma mensagem de aviso é mostrada ao utilizador que a transformação não tem efeito até adicionar pelo menos 4 pontos necessários.
+
+#figure(image("fase3/catmull rom imgui error.png"), caption: [Transformação temporal no _ImGui_ com menos de 4 pontos de controlo])
 
 = _VBOs_ com Índices
 
@@ -264,21 +270,30 @@ Com isto, cada transformação destas tem o seu _buffer_ na GPU para onde são e
 
 No _ImGui_, a visualização de modelos também foi alterada para acomodar o novo formato. Agora uma tabela de vértices e uma tabela de triângulos (índices agrupados de 3 em 3) são mostrados, tal como o número total de vértices, índices e triângulos do modelo. 
 
-#text(fill:red)[INSERIR PRINT DO IMGUI DOS MODELOS]
+#figure(image("fase3/model view imgui.png", width: 70%), caption: [Tabela de vértices e triângulos do modelo no _ImGui_])
 
 == Diferenças de performance (_Benchmarks_)
 
-Para comparar diferenças da implementação de renderização imediata em comparação com a renderização com _VBOs_ com índices, foi escolhido o sistema solar da fase anterior. Para referência esta cena tem X triângulos com X índices.
+Para comparar diferenças da implementação de renderização imediata em comparação com a renderização com _VBOs_ com índices, foi escolhido o sistema solar da fase anterior. Para referência esta cena tem 149940 triângulos de 181 modelos e foi renderizada numa resolução de 2560$times$1369.
 
 Não foi possível escolher uma cena mais recente, visto que os modelos sofreram alterações nos índices, pelo que, por exemplo, não temos desenvolvido geração de modelos sem índices para _patches_ de _Bezier_.
 
-#table(columns: 3, align: center + horizon, 
-  [Sistema solar], [_Frametime_ (ms)], [FPS],
-  [Sem _VBOs_], [], [],
-  [Com _VBOs_ com índices], [], []
-)
+#figure(grid(columns: 2, column-gutter: 1em, align: center + horizon,
+  table(columns: 2, align: center + horizon, 
+    [Sistema solar], [Performance],
+    [Sem _VBOs_], [1.254 ms/frame $<->$ 797.6 FPS],
+    [Com _VBOs_ com índices], [0.314ms/frame $<->$ 2930.2 FPS]
+  ),
 
-#text(fill:red)[COMPLETAR BENCHMARK]
+  table(columns: 2, align: center + horizon,
+    table.cell(colspan: 2)[Ambiente de testes],
+    [GPU], [RTX 2060 SUPER],
+    [CPU], [Ryzen 7700x],
+    [RAM], [DDR5 6000MHz]
+  )
+), caption: [Resultados do _Benckmark_])
+
+Acreditamos que a diferença seria ainda maior caso fosse usado a cena do sistema solar desta fase, que tem 432 modelos com um total de 218400 triângulos, cuja performance no mesmo ambiente ronda os 1900FPS.
 
 = _Bezier Patches_
 
@@ -403,8 +418,6 @@ O processo de indexação de vértices passa essencialmente no mesmo que a gera�
 
 = Sistema Solar com rotações temporais e asteroides
 
-#text(fill: red)[ADICIONADO PARAMETRO DE NOME NOS GRUPOS]
-
 Agora que temos a capacidade de gerar modelos a partir de _Bezier Patches_, de renderizar grandes quantidades de vértices devido à implementação de _VBOs_ com índices e de aplicar transformações temporais, podemos finalmente dar vida ao sistema solar.
 
 == Adição do tempo
@@ -425,9 +438,9 @@ $
 Delta r_"visual" = 5log_2(Delta  r_"real")
 $
 
-Com $Delta r_"visual"$ o tempo de rotação visual, $Delta r_"real"$ o tempo de rotação real e $log_2$ o logaritmo #footnote[Caso $Delta  r_"real"$ for negativo, i.e. o planeta roda no sentido contrário, $Delta r_"visual"$ será negativo.] na base 2.
+Sendo $Delta r_"visual"$ o tempo de rotação visual, $Delta r_"real"$ o tempo de rotação real e $log_2$ o logaritmo #footnote[Caso $Delta  r_"real"$ for negativo, i.e. o planeta roda no sentido contrário, $Delta r_"visual"$ será negativo.] na base 2.
 
-Esta função tem a propriedade logaritmica que ajuda a que os planetas que rodam exponecialmente mais devagar (por exemplo Venus com um dia a durar 5832 horas) tenham a sua rotação igualmente visível, apesar de mais lenta.
+Esta função tem a propriedade logaritmica que ajuda a que os planetas que rodam exponecialmente mais devagar (por exemplo Venus com um dia a durar 5832 horas) tenham a sua rotação minimamente visível, apesar de mais lenta.
 
 Por fim, é adicionada a transformação de rotação temporal no eixo $(0,1,0)$.
 
@@ -441,19 +454,30 @@ Esta rotação é estática e feita no eixo $(1,0,0)$.
 
 A translação dos planetas em torno do sol é o efeito que mais se destaca no sistema solar. Para tal, é aplicada uma translação temporal com o tempo de translação do planeta, usando a mesma fórmula de mapeamento de tempo que a rotação.
 
+$
+Delta t_"visual" = 5log_2(Delta  t_"real")
+$
+
+
 Como a translação necessita de pontos de controlo, estes são calculados a partir de uma circunferencia com o raio da distância do planeta ao sol. A partir daí, são retirados pontos de controlo igualmente espaçados ao longo da circunferência. Para já o número de pontos está fixo a 10, que já dá uma translação que parece ter a trajetória de uma circunferência.
 
 Esta translação podia ser feita através de uma rotação temporal, mas a translação faz com que seja possível que o planeta tenha caminhos de translação mais complexos, como por exemplo, translações elipticas, que pretendemos implementar na próxima fase.
 
 === Transformações nos satelites
 
-Os satélites do sistema solar também têm translações em torno dos seus planetas. Estas são feitas de forma análoga às dos planetas, mas com tempos diferentes. Como o _dataset_ não tem informação sobre esse tempo, esse foi gerado a partir do tempo de translação do planeta: 
+Os satélites do sistema solar também têm translações e rotações em torno dos seus planetas. Estas são feitas de forma análoga às dos planetas, mas com tempos diferentes. Como o _dataset_ não tem informação sobre esses tempos, estes foram gerados a partir do tempo de translação do planeta: 
 
 $
-Delta t_"satelite" = (2 Delta t_"planeta") / 5
+Delta t_"satelite" = (2 Delta t_"visual") / 5
 $
 
-#text(fill:red)[FAZER ROTACAO DOS SATELITES]
+$
+Delta r_"satelite" = (Delta t_"visual") / 5
+$
+
+Sendo $Delta t_"satelite"$ o tempo de translação à volta do planeta do satélite, $Delta t_"visual"$ o tempo da translação do planeta à volta do Sol e $Delta r_"satelite"$ o tempo de rotação do satélite.
+
+Com estes parâmetros conseguimos fazer com que os satélites tenham movimento visualmente apelativo em relação aos planetas.
 
 == Cintura de Asteroides
 
@@ -465,13 +489,13 @@ Para dar uso à performance adquirida com a implementação de _VBOs_ com índic
 
 Estes _teapots_ são gerados com uma tesselação mínima de 1 para que a renderização seja rápida. Visualmente não se nota a diferença visto que os asteroides são pequenos em relação aos tamanhos dos planetas.
 
-#text[INSERIR IMAGEM DO SISTEMA SOLAR COM OS ASTEROIDES]
+#figure(image("fase3/asteroid ring.png"), caption: [Cintura de asteroides])
+
+#figure(image("fase3/asteroid ring with path.png"), caption: [Cintura de asteroides com trajetória de transformações temporais])
 
 == Cometa
 
-Como requisito deste enunciado, também foi adicionado um cometa que percorre uma trajetória eliptica entre o Sol e perto da trajetória de Jupiter. Os pontos da translação do cometa foram calculados de forma semelhante aos planetas, com também 10 pontos de controlo, mas esses pontos foram calculados de forma a que o cometa tenha uma trajetória elíptica usando as fórmulas de uma elipse.
-
- VALIDAR
+Como requisito deste enunciado, também foi adicionado um cometa que percorre uma trajetória eliptica entre perto de Marte e perto da trajetória de Urano. Os pontos da translação do cometa foram calculados de forma semelhante aos planetas, com também 10 pontos de controlo, mas esses pontos foram calculados de forma a que o cometa tenha uma trajetória elíptica usando as fórmulas de uma elipse. Numa próxima fase pretendemos expandir as trajetórias elipticas para os planetas também.
 
 Este cometa tem como modelo também um _teapot_ mas com mais tesselação, 5, já que o seu tamanho é maior.
 
@@ -481,19 +505,56 @@ O grupo do cometa tem então como transformações:
 - Rotação de $-pi/2$ no eixo $(1,0,0)$ para o _teapot_ ficar perpendicular ao plano da elipse
 - Rotação temporal de 20 segundos no eixo $(1,0,0)$ para dar o efeito de rotação ligeira do cometa em torno de si mesmo.
 
+#figure(image("fase3/comet.png", width: 75%), caption: [Cometa _teapot_])
+
+#figure(image("fase3/comet top down view.png", width: 75%), caption: [Cometa _teapot_ com vista de cima])
+
 == Nomes dos corpos celestes
 
 Para facilitar a identificação dos corpos celestes, foi adicionado um parâmetro de nome nos grupos. Este parâmetro é opcional.
 
-#text(fill:red)[INSERIR IMAGEM DO SISTEMA SOLAR COM NOMES]
+#align(center,
+```xml
+<group name="Planet Earth">
+    ...
+</group>
+```)
+
+#figure(image("fase3/group name imgui.png", width: 65%), caption: [Nomes de grupos no _ImGui_])
 
 == Estrutura final do sistema solar
 
-- Sol
-  - Scale...
-  - Rotation...
+Com isto o novo sistema solar pode ser gerado e ele tem a seguinte estrutura:
 
-#text(fill:red)[INSERIR IMAGEM DO SISTEMA SOLAR FINAL]
+- Grupo Principal
+  - Sol
+    - Escala (para o seu tamanho)
+    - Rotação (para a sua inclinação)
+    - Rotação temporal (para a rotação em torno do seu eixo)
+  - Grupo Planetário 1
+    - Translação temporal (para o movimento de translação no sistema solar)
+    - Rotação (para a sua inclinação)
+    - Grupo do Planeta
+      - Escala (para o seu tamanho)
+      - Rotação temporal (para a rotação em torno do seu eixo)
+    - Grupo do Satélite 1
+      - Translação temporal (para o movimento de translação em torno do planeta)
+      - Escala (para o seu tamanho)
+      - Rotação temporal (para a rotação em torno do seu eixo)
+  - Grupo de Asteróides
+    - Asteróide 1
+      - Translação temporal (para o movimento em torno da cintura)
+      - Rotação de 90º no eixo $x$ (para alinhar o _teapot_ horizontalmente)
+      - Escala (para o tamanho de um asteróide)
+  - Grupo do Cometa
+    - Translação (para deslocamento fora do centro)
+    - Translação temporal (para seguir o seu trajeto)
+    - Rotação (para alinhar o _teapot_ horizontalmente)
+    - Rotação temporal (para rotação em torno de si mesmo)
+
+#figure(image("fase3/solar system with paths.png"), caption: [Sistema solar com trajetória de transformações temporais])
+
+#figure(image("fase3/solar system.png"), caption: [Sistema solar final da terceira fase])
 
 #heading(numbering: none)[Conclusão]
 
