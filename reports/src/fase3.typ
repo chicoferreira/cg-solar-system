@@ -405,11 +405,95 @@ O processo de indexação de vértices passa essencialmente no mesmo que a gera�
 
 #text(fill: red)[ADICIONADO PARAMETRO DE NOME NOS GRUPOS]
 
-== Adição do tempo 
+Agora que temos a capacidade de gerar modelos a partir de _Bezier Patches_, de renderizar grandes quantidades de vértices devido à implementação de _VBOs_ com índices e de aplicar transformações temporais, podemos finalmente dar vida ao sistema solar.
 
-== Asteroides
+== Adição do tempo
+
+Pelo _dataset_ dos planetas e satelites do sistema solar usado na fase anterior, já temos a informação necessária para tempos de rotações e translações de todos os corpos celestes.
+
+Agora, com a capacidade de simular o tempo, podemos aplicar rotações e translações de forma a que os corpos celestes se movam e rodem de acordo com o tempo.
+
+=== Rotação dos planetas
+
+Para simular a rotação do planeta em torno do seu eixo, basta aplicar uma transformação de rotação temporal com o tempo de rotação do planeta.
+
+Este tempo tem que ser convertido para um tempo que seja visualmente agradavel, visto que o tempo de rotação real de um planeta é muito grande.
+
+A função que foi usada para mapear o tempo real para o tempo visual foi a seguinte:
+
+$
+Delta r_"visual" = 5log_2(Delta  r_"real")
+$
+
+Com $Delta r_"visual"$ o tempo de rotação visual, $Delta r_"real"$ o tempo de rotação real e $log_2$ o logaritmo #footnote[Caso $Delta  r_"real"$ for negativo, i.e. o planeta roda no sentido contrário, $Delta r_"visual"$ será negativo.] na base 2.
+
+Esta função tem a propriedade logaritmica que ajuda a que os planetas que rodam exponecialmente mais devagar (por exemplo Venus com um dia a durar 5832 horas) tenham a sua rotação igualmente visível, apesar de mais lenta.
+
+Por fim, é adicionada a transformação de rotação temporal no eixo $(0,1,0)$.
+
+=== Ângulo de inclinação de planetas
+
+De forma a ainda tornar mais real a apresentação, os planetas também são rodados ligeiramente de acordo com o seu ângulo de inclinação que também consta no _dataset_.
+
+Esta rotação é estática e feita no eixo $(1,0,0)$.
+
+=== Translação dos planetas em torno do sol
+
+A translação dos planetas em torno do sol é o efeito que mais se destaca no sistema solar. Para tal, é aplicada uma translação temporal com o tempo de translação do planeta, usando a mesma fórmula de mapeamento de tempo que a rotação.
+
+Como a translação necessita de pontos de controlo, estes são calculados a partir de uma circunferencia com o raio da distância do planeta ao sol. A partir daí, são retirados pontos de controlo igualmente espaçados ao longo da circunferência. Para já o número de pontos está fixo a 10, que já dá uma translação que parece ter a trajetória de uma circunferência.
+
+Esta translação podia ser feita através de uma rotação temporal, mas a translação faz com que seja possível que o planeta tenha caminhos de translação mais complexos, como por exemplo, translações elipticas, que pretendemos implementar na próxima fase.
+
+=== Transformações nos satelites
+
+Os satélites do sistema solar também têm translações em torno dos seus planetas. Estas são feitas de forma análoga às dos planetas, mas com tempos diferentes. Como o _dataset_ não tem informação sobre esse tempo, esse foi gerado a partir do tempo de translação do planeta: 
+
+$
+Delta t_"satelite" = (2 Delta t_"planeta") / 5
+$
+
+#text(fill:red)[FAZER ROTACAO DOS SATELITES]
+
+== Cintura de Asteroides
+
+Baseado na cintura de asteroides do sistema solar, foi adicionado um grupo de asteroides que se movem em torno do sol. Estes asteroides têm translações elípticas, que são feitas a partir de uma translação temporal similarmente à dos planetas.
+
+Cada asteroide tem a sua própria translação, com um tempo aleatório entre 30 e 35 segundos e uma posição aleatória na cintura. Esta posição pode variar em todos os eixos.
+
+Para dar uso à performance adquirida com a implementação de _VBOs_ com índices, os asteroides são gerados a partir do patch do _teapot_. Ou seja, um _teapot_ é um asteroide. O número de asteroides é configurável na geração do sistema solar, mas como versão final desta fase, o número de asteroides é de 100. Isto é, 100 _teapots_ a moverem-se em torno do sol, uma cintura de _teapots_ portanto.
+
+Estes _teapots_ são gerados com uma tesselação mínima de 1 para que a renderização seja rápida. Visualmente não se nota a diferença visto que os asteroides são pequenos em relação aos tamanhos dos planetas.
+
+#text[INSERIR IMAGEM DO SISTEMA SOLAR COM OS ASTEROIDES]
 
 == Cometa
+
+Como requisito deste enunciado, também foi adicionado um cometa que percorre uma trajetória eliptica entre o Sol e perto da trajetória de Jupiter. Os pontos da translação do cometa foram calculados de forma semelhante aos planetas, com também 10 pontos de controlo, mas esses pontos foram calculados de forma a que o cometa tenha uma trajetória elíptica usando as fórmulas de uma elipse.
+
+ VALIDAR
+
+Este cometa tem como modelo também um _teapot_ mas com mais tesselação, 5, já que o seu tamanho é maior.
+
+O grupo do cometa tem então como transformações:
+- Translação no eixo $x$ para ficar descentralizado com o sistema solar
+- Translação temporal com a trajetória elíptica
+- Rotação de $-pi/2$ no eixo $(1,0,0)$ para o _teapot_ ficar perpendicular ao plano da elipse
+- Rotação temporal de 20 segundos no eixo $(1,0,0)$ para dar o efeito de rotação ligeira do cometa em torno de si mesmo.
+
+== Nomes dos corpos celestes
+
+Para facilitar a identificação dos corpos celestes, foi adicionado um parâmetro de nome nos grupos. Este parâmetro é opcional.
+
+#text(fill:red)[INSERIR IMAGEM DO SISTEMA SOLAR COM NOMES]
+
+== Estrutura final do sistema solar
+
+- Sol
+  - Scale...
+  - Rotation...
+
+#text(fill:red)[INSERIR IMAGEM DO SISTEMA SOLAR FINAL]
 
 #heading(numbering: none)[Conclusão]
 
