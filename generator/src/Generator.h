@@ -10,6 +10,7 @@ namespace generator
     struct GeneratorResult
     {
         std::vector<Vec3f> vertex;
+        std::vector<Vec3f> normals;
         std::vector<uint32_t> indexes;
     };
 

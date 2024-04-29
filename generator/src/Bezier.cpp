@@ -83,6 +83,7 @@ namespace generator::bezier
     generator::GeneratorResult GenerateBezierSurface(const Surface &surface, const size_t tesselation_level)
     {
         std::vector<Vec3f> vertex;
+        std::vector<Vec3f> normals;
         std::vector<uint32_t> indexes;
 
         uint32_t start = 0;
@@ -97,6 +98,7 @@ namespace generator::bezier
 
             const auto result = GenerateBezierPatch(patch_vertex, tesselation_level);
             vertex.insert(vertex.end(), result.begin(), result.end());
+            // TODO: Calculate normals
 
             for (int z = 0; z < tesselation_level; ++z)
             {
@@ -115,6 +117,6 @@ namespace generator::bezier
             start += (tesselation_level + 1) * (tesselation_level + 1);
         }
 
-        return {vertex, indexes};
+        return {vertex, normals, indexes};
     }
 } // namespace generator::bezier
