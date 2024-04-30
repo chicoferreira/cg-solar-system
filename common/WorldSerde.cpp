@@ -28,6 +28,17 @@ namespace world::serde
     LOAD_ATTRIBUTE(element, "y", vec.y, return_value);                                                                 \
     LOAD_ATTRIBUTE(element, "z", vec.z, return_value);
 
+#define LOAD_COLOR(material_element, material_field, color)                                                            \
+    if (const auto element = material_element->FirstChildElement(material_field))                                      \
+    {                                                                                                                  \
+        element->QueryFloatAttribute("R", &color.r);                                                                   \
+        element->QueryFloatAttribute("G", &color.g);                                                                   \
+        element->QueryFloatAttribute("B", &color.b);                                                                   \
+        color.r /= 255;                                                                                                \
+        color.g /= 255;                                                                                                \
+        color.b /= 255;                                                                                                \
+    }
+
     std::optional<WorldGroup>
     LoadWorldGroupFromXml(World &world, const tinyxml2::XMLElement *group_element, bool *success)
     {
@@ -45,8 +56,19 @@ namespace world::serde
                 const auto model_file_path = model_element->Attribute("file");
                 EARLY_RETURN_R(!model_file_path, "World XML model is missing the file attribute.", std::nullopt)
 
+                ModelMaterial material;
+
+                if (const auto color_element = model_element->FirstChildElement("color"))
+                {
+                    LOAD_COLOR(color_element, "diffuse", material.diffuse)
+                    LOAD_COLOR(color_element, "ambient", material.ambient)
+                    LOAD_COLOR(color_element, "specular", material.specular)
+                    LOAD_COLOR(color_element, "emmisive", material.emmisive)
+                    if (const auto shininess = color_element->FirstChildElement("shininess"))
+                        color_element->QueryFloatAttribute("value", &material.shininess);
+                }
                 size_t model_index = world.AddModelName(model_file_path);
-                group.models.push_back({model_index, {}});
+                group.models.push_back({model_index, material});
             }
         }
 
@@ -233,6 +255,7 @@ namespace world::serde
         {
             tinyxml2::XMLElement *model_element = doc.NewElement("model");
             model_element->SetAttribute("file", world.GetModelNames()[group_model.model_index].c_str());
+
             models_element->InsertEndChild(model_element);
         }
 

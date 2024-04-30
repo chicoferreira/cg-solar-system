@@ -96,7 +96,7 @@ namespace engine
             8, // mssa_samples
             true, // mssa
             true, // vsync
-            true, // wireframe
+            false, // wireframe
             true, // render_axis
             true, // cull_faces
             true, // render_transform_through_points_path

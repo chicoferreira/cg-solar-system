@@ -241,11 +241,10 @@ namespace engine
 
     void Engine::renderModel(world::GroupModel model, size_t index_count)
     {
-        glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, &model.material.ambient.x);
-        glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, &model.material.ambient.x);
-        glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, &model.material.diffuse.x);
-        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, &model.material.specular.x);
-        glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, &model.material.emmisive.x);
+        glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, &model.material.ambient.r);
+        glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, &model.material.diffuse.r);
+        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, &model.material.specular.r);
+        glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, &model.material.emmisive.r);
         glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, model.material.shininess);
 
         glBindBuffer(GL_ARRAY_BUFFER, m_models_normal_buffers[model.model_index]);
@@ -324,10 +323,12 @@ namespace engine
             translation.render_path_dirty = false;
         }
 
-        glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, (float[]){1.0f, 1.0f, 0.0f});
+        glEnable(GL_COLOR_MATERIAL);
+        glColor3f(1.0f, 1.0f, 0.0f);
         glBindBuffer(GL_ARRAY_BUFFER, translation.render_path_gpu_buffer);
         glVertexPointer(3, GL_FLOAT, 0, 0);
         glDrawArrays(GL_LINE_LOOP, 0, 100);
+        glDisable(GL_COLOR_MATERIAL);
     }
 
     void Engine::Render()
@@ -614,10 +615,10 @@ namespace engine
                     auto model_index = group_model.model_index;
                     ImGui::Text("Model #%lu (%s)", model_index, m_models[model_index].GetName().c_str());
 
-                    ImGui::ColorEdit4("Diffuse", &group_model.material.diffuse.x);
-                    ImGui::ColorEdit4("Ambient", &group_model.material.ambient.x);
-                    ImGui::ColorEdit4("Specular", &group_model.material.specular.x);
-                    ImGui::ColorEdit4("Emmisive", &group_model.material.emmisive.x);
+                    ImGui::ColorEdit4("Diffuse", &group_model.material.diffuse.r);
+                    ImGui::ColorEdit4("Ambient", &group_model.material.ambient.r);
+                    ImGui::ColorEdit4("Specular", &group_model.material.specular.r);
+                    ImGui::ColorEdit4("Emmisive", &group_model.material.emmisive.r);
                     ImGui::DragFloat("Shininess", &group_model.material.shininess, 0.005f, 0.0f, 1.0f);
                 }
                 ImGui::TreePop();

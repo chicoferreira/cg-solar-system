@@ -166,10 +166,10 @@ namespace world
 
     struct ModelMaterial
     {
-        Vec4f diffuse = {1.0f, 1.0f, 1.0f, 1.0f};
-        Vec4f ambient = {1.0f, 1.0f, 1.0f, 1.0f};
-        Vec4f specular = {0.0f, 0.0f, 0.0f, 1.0f};
-        Vec4f emmisive = {0.0f, 0.0f, 0.0f, 1.0f};
+        Color diffuse = {1.0f, 1.0f, 1.0f, 1.0f};
+        Color ambient = {1.0f, 1.0f, 1.0f, 1.0f};
+        Color specular = {0.0f, 0.0f, 0.0f, 1.0f};
+        Color emmisive = {0.0f, 0.0f, 0.0f, 1.0f};
         float shininess = 0.0f;
     };
 
