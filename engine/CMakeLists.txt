@@ -14,6 +14,7 @@ add_executable(cg-solar-system src/main.cpp
         ../common/Utils.h
         ../common/Utils.cpp
         src/Input.h
+        ../common/Color.h
 )
 
 find_package(OpenGL REQUIRED)

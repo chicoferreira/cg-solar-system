@@ -1,10 +1,11 @@
 #ifndef MODEL_H
 #define MODEL_H
+#include <cstdint>
 #include <istream>
 #include <optional>
 #include <vector>
-#include <cstdint>
 
+#include "Color.h"
 #include "Vec.h"
 
 namespace engine::model
@@ -21,6 +22,7 @@ namespace engine::model
     {
         std::string m_name;
         std::vector<Vec3f> m_vertex;
+        std::vector<Vec3f> m_normals;
         std::vector<uint32_t> m_indexes;
 
     public:
@@ -33,6 +35,7 @@ namespace engine::model
 
         const std::string &GetName() const { return m_name; }
         std::vector<Vec3f> &GetVertex() { return m_vertex; }
+        std::vector<Vec3f> &GetNormals() { return m_normals; }
         std::vector<uint32_t> &GetIndexes() { return m_indexes; }
 
         void LoadFromObjStream(std::istream &file);

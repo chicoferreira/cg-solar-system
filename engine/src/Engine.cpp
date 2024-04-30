@@ -50,7 +50,8 @@ namespace engine
         return true;
     }
 
-    void createModelBuffers(model::Model &model, uint32_t &vertex_buffer, uint32_t &index_buffer)
+    void
+    createModelBuffers(model::Model &model, uint32_t &vertex_buffer, uint32_t &normal_buffer, uint32_t &index_buffer)
     {
         glGenBuffers(1, &vertex_buffer);
         glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer);
@@ -66,19 +67,27 @@ namespace engine
             model.GetIndexes().data(),
             GL_STATIC_DRAW
         );
+
+        glGenBuffers(1, &normal_buffer);
+        glBindBuffer(GL_ARRAY_BUFFER, normal_buffer);
+        glBufferData(
+            GL_ARRAY_BUFFER, model.GetNormals().size() * sizeof(Vec3f), model.GetNormals().data(), GL_STATIC_DRAW
+        );
     }
 
     void Engine::uploadModelsToGPU()
     {
         m_models_vertex_buffers.resize(m_models.size());
+        m_models_normal_buffers.resize(m_models.size());
         m_models_index_buffers.resize(m_models.size());
 
         for (int i = 0; i < m_models.size(); ++i)
         {
-            uint32_t vertex_buffer, index_buffer;
-            createModelBuffers(m_models[i], vertex_buffer, index_buffer);
+            uint32_t vertex_buffer, normal_buffer, index_buffer;
+            createModelBuffers(m_models[i], vertex_buffer, normal_buffer, index_buffer);
 
             m_models_vertex_buffers[i] = vertex_buffer;
+            m_models_normal_buffers[i] = normal_buffer;
             m_models_index_buffers[i] = index_buffer;
         }
     }
@@ -88,6 +97,7 @@ namespace engine
         for (int i = 0; i < m_models.size(); ++i)
         {
             glDeleteBuffers(1, &m_models_vertex_buffers[i]);
+            glDeleteBuffers(1, &m_models_normal_buffers[i]);
             glDeleteBuffers(1, &m_models_index_buffers[i]);
         }
     }
@@ -156,6 +166,10 @@ namespace engine
         SetMssa(m_settings.mssa);
 
         glEnable(GL_DEPTH_TEST);
+        glEnable(GL_LIGHTING);
+        glEnable(GL_LIGHT0);
+        // Rescale normals when scaling the model
+        glEnable(GL_RESCALE_NORMAL);
         SetCullFaces(m_settings.cull_faces);
 
 #ifndef NDEBUG
@@ -171,6 +185,12 @@ namespace engine
             return false;
 
         glEnableClientState(GL_VERTEX_ARRAY);
+        glEnableClientState(GL_NORMAL_ARRAY);
+
+        // To allow for ambient colors to be reproduced without having to activate the ambient component for all lights,
+        // the following code should be added to the initialization:
+        float amb[4] = {1.0f, 1.0f, 1.0f, 1.0f};
+        glLightModelfv(GL_LIGHT_MODEL_AMBIENT, amb);
 
         uploadModelsToGPU();
 
@@ -181,6 +201,7 @@ namespace engine
 
     void renderAxis()
     {
+        glEnable(GL_COLOR_MATERIAL);
         glBegin(GL_LINES);
         glColor3f(1.0, 0.0, 0.0);
         glVertex3f(-1000.0, 0.0, 0.0);
@@ -196,6 +217,7 @@ namespace engine
 
         glColor3f(1.0, 1.0, 1.0);
         glEnd();
+        glDisable(GL_COLOR_MATERIAL);
     }
 
     void renderCamera(const world::Camera &camera, const world::Window &window)
@@ -217,11 +239,22 @@ namespace engine
         );
     }
 
-    void Engine::renderModel(uint32_t model_index, size_t index_count)
+    void Engine::renderModel(world::GroupModel model, size_t index_count)
     {
-        glBindBuffer(GL_ARRAY_BUFFER, m_models_vertex_buffers[model_index]);
+        glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, &model.material.ambient.x);
+        glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, &model.material.ambient.x);
+        glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, &model.material.diffuse.x);
+        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, &model.material.specular.x);
+        glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, &model.material.emmisive.x);
+        glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, model.material.shininess);
+
+        glBindBuffer(GL_ARRAY_BUFFER, m_models_normal_buffers[model.model_index]);
+        glNormalPointer(GL_FLOAT, 0, 0);
+
+        glBindBuffer(GL_ARRAY_BUFFER, m_models_vertex_buffers[model.model_index]);
         glVertexPointer(3, GL_FLOAT, 0, 0);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_models_index_buffers[model_index]);
+
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_models_index_buffers[model.model_index]);
         glDrawElements(GL_TRIANGLES, index_count, GL_UNSIGNED_INT, 0);
     }
 
@@ -231,11 +264,11 @@ namespace engine
 
         renderTransformations(group.transformations, m_simulation_time.m_current_time);
 
-        for (auto &model_index : group.models)
+        for (auto &group_model : group.models)
         {
-            auto &model = m_models[model_index];
+            auto &model = m_models[group_model.model_index];
             auto model_index_size = model.GetIndexes().size();
-            renderModel(model_index, model_index_size);
+            renderModel(group_model, model_index_size);
 
             m_current_rendered_models_size += 1;
             m_current_rendered_triangles_size += model_index_size;
@@ -291,11 +324,10 @@ namespace engine
             translation.render_path_dirty = false;
         }
 
-        glColor3f(1.0f, 1.0f, 0.0f);
+        glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, (float[]){1.0f, 1.0f, 0.0f});
         glBindBuffer(GL_ARRAY_BUFFER, translation.render_path_gpu_buffer);
         glVertexPointer(3, GL_FLOAT, 0, 0);
         glDrawArrays(GL_LINE_LOOP, 0, 100);
-        glColor3f(1.0f, 1.0f, 1.0f);
     }
 
     void Engine::Render()
@@ -578,8 +610,15 @@ namespace engine
             {
                 for (int i = 0; i < model_indexes.size(); ++i)
                 {
-                    size_t &model_index = model_indexes[i];
+                    world::GroupModel &group_model = model_indexes[i];
+                    auto model_index = group_model.model_index;
                     ImGui::Text("Model #%lu (%s)", model_index, m_models[model_index].GetName().c_str());
+
+                    ImGui::ColorEdit4("Diffuse", &group_model.material.diffuse.x);
+                    ImGui::ColorEdit4("Ambient", &group_model.material.ambient.x);
+                    ImGui::ColorEdit4("Specular", &group_model.material.specular.x);
+                    ImGui::ColorEdit4("Emmisive", &group_model.material.emmisive.x);
+                    ImGui::DragFloat("Shininess", &group_model.material.shininess, 0.005f, 0.0f, 1.0f);
                 }
                 ImGui::TreePop();
             }

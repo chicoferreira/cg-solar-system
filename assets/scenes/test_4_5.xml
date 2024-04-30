@@ -1,0 +1,99 @@
+<world> 
+    <window width="512" height="512" />
+    <camera> 
+	    <position x="-0.886169" y="1.107024" z="2.643710" />
+	    <lookAt x="0" y="0" z="0" />
+	    <up x="0" y="1" z="0" />
+        <projection fov="60" near="1" far="1000" /> 
+    </camera>
+	
+	<lights> 
+		<light type="spot" posx="0" posy="2" posz="4" dirx="0" diry="-2" dirz="-4" cutoff="10"/>
+	</lights>
+	<group>
+		<group> 
+			<models> 
+				<model file="plane_2_3.3d" > <!-- generator plane 2 3 plane_2_3.3d -->
+					<color>
+						<diffuse R="254" G="221" B="0" />
+						<ambient R="0" G="0" B="0" />
+						<specular R="0" G="0" B="0" />
+						<emissive R="0" G="0" B="0" />
+						<shininess value="0" />
+					</color>
+				</model>
+			</models>
+		</group>
+		<group> 
+			<transform> 
+				<translate x = "-0.5" y = "0" z = "-0.5" />
+				<scale x="0.2" y="0.2" z="0.2" />
+			</transform>
+			<models> 
+				<model file="cone_1_2_4_3.3d" > <!-- generator cone 1 2 4 3 cone_1_2_4_3.3d -->
+					<color>
+						<diffuse R="00" G="87" B="184" />
+						<ambient R="0" G="8" B="18" />
+						<specular R="255" G="255" B="255" />
+						<emissive R="0" G="0" B="0" />
+						<shininess value="128" />
+					</color>
+				</model>
+			</models>
+		</group>
+		<group> 
+			<transform> 
+				<translate x = "0.5" y = "0.2" z = "0.5" />
+				<scale x="0.2" y="0.2" z="0.2" />
+			</transform>
+			<models> 
+				<model file="sphere_1_8_8.3d" > <!-- generator sphere 1 8 8 sphere_1_8_8.3d -->
+					<color>
+						<diffuse R="00" G="87" B="184" />
+						<ambient R="0" G="8" B="18" />
+						<specular R="255" G="255" B="255" />
+						<emissive R="0" G="0" B="0" />
+						<shininess value="128" />
+					</color>
+				</model>
+			</models>
+		</group>
+		<group> 
+			<transform> 
+				<translate x = "-0.5" y = "0" z = "0.5" />
+				<scale x="0.1" y="0.1" z="0.1" />
+				<rotate angle="-90" x="1" y="0" z="0" />
+			</transform>
+			<models> 
+				<model file="bezier_10.3d" > <!-- generator patch teapot.patch 10 bezier_10.3d -->
+					<color>
+						<diffuse R="00" G="87" B="184" />
+						<ambient R="0" G="8" B="18" />
+						<specular R="255" G="255" B="255" />
+						<emissive R="0" G="0" B="0" />
+						<shininess value="128" />
+					</color>
+				</model>
+			</models>
+		</group>
+		<group> 
+			<transform> 
+				<scale x="0.2" y="0.2" z="0.2" />
+				<translate x = "2.5" y = "1.0" z = "-2.5" />
+			</transform>
+			<models> 
+				<model file="box_2_3.3d" > <!-- generator 2 3 box_2_3.3d -->
+					<color>
+						<diffuse R="00" G="87" B="184" />
+						<ambient R="0" G="8" B="18" />
+						<specular R="255" G="255" B="255" />
+						<emissive R="0" G="0" B="0" />
+						<shininess value="128" />
+					</color>
+				</model>
+			</models>
+		</group>
+
+		
+ 	</group>
+</world>

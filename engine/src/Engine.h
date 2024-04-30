@@ -90,6 +90,7 @@ namespace engine
         std::vector<model::Model> m_models;
         std::vector<uint32_t> m_models_vertex_buffers;
         std::vector<uint32_t> m_models_index_buffers;
+        std::vector<uint32_t> m_models_normal_buffers;
 
         EngineSettings m_settings{
             8, // mssa_samples
@@ -121,7 +122,7 @@ namespace engine
         void renderTransformations(world::GroupTransform &transformations, float time);
         void renderCatmullRomCurves(world::transform::TranslationThroughPoints &translation) const;
         void renderGroup(world::WorldGroup &group);
-        void renderModel(uint32_t model_index, size_t index_count);
+        void renderModel(world::GroupModel model, size_t index_count);
 
         bool loadWorld();
         bool loadModels();

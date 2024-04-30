@@ -51,6 +51,12 @@ namespace engine::model
                 stream >> vertex.x >> vertex.y >> vertex.z;
                 m_vertex.push_back(vertex);
             }
+            else if (type == "n")
+            {
+                Vec3f normal;
+                stream >> normal.x >> normal.y >> normal.z;
+                m_normals.push_back(normal);
+            }
             else if (type == "f")
             {
                 std::string vertex1, vertex2, vertex3;
@@ -73,11 +79,17 @@ namespace engine::model
         file >> vertex_size >> indexes_size;
 
         m_vertex.resize(vertex_size);
+        m_normals.resize(vertex_size);
         m_indexes.resize(indexes_size);
 
         for (auto &pos : m_vertex)
         {
             file >> pos.x >> pos.y >> pos.z;
+        }
+
+        for (auto &normal : m_normals)
+        {
+            file >> normal.x >> normal.y >> normal.z;
         }
 
         for (auto &index : m_indexes)

@@ -132,7 +132,7 @@ namespace generator::solarsystem
         const float real_sun_diameter = sun_diameter / scene_scale_factor / sun_size_scale_factor;
         {
             world::WorldGroup sun_group = world::WorldGroup("Sun");
-            sun_group.models.push_back(sphere_id);
+            sun_group.models.push_back({sphere_id, {}});
 
             sun_group.transformations.AddTransform(world::transform::Scale(Vec3f(real_sun_diameter)));
             sun_group.transformations.AddTransform(world::transform::Rotation(sun_tilt * 2, {1, 0, 0}));
@@ -164,7 +164,7 @@ namespace generator::solarsystem
             );
 
             world::WorldGroup planet_group = world::WorldGroup("Planet " + planet.name);
-            planet_group.models.push_back(sphere_id);
+            planet_group.models.push_back({sphere_id, {}});
 
             const float diameter = planet.diameter / scene_scale_factor;
 
@@ -186,7 +186,7 @@ namespace generator::solarsystem
 
                 const auto real_moon_diameter = moon.radius * 2 / scene_scale_factor;
 
-                moon_group.models.push_back(real_moon_diameter < 0.01f ? sphere_low_poly_id : sphere_id);
+                moon_group.models.push_back({real_moon_diameter < 0.01f ? sphere_low_poly_id : sphere_id});
 
                 const auto random_distance_offset = fmod((double)rand() / (RAND_MAX), log2(moon_distance_to_planet));
 
@@ -233,7 +233,7 @@ namespace generator::solarsystem
             asteroid_group.transformations.AddTransform(world::transform::Rotation(-M_PI_2, {1, 0, 0}));
             asteroid_group.transformations.AddTransform(world::transform::Scale(Vec3f(900 / scene_scale_factor)));
 
-            asteroid_group.models.push_back(asteroid_id);
+            asteroid_group.models.push_back({asteroid_id, {}});
 
             asteroid_belt_group.children.push_back(asteroid_group);
         }
@@ -241,7 +241,7 @@ namespace generator::solarsystem
         world.GetParentWorldGroup().children.push_back(asteroid_belt_group);
 
         world::WorldGroup comet_group = world::WorldGroup("Comet");
-        comet_group.models.push_back(comet_id);
+        comet_group.models.push_back({comet_id, {}});
 
         const auto comet_distance_a_from_sun =
             1500.0f * 1000000 / scene_scale_factor / planet_distance_scale_factor + real_sun_diameter;

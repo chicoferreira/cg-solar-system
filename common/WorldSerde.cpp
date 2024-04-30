@@ -46,7 +46,7 @@ namespace world::serde
                 EARLY_RETURN_R(!model_file_path, "World XML model is missing the file attribute.", std::nullopt)
 
                 size_t model_index = world.AddModelName(model_file_path);
-                group.models.push_back(model_index);
+                group.models.push_back({model_index, {}});
             }
         }
 
@@ -229,10 +229,10 @@ namespace world::serde
         tinyxml2::XMLElement *models_element = doc.NewElement("models");
         parent_element->InsertEndChild(models_element);
 
-        for (size_t model_index : group.models)
+        for (GroupModel group_model : group.models)
         {
             tinyxml2::XMLElement *model_element = doc.NewElement("model");
-            model_element->SetAttribute("file", world.GetModelNames()[model_index].c_str());
+            model_element->SetAttribute("file", world.GetModelNames()[group_model.model_index].c_str());
             models_element->InsertEndChild(model_element);
         }
 
