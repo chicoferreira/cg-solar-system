@@ -137,7 +137,6 @@ namespace engine
         SetLighting(m_settings.lighting);
 
         glEnable(GL_DEPTH_TEST);
-        glEnable(GL_LIGHT0);
         // Rescale normals when scaling the model
         glEnable(GL_RESCALE_NORMAL);
         SetCullFaces(m_settings.cull_faces);
@@ -169,6 +168,8 @@ namespace engine
         // the following code should be added to the initialization:
         float amb[4] = {1.0f, 1.0f, 1.0f, 1.0f};
         glLightModelfv(GL_LIGHT_MODEL_AMBIENT, amb);
+
+        setupWorldLights();
 
         uploadModelsToGPU();
 
@@ -373,10 +374,22 @@ namespace engine
         EndSectionDisableLighting();
     }
 
+    void Engine::setupWorldLights()
+    {
+        const auto &lights = m_world.getLights();
+        const auto light_count = std::min(lights.size(), (size_t)8);
+
+        for (int i = 0; i < light_count; ++i)
+            glEnable(GL_LIGHT0 + i);
+        for (int i = light_count; i < 8; ++i)
+            glDisable(GL_LIGHT0 + i);
+    }
+
     void Engine::renderLights()
     {
         const auto &lights = m_world.getLights();
-        for (int i = 0; i < lights.size(); ++i)
+        const auto light_count = std::min(lights.size(), (size_t)8);
+        for (int i = 0; i < light_count; ++i)
         {
             const auto &light = lights[i];
             if (std::holds_alternative<world::lighting::DirectionalLight>(light))
@@ -384,14 +397,14 @@ namespace engine
                 const auto &directional_light = std::get<world::lighting::DirectionalLight>(light);
                 Vec4f dir = directional_light.dir.ToVec4f(0.0f);
 
-                glLightfv(GL_LIGHT0, GL_POSITION, &dir.x);
+                glLightfv(GL_LIGHT0 + i, GL_POSITION, &dir.x);
             }
             else if (std::holds_alternative<world::lighting::PointLight>(light))
             {
                 const auto &point_light = std::get<world::lighting::PointLight>(light);
                 Vec4f pos = point_light.pos.ToVec4f(1.0f);
 
-                glLightfv(GL_LIGHT0, GL_POSITION, &pos.x);
+                glLightfv(GL_LIGHT0 + i, GL_POSITION, &pos.x);
             }
             else if (std::holds_alternative<world::lighting::Spotlight>(light))
             {
@@ -399,9 +412,9 @@ namespace engine
                 Vec4f pos = spot_light.pos.ToVec4f(1.0f);
                 Vec4f dir = spot_light.dir.ToVec4f(0.0f);
 
-                glLightfv(GL_LIGHT0, GL_POSITION, &pos.x);
-                glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, &dir.x);
-                glLightf(GL_LIGHT0, GL_SPOT_CUTOFF, spot_light.cutoff);
+                glLightfv(GL_LIGHT0 + i, GL_POSITION, &pos.x);
+                glLightfv(GL_LIGHT0 + i, GL_SPOT_DIRECTION, &dir.x);
+                glLightf(GL_LIGHT0 + i, GL_SPOT_CUTOFF, spot_light.cutoff);
             }
             renderLightModel(light);
         }

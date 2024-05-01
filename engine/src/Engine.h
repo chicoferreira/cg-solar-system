@@ -136,6 +136,7 @@ namespace engine
         bool loadModels();
         void uploadModelsToGPU();
         void destroyModels();
+        void setupWorldLights();
     };
 } // namespace engine
 
