@@ -141,6 +141,7 @@ namespace engine
         // Rescale normals when scaling the model
         glEnable(GL_RESCALE_NORMAL);
         SetCullFaces(m_settings.cull_faces);
+        SetWireframe(m_settings.wireframe);
 
 #ifndef NDEBUG
         glEnable(GL_DEBUG_OUTPUT);
@@ -400,8 +401,6 @@ namespace engine
         if (m_settings.render_axis)
             renderAxis();
 
-        SetRenderWireframeMode(m_settings.wireframe);
-
         renderLights();
         m_current_rendered_models_size = 0;
         m_current_rendered_triangles_size = 0;
@@ -416,19 +415,19 @@ namespace engine
         glfwSwapInterval(enable);
     }
 
-    void Engine::SetWireframe(const bool enable) { m_settings.wireframe = enable; }
+    void Engine::SetWireframe(const bool enable)
+    {
+        glPolygonMode(GL_FRONT_AND_BACK, enable ? GL_LINE : GL_FILL);
+        m_settings.wireframe = enable;
+    }
 
     void Engine::SetCullFaces(const bool enable)
     {
         m_settings.cull_faces = enable;
         if (enable)
-        {
             glEnable(GL_CULL_FACE);
-        }
         else
-        {
             glDisable(GL_CULL_FACE);
-        }
     }
 
     void Engine::SetMssa(const bool enable)
