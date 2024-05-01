@@ -8,18 +8,11 @@
 
 #include "Input.h"
 #include "Model.h"
+#include "Utils.h"
 #include "World.h"
 
 namespace engine
 {
-    enum class OperatingSystem
-    {
-        WINDOWS,
-        LINUX,
-        MACOS,
-        UNKNOWN,
-    };
-
     class EngineSystemEnvironment
     {
     public:
@@ -108,7 +101,7 @@ namespace engine
         ImGuiIO *io = nullptr;
 
         GLFWwindow *m_window = nullptr;
-        OperatingSystem m_os = OperatingSystem::UNKNOWN;
+        utils::OperatingSystem m_os = utils::OperatingSystem::UNKNOWN;
 
         size_t m_current_rendered_models_size = 0;
         size_t m_current_rendered_triangles_size = 0;
@@ -116,6 +109,7 @@ namespace engine
         void setupEnvironment();
 
         void initImGui();
+        void shutdownImGui() const;
         void renderImGui();
         static void postRenderImGui();
         void renderImGuiWorldGroupMenu(world::WorldGroup &world_group);

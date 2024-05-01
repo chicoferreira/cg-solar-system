@@ -3,8 +3,10 @@ include_directories(../common)
 add_executable(cg-solar-system src/main.cpp
         src/Engine.cpp
         src/Engine.h
+        src/EngineImGui.cpp
         src/Model.cpp
         src/Model.h
+        src/Input.h
         ../common/Vec.h
         ../common/Mat.h
         ../common/Mat.cpp
@@ -13,7 +15,6 @@ add_executable(cg-solar-system src/main.cpp
         ../common/WorldSerde.h
         ../common/Utils.h
         ../common/Utils.cpp
-        src/Input.h
         ../common/Color.h
 )
 
