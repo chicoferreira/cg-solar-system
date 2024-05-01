@@ -150,24 +150,17 @@ namespace engine
 
         setupEnvironment();
 
+        // To allow for ambient colors to be reproduced without having to activate the ambient component for all lights,
+        // the following code should be added to the initialization:
+        float amb[4] = {1.0f, 1.0f, 1.0f, 1.0f};
+        glLightModelfv(GL_LIGHT_MODEL_AMBIENT, amb);
+
         auto result = loadModels();
         if (!result)
             return false;
 
         glEnableClientState(GL_VERTEX_ARRAY);
         glEnableClientState(GL_NORMAL_ARRAY);
-
-        float dark[4] = {0.2, 0.2, 0.2, 1.0};
-        float white[4] = {1.0, 1.0, 1.0, 1.0};
-        // light colors
-        glLightfv(GL_LIGHT0, GL_AMBIENT, dark);
-        glLightfv(GL_LIGHT0, GL_DIFFUSE, white);
-        glLightfv(GL_LIGHT0, GL_SPECULAR, white);
-
-        // To allow for ambient colors to be reproduced without having to activate the ambient component for all lights,
-        // the following code should be added to the initialization:
-        float amb[4] = {1.0f, 1.0f, 1.0f, 1.0f};
-        glLightModelfv(GL_LIGHT_MODEL_AMBIENT, amb);
 
         setupWorldLights();
 
@@ -379,10 +372,20 @@ namespace engine
         const auto &lights = m_world.getLights();
         const auto light_count = std::min(lights.size(), (size_t)8);
 
-        for (int i = 0; i < light_count; ++i)
-            glEnable(GL_LIGHT0 + i);
-        for (int i = light_count; i < 8; ++i)
+        for (int i = 0; i < 8; ++i)
+        {
             glDisable(GL_LIGHT0 + i);
+        }
+
+        for (int i = 0; i < light_count; ++i)
+        {
+            glEnable(GL_LIGHT0 + i);
+            float dark[4] = {0.2, 0.2, 0.2, 1.0};
+            float white[4] = {1.0, 1.0, 1.0, 1.0};
+            glLightfv(GL_LIGHT0 + i, GL_AMBIENT, dark);
+            glLightfv(GL_LIGHT0 + i, GL_DIFFUSE, white);
+            glLightfv(GL_LIGHT0 + i, GL_SPECULAR, white);
+        }
     }
 
     void Engine::renderLights()
@@ -426,12 +429,12 @@ namespace engine
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+        renderLights();
         renderCamera(m_world.GetCamera(), m_world.GetWindow());
 
         if (m_settings.render_axis)
             renderAxis();
 
-        renderLights();
         m_current_rendered_models_size = 0;
         m_current_rendered_indexes_size = 0;
         renderGroup(m_world.GetParentWorldGroup());

@@ -333,10 +333,19 @@ namespace engine
 
                 if (ImGui::TreeNodeEx("Lights", ImGuiTreeNodeFlags_Framed))
                 {
-                    for (auto &light : m_world.getLights())
+                    auto &lights = m_world.getLights();
+                    if (lights.size() > 8)
                     {
+                        ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(255, 255, 0, 255));
+                        ImGui::Text("Only 8 lights are currently supported. The remaining will be ignored.");
+                        ImGui::PopStyleColor();
+                    }
+                    for (int i = 0; i < lights.size(); ++i)
+                    {
+                        auto &light = lights[i];
                         ImGui::BeginGroup();
                         ImGui::PushID(&light);
+
                         if (std::holds_alternative<world::lighting::DirectionalLight>(light))
                         {
                             auto &directional_light = std::get<world::lighting::DirectionalLight>(light);
@@ -357,8 +366,47 @@ namespace engine
                             ImGui::DragFloat3("Direction", &spot_light.dir.x, 0.05f);
                             ImGui::DragFloat("Cutoff", &spot_light.cutoff, 0.05f);
                         }
+
+                        ImGui::SameLine();
+                        if (ImGui::SmallButton("Remove"))
+                        {
+                            lights.erase(lights.begin() + i);
+                            setupWorldLights();
+                        }
+
                         ImGui::PopID();
                         ImGui::EndGroup();
+                    }
+
+                    if (ImGui::Button("Add Light"))
+                    {
+                        ImGui::OpenPopup("Add Light");
+                    }
+
+                    if (ImGui::BeginPopup("Add Light"))
+                    {
+                        if (ImGui::MenuItem("Directional Light"))
+                        {
+                            m_world.getLights().push_back(world::lighting::DirectionalLight());
+                            setupWorldLights();
+                            ImGui::CloseCurrentPopup();
+                        }
+
+                        if (ImGui::MenuItem("Point Light"))
+                        {
+                            m_world.getLights().push_back(world::lighting::PointLight());
+                            setupWorldLights();
+                            ImGui::CloseCurrentPopup();
+                        }
+
+                        if (ImGui::MenuItem("Spotlight"))
+                        {
+                            m_world.getLights().push_back(world::lighting::Spotlight());
+                            setupWorldLights();
+                            ImGui::CloseCurrentPopup();
+                        }
+
+                        ImGui::EndPopup();
                     }
                     ImGui::TreePop();
                 }
