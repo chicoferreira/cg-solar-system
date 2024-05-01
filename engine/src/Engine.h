@@ -128,6 +128,7 @@ namespace engine
         bool loadModels();
         void uploadModelsToGPU();
         void destroyModels();
+        void renderLights();
     };
 } // namespace engine
 

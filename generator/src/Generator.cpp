@@ -186,25 +186,34 @@ namespace generator
         const auto plane = GeneratePlane(length, divisions);
         const auto vertex_size = plane.vertex.size();
 
-        std::vector<Mat4f> transforms = {
+        std::vector<Mat4f> translations = {
             Mat4fTranslate(0, length / 2, 0), // up
-            Mat4fTranslate(0, -length / 2, 0) * Mat4fRotateX_M_PI, // down
-            Mat4fTranslate(-length / 2, 0, 0) * Mat4fRotateZ_M_PI_2, // left
-            Mat4fTranslate(length / 2, 0, 0) * Mat4fRotateZ_NEGATIVE_M_PI_2, // right
-            Mat4fTranslate(0, 0, length / 2) * Mat4fRotateX_M_PI_2, // front
-            Mat4fTranslate(0, 0, -length / 2) * Mat4fRotateX_NEGATIVE_M_PI_2 // back
+            Mat4fTranslate(0, -length / 2, 0), // down
+            Mat4fTranslate(-length / 2, 0, 0), // left
+            Mat4fTranslate(length / 2, 0, 0), // right
+            Mat4fTranslate(0, 0, length / 2), // front
+            Mat4fTranslate(0, 0, -length / 2) // back
         };
 
-        for (int i = 0; i < transforms.size(); ++i)
+        std::vector<Mat4f> rotations = {
+            Mat4fIdentity, // up
+            Mat4fRotateX_M_PI, // down
+            Mat4fRotateZ_M_PI_2, // left
+            Mat4fRotateZ_NEGATIVE_M_PI_2, // right
+            Mat4fRotateX_M_PI_2, // front
+            Mat4fRotateX_NEGATIVE_M_PI_2 // back
+        };
+
+        for (int i = 0; i < translations.size(); ++i)
         {
             for (auto &v : plane.vertex)
             {
-                vertex.push_back((transforms[i] * v.ToVec4f()).ToVec3f());
+                vertex.push_back((translations[i] * rotations[i] * v.ToVec4f()).ToVec3f());
             }
 
             for (auto &n : plane.normals)
             {
-                normals.push_back((transforms[i] * n.ToVec4f()).ToVec3f());
+                normals.push_back((rotations[i] * n.ToVec4f()).ToVec3f());
             }
 
             for (auto index : plane.indexes)

@@ -187,6 +187,13 @@ namespace engine
         glEnableClientState(GL_VERTEX_ARRAY);
         glEnableClientState(GL_NORMAL_ARRAY);
 
+        float dark[4] = {0.2, 0.2, 0.2, 1.0};
+        float white[4] = {1.0, 1.0, 1.0, 1.0};
+        // light colors
+        glLightfv(GL_LIGHT0, GL_AMBIENT, dark);
+        glLightfv(GL_LIGHT0, GL_DIFFUSE, white);
+        glLightfv(GL_LIGHT0, GL_SPECULAR, white);
+
         // To allow for ambient colors to be reproduced without having to activate the ambient component for all lights,
         // the following code should be added to the initialization:
         float amb[4] = {1.0f, 1.0f, 1.0f, 1.0f};
@@ -201,7 +208,7 @@ namespace engine
 
     void renderAxis()
     {
-        glEnable(GL_COLOR_MATERIAL);
+        glDisable(GL_LIGHTING);
         glBegin(GL_LINES);
         glColor3f(1.0, 0.0, 0.0);
         glVertex3f(-1000.0, 0.0, 0.0);
@@ -217,7 +224,7 @@ namespace engine
 
         glColor3f(1.0, 1.0, 1.0);
         glEnd();
-        glDisable(GL_COLOR_MATERIAL);
+        glEnable(GL_LIGHTING);
     }
 
     void renderCamera(const world::Camera &camera, const world::Window &window)
@@ -241,11 +248,11 @@ namespace engine
 
     void Engine::renderModel(world::GroupModel model, size_t index_count)
     {
-        glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, &model.material.ambient.r);
-        glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, &model.material.diffuse.r);
-        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, &model.material.specular.r);
-        glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, &model.material.emmisive.r);
-        glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, model.material.shininess);
+        glMaterialfv(GL_FRONT, GL_AMBIENT, &model.material.ambient.r);
+        glMaterialfv(GL_FRONT, GL_DIFFUSE, &model.material.diffuse.r);
+        glMaterialfv(GL_FRONT, GL_SPECULAR, &model.material.specular.r);
+        glMaterialfv(GL_FRONT, GL_EMISSION, &model.material.emmisive.r);
+        glMaterialf(GL_FRONT, GL_SHININESS, model.material.shininess);
 
         glBindBuffer(GL_ARRAY_BUFFER, m_models_normal_buffers[model.model_index]);
         glNormalPointer(GL_FLOAT, 0, 0);
@@ -323,12 +330,93 @@ namespace engine
             translation.render_path_dirty = false;
         }
 
-        glEnable(GL_COLOR_MATERIAL);
-        glColor3f(1.0f, 1.0f, 0.0f);
+        glDisable(GL_LIGHTING);
+        glColor3f(0.2f, 0.2f, 1.0f);
         glBindBuffer(GL_ARRAY_BUFFER, translation.render_path_gpu_buffer);
         glVertexPointer(3, GL_FLOAT, 0, 0);
         glDrawArrays(GL_LINE_LOOP, 0, 100);
-        glDisable(GL_COLOR_MATERIAL);
+        glEnable(GL_LIGHTING);
+    }
+
+    void renderLightModel(const world::lighting::Light &light)
+    {
+        glDisable(GL_LIGHTING);
+        if (std::holds_alternative<world::lighting::DirectionalLight>(light))
+        {
+            const auto &directional_light = std::get<world::lighting::DirectionalLight>(light);
+            Vec3f dir = directional_light.dir;
+
+            glColor3f(1.0f, 1.0f, 0.5f);
+            glBegin(GL_LINES);
+            glVertex3f(0.0f, 0.0f, 0.0f);
+            glVertex3f(dir.x * 1000, dir.y * 1000, dir.z * 1000);
+            glColor3f(1.0f, 1.0f, 1.0f);
+            glEnd();
+        }
+        else if (std::holds_alternative<world::lighting::PointLight>(light))
+        {
+            const auto &point_light = std::get<world::lighting::PointLight>(light);
+            Vec3f pos = point_light.pos;
+
+            glPointSize(10.0f);
+            glColor3f(1.0f, 1.0f, 0.5f);
+            glBegin(GL_POINTS);
+            glVertex3f(pos.x, pos.y, pos.z);
+            glColor3f(1.0f, 1.0f, 1.0f);
+            glEnd();
+        }
+        else if (std::holds_alternative<world::lighting::Spotlight>(light))
+        {
+            const auto &spot_light = std::get<world::lighting::Spotlight>(light);
+            Vec3f pos = spot_light.pos;
+            Vec3f dir = spot_light.dir;
+
+            glPointSize(10.0f);
+            glColor3f(1.0f, 1.0f, 0.5f);
+            glBegin(GL_POINTS);
+            glVertex3f(pos.x, pos.y, pos.z);
+            glEnd();
+            glBegin(GL_LINES);
+            glVertex3f(pos.x, pos.y, pos.z);
+            glVertex3f(pos.x + dir.x, pos.y + dir.y, pos.z + dir.z);
+            glEnd();
+            glColor3f(1.0f, 1.0f, 1.0f);
+        }
+        glEnable(GL_LIGHTING);
+    }
+
+    void Engine::renderLights()
+    {
+        const auto &lights = m_world.getLights();
+        for (int i = 0; i < lights.size(); ++i)
+        {
+            const auto &light = lights[i];
+            if (std::holds_alternative<world::lighting::DirectionalLight>(light))
+            {
+                const auto &directional_light = std::get<world::lighting::DirectionalLight>(light);
+                Vec4f dir = directional_light.dir.ToVec4f(0.0f);
+
+                glLightfv(GL_LIGHT0, GL_POSITION, &dir.x);
+            }
+            else if (std::holds_alternative<world::lighting::PointLight>(light))
+            {
+                const auto &point_light = std::get<world::lighting::PointLight>(light);
+                Vec4f pos = point_light.pos.ToVec4f(1.0f);
+
+                glLightfv(GL_LIGHT0, GL_POSITION, &pos.x);
+            }
+            else if (std::holds_alternative<world::lighting::Spotlight>(light))
+            {
+                const auto &spot_light = std::get<world::lighting::Spotlight>(light);
+                Vec4f pos = spot_light.pos.ToVec4f(1.0f);
+                Vec4f dir = spot_light.dir.ToVec4f(0.0f);
+
+                glLightfv(GL_LIGHT0, GL_POSITION, &pos.x);
+                glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, &dir.x);
+                glLightf(GL_LIGHT0, GL_SPOT_CUTOFF, spot_light.cutoff);
+            }
+            renderLightModel(light);
+        }
     }
 
     void Engine::Render()
@@ -344,7 +432,7 @@ namespace engine
 
         SetRenderWireframeMode(m_settings.wireframe);
 
-
+        renderLights();
         m_current_rendered_models_size = 0;
         m_current_rendered_triangles_size = 0;
         renderGroup(m_world.GetParentWorldGroup());
@@ -883,6 +971,38 @@ namespace engine
                     ImGui::TreePop();
                 }
 
+                if (ImGui::TreeNodeEx("Lights", ImGuiTreeNodeFlags_Framed))
+                {
+                    for (auto &light : m_world.getLights())
+                    {
+                        ImGui::BeginGroup();
+                        ImGui::PushID(&light);
+                        if (std::holds_alternative<world::lighting::DirectionalLight>(light))
+                        {
+                            auto &directional_light = std::get<world::lighting::DirectionalLight>(light);
+                            ImGui::Text("Directional Light");
+                            ImGui::DragFloat3("Direction", &directional_light.dir.x, 0.05f);
+                        }
+                        else if (std::holds_alternative<world::lighting::PointLight>(light))
+                        {
+                            auto &point_light = std::get<world::lighting::PointLight>(light);
+                            ImGui::Text("Point Light");
+                            ImGui::DragFloat3("Position", &point_light.pos.x, 0.05f);
+                        }
+                        else if (std::holds_alternative<world::lighting::Spotlight>(light))
+                        {
+                            auto &spot_light = std::get<world::lighting::Spotlight>(light);
+                            ImGui::Text("Spotlight");
+                            ImGui::DragFloat3("Position", &spot_light.pos.x, 0.05f);
+                            ImGui::DragFloat3("Direction", &spot_light.dir.x, 0.05f);
+                            ImGui::DragFloat("Cutoff", &spot_light.cutoff, 0.05f);
+                        }
+                        ImGui::PopID();
+                        ImGui::EndGroup();
+                    }
+                    ImGui::TreePop();
+                }
+
                 if (ImGui::TreeNodeEx("Groups", ImGuiTreeNodeFlags_Framed | ImGuiTreeNodeFlags_DefaultOpen))
                 {
                     renderImGuiWorldGroupMenu(m_world.GetParentWorldGroup());
@@ -972,7 +1092,40 @@ namespace engine
                                 }
                                 ImGui::EndTable();
                             }
+                            ImGui::Text("Normals Table");
+                            ImVec2 outer_size_normal = ImVec2(
+                                0,
+                                TEXT_BASE_HEIGHT *
+                                    (std::min(model.GetNormals().size() / 3, static_cast<size_t>(10)) + 1)
+                            );
+                            if (ImGui::BeginTable("normal_table", 4, flags, outer_size_normal))
+                            {
+                                ImGui::TableSetupScrollFreeze(0, 1); // Make top row always visible
+                                ImGui::TableSetupColumn("Normal Index", ImGuiTableColumnFlags_None);
+                                ImGui::TableSetupColumn("x", ImGuiTableColumnFlags_None);
+                                ImGui::TableSetupColumn("y", ImGuiTableColumnFlags_None);
+                                ImGui::TableSetupColumn("z", ImGuiTableColumnFlags_None);
+                                ImGui::TableHeadersRow();
 
+                                // Demonstrate using clipper for large vertical lists
+                                ImGuiListClipper clipper;
+                                clipper.Begin(model.GetNormals().size());
+                                while (clipper.Step())
+                                {
+                                    for (int row = clipper.DisplayStart; row < clipper.DisplayEnd; row++)
+                                    {
+                                        ImGui::TableNextRow();
+                                        ImGui::TableSetColumnIndex(0);
+                                        ImGui::Text("%d", row);
+                                        for (int column = 1; column < 4; column++)
+                                        {
+                                            ImGui::TableSetColumnIndex(column);
+                                            ImGui::Text("%.3f", model.GetNormals()[row][column - 1]);
+                                        }
+                                    }
+                                }
+                                ImGui::EndTable();
+                            }
                             ImGui::TreePop();
                         }
                     }

@@ -212,8 +212,57 @@ namespace world::serde
             "World XML file is missing camera projection far attribute."
         )
 
+        world.getLights().clear();
         const auto parent_group_element = world_element->FirstChildElement("group");
         EARLY_RETURN_FALSE(!parent_group_element, "World XML file is missing the parent group element.")
+
+        if (const auto lights_element = world_element->FirstChildElement("lights"))
+        {
+            for (auto light_element = lights_element->FirstChildElement(); light_element;
+                 light_element = light_element->NextSiblingElement())
+            {
+                const char *type = light_element->Attribute("type");
+                EARLY_RETURN_FALSE(!type, "World Light is missing type attribute")
+
+                lighting::Light light;
+
+                if (strcmp(type, "directional") == 0)
+                {
+                    lighting::DirectionalLight directional_light;
+                    LOAD_ATTRIBUTE(light_element, "dirx", directional_light.dir.x, false)
+                    LOAD_ATTRIBUTE(light_element, "diry", directional_light.dir.y, false)
+                    LOAD_ATTRIBUTE(light_element, "dirz", directional_light.dir.z, false)
+                    light = directional_light;
+                }
+                else if (strcmp(type, "point") == 0)
+                {
+                    lighting::PointLight point_light;
+                    LOAD_ATTRIBUTE(light_element, "posx", point_light.pos.x, false)
+                    LOAD_ATTRIBUTE(light_element, "posy", point_light.pos.y, false)
+                    LOAD_ATTRIBUTE(light_element, "posz", point_light.pos.z, false)
+                    light = point_light;
+                }
+                else if (strcmp(type, "spotlight") == 0)
+                {
+                    lighting::Spotlight spotlight;
+                    LOAD_ATTRIBUTE(light_element, "dirx", spotlight.dir.x, false)
+                    LOAD_ATTRIBUTE(light_element, "diry", spotlight.dir.y, false)
+                    LOAD_ATTRIBUTE(light_element, "dirz", spotlight.dir.z, false)
+                    LOAD_ATTRIBUTE(light_element, "posx", spotlight.pos.x, false)
+                    LOAD_ATTRIBUTE(light_element, "posy", spotlight.pos.y, false)
+                    LOAD_ATTRIBUTE(light_element, "posz", spotlight.pos.z, false)
+                    LOAD_ATTRIBUTE(light_element, "cutoff", spotlight.cutoff, false)
+                    light = spotlight;
+                }
+                else
+                {
+                    std::cerr << "Unknown light type '" << type << "' in World Lights" << std::endl;
+                    return false;
+                }
+
+                world.getLights().push_back(light);
+            }
+        }
 
         world.ClearModelNames();
 
