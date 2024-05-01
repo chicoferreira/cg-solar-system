@@ -51,7 +51,7 @@ namespace engine::model
                 stream >> vertex.x >> vertex.y >> vertex.z;
                 m_vertex.push_back(vertex);
             }
-            else if (type == "n")
+            else if (type == "vn")
             {
                 Vec3f normal;
                 stream >> normal.x >> normal.y >> normal.z;

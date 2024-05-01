@@ -53,7 +53,9 @@ namespace generator
         const auto stack_size = M_PI / stacks;
 
         vertex.push_back(Vec3f(0, radius, 0)); // top
+        normals.push_back(Vec3f(0, 1, 0));
         vertex.push_back(Vec3f(0, -radius, 0)); // bottom
+        normals.push_back(Vec3f(0, -1, 0));
 
         for (int slice = 0; slice < slices; ++slice)
         {

@@ -542,6 +542,8 @@ namespace engine
                     SetLighting(m_settings.lighting);
                 }
 
+                ImGui::Checkbox("Render Normals (May impact performance)", &m_settings.render_normals);
+
                 ImGui::SeparatorText("Environment Information");
 
                 ImGui::BulletText("Detected Operating System: %s", GetOSName(m_os));

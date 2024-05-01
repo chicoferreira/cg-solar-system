@@ -36,11 +36,12 @@ namespace engine
             const bool render_axis,
             const bool cull_faces,
             const bool render_transform_through_points_path,
-            const bool lighting
+            const bool lighting,
+            const bool render_normals
         ) :
             mssa_samples(mssa_samples), mssa(mssa), vsync(vsync), wireframe(wireframe), render_axis(render_axis),
             cull_faces(cull_faces), render_transform_through_points_path(render_transform_through_points_path),
-            lighting(lighting)
+            lighting(lighting), render_normals(render_normals)
         {
         }
 
@@ -52,6 +53,7 @@ namespace engine
         bool cull_faces;
         bool render_transform_through_points_path;
         bool lighting;
+        bool render_normals;
     };
 
     class EngineSimulationTime
@@ -100,6 +102,7 @@ namespace engine
             true, // cull_faces
             true, // render_transform_through_points_path
             true, // lighting
+            false, // render normals
         };
 
         EngineSimulationTime m_simulation_time;
@@ -124,14 +127,15 @@ namespace engine
         void renderTransformations(world::GroupTransform &transformations, float time);
         void renderCatmullRomCurves(world::transform::TranslationThroughPoints &translation) const;
         void renderGroup(world::WorldGroup &group);
-        void renderModel(world::GroupModel model, size_t index_count);
+        void renderModel(world::GroupModel &model, size_t index_count);
+        void renderModelNormals(model::Model &model);
+        void renderLights();
         void renderLightModel(const world::lighting::Light &light);
 
         bool loadWorld();
         bool loadModels();
         void uploadModelsToGPU();
         void destroyModels();
-        void renderLights();
     };
 } // namespace engine
 

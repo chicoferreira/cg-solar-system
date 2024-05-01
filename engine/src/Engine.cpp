@@ -215,7 +215,24 @@ namespace engine
         );
     }
 
-    void Engine::renderModel(world::GroupModel model, size_t index_count)
+    void Engine::renderModelNormals(model::Model &model)
+    {
+        StartSectionDisableLighting();
+        glColor3f(0.0f, 0.5f, 1.0f);
+        for (int i = 0; i < model.GetVertex().size(); ++i)
+        {
+            Vec3f vertex = model.GetVertex()[i];
+            Vec3f normal = model.GetNormals()[i];
+            glBegin(GL_LINES);
+            glVertex3f(vertex.x, vertex.y, vertex.z);
+            glVertex3f(vertex.x + normal.x, vertex.y + normal.y, vertex.z + normal.z);
+            glEnd();
+        }
+        glColor3f(1.0f, 1.0f, 1.0f);
+        EndSectionDisableLighting();
+    }
+
+    void Engine::renderModel(world::GroupModel &model, size_t index_count)
     {
         glMaterialfv(GL_FRONT, GL_AMBIENT, &model.material.ambient.r);
         glMaterialfv(GL_FRONT, GL_DIFFUSE, &model.material.diffuse.r);
@@ -244,6 +261,8 @@ namespace engine
             auto &model = m_models[group_model.model_index];
             auto model_index_size = model.GetIndexes().size();
             renderModel(group_model, model_index_size);
+            if (m_settings.render_normals)
+                renderModelNormals(model);
 
             m_current_rendered_models_size += 1;
             m_current_rendered_triangles_size += model_index_size;
