@@ -265,7 +265,7 @@ namespace engine
                 renderModelNormals(model);
 
             m_current_rendered_models_size += 1;
-            m_current_rendered_triangles_size += model_index_size;
+            m_current_rendered_indexes_size += model_index_size;
         }
 
         for (auto &child : group.children)
@@ -420,7 +420,7 @@ namespace engine
 
         renderLights();
         m_current_rendered_models_size = 0;
-        m_current_rendered_triangles_size = 0;
+        m_current_rendered_indexes_size = 0;
         renderGroup(m_world.GetParentWorldGroup());
 
         postRenderImGui();

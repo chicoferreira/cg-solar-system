@@ -559,7 +559,7 @@ namespace engine
             ImGui::Text(
                 "Rendering %zu models (%zu triangles)",
                 m_current_rendered_models_size,
-                m_current_rendered_triangles_size
+                m_current_rendered_indexes_size / 3
             );
             ImGui::Text("%.3f ms/frame (%.1f FPS)", 1000.0f / io->Framerate, io->Framerate);
             ImGui::End();
