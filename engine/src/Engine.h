@@ -35,10 +35,12 @@ namespace engine
             const bool wireframe,
             const bool render_axis,
             const bool cull_faces,
-            const bool render_transform_through_points_path
+            const bool render_transform_through_points_path,
+            const bool lighting
         ) :
             mssa_samples(mssa_samples), mssa(mssa), vsync(vsync), wireframe(wireframe), render_axis(render_axis),
-            cull_faces(cull_faces), render_transform_through_points_path(render_transform_through_points_path)
+            cull_faces(cull_faces), render_transform_through_points_path(render_transform_through_points_path),
+            lighting(lighting)
         {
         }
 
@@ -49,6 +51,7 @@ namespace engine
         bool render_axis;
         bool cull_faces;
         bool render_transform_through_points_path;
+        bool lighting;
     };
 
     class EngineSimulationTime
@@ -71,6 +74,9 @@ namespace engine
         void SetVsync(bool enable);
         void SetWireframe(bool enable);
         void SetCullFaces(bool enable);
+        void SetLighting(const bool enable);
+        void StartSectionDisableLighting() const;
+        void EndSectionDisableLighting() const;
         static void SetMssa(bool enable);
         void ProcessInput(float timestep);
         void Run();
@@ -93,6 +99,7 @@ namespace engine
             true, // render_axis
             true, // cull_faces
             true, // render_transform_through_points_path
+            true, // lighting
         };
 
         EngineSimulationTime m_simulation_time;
@@ -112,11 +119,13 @@ namespace engine
         void shutdownImGui() const;
         void renderImGui();
         static void postRenderImGui();
+        void renderAxis();
         void renderImGuiWorldGroupMenu(world::WorldGroup &world_group);
         void renderTransformations(world::GroupTransform &transformations, float time);
         void renderCatmullRomCurves(world::transform::TranslationThroughPoints &translation) const;
         void renderGroup(world::WorldGroup &group);
         void renderModel(world::GroupModel model, size_t index_count);
+        void renderLightModel(const world::lighting::Light &light);
 
         bool loadWorld();
         bool loadModels();

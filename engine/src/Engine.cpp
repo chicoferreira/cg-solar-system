@@ -7,7 +7,7 @@
 
 namespace engine
 {
-    void glfw_error_callback(const int error, const char *description)
+    void glfwErrorCallback(const int error, const char *description)
     {
         fprintf(stderr, "GLFW Error %d: %s\n", error, description);
     }
@@ -102,7 +102,7 @@ namespace engine
 
     bool Engine::Init()
     {
-        glfwSetErrorCallback(glfw_error_callback);
+        glfwSetErrorCallback(glfwErrorCallback);
         if (!glfwInit())
             return false;
 
@@ -134,9 +134,9 @@ namespace engine
 
         SetVsync(m_settings.vsync);
         SetMssa(m_settings.mssa);
+        SetLighting(m_settings.lighting);
 
         glEnable(GL_DEPTH_TEST);
-        glEnable(GL_LIGHTING);
         glEnable(GL_LIGHT0);
         // Rescale normals when scaling the model
         glEnable(GL_RESCALE_NORMAL);
@@ -175,11 +175,9 @@ namespace engine
         return true;
     }
 
-    void SetRenderWireframeMode(const bool enable) { glPolygonMode(GL_FRONT_AND_BACK, enable ? GL_LINE : GL_FILL); }
-
-    void renderAxis()
+    void Engine::renderAxis()
     {
-        glDisable(GL_LIGHTING);
+        StartSectionDisableLighting();
         glBegin(GL_LINES);
         glColor3f(1.0, 0.0, 0.0);
         glVertex3f(-1000.0, 0.0, 0.0);
@@ -195,7 +193,7 @@ namespace engine
 
         glColor3f(1.0, 1.0, 1.0);
         glEnd();
-        glEnable(GL_LIGHTING);
+        EndSectionDisableLighting();
     }
 
     void renderCamera(const world::Camera &camera, const world::Window &window)
@@ -301,17 +299,17 @@ namespace engine
             translation.render_path_dirty = false;
         }
 
-        glDisable(GL_LIGHTING);
+        StartSectionDisableLighting();
         glColor3f(0.2f, 0.2f, 1.0f);
         glBindBuffer(GL_ARRAY_BUFFER, translation.render_path_gpu_buffer);
         glVertexPointer(3, GL_FLOAT, 0, 0);
         glDrawArrays(GL_LINE_LOOP, 0, 100);
-        glEnable(GL_LIGHTING);
+        EndSectionDisableLighting();
     }
 
-    void renderLightModel(const world::lighting::Light &light)
+    void Engine::renderLightModel(const world::lighting::Light &light)
     {
-        glDisable(GL_LIGHTING);
+        StartSectionDisableLighting();
         if (std::holds_alternative<world::lighting::DirectionalLight>(light))
         {
             const auto &directional_light = std::get<world::lighting::DirectionalLight>(light);
@@ -353,7 +351,7 @@ namespace engine
             glEnd();
             glColor3f(1.0f, 1.0f, 1.0f);
         }
-        glEnable(GL_LIGHTING);
+        EndSectionDisableLighting();
     }
 
     void Engine::renderLights()
@@ -409,21 +407,12 @@ namespace engine
         postRenderImGui();
     }
 
-    void Engine::SetVsync(const bool enable)
-    {
-        m_settings.vsync = enable;
-        glfwSwapInterval(enable);
-    }
+    void Engine::SetVsync(const bool enable) { glfwSwapInterval(enable); }
 
-    void Engine::SetWireframe(const bool enable)
-    {
-        glPolygonMode(GL_FRONT_AND_BACK, enable ? GL_LINE : GL_FILL);
-        m_settings.wireframe = enable;
-    }
+    void Engine::SetWireframe(const bool enable) { glPolygonMode(GL_FRONT_AND_BACK, enable ? GL_LINE : GL_FILL); }
 
     void Engine::SetCullFaces(const bool enable)
     {
-        m_settings.cull_faces = enable;
         if (enable)
             glEnable(GL_CULL_FACE);
         else
@@ -436,6 +425,26 @@ namespace engine
             glEnable(GL_MULTISAMPLE);
         else
             glDisable(GL_MULTISAMPLE);
+    }
+
+    void Engine::SetLighting(const bool enable)
+    {
+        if (enable)
+            glEnable(GL_LIGHTING);
+        else
+            glDisable(GL_LIGHTING);
+    }
+
+    void Engine::StartSectionDisableLighting() const
+    {
+        if (m_settings.lighting)
+            glDisable(GL_LIGHTING);
+    }
+
+    void Engine::EndSectionDisableLighting() const
+    {
+        if (m_settings.lighting)
+            glEnable(GL_LIGHTING);
     }
 
     constexpr auto sensitivity = 0.1f;

@@ -537,6 +537,11 @@ namespace engine
                     ImGui::TextDisabled("(Broken on MacOS)");
                 }
 
+                if (ImGui::Checkbox("Lighting", &m_settings.lighting))
+                {
+                    SetLighting(m_settings.lighting);
+                }
+
                 ImGui::SeparatorText("Environment Information");
 
                 ImGui::BulletText("Detected Operating System: %s", GetOSName(m_os));
