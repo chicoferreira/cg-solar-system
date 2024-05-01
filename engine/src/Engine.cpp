@@ -518,7 +518,7 @@ namespace engine
         double xpos, ypos;
         glfwGetCursorPos(m_window, &xpos, &ypos);
 
-        Vec3f movement = {};
+        Vec3f movement = Vec3f{};
 
         if (!io->WantCaptureKeyboard)
         {

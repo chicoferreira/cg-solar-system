@@ -13,8 +13,8 @@ struct Vec3f
 {
     float x, y, z;
 
-    constexpr Vec3f() : x(0), y(0), z(0) {}
-    constexpr Vec3f(const float value) : x(value), y(value), z(value) {}
+    constexpr explicit Vec3f() : x(0), y(0), z(0) {}
+    constexpr explicit Vec3f(const float value) : x(value), y(value), z(value) {}
     constexpr Vec3f(const float x, const float y, const float z) : x(x), y(y), z(z) {}
     constexpr Vec3f operator+(const Vec3f &other) const { return {x + other.x, y + other.y, z + other.z}; }
     Vec3f &operator+=(const Vec3f &other)

@@ -219,7 +219,7 @@ namespace engine
 
                         if (ImGui::SmallButton("Add New Point"))
                         {
-                            translation.points_to_follow.push_back({});
+                            translation.points_to_follow.push_back(Vec3f{});
                             translation.updatePoints();
                         }
                     }

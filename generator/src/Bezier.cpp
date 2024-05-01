@@ -45,9 +45,12 @@ namespace generator::bezier
         return surface;
     }
 
-    std::pair<std::vector<Vec3f>, std::vector<Vec3f>> GenerateBezierPatch(const std::array<Vec3f, 16> &control_points, const size_t tesselation_level)
+    std::pair<std::vector<Vec3f>, std::vector<Vec3f>>
+    GenerateBezierPatch(const std::array<Vec3f, 16> &control_points, const size_t tesselation_level)
     {
         std::vector<Vec3f> vertex((tesselation_level + 1) * (tesselation_level + 1));
+        std::vector<Vec3f> normals_v((tesselation_level + 1) * (tesselation_level + 1));
+        std::vector<Vec3f> normals_u((tesselation_level + 1) * (tesselation_level + 1));
         std::vector<Vec3f> normals((tesselation_level + 1) * (tesselation_level + 1));
 
         const Mat4f bezier_matrix{{{-1, 3, -3, 1}, {3, -6, 3, 0}, {-3, 3, 0, 0}, {1, 0, 0, 0}}};
@@ -76,14 +79,20 @@ namespace generator::bezier
                     Vec4f du_vector = {3 * u * u, 2 * u, 1, 0};
                     Vec4f dv_vector = {3 * v * v, 2 * v, 1, 0};
 
-                    vertex[i * tesselation_level + j][c] = (intermediate_matrix * u_vector).matrixMult(v_vector);
+                    vertex[i * (tesselation_level + 1) + j][c] = (intermediate_matrix * u_vector).matrixMult(v_vector);
 
-                    Vec3f du = (intermediate_matrix * du_vector).matrixMult(v_vector);
-                    Vec3f dv = (intermediate_matrix * u_vector).matrixMult(dv_vector);
+                    float du = (intermediate_matrix * du_vector).matrixMult(v_vector);
+                    float dv = (intermediate_matrix * u_vector).matrixMult(dv_vector);
 
-                    normals[i * tesselation_level + j] = du.Cross(dv).Normalize();
+                    normals_v[i * (tesselation_level + 1) + j][c] = du;
+                    normals_u[i * (tesselation_level + 1) + j][c] = dv;
                 }
             }
+        }
+
+        for (int i = 0; i < (tesselation_level + 1) * (tesselation_level + 1); ++i)
+        {
+            normals[i] = normals_v[i].Cross(normals_u[i]).Normalize();
         }
 
         return {vertex, normals};
