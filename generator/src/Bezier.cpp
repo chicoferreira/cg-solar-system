@@ -45,9 +45,10 @@ namespace generator::bezier
         return surface;
     }
 
-    std::vector<Vec3f> GenerateBezierPatch(const std::array<Vec3f, 16> &control_points, const size_t tesselation_level)
+    std::pair<std::vector<Vec3f>, std::vector<Vec3f>> GenerateBezierPatch(const std::array<Vec3f, 16> &control_points, const size_t tesselation_level)
     {
         std::vector<Vec3f> vertex((tesselation_level + 1) * (tesselation_level + 1));
+        std::vector<Vec3f> normals((tesselation_level + 1) * (tesselation_level + 1));
 
         const Mat4f bezier_matrix{{{-1, 3, -3, 1}, {3, -6, 3, 0}, {-3, 3, 0, 0}, {1, 0, 0, 0}}};
 
@@ -72,12 +73,20 @@ namespace generator::bezier
                     Vec4f u_vector = {u * u * u, u * u, u, 1};
                     Vec4f v_vector = {v * v * v, v * v, v, 1};
 
-                    vertex[i * (tesselation_level + 1) + j][c] = (intermediate_matrix * u_vector).matrixMult(v_vector);
+                    Vec4f du_vector = {3 * u * u, 2 * u, 1, 0};
+                    Vec4f dv_vector = {3 * v * v, 2 * v, 1, 0};
+
+                    vertex[i * tesselation_level + j][c] = (intermediate_matrix * u_vector).matrixMult(v_vector);
+
+                    Vec3f du = (intermediate_matrix * du_vector).matrixMult(v_vector);
+                    Vec3f dv = (intermediate_matrix * u_vector).matrixMult(dv_vector);
+
+                    normals[i * tesselation_level + j] = du.Cross(dv).Normalize();
                 }
             }
         }
 
-        return vertex;
+        return {vertex, normals};
     }
 
     generator::GeneratorResult GenerateBezierSurface(const Surface &surface, const size_t tesselation_level)
@@ -97,8 +106,8 @@ namespace generator::bezier
             }
 
             const auto result = GenerateBezierPatch(patch_vertex, tesselation_level);
-            vertex.insert(vertex.end(), result.begin(), result.end());
-            // TODO: Calculate normals
+            vertex.insert(vertex.end(), result.first.begin(), result.first.end());
+            normals.insert(normals.end(), result.second.begin(), result.second.end());
 
             for (int z = 0; z < tesselation_level; ++z)
             {
