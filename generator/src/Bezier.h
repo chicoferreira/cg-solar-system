@@ -2,10 +2,10 @@
 #define CG_SOLAR_SYSTEM_BEZIER_H
 
 #include <array>
+#include <cstdint>
 #include <filesystem>
 #include <optional>
 #include <vector>
-#include <cstdint>
 #include "Generator.h"
 namespace generator::bezier
 {

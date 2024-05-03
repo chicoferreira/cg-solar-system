@@ -94,7 +94,11 @@ namespace engine
         std::vector<model::Model> m_models;
         std::vector<uint32_t> m_models_vertex_buffers;
         std::vector<uint32_t> m_models_index_buffers;
+        std::vector<uint32_t> m_models_tex_coords_buffers;
         std::vector<uint32_t> m_models_normal_buffers;
+
+        std::vector<model::Texture> m_textures;
+        std::vector<uint32_t> m_texture_buffers;
 
         EngineSettings m_settings{
             8, // mssa_samples
@@ -137,9 +141,11 @@ namespace engine
 
         bool loadWorld();
         bool loadModels();
+        bool loadTextures();
         void uploadModelsToGPU();
         void destroyModels();
         void setupWorldLights();
+        void uploadTexturesToGPU();
     };
 } // namespace engine
 

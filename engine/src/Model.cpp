@@ -1,15 +1,50 @@
 #include "Model.h"
 
 #include <fstream>
+#include <iostream>
 #include <optional>
 #include <sstream>
 #include <string>
 #include <vector>
 
+#include "IL/il.h"
+
 #include "Utils.h"
 
 namespace engine::model
 {
+
+    const std::vector<std::string> TEXTURE_PATHS_TO_SEARCH = {"assets/textures/", "./"};
+
+    std::optional<Texture> LoadTextureFromFile(const std::string &file_path)
+    {
+        const auto path = utils::FindFile(TEXTURE_PATHS_TO_SEARCH, file_path);
+        if (!path)
+            return std::nullopt;
+
+        uint32_t image_id = ilGenImage();
+        ilBindImage(image_id);
+        if (!ilLoadImage(path.value().string().c_str()))
+        {
+            std::cerr << ilGetError() << std::endl;
+            return std::nullopt;
+        }
+
+        uint32_t image_width = ilGetInteger(IL_IMAGE_WIDTH);
+        uint32_t image_height = ilGetInteger(IL_IMAGE_HEIGHT);
+        ilConvertImage(IL_RGBA, IL_UNSIGNED_BYTE);
+
+        std::vector<uint8_t> texture_data(image_height * image_width * 4);
+
+        ilCopyPixels(0, 0, 0, image_width, image_height, 1, IL_RGBA, IL_UNSIGNED_BYTE, texture_data.data());
+
+        ilBindImage(0);
+
+        return {Texture{image_width, image_height, texture_data, image_id}};
+    }
+
+    Texture::~Texture() { ilDeleteImage(il_id); }
+
     // Parse the first index of a face vertex
     // f v1/vt1/vn1 v2/vt2/vn2 v3/vt3/vn3 -> v1, v2, v3
     size_t parseFirstIndex(std::string_view string)
@@ -57,6 +92,12 @@ namespace engine::model
                 stream >> normal.x >> normal.y >> normal.z;
                 m_normals.push_back(normal);
             }
+            else if (type == "vt")
+            {
+                Vec2f tex_coord;
+                stream >> tex_coord.x >> tex_coord.y;
+                m_tex_coords.push_back(tex_coord);
+            }
             else if (type == "f")
             {
                 std::string vertex1, vertex2, vertex3;
@@ -71,6 +112,13 @@ namespace engine::model
                 m_indexes.push_back(i3);
             }
         }
+
+        if (m_tex_coords.size() != m_vertex.size())
+        {
+            std::cerr << "Model " << m_name << " has no texture coordinates. Textures may not render properly."
+                      << std::endl;
+            m_tex_coords.resize(m_vertex.size(), Vec2f{0, 0});
+        }
     }
 
     void Model::LoadFrom3dFormatStream(std::istream &file)
@@ -78,9 +126,10 @@ namespace engine::model
         size_t vertex_size, indexes_size;
         file >> vertex_size >> indexes_size;
 
-        m_vertex.resize(vertex_size);
-        m_normals.resize(vertex_size);
-        m_indexes.resize(indexes_size);
+        m_vertex.resize(vertex_size, Vec3f{0, 0, 0});
+        m_normals.resize(vertex_size, Vec3f{0, 0, 0});
+        m_tex_coords.resize(vertex_size, Vec2f{0, 0});
+        m_indexes.resize(indexes_size, 0);
 
         for (auto &pos : m_vertex)
         {
@@ -90,6 +139,11 @@ namespace engine::model
         for (auto &normal : m_normals)
         {
             file >> normal.x >> normal.y >> normal.z;
+        }
+
+        for (auto &tex_coord : m_tex_coords)
+        {
+            file >> tex_coord.x >> tex_coord.y;
         }
 
         for (auto &index : m_indexes)

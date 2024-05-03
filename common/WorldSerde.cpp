@@ -56,6 +56,17 @@ namespace world::serde
                 const auto model_file_path = model_element->Attribute("file");
                 EARLY_RETURN_R(!model_file_path, "World XML model is missing the file attribute.", std::nullopt)
 
+                std::optional<size_t> texture_index = std::nullopt;
+                if (const auto texture_element = model_element->FirstChildElement("texture"))
+                {
+                    const char *texture_file_path = texture_element->Attribute("file");
+                    EARLY_RETURN_R(
+                        !texture_file_path, "World XML model texture is missing the file attribute.", std::nullopt
+                    )
+
+                    texture_index = world.AddTextureName(texture_file_path);
+                }
+
                 ModelMaterial material;
 
                 if (const auto color_element = model_element->FirstChildElement("color"))
@@ -68,7 +79,7 @@ namespace world::serde
                         shininess_element->QueryFloatAttribute("value", &material.shininess);
                 }
                 size_t model_index = world.AddModelName(model_file_path);
-                group.models.push_back({model_index, material});
+                group.models.push_back({model_index, texture_index, material});
             }
         }
 

@@ -8,8 +8,8 @@
     </camera>
     <group>
         <models>
-            <model file="box_2_3.3d"> <!-- generator box 2 3 box_2_3.3d -->
-                <texture file="tnt.jpg"/>
+            <model file="cylinder_1_2_20.3d"> <!-- generator cylinder 1 2 20 cylinder_1_2_20.3d -->
+                <texture file="oil_drum.jpg"/>
             </model>
         </models>
     </group>

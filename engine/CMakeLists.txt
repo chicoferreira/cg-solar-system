@@ -33,3 +33,6 @@ target_link_libraries(cg-solar-system PRIVATE tinyxml2::tinyxml2)
 
 find_package(GLEW REQUIRED)
 target_link_libraries(cg-solar-system PRIVATE GLEW::GLEW)
+
+find_package(DevIL REQUIRED)
+target_link_libraries(cg-solar-system PRIVATE DevIL::IL)

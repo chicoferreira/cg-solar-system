@@ -45,13 +45,20 @@ namespace generator::bezier
         return surface;
     }
 
-    std::pair<std::vector<Vec3f>, std::vector<Vec3f>>
-    GenerateBezierPatch(const std::array<Vec3f, 16> &control_points, const size_t tesselation_level)
+    struct BezierPatchResult
+    {
+        std::vector<Vec3f> vertex;
+        std::vector<Vec3f> normals;
+        std::vector<Vec2f> tex_coords;
+    };
+
+    BezierPatchResult GenerateBezierPatch(const std::array<Vec3f, 16> &control_points, const size_t tesselation_level)
     {
         std::vector<Vec3f> vertex((tesselation_level + 1) * (tesselation_level + 1));
         std::vector<Vec3f> normals_v((tesselation_level + 1) * (tesselation_level + 1));
         std::vector<Vec3f> normals_u((tesselation_level + 1) * (tesselation_level + 1));
         std::vector<Vec3f> normals((tesselation_level + 1) * (tesselation_level + 1));
+        std::vector<Vec2f> tex_coords;
 
         const Mat4f bezier_matrix{{{-1, 3, -3, 1}, {3, -6, 3, 0}, {-3, 3, 0, 0}, {1, 0, 0, 0}}};
 
@@ -90,18 +97,21 @@ namespace generator::bezier
             }
         }
 
-        for (int i = 0; i < (tesselation_level + 1) * (tesselation_level + 1); ++i)
-        {
-            normals[i] = normals_v[i].Cross(normals_u[i]).Normalize();
-        }
+        for (int i = 0; i < tesselation_level + 1; ++i)
+            for (int j = 0; j < tesselation_level + 1; ++j)
+                tex_coords.push_back({i * 1.0f / (tesselation_level + 1), j * 1.0f / (tesselation_level + 1)});
 
-        return {vertex, normals};
+        for (int i = 0; i < (tesselation_level + 1) * (tesselation_level + 1); ++i)
+            normals[i] = normals_v[i].Cross(normals_u[i]).Normalize();
+
+        return {vertex, normals, tex_coords};
     }
 
     generator::GeneratorResult GenerateBezierSurface(const Surface &surface, const size_t tesselation_level)
     {
         std::vector<Vec3f> vertex;
         std::vector<Vec3f> normals;
+        std::vector<Vec2f> tex_coords;
         std::vector<uint32_t> indexes;
 
         uint32_t start = 0;
@@ -115,8 +125,9 @@ namespace generator::bezier
             }
 
             const auto result = GenerateBezierPatch(patch_vertex, tesselation_level);
-            vertex.insert(vertex.end(), result.first.begin(), result.first.end());
-            normals.insert(normals.end(), result.second.begin(), result.second.end());
+            vertex.insert(vertex.end(), result.vertex.begin(), result.vertex.end());
+            normals.insert(normals.end(), result.normals.begin(), result.normals.end());
+            tex_coords.insert(tex_coords.end(), result.tex_coords.begin(), result.tex_coords.end());
 
             for (int z = 0; z < tesselation_level; ++z)
             {
@@ -135,6 +146,6 @@ namespace generator::bezier
             start += (tesselation_level + 1) * (tesselation_level + 1);
         }
 
-        return {vertex, normals, indexes};
+        return {vertex, normals, tex_coords, indexes};
     }
 } // namespace generator::bezier

@@ -9,6 +9,19 @@ constexpr float radians_to_degrees(float radians);
 
 struct Vec4f;
 
+struct Vec2f
+{
+    float x, y;
+
+    constexpr explicit Vec2f() : x(0), y(0) {}
+    constexpr explicit Vec2f(const float value) : x(value), y(value) {}
+    constexpr Vec2f(const float x, const float y) : x(x), y(y) {}
+    constexpr Vec2f operator+(const Vec2f other) const { return {x + other.x, y + other.y}; }
+    constexpr Vec2f operator*(const float length) const { return {x * length, y * length}; }
+};
+
+inline Vec2f Vec2fPolar(const float radius, const float alpha) { return {radius * cosf(alpha), radius * sinf(alpha)}; }
+
 struct Vec3f
 {
     float x, y, z;

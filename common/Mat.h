@@ -27,6 +27,9 @@ constexpr Mat4f Mat4fIdentity = {{{1, 0, 0, 0}, {0, 1, 0, 0}, {0, 0, 1, 0}, {0, 
 constexpr Mat4f Mat4fRotateX_M_PI = {{{1, 0, 0, 0}, {0, -1, 0, 0}, {0, 0, -1, 0}, {0, 0, 0, 1}}};
 constexpr Mat4f Mat4fRotateX_M_PI_2 = {{{1, 0, 0, 0}, {0, 0, -1, 0}, {0, 1, 0, 0}, {0, 0, 0, 1}}};
 constexpr Mat4f Mat4fRotateX_NEGATIVE_M_PI_2 = {{{1, 0, 0, 0}, {0, 0, 1, 0}, {0, -1, 0, 0}, {0, 0, 0, 1}}};
+constexpr Mat4f Mat4fRotateY_M_PI = {{{-1, 0, 0, 0}, {0, 1, 0, 0}, {0, 0, -1, 0}, {0, 0, 0, 1}}};
+constexpr Mat4f Mat4fRotateY_M_PI_2 = {{{0, 0, 1, 0}, {0, 1, 0, 0}, {-1, 0, 0, 0}, {0, 0, 0, 1}}};
+constexpr Mat4f Mat4fRotateY_NEGATIVE_M_PI_2 = {{{0, 0, -1, 0}, {0, 1, 0, 0}, {1, 0, 0, 0}, {0, 0, 0, 1}}};
 constexpr Mat4f Mat4fRotateZ_M_PI_2 = {{{0, -1, 0, 0}, {1, 0, 0, 0}, {0, 0, 1, 0}, {0, 0, 0, 1}}};
 constexpr Mat4f Mat4fRotateZ_NEGATIVE_M_PI_2 = {{{0, 1, 0, 0}, {-1, 0, 0, 0}, {0, 0, 1, 0}, {0, 0, 0, 1}}};
 

@@ -1,9 +1,9 @@
 #include "Engine.h"
 
-#include <cstdio>
 #include <iostream>
 
 #include "WorldSerde.h"
+#include "il.h"
 
 namespace engine
 {
@@ -37,6 +37,23 @@ namespace engine
         return true;
     }
 
+    bool Engine::loadTextures()
+    {
+        m_textures.clear();
+        for (const auto &texture_name : m_world.GetTextureNames())
+        {
+            std::optional<model::Texture> texture_optional = model::LoadTextureFromFile(texture_name);
+            if (!texture_optional.has_value())
+            {
+                std::cerr << "Failed to load texture: " << texture_name << std::endl;
+                return false;
+            }
+
+            m_textures.push_back(std::move(texture_optional.value()));
+        }
+        return true;
+    }
+
     bool Engine::loadModels()
     {
         m_models.clear();
@@ -54,8 +71,48 @@ namespace engine
         return true;
     }
 
-    void
-    createModelBuffers(model::Model &model, uint32_t &vertex_buffer, uint32_t &normal_buffer, uint32_t &index_buffer)
+    void uploadTextureToGPU(model::Texture &texture, uint32_t &texture_buffer)
+    {
+        glGenTextures(1, &texture_buffer);
+        glBindTexture(GL_TEXTURE_2D, texture_buffer);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexImage2D(
+            GL_TEXTURE_2D,
+            0,
+            GL_RGBA,
+            texture.GetWidth(),
+            texture.GetHeight(),
+            0,
+            GL_RGBA,
+            GL_UNSIGNED_BYTE,
+            texture.GetTextureData().data()
+        );
+        glGenerateMipmap(GL_TEXTURE_2D);
+        glBindTexture(GL_TEXTURE_2D, 0);
+    }
+
+    void Engine::uploadTexturesToGPU()
+    {
+        m_texture_buffers.resize(m_textures.size());
+
+        for (int i = 0; i < m_textures.size(); ++i)
+        {
+            uint32_t texture_buffer;
+            uploadTextureToGPU(m_textures[i], texture_buffer);
+            m_texture_buffers[i] = texture_buffer;
+        }
+    }
+
+    void uploadModelToGPU(
+        model::Model &model,
+        uint32_t &vertex_buffer,
+        uint32_t &normal_buffer,
+        uint32_t &tex_coord_buffer,
+        uint32_t &index_buffer
+    )
     {
         glGenBuffers(1, &vertex_buffer);
         glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer);
@@ -77,21 +134,29 @@ namespace engine
         glBufferData(
             GL_ARRAY_BUFFER, model.GetNormals().size() * sizeof(Vec3f), model.GetNormals().data(), GL_STATIC_DRAW
         );
+
+        glGenBuffers(1, &tex_coord_buffer);
+        glBindBuffer(GL_ARRAY_BUFFER, tex_coord_buffer);
+        glBufferData(
+            GL_ARRAY_BUFFER, model.GetTexCoords().size() * sizeof(Vec2f), model.GetTexCoords().data(), GL_STATIC_DRAW
+        );
     }
 
     void Engine::uploadModelsToGPU()
     {
         m_models_vertex_buffers.resize(m_models.size());
         m_models_normal_buffers.resize(m_models.size());
+        m_models_tex_coords_buffers.resize(m_models.size());
         m_models_index_buffers.resize(m_models.size());
 
         for (int i = 0; i < m_models.size(); ++i)
         {
-            uint32_t vertex_buffer, normal_buffer, index_buffer;
-            createModelBuffers(m_models[i], vertex_buffer, normal_buffer, index_buffer);
+            uint32_t vertex_buffer, normal_buffer, tex_coord_buffer, index_buffer;
+            uploadModelToGPU(m_models[i], vertex_buffer, normal_buffer, tex_coord_buffer, index_buffer);
 
             m_models_vertex_buffers[i] = vertex_buffer;
             m_models_normal_buffers[i] = normal_buffer;
+            m_models_tex_coords_buffers[i] = tex_coord_buffer;
             m_models_index_buffers[i] = index_buffer;
         }
     }
@@ -103,6 +168,7 @@ namespace engine
             glDeleteBuffers(1, &m_models_vertex_buffers[i]);
             glDeleteBuffers(1, &m_models_normal_buffers[i]);
             glDeleteBuffers(1, &m_models_index_buffers[i]);
+            glDeleteBuffers(1, &m_models_tex_coords_buffers[i]);
         }
     }
 
@@ -112,7 +178,8 @@ namespace engine
         if (!glfwInit())
             return false;
 
-        loadWorld();
+        if (!loadWorld())
+            return false;
 
         m_os = utils::getOS();
 
@@ -143,7 +210,6 @@ namespace engine
 
         SetVsync(m_settings.vsync);
         SetMssa(m_settings.mssa);
-        SetLighting(m_settings.lighting);
 
         glEnable(GL_DEPTH_TEST);
         // Rescale normals when scaling the model
@@ -164,16 +230,29 @@ namespace engine
         float amb[4] = {1.0f, 1.0f, 1.0f, 1.0f};
         glLightModelfv(GL_LIGHT_MODEL_AMBIENT, amb);
 
-        auto result = loadModels();
-        if (!result)
+        if (!loadModels())
+            return false;
+
+        ilInit();
+        ilEnable(IL_ORIGIN_SET);
+        ilOriginFunc(IL_ORIGIN_LOWER_LEFT);
+
+        if (!loadTextures())
             return false;
 
         glEnableClientState(GL_VERTEX_ARRAY);
         glEnableClientState(GL_NORMAL_ARRAY);
+        glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+
+        SetLighting(m_settings.lighting);
+
+        glEnable(GL_TEXTURE_2D);
+        //        glShadeModel(GL_SMOOTH);
 
         setupWorldLights();
 
         uploadModelsToGPU();
+        uploadTexturesToGPU();
 
         return true;
     }
@@ -255,14 +334,23 @@ namespace engine
         glMaterialfv(GL_FRONT, GL_EMISSION, &model.material.emissive.r);
         glMaterialf(GL_FRONT, GL_SHININESS, model.material.shininess);
 
+        if (model.texture_index.has_value())
+        {
+            glBindTexture(GL_TEXTURE_2D, m_texture_buffers[model.texture_index.value()]);
+        }
+
         glBindBuffer(GL_ARRAY_BUFFER, m_models_normal_buffers[model.model_index]);
         glNormalPointer(GL_FLOAT, 0, 0);
 
         glBindBuffer(GL_ARRAY_BUFFER, m_models_vertex_buffers[model.model_index]);
         glVertexPointer(3, GL_FLOAT, 0, 0);
 
+        glBindBuffer(GL_ARRAY_BUFFER, m_models_tex_coords_buffers[model.model_index]);
+        glTexCoordPointer(2, GL_FLOAT, 0, 0);
+
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_models_index_buffers[model.model_index]);
         glDrawElements(GL_TRIANGLES, index_count, GL_UNSIGNED_INT, 0);
+        glBindTexture(GL_TEXTURE_2D, 0);
     }
 
     void Engine::renderGroup(world::WorldGroup &group)

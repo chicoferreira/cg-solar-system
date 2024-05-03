@@ -11,6 +11,7 @@ namespace generator
     {
         std::vector<Vec3f> vertex;
         std::vector<Vec3f> normals;
+        std::vector<Vec2f> tex_coords;
         std::vector<uint32_t> indexes;
     };
 

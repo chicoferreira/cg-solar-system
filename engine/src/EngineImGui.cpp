@@ -312,9 +312,12 @@ namespace engine
                     ImGui::DragFloat3("Position", &camera.position.x, 0.05f);
                     ImGui::DragFloat3("Looking At", &camera.looking_at.x, 0.05f);
                     ImGui::DragFloat3("Up", &camera.up.x, 0.05f);
-                    ImGui::DragFloat("FOV", &camera.fov, 0.05f, 1.0f, 179);
-                    ImGui::DragFloat("Near", &camera.near, 0.05f, 0.05f, camera.far - 1);
-                    ImGui::DragFloat("Far", &camera.far, 0.05f, camera.near + 1, 10000);
+                    if (ImGui::DragFloat("FOV", &camera.fov, 0.05f, 1.0f, 179))
+                        UpdateViewport();
+                    if (ImGui::DragFloat("Near", &camera.near, 0.05f, 0.05f, camera.far - 1))
+                        UpdateViewport();
+                    if (ImGui::DragFloat("Far", &camera.far, 0.05f, camera.near + 1, 10000))
+                        UpdateViewport();
                     ImGui::SeparatorText("Live Camera Settings");
                     ImGui::Checkbox("First Person Mode (V)", &camera.first_person_mode);
                     ImGui::DragFloat3("Speed", &camera.speed.x, 0.05f);

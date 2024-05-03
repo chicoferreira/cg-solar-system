@@ -192,6 +192,7 @@ namespace world
     struct GroupModel
     {
         size_t model_index = 0; // Index of the model in World::m_model_names
+        std::optional<size_t> texture_index = 0; // Index of the texture in World::m_texture_names, if it has texture
         ModelMaterial material = {};
     };
 
@@ -216,6 +217,7 @@ namespace world
         std::vector<lighting::Light> m_lights;
 
         std::vector<std::string> m_model_names = {};
+        std::vector<std::string> m_texture_names = {};
 
     public:
         const std::string &GetFilePath() const { return m_file_path; }
@@ -224,6 +226,7 @@ namespace world
         Camera &GetDefaultCamera() { return m_default_camera; }
         WorldGroup &GetParentWorldGroup() { return m_parent_world_group; }
         std::vector<std::string> &GetModelNames() { return m_model_names; }
+        std::vector<std::string> &GetTextureNames() { return m_texture_names; }
         std::vector<lighting::Light> &getLights() { return m_lights; }
 
         size_t AddModelName(const std::string &model_name)
@@ -236,6 +239,18 @@ namespace world
             m_model_names.push_back(model_name);
             return m_model_names.size() - 1;
         }
+
+        size_t AddTextureName(const std::string &texture_name)
+        {
+            if (std::find(m_texture_names.begin(), m_texture_names.end(), texture_name) != m_texture_names.end())
+                return std::distance(
+                    m_texture_names.begin(), std::find(m_texture_names.begin(), m_texture_names.end(), texture_name)
+                );
+
+            m_texture_names.push_back(texture_name);
+            return m_texture_names.size() - 1;
+        }
+
         void ClearModelNames() { m_model_names.clear(); }
 
         void ResetCamera() { m_camera = m_default_camera; }
