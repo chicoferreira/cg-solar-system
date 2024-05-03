@@ -4,19 +4,23 @@
 #include <iostream>
 
 #include "WorldSerde.h"
-#include "imgui_impl_glfw.h"
-#include "imgui_impl_opengl3.h"
 
 namespace engine
 {
-    void glfw_error_callback(const int error, const char *description)
+    void glfwErrorCallback(const int error, const char *description)
     {
         fprintf(stderr, "GLFW Error %d: %s\n", error, description);
     }
 
-    void glfwSetFramebufferSizeCallback(GLFWwindow *, const int width, const int height)
+    void glfwSetFramebufferSizeCallback(GLFWwindow *window, const int width, const int height)
     {
-        glViewport(0, 0, width, height);
+        Engine *engine = static_cast<Engine *>(glfwGetWindowUserPointer(window));
+        auto &world_window = engine->getWorld().GetWindow();
+
+        world_window.width = width;
+        world_window.height = height;
+
+        engine->UpdateViewport();
     }
 
     float last_scroll = 0;
@@ -50,7 +54,8 @@ namespace engine
         return true;
     }
 
-    void createModelBuffers(model::Model &model, uint32_t &vertex_buffer, uint32_t &index_buffer)
+    void
+    createModelBuffers(model::Model &model, uint32_t &vertex_buffer, uint32_t &normal_buffer, uint32_t &index_buffer)
     {
         glGenBuffers(1, &vertex_buffer);
         glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer);
@@ -66,19 +71,27 @@ namespace engine
             model.GetIndexes().data(),
             GL_STATIC_DRAW
         );
+
+        glGenBuffers(1, &normal_buffer);
+        glBindBuffer(GL_ARRAY_BUFFER, normal_buffer);
+        glBufferData(
+            GL_ARRAY_BUFFER, model.GetNormals().size() * sizeof(Vec3f), model.GetNormals().data(), GL_STATIC_DRAW
+        );
     }
 
     void Engine::uploadModelsToGPU()
     {
         m_models_vertex_buffers.resize(m_models.size());
+        m_models_normal_buffers.resize(m_models.size());
         m_models_index_buffers.resize(m_models.size());
 
         for (int i = 0; i < m_models.size(); ++i)
         {
-            uint32_t vertex_buffer, index_buffer;
-            createModelBuffers(m_models[i], vertex_buffer, index_buffer);
+            uint32_t vertex_buffer, normal_buffer, index_buffer;
+            createModelBuffers(m_models[i], vertex_buffer, normal_buffer, index_buffer);
 
             m_models_vertex_buffers[i] = vertex_buffer;
+            m_models_normal_buffers[i] = normal_buffer;
             m_models_index_buffers[i] = index_buffer;
         }
     }
@@ -88,47 +101,20 @@ namespace engine
         for (int i = 0; i < m_models.size(); ++i)
         {
             glDeleteBuffers(1, &m_models_vertex_buffers[i]);
+            glDeleteBuffers(1, &m_models_normal_buffers[i]);
             glDeleteBuffers(1, &m_models_index_buffers[i]);
-        }
-    }
-
-    OperatingSystem getOS()
-    {
-#ifdef _WIN32
-        return OperatingSystem::WINDOWS;
-#elif __APPLE__
-        return OperatingSystem::MACOS;
-#elif __linux__
-        return OperatingSystem::LINUX;
-#else
-        return OperatingSystem::UNKNOWN;
-#endif
-    }
-
-    static const char *GetOSName(OperatingSystem os)
-    {
-        switch (os)
-        {
-            case OperatingSystem::WINDOWS:
-                return "Windows";
-            case OperatingSystem::LINUX:
-                return "Linux";
-            case OperatingSystem::MACOS:
-                return "MacOS";
-            default:
-                return "Unknown";
         }
     }
 
     bool Engine::Init()
     {
-        glfwSetErrorCallback(glfw_error_callback);
+        glfwSetErrorCallback(glfwErrorCallback);
         if (!glfwInit())
             return false;
 
         loadWorld();
 
-        m_os = getOS();
+        m_os = utils::getOS();
 
         const int width = m_world.GetWindow().width;
         const int height = m_world.GetWindow().height;
@@ -142,6 +128,7 @@ namespace engine
         glfwMakeContextCurrent(m_window);
         glfwSetFramebufferSizeCallback(m_window, glfwSetFramebufferSizeCallback);
         glfwSetScrollCallback(m_window, glfwScrollCallback);
+        glfwSetWindowUserPointer(m_window, this);
 
         if (const GLenum err = glewInit(); err != GLEW_OK)
         {
@@ -149,14 +136,20 @@ namespace engine
             return false;
         }
 
-        if (m_os == OperatingSystem::MACOS)
+        UpdateViewport();
+
+        if (m_os == utils::OperatingSystem::MACOS)
             m_settings.mssa = false;
 
         SetVsync(m_settings.vsync);
         SetMssa(m_settings.mssa);
+        SetLighting(m_settings.lighting);
 
         glEnable(GL_DEPTH_TEST);
+        // Rescale normals when scaling the model
+        glEnable(GL_RESCALE_NORMAL);
         SetCullFaces(m_settings.cull_faces);
+        SetWireframe(m_settings.wireframe);
 
 #ifndef NDEBUG
         glEnable(GL_DEBUG_OUTPUT);
@@ -166,21 +159,28 @@ namespace engine
 
         setupEnvironment();
 
+        // To allow for ambient colors to be reproduced without having to activate the ambient component for all lights,
+        // the following code should be added to the initialization:
+        float amb[4] = {1.0f, 1.0f, 1.0f, 1.0f};
+        glLightModelfv(GL_LIGHT_MODEL_AMBIENT, amb);
+
         auto result = loadModels();
         if (!result)
             return false;
 
         glEnableClientState(GL_VERTEX_ARRAY);
+        glEnableClientState(GL_NORMAL_ARRAY);
+
+        setupWorldLights();
 
         uploadModelsToGPU();
 
         return true;
     }
 
-    void SetRenderWireframeMode(const bool enable) { glPolygonMode(GL_FRONT_AND_BACK, enable ? GL_LINE : GL_FILL); }
-
-    void renderAxis()
+    void Engine::renderAxis()
     {
+        StartSectionDisableLighting();
         glBegin(GL_LINES);
         glColor3f(1.0, 0.0, 0.0);
         glVertex3f(-1000.0, 0.0, 0.0);
@@ -196,14 +196,11 @@ namespace engine
 
         glColor3f(1.0, 1.0, 1.0);
         glEnd();
+        EndSectionDisableLighting();
     }
 
     void renderCamera(const world::Camera &camera, const world::Window &window)
     {
-        glLoadIdentity();
-
-        const float aspect = static_cast<float>(window.width) / static_cast<float>(window.height);
-        gluPerspective(camera.fov, aspect, camera.near, camera.far);
         gluLookAt(
             camera.position.x,
             camera.position.y,
@@ -217,11 +214,54 @@ namespace engine
         );
     }
 
-    void Engine::renderModel(uint32_t model_index, size_t index_count)
+    void Engine::UpdateViewport()
     {
-        glBindBuffer(GL_ARRAY_BUFFER, m_models_vertex_buffers[model_index]);
+        const float height = m_world.GetWindow().height;
+        const float width = m_world.GetWindow().width;
+        const auto &camera = m_world.GetCamera();
+        const float aspect = static_cast<float>(width) / static_cast<float>(height);
+
+        glMatrixMode(GL_PROJECTION);
+        glLoadIdentity();
+
+        glViewport(0, 0, width, height);
+        gluPerspective(camera.fov, aspect, camera.near, camera.far);
+
+        glMatrixMode(GL_MODELVIEW);
+    }
+
+    void Engine::renderModelNormals(model::Model &model)
+    {
+        StartSectionDisableLighting();
+        glColor3f(0.0f, 0.5f, 1.0f);
+        for (int i = 0; i < model.GetVertex().size(); ++i)
+        {
+            Vec3f vertex = model.GetVertex()[i];
+            Vec3f normal = model.GetNormals()[i];
+            glBegin(GL_LINES);
+            glVertex3f(vertex.x, vertex.y, vertex.z);
+            glVertex3f(vertex.x + normal.x, vertex.y + normal.y, vertex.z + normal.z);
+            glEnd();
+        }
+        glColor3f(1.0f, 1.0f, 1.0f);
+        EndSectionDisableLighting();
+    }
+
+    void Engine::renderModel(world::GroupModel &model, size_t index_count)
+    {
+        glMaterialfv(GL_FRONT, GL_AMBIENT, &model.material.ambient.r);
+        glMaterialfv(GL_FRONT, GL_DIFFUSE, &model.material.diffuse.r);
+        glMaterialfv(GL_FRONT, GL_SPECULAR, &model.material.specular.r);
+        glMaterialfv(GL_FRONT, GL_EMISSION, &model.material.emissive.r);
+        glMaterialf(GL_FRONT, GL_SHININESS, model.material.shininess);
+
+        glBindBuffer(GL_ARRAY_BUFFER, m_models_normal_buffers[model.model_index]);
+        glNormalPointer(GL_FLOAT, 0, 0);
+
+        glBindBuffer(GL_ARRAY_BUFFER, m_models_vertex_buffers[model.model_index]);
         glVertexPointer(3, GL_FLOAT, 0, 0);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_models_index_buffers[model_index]);
+
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_models_index_buffers[model.model_index]);
         glDrawElements(GL_TRIANGLES, index_count, GL_UNSIGNED_INT, 0);
     }
 
@@ -231,14 +271,16 @@ namespace engine
 
         renderTransformations(group.transformations, m_simulation_time.m_current_time);
 
-        for (auto &model_index : group.models)
+        for (auto &group_model : group.models)
         {
-            auto &model = m_models[model_index];
+            auto &model = m_models[group_model.model_index];
             auto model_index_size = model.GetIndexes().size();
-            renderModel(model_index, model_index_size);
+            renderModel(group_model, model_index_size);
+            if (m_settings.render_normals)
+                renderModelNormals(model);
 
             m_current_rendered_models_size += 1;
-            m_current_rendered_triangles_size += model_index_size;
+            m_current_rendered_indexes_size += model_index_size;
         }
 
         for (auto &child : group.children)
@@ -291,11 +333,116 @@ namespace engine
             translation.render_path_dirty = false;
         }
 
-        glColor3f(1.0f, 1.0f, 0.0f);
+        StartSectionDisableLighting();
+        glColor3f(0.2f, 0.2f, 1.0f);
         glBindBuffer(GL_ARRAY_BUFFER, translation.render_path_gpu_buffer);
         glVertexPointer(3, GL_FLOAT, 0, 0);
         glDrawArrays(GL_LINE_LOOP, 0, 100);
-        glColor3f(1.0f, 1.0f, 1.0f);
+        EndSectionDisableLighting();
+    }
+
+    void Engine::renderLightModel(const world::lighting::Light &light)
+    {
+        StartSectionDisableLighting();
+        if (std::holds_alternative<world::lighting::DirectionalLight>(light))
+        {
+            const auto &directional_light = std::get<world::lighting::DirectionalLight>(light);
+            Vec3f dir = directional_light.dir;
+
+            glColor3f(1.0f, 1.0f, 0.5f);
+            glBegin(GL_LINES);
+            glVertex3f(0.0f, 0.0f, 0.0f);
+            glVertex3f(dir.x * 1000, dir.y * 1000, dir.z * 1000);
+            glColor3f(1.0f, 1.0f, 1.0f);
+            glEnd();
+        }
+        else if (std::holds_alternative<world::lighting::PointLight>(light))
+        {
+            const auto &point_light = std::get<world::lighting::PointLight>(light);
+            Vec3f pos = point_light.pos;
+
+            glPointSize(10.0f);
+            glColor3f(1.0f, 1.0f, 0.5f);
+            glBegin(GL_POINTS);
+            glVertex3f(pos.x, pos.y, pos.z);
+            glColor3f(1.0f, 1.0f, 1.0f);
+            glEnd();
+        }
+        else if (std::holds_alternative<world::lighting::Spotlight>(light))
+        {
+            const auto &spot_light = std::get<world::lighting::Spotlight>(light);
+            Vec3f pos = spot_light.pos;
+            Vec3f dir = spot_light.dir;
+
+            glPointSize(10.0f);
+            glColor3f(1.0f, 1.0f, 0.5f);
+            glBegin(GL_POINTS);
+            glVertex3f(pos.x, pos.y, pos.z);
+            glEnd();
+            glBegin(GL_LINES);
+            glVertex3f(pos.x, pos.y, pos.z);
+            glVertex3f(pos.x + dir.x, pos.y + dir.y, pos.z + dir.z);
+            glEnd();
+            glColor3f(1.0f, 1.0f, 1.0f);
+        }
+        EndSectionDisableLighting();
+    }
+
+    void Engine::setupWorldLights()
+    {
+        const auto &lights = m_world.getLights();
+        const auto light_count = std::min(lights.size(), (size_t)8);
+
+        for (int i = 0; i < 8; ++i)
+        {
+            glLightf(GL_LIGHT0 + i, GL_SPOT_CUTOFF, 180); // Set the cutoff angle to default
+            glDisable(GL_LIGHT0 + i);
+        }
+
+        for (int i = 0; i < light_count; ++i)
+        {
+            glEnable(GL_LIGHT0 + i);
+            float dark[4] = {0.2, 0.2, 0.2, 1.0};
+            float white[4] = {1.0, 1.0, 1.0, 1.0};
+            glLightfv(GL_LIGHT0 + i, GL_AMBIENT, dark);
+            glLightfv(GL_LIGHT0 + i, GL_DIFFUSE, white);
+            glLightfv(GL_LIGHT0 + i, GL_SPECULAR, white);
+        }
+    }
+
+    void Engine::renderLights()
+    {
+        const auto &lights = m_world.getLights();
+        const auto light_count = std::min(lights.size(), (size_t)8);
+        for (int i = 0; i < light_count; ++i)
+        {
+            const auto &light = lights[i];
+            if (std::holds_alternative<world::lighting::DirectionalLight>(light))
+            {
+                const auto &directional_light = std::get<world::lighting::DirectionalLight>(light);
+                Vec4f dir = directional_light.dir.ToVec4f(0.0f);
+
+                glLightfv(GL_LIGHT0 + i, GL_POSITION, &dir.x);
+            }
+            else if (std::holds_alternative<world::lighting::PointLight>(light))
+            {
+                const auto &point_light = std::get<world::lighting::PointLight>(light);
+                Vec4f pos = point_light.pos.ToVec4f(1.0f);
+
+                glLightfv(GL_LIGHT0 + i, GL_POSITION, &pos.x);
+            }
+            else if (std::holds_alternative<world::lighting::Spotlight>(light))
+            {
+                const auto &spot_light = std::get<world::lighting::Spotlight>(light);
+                Vec4f pos = spot_light.pos.ToVec4f(1.0f);
+                Vec4f dir = spot_light.dir.ToVec4f(0.0f);
+
+                glLightfv(GL_LIGHT0 + i, GL_POSITION, &pos.x);
+                glLightfv(GL_LIGHT0 + i, GL_SPOT_DIRECTION, &dir.x);
+                glLightf(GL_LIGHT0 + i, GL_SPOT_CUTOFF, spot_light.cutoff);
+            }
+            renderLightModel(light);
+        }
     }
 
     void Engine::Render()
@@ -304,40 +451,31 @@ namespace engine
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+        glLoadIdentity();
+
         renderCamera(m_world.GetCamera(), m_world.GetWindow());
+        renderLights();
 
         if (m_settings.render_axis)
             renderAxis();
 
-        SetRenderWireframeMode(m_settings.wireframe);
-
-
         m_current_rendered_models_size = 0;
-        m_current_rendered_triangles_size = 0;
+        m_current_rendered_indexes_size = 0;
         renderGroup(m_world.GetParentWorldGroup());
 
         postRenderImGui();
     }
 
-    void Engine::SetVsync(const bool enable)
-    {
-        m_settings.vsync = enable;
-        glfwSwapInterval(enable);
-    }
+    void Engine::SetVsync(const bool enable) { glfwSwapInterval(enable); }
 
-    void Engine::SetWireframe(const bool enable) { m_settings.wireframe = enable; }
+    void Engine::SetWireframe(const bool enable) { glPolygonMode(GL_FRONT_AND_BACK, enable ? GL_LINE : GL_FILL); }
 
     void Engine::SetCullFaces(const bool enable)
     {
-        m_settings.cull_faces = enable;
         if (enable)
-        {
             glEnable(GL_CULL_FACE);
-        }
         else
-        {
             glDisable(GL_CULL_FACE);
-        }
     }
 
     void Engine::SetMssa(const bool enable)
@@ -346,6 +484,26 @@ namespace engine
             glEnable(GL_MULTISAMPLE);
         else
             glDisable(GL_MULTISAMPLE);
+    }
+
+    void Engine::SetLighting(const bool enable)
+    {
+        if (enable)
+            glEnable(GL_LIGHTING);
+        else
+            glDisable(GL_LIGHTING);
+    }
+
+    void Engine::StartSectionDisableLighting() const
+    {
+        if (m_settings.lighting)
+            glDisable(GL_LIGHTING);
+    }
+
+    void Engine::EndSectionDisableLighting() const
+    {
+        if (m_settings.lighting)
+            glEnable(GL_LIGHTING);
     }
 
     constexpr auto sensitivity = 0.1f;
@@ -419,7 +577,7 @@ namespace engine
         double xpos, ypos;
         glfwGetCursorPos(m_window, &xpos, &ypos);
 
-        Vec3f movement = {};
+        Vec3f movement = Vec3f{};
 
         if (!io->WantCaptureKeyboard)
         {
@@ -496,7 +654,6 @@ namespace engine
         while (!glfwWindowShouldClose(m_window))
         {
             glfwPollEvents();
-            glfwGetFramebufferSize(m_window, &m_world.GetWindow().width, &m_world.GetWindow().height);
 
             const float newTime = glfwGetTime();
             const float timestep = newTime - currentTime;
@@ -514,9 +671,7 @@ namespace engine
 
     void Engine::Shutdown() const
     {
-        ImGui_ImplOpenGL3_Shutdown();
-        ImGui_ImplGlfw_Shutdown();
-        ImGui::DestroyContext();
+        shutdownImGui();
 
         glfwDestroyWindow(m_window);
         glfwTerminate();
@@ -530,484 +685,5 @@ namespace engine
         m_system_environment.opengl_version = std::string(reinterpret_cast<char const *>(glGetString(GL_VERSION)));
         m_system_environment.gpu_renderer = std::string(reinterpret_cast<char const *>(glGetString(GL_RENDERER)));
     }
-
-    void Engine::initImGui()
-    {
-        IMGUI_CHECKVERSION();
-        ImGui::CreateContext();
-        io = &ImGui::GetIO();
-        (void)io;
-        io->ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard; // Enable Keyboard Controls
-        io->ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad; // Enable Gamepad Controls
-        io->ConfigFlags |= ImGuiConfigFlags_DockingEnable; // Enable Docking
-
-        ImGui::GetStyle().WindowRounding = 5.0f;
-
-        ImGui::StyleColorsDark();
-
-        ImGui_ImplGlfw_InitForOpenGL(m_window, true);
-#ifdef __APPLE__
-        ImGui_ImplOpenGL3_Init("#version 120");
-#else
-        ImGui_ImplOpenGL3_Init();
-#endif
-    }
-
-    const char *getTransformationName(const world::transform::Transform &transform)
-    {
-        if (std::holds_alternative<world::transform::Rotation>(transform))
-            return "Rotation";
-        if (std::holds_alternative<world::transform::Translation>(transform))
-            return "Translation";
-        if (std::holds_alternative<world::transform::Scale>(transform))
-            return "Scale";
-        if (std::holds_alternative<world::transform::TranslationThroughPoints>(transform))
-            return "Translation Through Points";
-        if (std::holds_alternative<world::transform::RotationWithTime>(transform))
-            return "Rotation with Time";
-        return "Unknown";
-    }
-
-    void Engine::renderImGuiWorldGroupMenu(world::WorldGroup &world_group)
-    {
-        auto &model_indexes = world_group.models;
-        auto world_group_name = world_group.name.has_value() ? world_group.name->c_str() : "unknown";
-        if (ImGui::TreeNode(&world_group, "Group (%s)", world_group_name))
-        {
-            if (ImGui::TreeNodeEx(&model_indexes, ImGuiTreeNodeFlags_DefaultOpen, "Models (%zu)", model_indexes.size()))
-            {
-                for (int i = 0; i < model_indexes.size(); ++i)
-                {
-                    size_t &model_index = model_indexes[i];
-                    ImGui::Text("Model #%lu (%s)", model_index, m_models[model_index].GetName().c_str());
-                }
-                ImGui::TreePop();
-            }
-
-            ImGui::BeginGroup();
-
-            struct TransformDragDropPayload
-            {
-                world::transform::Transform *origin;
-                world::WorldGroup *group;
-                int group_index;
-            };
-
-            const auto num_transforms = world_group.transformations.GetTransformations().size();
-            if (ImGui::TreeNode(&world_group.transformations, "Transformations (%zu)", num_transforms))
-            {
-                if (ImGui::Button("Add Transformation"))
-                {
-                    ImGui::OpenPopup("Add Transformation");
-                }
-
-                if (ImGui::BeginPopup("Add Transformation"))
-                {
-                    if (ImGui::MenuItem("Rotation"))
-                    {
-                        world_group.transformations.AddTransform(world::transform::Rotation());
-                        ImGui::CloseCurrentPopup();
-                    }
-
-                    if (ImGui::MenuItem("Rotation (with Time)"))
-                    {
-                        world_group.transformations.AddTransform(world::transform::RotationWithTime());
-                        ImGui::CloseCurrentPopup();
-                    }
-
-                    if (ImGui::MenuItem("Translation"))
-                    {
-                        world_group.transformations.AddTransform(world::transform::Translation());
-                        ImGui::CloseCurrentPopup();
-                    }
-
-                    if (ImGui::MenuItem("Translation (Through Points)"))
-                    {
-                        world_group.transformations.AddTransform(world::transform::TranslationThroughPoints());
-                        ImGui::CloseCurrentPopup();
-                    }
-
-                    if (ImGui::MenuItem("Scale"))
-                    {
-                        world_group.transformations.AddTransform(world::transform::Scale());
-                        ImGui::CloseCurrentPopup();
-                    }
-
-                    ImGui::EndPopup();
-                }
-
-                for (int i = 0; i < world_group.transformations.GetTransformations().size(); ++i)
-                {
-                    if (i > 0 && i < world_group.transformations.GetTransformations().size())
-                        ImGui::Separator();
-
-                    auto &transform = world_group.transformations.GetTransformations()[i];
-
-                    ImGui::BeginGroup();
-                    ImGui::PushID(&transform);
-                    ImGui::Text("%s", getTransformationName(transform));
-
-                    if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_SourceAllowNullID))
-                    {
-                        TransformDragDropPayload transform_payload = {&transform, &world_group, i};
-                        ImGui::SetDragDropPayload(
-                            "TRANSFORMATION", &transform_payload, sizeof(TransformDragDropPayload)
-                        );
-                        ImGui::Text("%s", getTransformationName(transform));
-                        ImGui::EndDragDropSource();
-                    }
-
-                    ImGui::SameLine();
-                    if (ImGui::SmallButton("Remove"))
-                    {
-                        world_group.transformations.RemoveTransform(i);
-                    }
-
-                    if (std::holds_alternative<world::transform::Rotation>(transform))
-                    {
-                        auto &rotation = std::get<world::transform::Rotation>(transform);
-                        float angle = radians_to_degrees(rotation.angle_rads);
-                        ImGui::DragFloat3("Axis", &rotation.axis.x, 0.05f);
-
-                        if (ImGui::DragFloat("Angle", &angle, 1, -360.0f, 360.0f))
-                        {
-                            rotation.angle_rads = degrees_to_radians(angle);
-                        }
-                    }
-                    else if (std::holds_alternative<world::transform::RotationWithTime>(transform))
-                    {
-                        auto &rotation_with_time = std::get<world::transform::RotationWithTime>(transform);
-                        ImGui::DragFloat3("Axis", &rotation_with_time.axis.x, 0.05f);
-                        ImGui::DragFloat(
-                            "Time to 360º", &rotation_with_time.time_to_complete, 0.01f, 0.0f, 0.0f, "%.3f s"
-                        );
-                    }
-                    else if (std::holds_alternative<world::transform::Translation>(transform))
-                    {
-                        auto &translation = std::get<world::transform::Translation>(transform);
-                        ImGui::DragFloat3("Coordinates", &translation.translation.x, 0.05f);
-                    }
-                    else if (std::holds_alternative<world::transform::TranslationThroughPoints>(transform))
-                    {
-                        auto &translation = std::get<world::transform::TranslationThroughPoints>(transform);
-                        ImGui::DragFloat(
-                            "Time to Complete", &translation.time_to_complete, 0.01f, 0.0f, 0.0f, "%.3f s"
-                        );
-                        ImGui::Checkbox("Align to Path", &translation.align_to_path);
-                        ImGui::Checkbox("Render Path", &translation.render_path);
-
-                        if (!m_settings.render_transform_through_points_path)
-                        {
-                            ImGui::SameLine();
-                            ImGui::TextDisabled("(Disabled on Settings Page)");
-                        }
-
-                        ImGui::Text("Points to Follow:");
-
-                        if (translation.points_to_follow.size() < 4)
-                        {
-                            ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(255, 255, 0, 255));
-                            ImGui::Text("This transformation needs at least 4 points to work.");
-                            ImGui::PopStyleColor();
-                        }
-
-                        for (int point_index = 0; point_index < translation.points_to_follow.size(); ++point_index)
-                        {
-                            auto &point_to_follow = translation.points_to_follow[point_index];
-                            ImGui::PushID(&point_to_follow);
-                            std::string name = "Point " + std::to_string(point_index + 1);
-                            if (ImGui::DragFloat3(name.c_str(), &point_to_follow.x, 0.05f))
-                            {
-                                translation.updatePoints();
-                            }
-                            ImGui::SameLine();
-                            if (ImGui::SmallButton("Remove"))
-                            {
-                                translation.points_to_follow.erase(translation.points_to_follow.begin() + point_index);
-                                translation.updatePoints();
-                            }
-                            ImGui::PopID();
-                        }
-
-                        if (ImGui::SmallButton("Add New Point"))
-                        {
-                            translation.points_to_follow.push_back({});
-                            translation.updatePoints();
-                        }
-                    }
-                    else if (std::holds_alternative<world::transform::Scale>(transform))
-                    {
-                        auto &scale = std::get<world::transform::Scale>(transform);
-                        ImGui::DragFloat3("Axis", &scale.scale.x, 0.05f);
-                    }
-                    ImGui::EndGroup();
-                    ImGui::PopID();
-
-                    if (ImGui::BeginDragDropTarget())
-                    {
-                        if (const ImGuiPayload *payload = ImGui::AcceptDragDropPayload("TRANSFORMATION"))
-                        {
-                            const auto transform_payload = *(const TransformDragDropPayload *)payload->Data;
-
-                            if (transform_payload.group != &world_group || transform_payload.group_index != i)
-                            {
-                                auto &target_group_transformations =
-                                    transform_payload.group->transformations.GetTransformations();
-
-                                auto &origin = target_group_transformations[transform_payload.group_index];
-                                auto &target = world_group.transformations.GetTransformations()[i];
-                                std::swap(origin, target);
-                            }
-                        }
-                        ImGui::EndDragDropTarget();
-                    }
-                }
-                ImGui::TreePop();
-            }
-
-            ImGui::EndGroup();
-
-            if (ImGui::BeginDragDropTarget())
-            {
-                if (const ImGuiPayload *payload = ImGui::AcceptDragDropPayload("TRANSFORMATION"))
-                {
-                    const auto transform_payload = *(const TransformDragDropPayload *)payload->Data;
-
-                    world_group.transformations.AddTransform(*transform_payload.origin);
-                    transform_payload.group->transformations.RemoveTransform(transform_payload.group_index);
-                }
-                ImGui::EndDragDropTarget();
-            }
-
-            for (auto &child : world_group.children)
-            {
-                renderImGuiWorldGroupMenu(child);
-            }
-
-            ImGui::TreePop();
-        }
-    }
-
-    void Engine::renderImGui()
-    {
-        ImGui_ImplOpenGL3_NewFrame();
-        ImGui_ImplGlfw_NewFrame();
-        ImGui::NewFrame();
-
-        {
-            ImGui::Begin("CG Engine");
-
-            auto flags = ImGuiTreeNodeFlags_Framed | ImGuiTreeNodeFlags_DefaultOpen;
-            if (ImGui::TreeNodeEx(&m_world, flags, "World (%s)", m_world.GetFilePath().c_str()))
-            {
-                ImGui::Text("Width:");
-                ImGui::SameLine();
-                ImGui::TextDisabled("%d", m_world.GetWindow().width);
-                ImGui::SameLine();
-                ImGui::Text("Height:");
-                ImGui::SameLine();
-                ImGui::TextDisabled("%d", m_world.GetWindow().height);
-
-                if (ImGui::Button("Reload"))
-                {
-                    destroyModels();
-                    auto previous_window = m_world.GetWindow();
-                    loadWorld();
-                    m_world.GetWindow() = previous_window; // Window cannot be reloaded
-                    loadModels();
-                    uploadModelsToGPU();
-                }
-
-                if (ImGui::TreeNodeEx("Camera", ImGuiTreeNodeFlags_Framed))
-                {
-                    auto &camera = m_world.GetCamera();
-                    ImGui::DragFloat3("Position", &camera.position.x, 0.05f);
-                    ImGui::DragFloat3("Looking At", &camera.looking_at.x, 0.05f);
-                    ImGui::DragFloat3("Up", &camera.up.x, 0.05f);
-                    ImGui::DragFloat("FOV", &camera.fov, 0.05f, 1.0f, 179);
-                    ImGui::DragFloat("Near", &camera.near, 0.05f, 0.05f, camera.far - 1);
-                    ImGui::DragFloat("Far", &camera.far, 0.05f, camera.near + 1, 10000);
-                    ImGui::SeparatorText("Live Camera Settings");
-                    ImGui::Checkbox("First Person Mode (V)", &camera.first_person_mode);
-                    ImGui::DragFloat3("Speed", &camera.speed.x, 0.05f);
-                    ImGui::DragFloat("Scroll Speed", &camera.scroll_speed, 0.05f);
-                    ImGui::DragFloat("Max Speed", &camera.max_speed_per_second, 0.05f);
-                    ImGui::DragFloat("Acceleration", &camera.acceleration_per_second, 0.05f);
-                    ImGui::DragFloat("Friction", &camera.friction_per_second, 0.05f);
-
-                    if (ImGui::Button("Reset (R)"))
-                    {
-                        m_world.ResetCamera();
-                    }
-
-                    ImGui::TreePop();
-                }
-
-                if (ImGui::TreeNodeEx("Groups", ImGuiTreeNodeFlags_Framed | ImGuiTreeNodeFlags_DefaultOpen))
-                {
-                    renderImGuiWorldGroupMenu(m_world.GetParentWorldGroup());
-                    ImGui::TreePop();
-                }
-
-                static float TEXT_BASE_HEIGHT = ImGui::GetTextLineHeightWithSpacing();
-
-                if (ImGui::TreeNodeEx("Models", ImGuiTreeNodeFlags_Framed | ImGuiTreeNodeFlags_DefaultOpen))
-                {
-                    for (size_t i = 0; i < m_models.size(); ++i)
-                    {
-                        auto &model = m_models[i];
-                        if (ImGui::TreeNode(&model, "Model #%zu (%s)", i, model.GetName().c_str()))
-                        {
-                            ImGui::Text("Vertex Count: %zu", model.GetVertex().size());
-                            ImGui::Text("Index Count: %zu", model.GetIndexes().size());
-                            ImGui::Text("Triangle Count: %zu", model.GetIndexes().size() / 3);
-
-                            flags = ImGuiTableFlags_ScrollY | ImGuiTableFlags_RowBg | ImGuiTableFlags_BordersOuter |
-                                ImGuiTableFlags_BordersV | ImGuiTableFlags_Resizable;
-                            ImVec2 outer_size_vertex = ImVec2(
-                                0, TEXT_BASE_HEIGHT * (std::min(model.GetVertex().size(), static_cast<size_t>(10)) + 1)
-                            );
-
-                            ImGui::Text("Vertex Table");
-                            if (ImGui::BeginTable("vertex_table", 4, flags, outer_size_vertex))
-                            {
-                                ImGui::TableSetupScrollFreeze(0, 1); // Make top row always visible
-                                ImGui::TableSetupColumn("Index", ImGuiTableColumnFlags_None);
-                                ImGui::TableSetupColumn("x", ImGuiTableColumnFlags_None);
-                                ImGui::TableSetupColumn("y", ImGuiTableColumnFlags_None);
-                                ImGui::TableSetupColumn("z", ImGuiTableColumnFlags_None);
-                                ImGui::TableHeadersRow();
-
-                                // Demonstrate using clipper for large vertical lists
-                                ImGuiListClipper clipper;
-                                clipper.Begin(model.GetVertex().size());
-                                while (clipper.Step())
-                                {
-                                    for (int row = clipper.DisplayStart; row < clipper.DisplayEnd; row++)
-                                    {
-                                        ImGui::TableNextRow();
-                                        ImGui::TableSetColumnIndex(0);
-                                        ImGui::Text("%d", row);
-                                        for (int column = 1; column < 4; column++)
-                                        {
-                                            ImGui::TableSetColumnIndex(column);
-                                            ImGui::Text("%.3f", model.GetVertex()[row][column - 1]);
-                                        }
-                                    }
-                                }
-                                ImGui::EndTable();
-                            }
-
-                            ImGui::Text("Triangle Table");
-                            ImVec2 outer_size_index = ImVec2(
-                                0,
-                                TEXT_BASE_HEIGHT *
-                                    (std::min(model.GetIndexes().size() / 3, static_cast<size_t>(10)) + 1)
-                            );
-                            if (ImGui::BeginTable("index_table", 4, flags, outer_size_index))
-                            {
-                                ImGui::TableSetupScrollFreeze(0, 1); // Make top row always visible
-                                ImGui::TableSetupColumn("Triangle No.", ImGuiTableColumnFlags_None);
-                                ImGui::TableSetupColumn("Vertex 1", ImGuiTableColumnFlags_None);
-                                ImGui::TableSetupColumn("Vertex 2", ImGuiTableColumnFlags_None);
-                                ImGui::TableSetupColumn("Vertex 3", ImGuiTableColumnFlags_None);
-                                ImGui::TableHeadersRow();
-
-                                // Demonstrate using clipper for large vertical lists
-                                ImGuiListClipper clipper;
-                                clipper.Begin(model.GetIndexes().size() / 3);
-                                while (clipper.Step())
-                                {
-                                    for (int row = clipper.DisplayStart; row < clipper.DisplayEnd; row++)
-                                    {
-                                        ImGui::TableNextRow();
-                                        ImGui::TableSetColumnIndex(0);
-                                        ImGui::Text("%d", row);
-                                        for (int column = 1; column < 4; column++)
-                                        {
-                                            ImGui::TableSetColumnIndex(column);
-                                            ImGui::Text("%d", model.GetIndexes()[row * 3 + (column - 1)]);
-                                        }
-                                    }
-                                }
-                                ImGui::EndTable();
-                            }
-
-                            ImGui::TreePop();
-                        }
-                    }
-                    ImGui::TreePop();
-                }
-
-                ImGui::TreePop();
-            }
-
-            if (ImGui::TreeNodeEx("Simulation", ImGuiTreeNodeFlags_Framed))
-            {
-                ImGui::Text("Current Time: %.2f", m_simulation_time.m_current_time);
-                ImGui::Checkbox("Paused", &m_simulation_time.m_is_paused);
-                ImGui::DragFloat("Simulation Speed", &m_simulation_time.m_current_simulation_speed_p_s, 0.05f);
-                ImGui::TreePop();
-            }
-
-            if (ImGui::TreeNodeEx("Settings", ImGuiTreeNodeFlags_Framed))
-            {
-                ImGui::Checkbox(
-                    "Render Transform Through Points Path", &m_settings.render_transform_through_points_path
-                );
-
-                if (ImGui::Checkbox("VSync", &m_settings.vsync))
-                {
-                    SetVsync(m_settings.vsync);
-                }
-
-                if (ImGui::Checkbox("Cull Faces", &m_settings.cull_faces))
-                {
-                    SetCullFaces(m_settings.cull_faces);
-                }
-
-                if (ImGui::Checkbox("Wireframe", &m_settings.wireframe))
-                {
-                    SetWireframe(m_settings.wireframe);
-                }
-
-                ImGui::Checkbox("Render Axis", &m_settings.render_axis);
-
-                if (ImGui::Checkbox("MSSA", &m_settings.mssa))
-                {
-                    SetMssa(m_settings.mssa);
-                }
-
-                if (m_os == OperatingSystem::MACOS)
-                {
-                    ImGui::SameLine();
-                    ImGui::TextDisabled("(Broken on MacOS)");
-                }
-
-                ImGui::SeparatorText("Environment Information");
-
-                ImGui::BulletText("Detected Operating System: %s", GetOSName(m_os));
-                ImGui::BulletText("MSSA Samples: %zu", m_settings.mssa_samples);
-                ImGui::BulletText("GLEW Version: %s", m_system_environment.glew_version.c_str());
-                ImGui::BulletText("GLFW Version: %s", m_system_environment.glfw_version.c_str());
-                ImGui::BulletText("ImGui Version: %s", m_system_environment.imgui_version.c_str());
-                ImGui::BulletText("OpenGL Version: %s", m_system_environment.opengl_version.c_str());
-                ImGui::BulletText("GPU Renderer: %s", m_system_environment.gpu_renderer.c_str());
-                ImGui::TreePop();
-            }
-
-            ImGui::Text(
-                "Rendering %zu models (%zu triangles)",
-                m_current_rendered_models_size,
-                m_current_rendered_triangles_size
-            );
-            ImGui::Text("%.3f ms/frame (%.1f FPS)", 1000.0f / io->Framerate, io->Framerate);
-            ImGui::End();
-        }
-
-        ImGui::Render();
-    }
-
-    void Engine::postRenderImGui() { ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData()); }
 
 } // namespace engine

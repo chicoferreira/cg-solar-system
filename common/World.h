@@ -2,16 +2,17 @@
 #define WORLD_H
 
 #include <algorithm>
+#include <cstdint>
 #include <iostream>
 #include <optional>
 #include <string>
 #include <variant>
 #include <vector>
-#include <cstdint>
 
 #define _USE_MATH_DEFINES
 #include <math.h>
 
+#include "Color.h"
 #include "Mat.h"
 #include "Vec.h"
 
@@ -159,10 +160,45 @@ namespace world
         void RemoveTransform(const size_t index) { m_transformations.erase(m_transformations.begin() + index); }
     };
 
+    namespace lighting
+    {
+        struct PointLight
+        {
+            Vec3f pos;
+        };
+        struct DirectionalLight
+        {
+            Vec3f dir;
+        };
+        struct Spotlight
+        {
+            Vec3f pos;
+            Vec3f dir;
+            float cutoff;
+        };
+
+        using Light = std::variant<PointLight, DirectionalLight, Spotlight>;
+    } // namespace lighting
+
+    struct ModelMaterial
+    {
+        Color diffuse = {1.0f, 1.0f, 1.0f, 1.0f};
+        Color ambient = {1.0f, 1.0f, 1.0f, 1.0f};
+        Color specular = {0.0f, 0.0f, 0.0f, 1.0f};
+        Color emissive = {0.0f, 0.0f, 0.0f, 1.0f};
+        float shininess = 0.0f;
+    };
+
+    struct GroupModel
+    {
+        size_t model_index = 0; // Index of the model in World::m_model_names
+        ModelMaterial material = {};
+    };
+
     struct WorldGroup
     {
         std::optional<std::string> name = {};
-        std::vector<size_t> models = {}; // Indexes of the models in the world
+        std::vector<GroupModel> models = {};
         GroupTransform transformations = {};
         std::vector<WorldGroup> children = {};
 
@@ -177,6 +213,7 @@ namespace world
         Camera m_camera;
         Camera m_default_camera;
         WorldGroup m_parent_world_group;
+        std::vector<lighting::Light> m_lights;
 
         std::vector<std::string> m_model_names = {};
 
@@ -187,6 +224,7 @@ namespace world
         Camera &GetDefaultCamera() { return m_default_camera; }
         WorldGroup &GetParentWorldGroup() { return m_parent_world_group; }
         std::vector<std::string> &GetModelNames() { return m_model_names; }
+        std::vector<lighting::Light> &getLights() { return m_lights; }
 
         size_t AddModelName(const std::string &model_name)
         {

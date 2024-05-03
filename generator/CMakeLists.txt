@@ -10,6 +10,7 @@ add_executable(cg-generator src/main.cpp ../common/Vec.h
         ../common/WorldSerde.cpp
         ../common/Utils.h
         ../common/Utils.cpp
+        ../common/Color.h
         src/Bezier.cpp
         src/Bezier.h
         src/SolarSystem.cpp

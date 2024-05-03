@@ -53,7 +53,9 @@ namespace generator
         const auto stack_size = M_PI / stacks;
 
         vertex.push_back(Vec3f(0, radius, 0)); // top
+        normals.push_back(Vec3f(0, 1, 0));
         vertex.push_back(Vec3f(0, -radius, 0)); // bottom
+        normals.push_back(Vec3f(0, -1, 0));
 
         for (int slice = 0; slice < slices; ++slice)
         {
@@ -124,43 +126,38 @@ namespace generator
 
         vertex.push_back(Vec3f{0, 0, 0});
         normals.push_back(Vec3f{0, -1, 0});
-        vertex.push_back(Vec3f{0, height, 0});
-        normals.push_back(Vec3f{0, 1, 0});
+
+        const float cone_angle = atan(radius / height);
 
         for (int slice = 0; slice < slices; ++slice)
         {
             vertex.push_back(Vec3fPolar(radius, slice * slice_size, 0)); // base vertice
             normals.push_back(Vec3f{0, -1, 0});
 
-            for (int stack = 0; stack < stacks; ++stack)
+            const float circle_angle = slice * slice_size;
+            for (int stack = 0; stack <= stacks; ++stack)
             {
                 const float current_radius = radius - stack * radius / stacks;
                 vertex.push_back(Vec3fPolar(current_radius, slice * slice_size, stack * stack_size));
-                normals.push_back(Vec3fPolar(1, slice * slice_size, stack * stack_size));
+                normals.push_back(
+                    Vec3f{cos(cone_angle) * sin(circle_angle), sin(cone_angle), cos(cone_angle) * cos(circle_angle)}
+                );
             }
         }
 
         for (int slice = 0; slice < slices; ++slice)
         {
-            for (int stack = 0; stack < stacks; ++stack)
+            for (int stack = 0; stack < stacks; ++stack) // 0-3
             {
-                uint32_t bottom_left_index = 2 + (stack + 1) + (slice * (stacks + 1));
-                uint32_t bottom_right_index = bottom_left_index + stacks + 1;
+                uint32_t bottom_left_index = 2 + stack + (slice * (stacks + 2));
+                uint32_t bottom_right_index = bottom_left_index + stacks + 2;
 
                 // Merge vertex when right index completes a full rotation
                 if (slice == slices - 1)
-                    bottom_right_index = 2 + (stack + 1);
-
+                    bottom_right_index = 2 + stack;
 
                 uint32_t top_left_index = bottom_left_index + 1;
                 uint32_t top_right_index = bottom_right_index + 1;
-
-                // Merge top vertex
-                if (stack == stacks - 1)
-                {
-                    top_left_index = 1;
-                    top_right_index = 1;
-                }
 
                 indexes.insert(indexes.end(), {top_left_index, bottom_left_index, bottom_right_index});
 
@@ -169,8 +166,8 @@ namespace generator
                     indexes.insert(indexes.end(), {top_left_index, bottom_right_index, top_right_index});
             }
 
-            uint32_t base_left_index = 2 + (slice * (stacks + 1));
-            uint32_t base_right_index = slice == slices - 1 ? 2 : base_left_index + stacks + 1;
+            uint32_t base_left_index = 1 + (slice * (stacks + 2));
+            uint32_t base_right_index = (slice == slices - 1) ? 1 : base_left_index + stacks + 2;
 
             indexes.insert(indexes.end(), {base_right_index, base_left_index, 0}); // base triangle
         }
@@ -186,25 +183,34 @@ namespace generator
         const auto plane = GeneratePlane(length, divisions);
         const auto vertex_size = plane.vertex.size();
 
-        std::vector<Mat4f> transforms = {
+        std::vector<Mat4f> translations = {
             Mat4fTranslate(0, length / 2, 0), // up
-            Mat4fTranslate(0, -length / 2, 0) * Mat4fRotateX_M_PI, // down
-            Mat4fTranslate(-length / 2, 0, 0) * Mat4fRotateZ_M_PI_2, // left
-            Mat4fTranslate(length / 2, 0, 0) * Mat4fRotateZ_NEGATIVE_M_PI_2, // right
-            Mat4fTranslate(0, 0, length / 2) * Mat4fRotateX_M_PI_2, // front
-            Mat4fTranslate(0, 0, -length / 2) * Mat4fRotateX_NEGATIVE_M_PI_2 // back
+            Mat4fTranslate(0, -length / 2, 0), // down
+            Mat4fTranslate(-length / 2, 0, 0), // left
+            Mat4fTranslate(length / 2, 0, 0), // right
+            Mat4fTranslate(0, 0, length / 2), // front
+            Mat4fTranslate(0, 0, -length / 2) // back
         };
 
-        for (int i = 0; i < transforms.size(); ++i)
+        std::vector<Mat4f> rotations = {
+            Mat4fIdentity, // up
+            Mat4fRotateX_M_PI, // down
+            Mat4fRotateZ_M_PI_2, // left
+            Mat4fRotateZ_NEGATIVE_M_PI_2, // right
+            Mat4fRotateX_M_PI_2, // front
+            Mat4fRotateX_NEGATIVE_M_PI_2 // back
+        };
+
+        for (int i = 0; i < translations.size(); ++i)
         {
             for (auto &v : plane.vertex)
             {
-                vertex.push_back((transforms[i] * v.ToVec4f()).ToVec3f());
+                vertex.push_back((translations[i] * rotations[i] * v.ToVec4f()).ToVec3f());
             }
 
             for (auto &n : plane.normals)
             {
-                normals.push_back((transforms[i] * n.ToVec4f()).ToVec3f());
+                normals.push_back((rotations[i] * n.ToVec4f()).ToVec3f());
             }
 
             for (auto index : plane.indexes)

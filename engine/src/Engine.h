@@ -8,18 +8,11 @@
 
 #include "Input.h"
 #include "Model.h"
+#include "Utils.h"
 #include "World.h"
 
 namespace engine
 {
-    enum class OperatingSystem
-    {
-        WINDOWS,
-        LINUX,
-        MACOS,
-        UNKNOWN,
-    };
-
     class EngineSystemEnvironment
     {
     public:
@@ -42,10 +35,13 @@ namespace engine
             const bool wireframe,
             const bool render_axis,
             const bool cull_faces,
-            const bool render_transform_through_points_path
+            const bool render_transform_through_points_path,
+            const bool lighting,
+            const bool render_normals
         ) :
             mssa_samples(mssa_samples), mssa(mssa), vsync(vsync), wireframe(wireframe), render_axis(render_axis),
-            cull_faces(cull_faces), render_transform_through_points_path(render_transform_through_points_path)
+            cull_faces(cull_faces), render_transform_through_points_path(render_transform_through_points_path),
+            lighting(lighting), render_normals(render_normals)
         {
         }
 
@@ -56,6 +52,8 @@ namespace engine
         bool render_axis;
         bool cull_faces;
         bool render_transform_through_points_path;
+        bool lighting;
+        bool render_normals;
     };
 
     class EngineSimulationTime
@@ -78,10 +76,16 @@ namespace engine
         void SetVsync(bool enable);
         void SetWireframe(bool enable);
         void SetCullFaces(bool enable);
+        void SetLighting(const bool enable);
+        void StartSectionDisableLighting() const;
+        void EndSectionDisableLighting() const;
         static void SetMssa(bool enable);
         void ProcessInput(float timestep);
         void Run();
         void Shutdown() const;
+        world::World &getWorld() { return m_world; }
+
+        void UpdateViewport();
 
     private:
         world::World m_world;
@@ -90,15 +94,18 @@ namespace engine
         std::vector<model::Model> m_models;
         std::vector<uint32_t> m_models_vertex_buffers;
         std::vector<uint32_t> m_models_index_buffers;
+        std::vector<uint32_t> m_models_normal_buffers;
 
         EngineSettings m_settings{
             8, // mssa_samples
             true, // mssa
             true, // vsync
-            true, // wireframe
+            false, // wireframe
             true, // render_axis
             true, // cull_faces
             true, // render_transform_through_points_path
+            true, // lighting
+            false, // render normals
         };
 
         EngineSimulationTime m_simulation_time;
@@ -107,26 +114,32 @@ namespace engine
         ImGuiIO *io = nullptr;
 
         GLFWwindow *m_window = nullptr;
-        OperatingSystem m_os = OperatingSystem::UNKNOWN;
+        utils::OperatingSystem m_os = utils::OperatingSystem::UNKNOWN;
 
         size_t m_current_rendered_models_size = 0;
-        size_t m_current_rendered_triangles_size = 0;
+        size_t m_current_rendered_indexes_size = 0;
 
         void setupEnvironment();
 
         void initImGui();
+        void shutdownImGui() const;
         void renderImGui();
         static void postRenderImGui();
+        void renderAxis();
         void renderImGuiWorldGroupMenu(world::WorldGroup &world_group);
         void renderTransformations(world::GroupTransform &transformations, float time);
         void renderCatmullRomCurves(world::transform::TranslationThroughPoints &translation) const;
         void renderGroup(world::WorldGroup &group);
-        void renderModel(uint32_t model_index, size_t index_count);
+        void renderModel(world::GroupModel &model, size_t index_count);
+        void renderModelNormals(model::Model &model);
+        void renderLights();
+        void renderLightModel(const world::lighting::Light &light);
 
         bool loadWorld();
         bool loadModels();
         void uploadModelsToGPU();
         void destroyModels();
+        void setupWorldLights();
     };
 } // namespace engine
 

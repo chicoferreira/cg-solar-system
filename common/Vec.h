@@ -13,8 +13,8 @@ struct Vec3f
 {
     float x, y, z;
 
-    constexpr Vec3f() : x(0), y(0), z(0) {}
-    constexpr Vec3f(const float value) : x(value), y(value), z(value) {}
+    constexpr explicit Vec3f() : x(0), y(0), z(0) {}
+    constexpr explicit Vec3f(const float value) : x(value), y(value), z(value) {}
     constexpr Vec3f(const float x, const float y, const float z) : x(x), y(y), z(z) {}
     constexpr Vec3f operator+(const Vec3f &other) const { return {x + other.x, y + other.y, z + other.z}; }
     Vec3f &operator+=(const Vec3f &other)
@@ -61,7 +61,7 @@ struct Vec3f
     {
         return {y * other.z - z * other.y, z * other.x - x * other.z, x * other.y - y * other.x};
     }
-    Vec4f ToVec4f() const;
+    Vec4f ToVec4f(float w = 1.0f) const;
 };
 
 inline Vec3f Vec3fSpherical(const float radius, const float alpha, const float beta)
@@ -119,6 +119,6 @@ inline constexpr float degrees_to_radians(const float degrees) { return degrees 
 
 inline constexpr float radians_to_degrees(const float radians) { return radians * 180.0f / M_PI; }
 
-inline Vec4f Vec3f::ToVec4f() const { return {x, y, z, 1}; }
+inline Vec4f Vec3f::ToVec4f(float w) const { return {x, y, z, w}; }
 
 #endif // VEC_H
