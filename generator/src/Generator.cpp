@@ -126,43 +126,38 @@ namespace generator
 
         vertex.push_back(Vec3f{0, 0, 0});
         normals.push_back(Vec3f{0, -1, 0});
-        vertex.push_back(Vec3f{0, height, 0});
-        normals.push_back(Vec3f{0, 1, 0});
+
+        const float cone_angle = atan(radius / height);
 
         for (int slice = 0; slice < slices; ++slice)
         {
             vertex.push_back(Vec3fPolar(radius, slice * slice_size, 0)); // base vertice
             normals.push_back(Vec3f{0, -1, 0});
 
-            for (int stack = 0; stack < stacks; ++stack)
+            const float circle_angle = slice * slice_size;
+            for (int stack = 0; stack <= stacks; ++stack)
             {
                 const float current_radius = radius - stack * radius / stacks;
                 vertex.push_back(Vec3fPolar(current_radius, slice * slice_size, stack * stack_size));
-                normals.push_back(Vec3fPolar(1, slice * slice_size, stack * stack_size));
+                normals.push_back(
+                    Vec3f{cos(cone_angle) * sin(circle_angle), sin(cone_angle), cos(cone_angle) * cos(circle_angle)}
+                );
             }
         }
 
         for (int slice = 0; slice < slices; ++slice)
         {
-            for (int stack = 0; stack < stacks; ++stack)
+            for (int stack = 0; stack < stacks; ++stack) // 0-3
             {
-                uint32_t bottom_left_index = 2 + (stack + 1) + (slice * (stacks + 1));
-                uint32_t bottom_right_index = bottom_left_index + stacks + 1;
+                uint32_t bottom_left_index = 2 + stack + (slice * (stacks + 2));
+                uint32_t bottom_right_index = bottom_left_index + stacks + 2;
 
                 // Merge vertex when right index completes a full rotation
                 if (slice == slices - 1)
-                    bottom_right_index = 2 + (stack + 1);
-
+                    bottom_right_index = 2 + stack;
 
                 uint32_t top_left_index = bottom_left_index + 1;
                 uint32_t top_right_index = bottom_right_index + 1;
-
-                // Merge top vertex
-                if (stack == stacks - 1)
-                {
-                    top_left_index = 1;
-                    top_right_index = 1;
-                }
 
                 indexes.insert(indexes.end(), {top_left_index, bottom_left_index, bottom_right_index});
 
@@ -171,8 +166,8 @@ namespace generator
                     indexes.insert(indexes.end(), {top_left_index, bottom_right_index, top_right_index});
             }
 
-            uint32_t base_left_index = 2 + (slice * (stacks + 1));
-            uint32_t base_right_index = slice == slices - 1 ? 2 : base_left_index + stacks + 1;
+            uint32_t base_left_index = 1 + (slice * (stacks + 2));
+            uint32_t base_right_index = (slice == slices - 1) ? 1 : base_left_index + stacks + 2;
 
             indexes.insert(indexes.end(), {base_right_index, base_left_index, 0}); // base triangle
         }

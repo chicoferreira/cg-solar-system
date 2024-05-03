@@ -63,9 +63,9 @@ namespace world::serde
                     LOAD_COLOR(color_element, "diffuse", material.diffuse)
                     LOAD_COLOR(color_element, "ambient", material.ambient)
                     LOAD_COLOR(color_element, "specular", material.specular)
-                    LOAD_COLOR(color_element, "emmisive", material.emmisive)
-                    if (const auto shininess = color_element->FirstChildElement("shininess"))
-                        color_element->QueryFloatAttribute("value", &material.shininess);
+                    LOAD_COLOR(color_element, "emissive", material.emissive)
+                    if (const auto shininess_element = color_element->FirstChildElement("shininess"))
+                        shininess_element->QueryFloatAttribute("value", &material.shininess);
                 }
                 size_t model_index = world.AddModelName(model_file_path);
                 group.models.push_back({model_index, material});
@@ -242,7 +242,7 @@ namespace world::serde
                     LOAD_ATTRIBUTE(light_element, "posz", point_light.pos.z, false)
                     light = point_light;
                 }
-                else if (strcmp(type, "spotlight") == 0)
+                else if (strcmp(type, "spotlight") == 0 || strcmp(type, "spot") == 0)
                 {
                     lighting::Spotlight spotlight;
                     LOAD_ATTRIBUTE(light_element, "dirx", spotlight.dir.x, false)

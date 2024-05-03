@@ -66,7 +66,7 @@ namespace engine
                     ImGui::ColorEdit4("Diffuse", &group_model.material.diffuse.r);
                     ImGui::ColorEdit4("Ambient", &group_model.material.ambient.r);
                     ImGui::ColorEdit4("Specular", &group_model.material.specular.r);
-                    ImGui::ColorEdit4("Emmisive", &group_model.material.emmisive.r);
+                    ImGui::ColorEdit4("Emissive", &group_model.material.emissive.r);
                     ImGui::DragFloat("Shininess", &group_model.material.shininess, 0.1f, 0.0f, 128.0f);
                 }
                 ImGui::TreePop();

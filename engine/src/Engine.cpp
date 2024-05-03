@@ -12,9 +12,15 @@ namespace engine
         fprintf(stderr, "GLFW Error %d: %s\n", error, description);
     }
 
-    void glfwSetFramebufferSizeCallback(GLFWwindow *, const int width, const int height)
+    void glfwSetFramebufferSizeCallback(GLFWwindow *window, const int width, const int height)
     {
-        glViewport(0, 0, width, height);
+        Engine *engine = static_cast<Engine *>(glfwGetWindowUserPointer(window));
+        auto &world_window = engine->getWorld().GetWindow();
+
+        world_window.width = width;
+        world_window.height = height;
+
+        engine->UpdateViewport();
     }
 
     float last_scroll = 0;
@@ -122,12 +128,15 @@ namespace engine
         glfwMakeContextCurrent(m_window);
         glfwSetFramebufferSizeCallback(m_window, glfwSetFramebufferSizeCallback);
         glfwSetScrollCallback(m_window, glfwScrollCallback);
+        glfwSetWindowUserPointer(m_window, this);
 
         if (const GLenum err = glewInit(); err != GLEW_OK)
         {
             std::cerr << "Glew Error: " << glewGetErrorString(err) << std::endl;
             return false;
         }
+
+        UpdateViewport();
 
         if (m_os == utils::OperatingSystem::MACOS)
             m_settings.mssa = false;
@@ -192,10 +201,6 @@ namespace engine
 
     void renderCamera(const world::Camera &camera, const world::Window &window)
     {
-        glLoadIdentity();
-
-        const float aspect = static_cast<float>(window.width) / static_cast<float>(window.height);
-        gluPerspective(camera.fov, aspect, camera.near, camera.far);
         gluLookAt(
             camera.position.x,
             camera.position.y,
@@ -207,6 +212,22 @@ namespace engine
             camera.up.y,
             camera.up.z
         );
+    }
+
+    void Engine::UpdateViewport()
+    {
+        const float height = m_world.GetWindow().height;
+        const float width = m_world.GetWindow().width;
+        const auto &camera = m_world.GetCamera();
+        const float aspect = static_cast<float>(width) / static_cast<float>(height);
+
+        glMatrixMode(GL_PROJECTION);
+        glLoadIdentity();
+
+        glViewport(0, 0, width, height);
+        gluPerspective(camera.fov, aspect, camera.near, camera.far);
+
+        glMatrixMode(GL_MODELVIEW);
     }
 
     void Engine::renderModelNormals(model::Model &model)
@@ -231,7 +252,7 @@ namespace engine
         glMaterialfv(GL_FRONT, GL_AMBIENT, &model.material.ambient.r);
         glMaterialfv(GL_FRONT, GL_DIFFUSE, &model.material.diffuse.r);
         glMaterialfv(GL_FRONT, GL_SPECULAR, &model.material.specular.r);
-        glMaterialfv(GL_FRONT, GL_EMISSION, &model.material.emmisive.r);
+        glMaterialfv(GL_FRONT, GL_EMISSION, &model.material.emissive.r);
         glMaterialf(GL_FRONT, GL_SHININESS, model.material.shininess);
 
         glBindBuffer(GL_ARRAY_BUFFER, m_models_normal_buffers[model.model_index]);
@@ -374,6 +395,7 @@ namespace engine
 
         for (int i = 0; i < 8; ++i)
         {
+            glLightf(GL_LIGHT0 + i, GL_SPOT_CUTOFF, 180); // Set the cutoff angle to default
             glDisable(GL_LIGHT0 + i);
         }
 
@@ -429,8 +451,10 @@ namespace engine
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        renderLights();
+        glLoadIdentity();
+
         renderCamera(m_world.GetCamera(), m_world.GetWindow());
+        renderLights();
 
         if (m_settings.render_axis)
             renderAxis();
@@ -630,7 +654,6 @@ namespace engine
         while (!glfwWindowShouldClose(m_window))
         {
             glfwPollEvents();
-            glfwGetFramebufferSize(m_window, &m_world.GetWindow().width, &m_world.GetWindow().height);
 
             const float newTime = glfwGetTime();
             const float timestep = newTime - currentTime;

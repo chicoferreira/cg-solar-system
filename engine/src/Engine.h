@@ -83,6 +83,9 @@ namespace engine
         void ProcessInput(float timestep);
         void Run();
         void Shutdown() const;
+        world::World &getWorld() { return m_world; }
+
+        void UpdateViewport();
 
     private:
         world::World m_world;
