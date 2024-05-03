@@ -199,7 +199,7 @@ namespace engine
         EndSectionDisableLighting();
     }
 
-    void renderCamera(const world::Camera &camera, const world::Window &window)
+    void renderCamera(const world::Camera &camera)
     {
         gluLookAt(
             camera.position.x,
@@ -372,7 +372,7 @@ namespace engine
         {
             const auto &spot_light = std::get<world::lighting::Spotlight>(light);
             Vec3f pos = spot_light.pos;
-            Vec3f dir = spot_light.dir;
+            Vec3f dir = spot_light.dir.Normalize();
 
             glPointSize(10.0f);
             glColor3f(1.0f, 1.0f, 0.5f);
@@ -453,7 +453,7 @@ namespace engine
 
         glLoadIdentity();
 
-        renderCamera(m_world.GetCamera(), m_world.GetWindow());
+        renderCamera(m_world.GetCamera());
         renderLights();
 
         if (m_settings.render_axis)
