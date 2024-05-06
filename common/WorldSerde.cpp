@@ -274,6 +274,11 @@ namespace world::serde
                 world.getLights().push_back(light);
             }
         }
+        else
+        {
+            world.SetDefaultLightingMode(false);
+        }
+
 
         world.ClearModelNames();
 

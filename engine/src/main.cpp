@@ -2,8 +2,6 @@
 
 #include <iostream>
 
-#include "Utils.h"
-
 const std::vector<std::string> SCENES_PATHS_TO_SEARCH = {"assets/scenes/", "./"};
 
 int main(const int argc, char *argv[])

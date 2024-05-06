@@ -244,6 +244,7 @@ namespace engine
         glEnableClientState(GL_NORMAL_ARRAY);
         glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
+        m_settings.lighting = m_world.GetDefaultLightingMode();
         SetLighting(m_settings.lighting);
 
         glEnable(GL_TEXTURE_2D);

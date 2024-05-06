@@ -215,6 +215,7 @@ namespace world
         Camera m_default_camera;
         WorldGroup m_parent_world_group;
         std::vector<lighting::Light> m_lights;
+        bool m_default_lighting_mode = true; // true if the lighting is enabled by default in this world
 
         std::vector<std::string> m_model_names = {};
         std::vector<std::string> m_texture_names = {};
@@ -228,6 +229,8 @@ namespace world
         std::vector<std::string> &GetModelNames() { return m_model_names; }
         std::vector<std::string> &GetTextureNames() { return m_texture_names; }
         std::vector<lighting::Light> &getLights() { return m_lights; }
+        bool GetDefaultLightingMode() const { return m_default_lighting_mode; }
+        void SetDefaultLightingMode(bool default_lighting_mode) { m_default_lighting_mode = default_lighting_mode; }
 
         size_t AddModelName(const std::string &model_name)
         {
