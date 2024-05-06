@@ -99,7 +99,7 @@ namespace generator::bezier
 
         for (int i = 0; i < tesselation_level + 1; ++i)
             for (int j = 0; j < tesselation_level + 1; ++j)
-                tex_coords.push_back({i * 1.0f / (tesselation_level + 1), j * 1.0f / (tesselation_level + 1)});
+                tex_coords.push_back({i * 1.0f / (tesselation_level), j * 1.0f / (tesselation_level)});
 
         for (int i = 0; i < (tesselation_level + 1) * (tesselation_level + 1); ++i)
             normals[i] = normals_v[i].Cross(normals_u[i]).Normalize();
