@@ -304,6 +304,9 @@ namespace engine
                     m_world.GetWindow() = previous_window; // Window cannot be reloaded
                     loadModels();
                     uploadModelsToGPU();
+                    setupWorldLights();
+                    loadTextures();
+                    uploadTexturesToGPU();
                 }
 
                 if (ImGui::TreeNodeEx("Camera", ImGuiTreeNodeFlags_Framed))
