@@ -476,7 +476,7 @@ namespace engine
                             flags = ImGuiTableFlags_ScrollY | ImGuiTableFlags_RowBg | ImGuiTableFlags_BordersOuter |
                                 ImGuiTableFlags_BordersV | ImGuiTableFlags_Resizable;
                             ImVec2 outer_size_vertex = ImVec2(
-                                0, TEXT_BASE_HEIGHT * (std::min(model.GetVertex().size(), static_cast<size_t>(10)) + 1)
+                                0, TEXT_BASE_HEIGHT * (std::min(model.GetVertex().size(), static_cast<size_t>(5)) + 1)
                             );
 
                             ImGui::Text("Vertex Table");
@@ -509,45 +509,9 @@ namespace engine
                                 ImGui::EndTable();
                             }
 
-                            ImGui::Text("Triangle Table");
-                            ImVec2 outer_size_index = ImVec2(
-                                0,
-                                TEXT_BASE_HEIGHT *
-                                    (std::min(model.GetIndexes().size() / 3, static_cast<size_t>(10)) + 1)
-                            );
-                            if (ImGui::BeginTable("index_table", 4, flags, outer_size_index))
-                            {
-                                ImGui::TableSetupScrollFreeze(0, 1); // Make top row always visible
-                                ImGui::TableSetupColumn("Triangle No.", ImGuiTableColumnFlags_None);
-                                ImGui::TableSetupColumn("Vertex 1", ImGuiTableColumnFlags_None);
-                                ImGui::TableSetupColumn("Vertex 2", ImGuiTableColumnFlags_None);
-                                ImGui::TableSetupColumn("Vertex 3", ImGuiTableColumnFlags_None);
-                                ImGui::TableHeadersRow();
-
-                                // Demonstrate using clipper for large vertical lists
-                                ImGuiListClipper clipper;
-                                clipper.Begin(model.GetIndexes().size() / 3);
-                                while (clipper.Step())
-                                {
-                                    for (int row = clipper.DisplayStart; row < clipper.DisplayEnd; row++)
-                                    {
-                                        ImGui::TableNextRow();
-                                        ImGui::TableSetColumnIndex(0);
-                                        ImGui::Text("%d", row);
-                                        for (int column = 1; column < 4; column++)
-                                        {
-                                            ImGui::TableSetColumnIndex(column);
-                                            ImGui::Text("%d", model.GetIndexes()[row * 3 + (column - 1)]);
-                                        }
-                                    }
-                                }
-                                ImGui::EndTable();
-                            }
                             ImGui::Text("Normals Table");
                             ImVec2 outer_size_normal = ImVec2(
-                                0,
-                                TEXT_BASE_HEIGHT *
-                                    (std::min(model.GetNormals().size() / 3, static_cast<size_t>(10)) + 1)
+                                0, TEXT_BASE_HEIGHT * (std::min(model.GetNormals().size(), static_cast<size_t>(5)) + 1)
                             );
                             if (ImGui::BeginTable("normal_table", 4, flags, outer_size_normal))
                             {
@@ -572,6 +536,74 @@ namespace engine
                                         {
                                             ImGui::TableSetColumnIndex(column);
                                             ImGui::Text("%.3f", model.GetNormals()[row][column - 1]);
+                                        }
+                                    }
+                                }
+                                ImGui::EndTable();
+                            }
+
+                            ImGui::Text("Texture Coordinates Table");
+                            ImVec2 outer_size_tex_coords = ImVec2(
+                                0,
+                                TEXT_BASE_HEIGHT * (std::min(model.GetTexCoords().size(), static_cast<size_t>(5)) + 1)
+                            );
+                            if (ImGui::BeginTable("tex_coods_table", 3, flags, outer_size_tex_coords))
+                            {
+                                ImGui::TableSetupScrollFreeze(0, 1); // Make top row always visible
+                                ImGui::TableSetupColumn("Texture Coordinate Index", ImGuiTableColumnFlags_None);
+                                ImGui::TableSetupColumn("x", ImGuiTableColumnFlags_None);
+                                ImGui::TableSetupColumn("y", ImGuiTableColumnFlags_None);
+                                ImGui::TableHeadersRow();
+
+                                // Demonstrate using clipper for large vertical lists
+                                ImGuiListClipper clipper;
+                                clipper.Begin(model.GetTexCoords().size());
+                                while (clipper.Step())
+                                {
+                                    for (int row = clipper.DisplayStart; row < clipper.DisplayEnd; row++)
+                                    {
+                                        ImGui::TableNextRow();
+                                        ImGui::TableSetColumnIndex(0);
+                                        ImGui::Text("%d", row);
+                                        for (int column = 1; column < 3; column++)
+                                        {
+                                            ImGui::TableSetColumnIndex(column);
+                                            ImGui::Text("%.3f", model.GetTexCoords()[row][column - 1]);
+                                        }
+                                    }
+                                }
+                                ImGui::EndTable();
+                            }
+
+
+                            ImGui::Text("Triangle Table");
+                            ImVec2 outer_size_index = ImVec2(
+                                0,
+                                TEXT_BASE_HEIGHT * (std::min(model.GetIndexes().size() / 3, static_cast<size_t>(5)) + 1)
+                            );
+                            if (ImGui::BeginTable("index_table", 4, flags, outer_size_index))
+                            {
+                                ImGui::TableSetupScrollFreeze(0, 1); // Make top row always visible
+                                ImGui::TableSetupColumn("Triangle No.", ImGuiTableColumnFlags_None);
+                                ImGui::TableSetupColumn("Vertex 1", ImGuiTableColumnFlags_None);
+                                ImGui::TableSetupColumn("Vertex 2", ImGuiTableColumnFlags_None);
+                                ImGui::TableSetupColumn("Vertex 3", ImGuiTableColumnFlags_None);
+                                ImGui::TableHeadersRow();
+
+                                // Demonstrate using clipper for large vertical lists
+                                ImGuiListClipper clipper;
+                                clipper.Begin(model.GetIndexes().size() / 3);
+                                while (clipper.Step())
+                                {
+                                    for (int row = clipper.DisplayStart; row < clipper.DisplayEnd; row++)
+                                    {
+                                        ImGui::TableNextRow();
+                                        ImGui::TableSetColumnIndex(0);
+                                        ImGui::Text("%d", row);
+                                        for (int column = 1; column < 4; column++)
+                                        {
+                                            ImGui::TableSetColumnIndex(column);
+                                            ImGui::Text("%d", model.GetIndexes()[row * 3 + (column - 1)]);
                                         }
                                     }
                                 }

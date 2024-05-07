@@ -18,6 +18,8 @@ struct Vec2f
     constexpr Vec2f(const float x, const float y) : x(x), y(y) {}
     constexpr Vec2f operator+(const Vec2f other) const { return {x + other.x, y + other.y}; }
     constexpr Vec2f operator*(const float length) const { return {x * length, y * length}; }
+    constexpr float operator[](const int i) const { return i == 0 ? x : y; }
+    constexpr float &operator[](const int i) { return i == 0 ? x : y; }
 };
 
 inline Vec2f Vec2fPolar(const float radius, const float alpha) { return {radius * cosf(alpha), radius * sinf(alpha)}; }
