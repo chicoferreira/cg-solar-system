@@ -40,7 +40,7 @@ namespace engine::model
 
         ilBindImage(0);
 
-        return {Texture{image_width, image_height, texture_data, image_id}};
+        return {Texture{file_path, image_width, image_height, texture_data, image_id}};
     }
 
     Texture::~Texture() { ilDeleteImage(il_id); }

@@ -63,6 +63,43 @@ namespace engine
                     auto model_index = group_model.model_index;
                     ImGui::Text("Model #%lu (%s)", model_index, m_models[model_index].GetName().c_str());
 
+                    auto &texture_index = group_model.texture_index;
+
+                    const char *current_selected_texture =
+                        texture_index ? m_textures[texture_index.value()].GetName().c_str() : "None";
+                    if (ImGui::BeginCombo("Texture", current_selected_texture))
+                    {
+                        if (ImGui::Selectable("None", !texture_index.has_value()))
+                        {
+                            group_model.texture_index.reset();
+                        }
+                        for (int j = 0; j < m_textures.size(); ++j)
+                        {
+                            bool is_selected = group_model.texture_index == j;
+                            if (ImGui::Selectable(m_textures[j].GetName().c_str(), is_selected))
+                            {
+                                group_model.texture_index = j;
+                            }
+
+                            if (is_selected)
+                            {
+                                ImGui::SetItemDefaultFocus();
+                            }
+                        }
+                        ImGui::EndCombo();
+                    }
+
+                    // Render texture in image
+                    if (texture_index.has_value())
+                    {
+                        ImGui::Image(
+                            (void *)(intptr_t)m_texture_buffers[group_model.texture_index.value()],
+                            ImVec2(64, 64),
+                            ImVec2(0, 1),
+                            ImVec2(1, 0)
+                        );
+                    }
+
                     ImGui::ColorEdit4("Diffuse", &group_model.material.diffuse.r);
                     ImGui::ColorEdit4("Ambient", &group_model.material.ambient.r);
                     ImGui::ColorEdit4("Specular", &group_model.material.specular.r);
