@@ -462,7 +462,7 @@ namespace engine
 
                 static float TEXT_BASE_HEIGHT = ImGui::GetTextLineHeightWithSpacing();
 
-                if (ImGui::TreeNodeEx("Models", ImGuiTreeNodeFlags_Framed | ImGuiTreeNodeFlags_DefaultOpen))
+                if (ImGui::TreeNodeEx("Models", ImGuiTreeNodeFlags_Framed))
                 {
                     for (size_t i = 0; i < m_models.size(); ++i)
                     {
