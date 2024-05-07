@@ -491,9 +491,7 @@ namespace engine
         for (int i = 0; i < light_count; ++i)
         {
             glEnable(GL_LIGHT0 + i);
-            float dark[4] = {0.2, 0.2, 0.2, 1.0};
             float white[4] = {1.0, 1.0, 1.0, 1.0};
-            glLightfv(GL_LIGHT0 + i, GL_AMBIENT, dark);
             glLightfv(GL_LIGHT0 + i, GL_DIFFUSE, white);
             glLightfv(GL_LIGHT0 + i, GL_SPECULAR, white);
         }

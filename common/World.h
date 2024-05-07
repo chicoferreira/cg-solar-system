@@ -182,8 +182,8 @@ namespace world
 
     struct ModelMaterial
     {
-        Color diffuse = {1.0f, 1.0f, 1.0f, 1.0f};
-        Color ambient = {1.0f, 1.0f, 1.0f, 1.0f};
+        Color diffuse = {200.0f / 255.0f, 200.0f / 255.0f, 200.0f / 255.0f, 1.0f};
+        Color ambient = {50.0f / 255.0f, 50.0f / 255.0f, 50.0f / 255.0f, 1.0f};
         Color specular = {0.0f, 0.0f, 0.0f, 1.0f};
         Color emissive = {0.0f, 0.0f, 0.0f, 1.0f};
         float shininess = 0.0f;
