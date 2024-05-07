@@ -313,6 +313,19 @@ namespace engine
         }
     }
 
+    static void ShowHelpMarker(const char *desc)
+    {
+        ImGui::TextDisabled("(?)");
+        if (ImGui::IsItemHovered())
+        {
+            ImGui::BeginTooltip();
+            ImGui::PushTextWrapPos(450.0f);
+            ImGui::TextUnformatted(desc);
+            ImGui::PopTextWrapPos();
+            ImGui::EndTooltip();
+        }
+    }
+
     void Engine::renderImGui()
     {
         ImGui_ImplOpenGL3_NewFrame();
@@ -628,44 +641,53 @@ namespace engine
 
             if (ImGui::TreeNodeEx("Settings", ImGuiTreeNodeFlags_Framed))
             {
-                ImGui::Checkbox(
-                    "Render Transform Through Points Path", &m_settings.render_transform_through_points_path
-                );
-
-                if (ImGui::Checkbox("VSync", &m_settings.vsync))
+                if (ImGui::TreeNodeEx("OpenGL Settings", ImGuiTreeNodeFlags_Framed))
                 {
-                    SetVsync(m_settings.vsync);
+                    if (ImGui::Checkbox("Lighting", &m_settings.lighting))
+                        SetLighting(m_settings.lighting);
+
+                    if (ImGui::Checkbox("VSync", &m_settings.vsync))
+                        SetVsync(m_settings.vsync);
+
+                    if (ImGui::Checkbox("Cull Faces", &m_settings.cull_faces))
+                        SetCullFaces(m_settings.cull_faces);
+
+                    if (ImGui::Checkbox("Wireframe", &m_settings.wireframe))
+                        SetWireframe(m_settings.wireframe);
+
+                    if (ImGui::Checkbox("MSSA", &m_settings.mssa))
+                        SetMssa(m_settings.mssa);
+
+                    if (m_os == utils::OperatingSystem::MACOS)
+                    {
+                        ImGui::SameLine();
+                        ImGui::TextDisabled("(Broken on MacOS)");
+                    }
+
+                    ImGui::TreePop();
                 }
 
-                if (ImGui::Checkbox("Cull Faces", &m_settings.cull_faces))
+                if (ImGui::TreeNodeEx("Additional Rendering", ImGuiTreeNodeFlags_Framed))
                 {
-                    SetCullFaces(m_settings.cull_faces);
-                }
+                    ImGui::Checkbox(
+                        "Render Transform Through Points Path", &m_settings.render_transform_through_points_path
+                    );
 
-                if (ImGui::Checkbox("Wireframe", &m_settings.wireframe))
-                {
-                    SetWireframe(m_settings.wireframe);
-                }
-
-                ImGui::Checkbox("Render Axis", &m_settings.render_axis);
-
-                if (ImGui::Checkbox("MSSA", &m_settings.mssa))
-                {
-                    SetMssa(m_settings.mssa);
-                }
-
-                if (m_os == utils::OperatingSystem::MACOS)
-                {
+                    ImGui::Checkbox("Render Light Models", &m_settings.render_light_models);
                     ImGui::SameLine();
-                    ImGui::TextDisabled("(Broken on MacOS)");
-                }
+                    ShowHelpMarker(
+                        "Directional Light has line in the direction of the light\n"
+                        "Point light has a point in the position of the light\n"
+                        "Spotlight has a point in the position and a small line of the direction of the light"
+                    );
 
-                if (ImGui::Checkbox("Lighting", &m_settings.lighting))
-                {
-                    SetLighting(m_settings.lighting);
-                }
+                    ImGui::Checkbox("Render Axis", &m_settings.render_axis);
 
-                ImGui::Checkbox("Render Normals (May impact performance)", &m_settings.render_normals);
+                    ImGui::Checkbox("Render Normals (May impact performance)", &m_settings.render_normals);
+                    ImGui::SameLine();
+                    ShowHelpMarker("Normals may not be scaled correctly");
+                    ImGui::TreePop();
+                }
 
                 ImGui::SeparatorText("Environment Information");
 

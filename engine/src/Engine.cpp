@@ -528,7 +528,8 @@ namespace engine
                 glLightfv(GL_LIGHT0 + i, GL_SPOT_DIRECTION, &dir.x);
                 glLightf(GL_LIGHT0 + i, GL_SPOT_CUTOFF, spot_light.cutoff);
             }
-            renderLightModel(light);
+            if (m_settings.render_light_models)
+                renderLightModel(light);
         }
     }
 

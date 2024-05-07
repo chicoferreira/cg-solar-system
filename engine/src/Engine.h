@@ -25,35 +25,18 @@ namespace engine
         EngineSystemEnvironment() = default;
     };
 
-    class EngineSettings
+    struct EngineSettings
     {
-    public:
-        EngineSettings(
-            const size_t mssa_samples,
-            const bool mssa,
-            const bool vsync,
-            const bool wireframe,
-            const bool render_axis,
-            const bool cull_faces,
-            const bool render_transform_through_points_path,
-            const bool lighting,
-            const bool render_normals
-        ) :
-            mssa_samples(mssa_samples), mssa(mssa), vsync(vsync), wireframe(wireframe), render_axis(render_axis),
-            cull_faces(cull_faces), render_transform_through_points_path(render_transform_through_points_path),
-            lighting(lighting), render_normals(render_normals)
-        {
-        }
-
-        size_t mssa_samples;
-        bool mssa;
-        bool vsync;
-        bool wireframe;
-        bool render_axis;
-        bool cull_faces;
-        bool render_transform_through_points_path;
-        bool lighting;
-        bool render_normals;
+        size_t mssa_samples = 8;
+        bool mssa = true;
+        bool vsync = true;
+        bool wireframe = false;
+        bool render_axis = true;
+        bool cull_faces = true;
+        bool lighting = true;
+        bool render_transform_through_points_path = true;
+        bool render_normals = false;
+        bool render_light_models = false;
     };
 
     class EngineSimulationTime
@@ -100,17 +83,7 @@ namespace engine
         std::vector<model::Texture> m_textures;
         std::vector<uint32_t> m_texture_buffers;
 
-        EngineSettings m_settings{
-            8, // mssa_samples
-            true, // mssa
-            true, // vsync
-            false, // wireframe
-            true, // render_axis
-            true, // cull_faces
-            true, // render_transform_through_points_path
-            true, // lighting
-            false, // render normals
-        };
+        EngineSettings m_settings;
 
         EngineSimulationTime m_simulation_time;
 
