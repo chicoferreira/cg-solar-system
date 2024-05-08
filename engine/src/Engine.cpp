@@ -495,9 +495,9 @@ namespace engine
         if (translation.render_path_gpu_buffer == 0)
             glGenBuffers(1, &translation.render_path_gpu_buffer);
 
+        const size_t NUM_SEGMENTS = 100;
         if (translation.render_path_dirty)
         {
-            const size_t NUM_SEGMENTS = 100;
 
             std::vector<Vec3f> vertex;
             for (int i = 0; i < NUM_SEGMENTS; ++i)
@@ -512,12 +512,11 @@ namespace engine
             glBufferData(GL_ARRAY_BUFFER, sizeof(Vec3f) * vertex.size(), vertex.data(), GL_STATIC_DRAW);
             translation.render_path_dirty = false;
         }
-
         StartSectionDisableLighting();
         glColor3f(1.0f, 0.7f, 0.0f);
         glBindBuffer(GL_ARRAY_BUFFER, translation.render_path_gpu_buffer);
         glVertexPointer(3, GL_FLOAT, 0, 0);
-        glDrawArrays(GL_LINE_LOOP, 0, 100);
+        glDrawArrays(GL_LINE_LOOP, 0, NUM_SEGMENTS);
         glColor3f(1.0f, 1.0f, 1.0f);
         EndSectionDisableLighting();
     }

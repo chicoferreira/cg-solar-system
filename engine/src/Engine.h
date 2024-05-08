@@ -35,7 +35,7 @@ namespace engine
         bool render_axis = true;
         bool cull_faces = true;
         bool lighting = true;
-        bool render_transform_through_points_path = true;
+        bool render_transform_through_points_path = false;
         bool render_normals = false;
         bool render_light_models = false;
         bool render_aabb = false;
