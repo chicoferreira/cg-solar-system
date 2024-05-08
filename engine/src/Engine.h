@@ -6,6 +6,7 @@
 #include <GLFW/glfw3.h>
 #include <imgui.h>
 
+#include "Frustum.h"
 #include "Input.h"
 #include "Model.h"
 #include "Utils.h"
@@ -37,6 +38,8 @@ namespace engine
         bool render_transform_through_points_path = true;
         bool render_normals = false;
         bool render_light_models = false;
+        bool render_aabb = false;
+        bool frustum_culling = true;
     };
 
     class EngineSimulationTime
@@ -104,13 +107,14 @@ namespace engine
         static void postRenderImGui();
         void renderAxis();
         void renderImGuiWorldGroupMenu(world::WorldGroup &world_group);
-        void renderTransformations(world::GroupTransform &transformations, float time);
+        Mat4f getTransformMatrix(world::GroupTransform &transformations, float time);
         void renderCatmullRomCurves(world::transform::TranslationThroughPoints &translation) const;
-        void renderGroup(world::WorldGroup &group);
+        void renderGroup(world::WorldGroup &group, const Frustum &frustum, const Mat4f &current_transform);
         void renderModel(world::GroupModel &model, size_t index_count);
         void renderModelNormals(model::Model &model);
         void renderLights();
         void renderLightModel(const world::lighting::Light &light);
+        void renderGlobalAABB(AABB &aabb);
 
         bool loadWorld();
         bool loadModels();
@@ -119,6 +123,7 @@ namespace engine
         void destroyModels();
         void setupWorldLights();
         void uploadTexturesToGPU();
+        Frustum getCurrentFrustum();
     };
 } // namespace engine
 

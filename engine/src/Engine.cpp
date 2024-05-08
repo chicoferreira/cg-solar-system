@@ -2,6 +2,7 @@
 
 #include <iostream>
 
+#include "Frustum.h"
 #include "WorldSerde.h"
 #include "il.h"
 
@@ -354,15 +355,103 @@ namespace engine
         glBindTexture(GL_TEXTURE_2D, 0);
     }
 
-    void Engine::renderGroup(world::WorldGroup &group)
+    void Engine::renderGlobalAABB(AABB &aabb)
+    {
+        StartSectionDisableLighting();
+        glColor3f(0.2f, 0.6f, 0.8f);
+        glPushMatrix();
+        glLoadIdentity();
+        // Very ugly but not sure how to do it better without doing two passes in the groups
+        renderCamera(m_world.GetCamera());
+        glBegin(GL_LINE_LOOP);
+        glVertex3f(aabb.min.x, aabb.min.y, aabb.min.z);
+        glVertex3f(aabb.max.x, aabb.min.y, aabb.min.z);
+        glVertex3f(aabb.max.x, aabb.max.y, aabb.min.z);
+        glVertex3f(aabb.min.x, aabb.max.y, aabb.min.z);
+        glEnd();
+
+        glBegin(GL_LINE_LOOP);
+        glVertex3f(aabb.min.x, aabb.min.y, aabb.max.z);
+        glVertex3f(aabb.max.x, aabb.min.y, aabb.max.z);
+        glVertex3f(aabb.max.x, aabb.max.y, aabb.max.z);
+        glVertex3f(aabb.min.x, aabb.max.y, aabb.max.z);
+        glEnd();
+
+        glBegin(GL_LINES);
+        glVertex3f(aabb.min.x, aabb.min.y, aabb.min.z);
+        glVertex3f(aabb.min.x, aabb.min.y, aabb.max.z);
+
+        glVertex3f(aabb.max.x, aabb.min.y, aabb.min.z);
+        glVertex3f(aabb.max.x, aabb.min.y, aabb.max.z);
+
+        glVertex3f(aabb.max.x, aabb.max.y, aabb.min.z);
+        glVertex3f(aabb.max.x, aabb.max.y, aabb.max.z);
+
+        glVertex3f(aabb.min.x, aabb.max.y, aabb.min.z);
+        glVertex3f(aabb.min.x, aabb.max.y, aabb.max.z);
+        glEnd();
+        glColor3f(1.0f, 1.0f, 1.0f);
+        glPopMatrix();
+        EndSectionDisableLighting();
+    }
+
+    void renderPlane(Plane plane)
+    {
+        float dist = plane.distance;
+        Vec3f normal = plane.normal;
+
+        Vec3f basis1, basis2;
+        if (normal.x != 0 || normal.y != 0)
+            basis1 = Vec3f(-normal.y, normal.x, 0).Normalize();
+        else
+            basis1 = Vec3f(0, -normal.z, normal.y).Normalize();
+
+        basis2 = normal.Cross(basis1);
+
+        // Define vertices
+        Vec3f v1 = normal * dist + basis1 * 10.0f + basis2 * 10.0f;
+        Vec3f v2 = normal * dist - basis1 * 10.0f + basis2 * 10.0f;
+        Vec3f v3 = normal * dist - basis1 * 10.0f - basis2 * 10.0f;
+        Vec3f v4 = normal * dist + basis1 * 10.0f - basis2 * 10.0f;
+
+        // Render the plane
+        glBegin(GL_QUADS);
+        glVertex3fv(&v1[0]);
+        glVertex3fv(&v2[0]);
+        glVertex3fv(&v3[0]);
+        glVertex3fv(&v4[0]);
+        glEnd();
+
+        // Render the normal
+        glBegin(GL_LINES);
+        Vec3f position = normal * dist;
+        glVertex3fv(&position[0]);
+        glVertex3fv(&(position + (normal * 10.0f))[0]);
+        glEnd();
+    }
+
+    void Engine::renderGroup(world::WorldGroup &group, const Frustum &frustum, const Mat4f &current_transform)
     {
         glPushMatrix();
 
-        renderTransformations(group.transformations, m_simulation_time.m_current_time);
+        Mat4f transform_matrix = getTransformMatrix(group.transformations, m_simulation_time.m_current_time);
+        Mat4f new_transform = current_transform * transform_matrix;
+        glMultMatrixf(*transform_matrix.transpose().mat);
 
         for (auto &group_model : group.models)
         {
             auto &model = m_models[group_model.model_index];
+
+            if (m_settings.frustum_culling)
+            {
+                AABB global_aabb = model.GetAABB().Transform(new_transform);
+                if (!frustum.HasInside(global_aabb))
+                    continue;
+
+                if (m_settings.render_aabb)
+                    renderGlobalAABB(global_aabb);
+            }
+
             auto model_index_size = model.GetIndexes().size();
             renderModel(group_model, model_index_size);
             if (m_settings.render_normals)
@@ -374,14 +463,15 @@ namespace engine
 
         for (auto &child : group.children)
         {
-            renderGroup(child);
+            renderGroup(child, frustum, new_transform);
         }
 
         glPopMatrix();
     }
 
-    void Engine::renderTransformations(world::GroupTransform &transformations, float time)
+    Mat4f Engine::getTransformMatrix(world::GroupTransform &transformations, float time)
     {
+        Mat4f result = Mat4fIdentity;
         for (auto &transformation : transformations.GetTransformations())
         {
             Mat4f matrix = std::visit([&](auto &&arg) { return arg.GetTransform(time); }, transformation);
@@ -391,8 +481,9 @@ namespace engine
                 renderCatmullRomCurves(translation);
             }
 
-            glMultMatrixf(*matrix.transpose().mat);
+            result *= matrix;
         }
+        return result;
     }
 
     void Engine::renderCatmullRomCurves(world::transform::TranslationThroughPoints &translation) const
@@ -534,6 +625,19 @@ namespace engine
         }
     }
 
+    Frustum Engine::getCurrentFrustum()
+    {
+        return CreateFrustumFromCamera(
+            m_world.GetCamera().position,
+            m_world.GetCamera().looking_at,
+            m_world.GetCamera().up,
+            m_world.GetCamera().fov,
+            m_world.GetWindow().getAspectRatio(),
+            m_world.GetCamera().near,
+            m_world.GetCamera().far
+        );
+    }
+
     void Engine::Render()
     {
         renderImGui();
@@ -550,7 +654,8 @@ namespace engine
 
         m_current_rendered_models_size = 0;
         m_current_rendered_indexes_size = 0;
-        renderGroup(m_world.GetParentWorldGroup());
+
+        renderGroup(m_world.GetParentWorldGroup(), getCurrentFrustum(), Mat4fIdentity);
 
         postRenderImGui();
     }

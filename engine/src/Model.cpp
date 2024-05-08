@@ -85,6 +85,7 @@ namespace engine::model
                 Vec3f vertex;
                 stream >> vertex.x >> vertex.y >> vertex.z;
                 m_vertex.push_back(vertex);
+                m_aabb.Extend(vertex);
             }
             else if (type == "vn")
             {
@@ -134,6 +135,7 @@ namespace engine::model
         for (auto &pos : m_vertex)
         {
             file >> pos.x >> pos.y >> pos.z;
+            m_aabb.Extend(pos);
         }
 
         for (auto &normal : m_normals)

@@ -16,6 +16,8 @@ add_executable(cg-solar-system src/main.cpp
         ../common/Utils.h
         ../common/Utils.cpp
         ../common/Color.h
+        src/Frustum.cpp
+        src/Frustum.h
 )
 
 find_package(OpenGL REQUIRED)

@@ -51,6 +51,19 @@ Mat4f Mat4f::transpose() const
     return result;
 }
 
+Mat4f Mat4f::Abs()
+{
+    Mat4f result;
+    for (int i = 0; i < 4; ++i)
+    {
+        for (int j = 0; j < 4; ++j)
+        {
+            result.mat[i][j] = fabs(mat[i][j]);
+        }
+    }
+    return result;
+}
+
 Mat4f Mat4fTranslate(const float x, const float y, const float z)
 {
     return {{{1, 0, 0, x}, {0, 1, 0, y}, {0, 0, 1, z}, {0, 0, 0, 1}}};

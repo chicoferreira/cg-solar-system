@@ -11,6 +11,7 @@ struct Mat4f
     Vec4f operator*(const Vec4f &other) const;
     Mat4f &operator*=(const Mat4f &mat4_f);
     Mat4f transpose() const;
+    Mat4f Abs();
 };
 
 Mat4f Mat4fTranslate(float x, float y, float z);

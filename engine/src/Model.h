@@ -6,6 +6,7 @@
 #include <vector>
 
 #include "Color.h"
+#include "Frustum.h"
 #include "Vec.h"
 
 namespace engine::model
@@ -24,7 +25,9 @@ namespace engine::model
             uint32_t image_height,
             std::vector<uint8_t> &texture_data,
             uint32_t il_id
-        ) : texture_name(texture_name), image_width(image_width), image_height(image_height), texture_data(std::move(texture_data)), il_id(il_id)
+        ) :
+            texture_name(texture_name), image_width(image_width), image_height(image_height),
+            texture_data(std::move(texture_data)), il_id(il_id)
         {
         }
         std::string &GetName() { return texture_name; };
@@ -50,6 +53,7 @@ namespace engine::model
         std::vector<Vec3f> m_normals;
         std::vector<Vec2f> m_tex_coords;
         std::vector<uint32_t> m_indexes;
+        AABB m_aabb;
 
     public:
         explicit Model(std::string name) : m_name(std::move(name)) {}
@@ -64,6 +68,7 @@ namespace engine::model
         std::vector<Vec3f> &GetNormals() { return m_normals; }
         std::vector<Vec2f> &GetTexCoords() { return m_tex_coords; }
         std::vector<uint32_t> &GetIndexes() { return m_indexes; }
+        AABB &GetAABB() { return m_aabb; }
 
         void LoadFromObjStream(std::istream &file);
         void LoadFrom3dFormatStream(std::istream &file);

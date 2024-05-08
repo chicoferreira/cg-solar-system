@@ -641,7 +641,7 @@ namespace engine
 
             if (ImGui::TreeNodeEx("Settings", ImGuiTreeNodeFlags_Framed))
             {
-                if (ImGui::TreeNodeEx("OpenGL Settings", ImGuiTreeNodeFlags_Framed))
+                if (ImGui::TreeNodeEx("OpenGL Settings", ImGuiTreeNodeFlags_Framed | ImGuiTreeNodeFlags_DefaultOpen))
                 {
                     if (ImGui::Checkbox("Lighting", &m_settings.lighting))
                         SetLighting(m_settings.lighting);
@@ -667,7 +667,9 @@ namespace engine
                     ImGui::TreePop();
                 }
 
-                if (ImGui::TreeNodeEx("Additional Rendering", ImGuiTreeNodeFlags_Framed))
+                if (ImGui::TreeNodeEx(
+                        "Additional Rendering", ImGuiTreeNodeFlags_Framed | ImGuiTreeNodeFlags_DefaultOpen
+                    ))
                 {
                     ImGui::Checkbox(
                         "Render Transform Through Points Path", &m_settings.render_transform_through_points_path
@@ -686,6 +688,19 @@ namespace engine
                     ImGui::Checkbox("Render Normals (May impact performance)", &m_settings.render_normals);
                     ImGui::SameLine();
                     ShowHelpMarker("Normals may not be scaled correctly");
+
+                    ImGui::Checkbox("Render AABB (May impact performance)", &m_settings.render_aabb);
+                    ImGui::SameLine();
+                    ShowHelpMarker("Frustum Culling needs to be enabled");
+
+                    ImGui::TreePop();
+                }
+
+                if (ImGui::TreeNodeEx(
+                        "Optimization Settings", ImGuiTreeNodeFlags_Framed | ImGuiTreeNodeFlags_DefaultOpen
+                    ))
+                {
+                    ImGui::Checkbox("Frustum Culling", &m_settings.frustum_culling);
                     ImGui::TreePop();
                 }
 

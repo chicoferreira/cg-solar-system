@@ -52,7 +52,7 @@ struct Vec3f
     constexpr Vec3f operator/(const float length) const { return {x / length, y / length, z / length}; }
     constexpr float operator[](const int i) const { return i == 0 ? x : i == 1 ? y : z; }
     constexpr float &operator[](const int i) { return i == 0 ? x : i == 1 ? y : z; }
-    constexpr Vec3f operator-() { return {-x, -y, -z}; }
+    constexpr Vec3f operator-() const { return {-x, -y, -z}; }
     constexpr auto with_y(const float new_y) const { return Vec3f{x, new_y, z}; }
     float Length() const { return sqrtf(x * x + y * y + z * z); }
 
@@ -76,6 +76,7 @@ struct Vec3f
     {
         return {y * other.z - z * other.y, z * other.x - x * other.z, x * other.y - y * other.x};
     }
+    float Dot(const Vec3f other) const { return x * other.x + y * other.y + z * other.z; }
     Vec4f ToVec4f(float w = 1.0f) const;
 };
 

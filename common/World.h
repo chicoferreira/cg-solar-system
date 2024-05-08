@@ -24,6 +24,7 @@ namespace world
 
         Window() = default;
         Window(int width, int height) : width(width), height(height) {}
+        float getAspectRatio() { return static_cast<float>(width) / static_cast<float>(height); }
     };
 
     struct Camera
