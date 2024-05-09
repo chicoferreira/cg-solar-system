@@ -303,6 +303,13 @@ namespace world::serde
         element->SetAttribute("z", vec.z);
     }
 
+    void XmlSetColorAttribute(tinyxml2::XMLElement *element, const Color &color)
+    {
+        element->SetAttribute("R", color.r * 255);
+        element->SetAttribute("G", color.g * 255);
+        element->SetAttribute("B", color.b * 255);
+    }
+
     void SaveWorldGroupToXml(
         tinyxml2::XMLDocument &doc,
         tinyxml2::XMLElement *parent_element,
@@ -320,6 +327,38 @@ namespace world::serde
         {
             tinyxml2::XMLElement *model_element = doc.NewElement("model");
             model_element->SetAttribute("file", world.GetModelNames()[group_model.model_index].c_str());
+
+            if (group_model.texture_index != std::nullopt)
+            {
+                tinyxml2::XMLElement *texture_element = doc.NewElement("texture");
+                texture_element->SetAttribute(
+                    "file", world.GetTextureNames()[group_model.texture_index.value()].c_str()
+                );
+                model_element->InsertEndChild(texture_element);
+            }
+
+            tinyxml2::XMLElement *material_element = doc.NewElement("color");
+            model_element->InsertEndChild(material_element);
+
+            tinyxml2::XMLElement *diffuse_element = doc.NewElement("diffuse");
+            XmlSetColorAttribute(diffuse_element, group_model.material.diffuse);
+            material_element->InsertEndChild(diffuse_element);
+
+            tinyxml2::XMLElement *ambient_element = doc.NewElement("ambient");
+            XmlSetColorAttribute(ambient_element, group_model.material.ambient);
+            material_element->InsertEndChild(ambient_element);
+
+            tinyxml2::XMLElement *specular_element = doc.NewElement("specular");
+            XmlSetColorAttribute(specular_element, group_model.material.specular);
+            material_element->InsertEndChild(specular_element);
+
+            tinyxml2::XMLElement *emissive_element = doc.NewElement("emissive");
+            XmlSetColorAttribute(emissive_element, group_model.material.emissive);
+            material_element->InsertEndChild(emissive_element);
+
+            tinyxml2::XMLElement *shininess_element = doc.NewElement("shininess");
+            shininess_element->SetAttribute("value", group_model.material.shininess);
+            material_element->InsertEndChild(shininess_element);
 
             models_element->InsertEndChild(model_element);
         }
@@ -432,6 +471,43 @@ namespace world::serde
         camera_projection_element->SetAttribute("far", world.GetCamera().far);
 
         camera_element->InsertEndChild(camera_projection_element);
+
+        tinyxml2::XMLElement *lights_element = doc.NewElement("lights");
+        for (const lighting::Light &light : world.getLights())
+        {
+            tinyxml2::XMLElement *light_element = doc.NewElement("light");
+            lights_element->InsertEndChild(light_element);
+
+            if (std::holds_alternative<lighting::DirectionalLight>(light))
+            {
+                const lighting::DirectionalLight &directional_light = std::get<lighting::DirectionalLight>(light);
+                light_element->SetAttribute("type", "directional");
+                light_element->SetAttribute("dirx", directional_light.dir.x);
+                light_element->SetAttribute("diry", directional_light.dir.y);
+                light_element->SetAttribute("dirz", directional_light.dir.z);
+            }
+            else if (std::holds_alternative<lighting::PointLight>(light))
+            {
+                const lighting::PointLight &point_light = std::get<lighting::PointLight>(light);
+                light_element->SetAttribute("type", "point");
+                light_element->SetAttribute("posx", point_light.pos.x);
+                light_element->SetAttribute("posy", point_light.pos.y);
+                light_element->SetAttribute("posz", point_light.pos.z);
+            }
+            else if (std::holds_alternative<lighting::Spotlight>(light))
+            {
+                const lighting::Spotlight &spotlight = std::get<lighting::Spotlight>(light);
+                light_element->SetAttribute("type", "spotlight");
+                light_element->SetAttribute("dirx", spotlight.dir.x);
+                light_element->SetAttribute("diry", spotlight.dir.y);
+                light_element->SetAttribute("dirz", spotlight.dir.z);
+                light_element->SetAttribute("posx", spotlight.pos.x);
+                light_element->SetAttribute("posy", spotlight.pos.y);
+                light_element->SetAttribute("posz", spotlight.pos.z);
+                light_element->SetAttribute("cutoff", spotlight.cutoff);
+            }
+        }
+        world_element->InsertEndChild(lights_element);
 
         tinyxml2::XMLElement *group_element = doc.NewElement("group");
         world_element->InsertEndChild(group_element);

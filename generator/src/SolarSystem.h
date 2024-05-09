@@ -12,11 +12,13 @@ namespace generator::solarsystem
         std::string name;
         float radius;
         float albedo;
+        std::string texture;
     };
 
     struct Planet
     {
         std::string name;
+        std::string texture;
         float diameter;
         float rotation_period;
         float distance_from_sun;
@@ -35,7 +37,7 @@ namespace generator::solarsystem
         float planet_distance_scale_factor,
         float scene_scale_factor,
         int number_of_asteroids,
-        const char* output_file
+        const char *output_file
     );
 } // namespace generator::solarsystem
 

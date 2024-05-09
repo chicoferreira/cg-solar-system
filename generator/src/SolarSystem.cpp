@@ -17,16 +17,17 @@ namespace generator::solarsystem
     {
         Planet planet;
         planet.name = planets_csv.GetCell<std::string>(0, row);
-        planet.diameter = planets_csv.GetCell<float>(1, row);
-        planet.rotation_period = planets_csv.GetCell<float>(2, row);
-        planet.distance_from_sun = planets_csv.GetCell<float>(3, row);
-        planet.perihelion = planets_csv.GetCell<float>(4, row);
-        planet.aphelion = planets_csv.GetCell<float>(5, row);
-        planet.orbital_period = planets_csv.GetCell<float>(6, row);
-        planet.orbital_velocity = planets_csv.GetCell<float>(7, row);
-        planet.orbital_inclination = planets_csv.GetCell<float>(8, row);
-        planet.obliquity_to_orbit = planets_csv.GetCell<float>(9, row);
-        planet.has_ring_system = planets_csv.GetCell<bool>(10, row, ConvLiteralBool);
+        planet.texture = planets_csv.GetCell<std::string>(1, row);
+        planet.diameter = planets_csv.GetCell<float>(2, row);
+        planet.rotation_period = planets_csv.GetCell<float>(3, row);
+        planet.distance_from_sun = planets_csv.GetCell<float>(4, row);
+        planet.perihelion = planets_csv.GetCell<float>(5, row);
+        planet.aphelion = planets_csv.GetCell<float>(6, row);
+        planet.orbital_period = planets_csv.GetCell<float>(7, row);
+        planet.orbital_velocity = planets_csv.GetCell<float>(8, row);
+        planet.orbital_inclination = planets_csv.GetCell<float>(9, row);
+        planet.obliquity_to_orbit = planets_csv.GetCell<float>(10, row);
+        planet.has_ring_system = planets_csv.GetCell<bool>(11, row, ConvLiteralBool);
         return planet;
     }
 
@@ -37,6 +38,7 @@ namespace generator::solarsystem
         satellite.name = satellites_csv.GetCell<std::string>(1, row);
         satellite.radius = satellites_csv.GetCell<float>(2, row);
         satellite.albedo = satellites_csv.GetCell<float>(3, row);
+        satellite.texture = satellites_csv.GetCell<std::string>(4, row);
         return satellite;
     }
 
@@ -121,6 +123,8 @@ namespace generator::solarsystem
             1000.0f // far
         );
 
+        world.getLights().push_back(world::lighting::PointLight(Vec3f(0, 0, 0)));
+
         auto sphere_id = world.AddModelName("sphere_1_20_20.3d");
         auto sphere_low_poly_id = world.AddModelName("sphere_1_10_10.3d");
         auto asteroid_id = world.AddModelName("bezier_1.3d");
@@ -132,7 +136,10 @@ namespace generator::solarsystem
         const float real_sun_diameter = sun_diameter / scene_scale_factor / sun_size_scale_factor;
         {
             world::WorldGroup sun_group = world::WorldGroup("Sun");
-            sun_group.models.push_back({sphere_id, {}});
+            auto sun_texture = world.AddTextureName("planets/2k_sun.jpg");
+            world::ModelMaterial sun_material;
+            sun_material.emissive = {1.0f, 1.0f, 1.0f};
+            sun_group.models.push_back({sphere_id, {sun_texture}, sun_material});
 
             sun_group.transformations.AddTransform(world::transform::Scale(Vec3f(real_sun_diameter)));
             sun_group.transformations.AddTransform(world::transform::Rotation(sun_tilt * 2, {1, 0, 0}));
@@ -142,6 +149,13 @@ namespace generator::solarsystem
 
             world.GetParentWorldGroup().children.push_back(sun_group);
         }
+
+        const std::vector<size_t> random_moon_texture = {
+            world.AddTextureName("planets/2k_ceres_fictional.jpg"),
+            world.AddTextureName("planets/2k_eris_fictional.jpg"),
+            world.AddTextureName("planets/2k_haumea_fictional.jpg"),
+            world.AddTextureName("planets/2k_makemake_fictional.jpg"),
+        };
 
         for (const auto &planet : planets)
         {
@@ -164,7 +178,9 @@ namespace generator::solarsystem
             );
 
             world::WorldGroup planet_group = world::WorldGroup("Planet " + planet.name);
-            planet_group.models.push_back({sphere_id, {}});
+
+            auto planet_texture = world.AddTextureName(planet.texture);
+            planet_group.models.push_back({sphere_id, {planet_texture}});
 
             const float diameter = planet.diameter / scene_scale_factor;
 
@@ -186,7 +202,16 @@ namespace generator::solarsystem
 
                 const auto real_moon_diameter = moon.radius * 2 / scene_scale_factor;
 
-                moon_group.models.push_back({real_moon_diameter < 0.01f ? sphere_low_poly_id : sphere_id});
+                auto moon_model = real_moon_diameter < 0.01f ? sphere_low_poly_id : sphere_id;
+
+                // Select random texture from random_moon_texture
+                size_t moon_texture;
+                if (moon.texture != "")
+                    moon_texture = world.AddTextureName(moon.texture);
+                else
+                    moon_texture = random_moon_texture[std::rand() % random_moon_texture.size()];
+
+                moon_group.models.push_back({moon_model, moon_texture});
 
                 const auto random_distance_offset = fmod((double)rand() / (RAND_MAX), log2(moon_distance_to_planet));
 
@@ -195,9 +220,8 @@ namespace generator::solarsystem
                     false,
                     generatePointsInCircle(moon_distance_to_planet + random_distance_offset, 10, randomRadians())
                 ));
-                moon_group.transformations.AddTransform(
-                    world::transform::Scale(Vec3f(std::max(0.005f, real_moon_diameter)))
-                );
+                moon_group.transformations.AddTransform(world::transform::Scale(Vec3f(std::max(0.1f, real_moon_diameter)
+                )));
                 moon_group.transformations.AddTransform(
                     world::transform::RotationWithTime(planet_actual_translation_delta / 5, {0, 1, 0})
                 );
@@ -212,18 +236,20 @@ namespace generator::solarsystem
         const auto asteroid_belt_distance_from_sun =
             300.0f * 1000000 / scene_scale_factor / planet_distance_scale_factor + real_sun_diameter;
 
+        const auto asteroid_texture = world.AddTextureName("planets/2k_haumea_fictional.jpg");
+
         for (int i = 0; i < number_of_asteroids; ++i)
         {
             world::WorldGroup asteroid_group = world::WorldGroup("Asteroid " + std::to_string(i + 1));
 
-            const auto distance_offset_min = -5.0f * 1000000 / scene_scale_factor / planet_distance_scale_factor;
-            const auto distance_offset_max = 5.0f * 1000000 / scene_scale_factor / planet_distance_scale_factor;
+            const auto distance_offset_min = -20.0f * 1000000 / scene_scale_factor / planet_distance_scale_factor;
+            const auto distance_offset_max = 20.0f * 1000000 / scene_scale_factor / planet_distance_scale_factor;
 
             const auto distance_offset_xz = randomBetween(distance_offset_min, distance_offset_max);
             const auto distance_offset_y = randomBetween(distance_offset_min, distance_offset_max);
 
             asteroid_group.transformations.AddTransform(world::transform::TranslationThroughPoints(
-                randomBetween(30, 35),
+                randomBetween(25, 35),
                 true,
                 generatePointsInCircle(
                     asteroid_belt_distance_from_sun + distance_offset_xz, 7, randomRadians(), distance_offset_y
@@ -233,7 +259,7 @@ namespace generator::solarsystem
             asteroid_group.transformations.AddTransform(world::transform::Rotation(-M_PI_2, {1, 0, 0}));
             asteroid_group.transformations.AddTransform(world::transform::Scale(Vec3f(900 / scene_scale_factor)));
 
-            asteroid_group.models.push_back({asteroid_id, {}});
+            asteroid_group.models.push_back({asteroid_id, {asteroid_texture}});
 
             asteroid_belt_group.children.push_back(asteroid_group);
         }
@@ -241,7 +267,8 @@ namespace generator::solarsystem
         world.GetParentWorldGroup().children.push_back(asteroid_belt_group);
 
         world::WorldGroup comet_group = world::WorldGroup("Comet");
-        comet_group.models.push_back({comet_id, {}});
+        const auto comet_texture = world.AddTextureName("planets/stone-texture-background.jpg");
+        comet_group.models.push_back({comet_id, {comet_texture}});
 
         const auto comet_distance_a_from_sun =
             1500.0f * 1000000 / scene_scale_factor / planet_distance_scale_factor + real_sun_diameter;
