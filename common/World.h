@@ -188,6 +188,12 @@ namespace world
         Color specular = {0.0f, 0.0f, 0.0f, 1.0f};
         Color emissive = {0.0f, 0.0f, 0.0f, 1.0f};
         float shininess = 0.0f;
+
+        bool operator==(const ModelMaterial &other) const
+        {
+            return diffuse == other.diffuse && ambient == other.ambient && specular == other.specular &&
+                emissive == other.emissive && shininess == other.shininess;
+        }
     };
 
     struct GroupModel

@@ -130,6 +130,18 @@ namespace generator::solarsystem
         auto asteroid_id = world.AddModelName("bezier_1.3d");
         auto comet_id = world.AddModelName("bezier_5.3d");
 
+        {
+            world::WorldGroup skybox_group = world::WorldGroup("Skybox");
+            auto skybox_texture = world.AddTextureName("planets/8k_stars_milky_way.jpg");
+            auto skybox_material = world::ModelMaterial();
+            skybox_material.emissive = {1.0f, 1.0f, 1.0f};
+
+            skybox_group.models.push_back({sphere_id, {skybox_texture}, skybox_material});
+            skybox_group.transformations.AddTransform(world::transform::Scale(Vec3f(-500.0f)));
+            skybox_group.transformations.AddTransform(world::transform::Rotation(M_PI, {1, 0, 0}));
+            world.GetParentWorldGroup().children.push_back(skybox_group);
+        }
+
         constexpr float sun_diameter = 1392700.0f;
         constexpr float sun_rotational_period = 648.0f;
         constexpr float sun_tilt = degrees_to_radians(7.25f);

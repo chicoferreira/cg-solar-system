@@ -337,29 +337,48 @@ namespace world::serde
                 model_element->InsertEndChild(texture_element);
             }
 
-            tinyxml2::XMLElement *material_element = doc.NewElement("color");
-            model_element->InsertEndChild(material_element);
+            ModelMaterial default_model_material;
 
-            tinyxml2::XMLElement *diffuse_element = doc.NewElement("diffuse");
-            XmlSetColorAttribute(diffuse_element, group_model.material.diffuse);
-            material_element->InsertEndChild(diffuse_element);
+            if (group_model.material != default_model_material)
+            {
+                tinyxml2::XMLElement *material_element = doc.NewElement("color");
+                model_element->InsertEndChild(material_element);
 
-            tinyxml2::XMLElement *ambient_element = doc.NewElement("ambient");
-            XmlSetColorAttribute(ambient_element, group_model.material.ambient);
-            material_element->InsertEndChild(ambient_element);
+                if (group_model.material.diffuse != default_model_material.diffuse)
+                {
+                    tinyxml2::XMLElement *diffuse_element = doc.NewElement("diffuse");
+                    XmlSetColorAttribute(diffuse_element, group_model.material.diffuse);
+                    material_element->InsertEndChild(diffuse_element);
+                }
 
-            tinyxml2::XMLElement *specular_element = doc.NewElement("specular");
-            XmlSetColorAttribute(specular_element, group_model.material.specular);
-            material_element->InsertEndChild(specular_element);
+                if (group_model.material.ambient != default_model_material.ambient)
+                {
+                    tinyxml2::XMLElement *ambient_element = doc.NewElement("ambient");
+                    XmlSetColorAttribute(ambient_element, group_model.material.ambient);
+                    material_element->InsertEndChild(ambient_element);
+                }
 
-            tinyxml2::XMLElement *emissive_element = doc.NewElement("emissive");
-            XmlSetColorAttribute(emissive_element, group_model.material.emissive);
-            material_element->InsertEndChild(emissive_element);
+                if (group_model.material.specular != default_model_material.specular)
+                {
+                    tinyxml2::XMLElement *specular_element = doc.NewElement("specular");
+                    XmlSetColorAttribute(specular_element, group_model.material.specular);
+                    material_element->InsertEndChild(specular_element);
+                }
 
-            tinyxml2::XMLElement *shininess_element = doc.NewElement("shininess");
-            shininess_element->SetAttribute("value", group_model.material.shininess);
-            material_element->InsertEndChild(shininess_element);
+                if (group_model.material.emissive != default_model_material.emissive)
+                {
+                    tinyxml2::XMLElement *emissive_element = doc.NewElement("emissive");
+                    XmlSetColorAttribute(emissive_element, group_model.material.emissive);
+                    material_element->InsertEndChild(emissive_element);
+                }
 
+                if (group_model.material.shininess != default_model_material.shininess)
+                {
+                    tinyxml2::XMLElement *shininess_element = doc.NewElement("shininess");
+                    shininess_element->SetAttribute("value", group_model.material.shininess);
+                    material_element->InsertEndChild(shininess_element);
+                }
+            }
             models_element->InsertEndChild(model_element);
         }
 
