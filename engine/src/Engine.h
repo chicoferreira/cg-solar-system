@@ -107,7 +107,7 @@ namespace engine
         static void postRenderImGui();
         void renderAxis();
         void renderImGuiWorldGroupMenu(world::WorldGroup &world_group);
-        Mat4f getTransformMatrix(world::GroupTransform &transformations, float time);
+        Mat4f applyTransformMatrix(world::GroupTransform &transformations, float time);
         void renderCatmullRomCurves(world::transform::TranslationThroughPoints &translation) const;
         void renderGroup(world::WorldGroup &group, const Frustum &frustum, const Mat4f &current_transform);
         void renderModel(world::GroupModel &model, size_t index_count);

@@ -395,48 +395,12 @@ namespace engine
         EndSectionDisableLighting();
     }
 
-    void renderPlane(Plane plane)
-    {
-        float dist = plane.distance;
-        Vec3f normal = plane.normal;
-
-        Vec3f basis1, basis2;
-        if (normal.x != 0 || normal.y != 0)
-            basis1 = Vec3f(-normal.y, normal.x, 0).Normalize();
-        else
-            basis1 = Vec3f(0, -normal.z, normal.y).Normalize();
-
-        basis2 = normal.Cross(basis1);
-
-        // Define vertices
-        Vec3f v1 = normal * dist + basis1 * 10.0f + basis2 * 10.0f;
-        Vec3f v2 = normal * dist - basis1 * 10.0f + basis2 * 10.0f;
-        Vec3f v3 = normal * dist - basis1 * 10.0f - basis2 * 10.0f;
-        Vec3f v4 = normal * dist + basis1 * 10.0f - basis2 * 10.0f;
-
-        // Render the plane
-        glBegin(GL_QUADS);
-        glVertex3fv(&v1[0]);
-        glVertex3fv(&v2[0]);
-        glVertex3fv(&v3[0]);
-        glVertex3fv(&v4[0]);
-        glEnd();
-
-        // Render the normal
-        glBegin(GL_LINES);
-        Vec3f position = normal * dist;
-        glVertex3fv(&position[0]);
-        glVertex3fv(&(position + (normal * 10.0f))[0]);
-        glEnd();
-    }
-
     void Engine::renderGroup(world::WorldGroup &group, const Frustum &frustum, const Mat4f &current_transform)
     {
         glPushMatrix();
 
-        Mat4f transform_matrix = getTransformMatrix(group.transformations, m_simulation_time.m_current_time);
+        Mat4f transform_matrix = applyTransformMatrix(group.transformations, m_simulation_time.m_current_time);
         Mat4f new_transform = current_transform * transform_matrix;
-        glMultMatrixf(*transform_matrix.transpose().mat);
 
         for (auto &group_model : group.models)
         {
@@ -469,7 +433,7 @@ namespace engine
         glPopMatrix();
     }
 
-    Mat4f Engine::getTransformMatrix(world::GroupTransform &transformations, float time)
+    Mat4f Engine::applyTransformMatrix(world::GroupTransform &transformations, float time)
     {
         Mat4f result = Mat4fIdentity;
         for (auto &transformation : transformations.GetTransformations())
@@ -481,6 +445,7 @@ namespace engine
                 renderCatmullRomCurves(translation);
             }
 
+            glMultMatrixf(*matrix.transpose().mat);
             result *= matrix;
         }
         return result;
