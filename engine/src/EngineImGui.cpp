@@ -49,19 +49,61 @@ namespace engine
         return "Unknown";
     }
 
-    void Engine::renderImGuiWorldGroupMenu(world::WorldGroup &world_group)
+    void Engine::renderImGuiWorldGroupMenu(
+        world::WorldGroup &world_group,
+        const size_t world_group_index,
+        world::WorldGroup *parent_group
+    )
     {
         auto &model_indexes = world_group.models;
-        auto world_group_name = world_group.name.has_value() ? world_group.name->c_str() : "unknown";
-        if (ImGui::TreeNode(&world_group, "Group (%s)", world_group_name))
+        const auto world_group_name = world_group.name.has_value() ? world_group.name->c_str() : "unknown";
+        const auto opened = ImGui::TreeNode(&world_group, "Group (%s)", world_group_name);
+        if (parent_group != nullptr)
+        {
+            ImGui::PushID(&world_group);
+            ImGui::SameLine();
+            if (ImGui::SmallButton("Remove"))
+            {
+                parent_group->children.erase(parent_group->children.begin() + world_group_index);
+            }
+            ImGui::PopID();
+        }
+        if (opened)
         {
             if (ImGui::TreeNodeEx(&model_indexes, ImGuiTreeNodeFlags_DefaultOpen, "Models (%zu)", model_indexes.size()))
             {
+                if (ImGui::SmallButton("Add Model"))
+                {
+                    ImGui::OpenPopup("Add Model");
+                }
+
+                if (ImGui::BeginPopup("Add Model"))
+                {
+                    for (int i = 0; i < m_models.size(); ++i)
+                    {
+                        if (ImGui::MenuItem(m_models[i].GetName().c_str()))
+                        {
+                            world::GroupModel group_model;
+                            group_model.model_index = i;
+                            group_model.texture_index = std::nullopt;
+                            model_indexes.push_back(group_model);
+                            break;
+                        }
+                    }
+                    ImGui::EndPopup();
+                }
+
                 for (int i = 0; i < model_indexes.size(); ++i)
                 {
                     world::GroupModel &group_model = model_indexes[i];
+                    ImGui::PushID(&group_model);
                     auto model_index = group_model.model_index;
                     ImGui::Text("Model #%lu (%s)", model_index, m_models[model_index].GetName().c_str());
+                    ImGui::SameLine();
+                    if (ImGui::SmallButton("Remove"))
+                    {
+                        model_indexes.erase(model_indexes.begin() + i);
+                    }
 
                     auto &texture_index = group_model.texture_index;
 
@@ -105,6 +147,7 @@ namespace engine
                     ImGui::ColorEdit4("Specular", &group_model.material.specular.r);
                     ImGui::ColorEdit4("Emissive", &group_model.material.emissive.r);
                     ImGui::DragFloat("Shininess", &group_model.material.shininess, 0.1f, 0.0f, 128.0f);
+                    ImGui::PopID();
                 }
                 ImGui::TreePop();
             }
@@ -304,9 +347,15 @@ namespace engine
                 ImGui::EndDragDropTarget();
             }
 
-            for (auto &child : world_group.children)
+            for (int i = 0; i < world_group.children.size(); ++i)
             {
-                renderImGuiWorldGroupMenu(child);
+                renderImGuiWorldGroupMenu(world_group.children[i], i, &world_group);
+            }
+
+            if (ImGui::SmallButton("Add New Group"))
+            {
+                const auto new_group = world::WorldGroup();
+                world_group.children.push_back(new_group);
             }
 
             ImGui::TreePop();
@@ -469,7 +518,7 @@ namespace engine
 
                 if (ImGui::TreeNodeEx("Groups", ImGuiTreeNodeFlags_Framed | ImGuiTreeNodeFlags_DefaultOpen))
                 {
-                    renderImGuiWorldGroupMenu(m_world.GetParentWorldGroup());
+                    renderImGuiWorldGroupMenu(m_world.GetParentWorldGroup(), 0, nullptr);
                     ImGui::TreePop();
                 }
 
