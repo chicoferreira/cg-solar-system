@@ -7,7 +7,8 @@
 #include <string>
 #include <vector>
 
-#include "IL/il.h"
+#define STB_IMAGE_IMPLEMENTATION
+#include <stb_image.h>
 
 #include "Utils.h"
 
@@ -22,28 +23,23 @@ namespace engine::model
         if (!path)
             return std::nullopt;
 
-        uint32_t image_id = ilGenImage();
-        ilBindImage(image_id);
-        if (!ilLoadImage(path.value().string().c_str()))
+
+        stbi_set_flip_vertically_on_load(true);
+        int width, height, channels;
+        uint8_t *data = stbi_load(path.value().string().c_str(), &width, &height, &channels, 4);
+
+        if (!data)
         {
-            std::cerr << ilGetError() << std::endl;
+            if (stbi_failure_reason())
+                std::cout << stbi_failure_reason();
             return std::nullopt;
         }
 
-        uint32_t image_width = ilGetInteger(IL_IMAGE_WIDTH);
-        uint32_t image_height = ilGetInteger(IL_IMAGE_HEIGHT);
-        ilConvertImage(IL_RGBA, IL_UNSIGNED_BYTE);
+        const uint32_t image_width = static_cast<uint32_t>(width);
+        const uint32_t image_height = static_cast<uint32_t>(height);
 
-        std::vector<uint8_t> texture_data(image_height * image_width * 4);
-
-        ilCopyPixels(0, 0, 0, image_width, image_height, 1, IL_RGBA, IL_UNSIGNED_BYTE, texture_data.data());
-
-        ilBindImage(0);
-
-        return {Texture{file_path, image_width, image_height, texture_data, image_id}};
+        return {Texture{file_path, image_width, image_height, std::unique_ptr<uint8_t>(data)}};
     }
-
-    Texture::~Texture() { ilDeleteImage(il_id); }
 
     // Parse the first index of a face vertex
     // f v1/vt1/vn1 v2/vt2/vn2 v3/vt3/vn3 -> v1, v2, v3

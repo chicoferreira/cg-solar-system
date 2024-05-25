@@ -4,7 +4,6 @@
 
 #include "Frustum.h"
 #include "WorldSerde.h"
-#include "il.h"
 
 namespace engine
 {
@@ -89,7 +88,7 @@ namespace engine
             0,
             GL_RGBA,
             GL_UNSIGNED_BYTE,
-            texture.GetTextureData().data()
+            texture.GetTextureData().get()
         );
         glGenerateMipmap(GL_TEXTURE_2D);
         glBindTexture(GL_TEXTURE_2D, 0);
@@ -233,10 +232,6 @@ namespace engine
 
         if (!loadModels())
             return false;
-
-        ilInit();
-        ilEnable(IL_ORIGIN_SET);
-        ilOriginFunc(IL_ORIGIN_LOWER_LEFT);
 
         if (!loadTextures())
             return false;

@@ -15,26 +15,23 @@ namespace engine::model
     {
         std::string texture_name;
         uint32_t image_width, image_height;
-        std::vector<uint8_t> texture_data;
-        uint32_t il_id;
+        std::unique_ptr<uint8_t> texture_data;
 
     public:
         Texture(
-            std::string texture_name,
-            uint32_t image_width,
-            uint32_t image_height,
-            std::vector<uint8_t> &texture_data,
-            uint32_t il_id
+            const std::string &texture_name,
+            const uint32_t image_width,
+            const uint32_t image_height,
+            std::unique_ptr<uint8_t> texture_data
         ) :
             texture_name(texture_name), image_width(image_width), image_height(image_height),
-            texture_data(std::move(texture_data)), il_id(il_id)
+            texture_data(std::move(texture_data))
         {
         }
         std::string &GetName() { return texture_name; };
         uint32_t GetWidth() const { return image_width; };
         uint32_t GetHeight() const { return image_height; };
-        std::vector<uint8_t> &GetTextureData() { return texture_data; };
-        ~Texture();
+        std::unique_ptr<uint8_t> &GetTextureData() { return texture_data; };
     };
     std::optional<Texture> LoadTextureFromFile(const std::string &file_path);
 
