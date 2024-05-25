@@ -24,7 +24,7 @@ namespace generator
             {
                 vertex.push_back({-length / 2 + x * side, 0, -length / 2 + z * side});
                 normals.push_back({0, 1, 0});
-                tex_coords.push_back({x * 1.0f / divisions, z * 1.0f / divisions});
+                tex_coords.push_back({1.0f - x * 1.0f / divisions, z * 1.0f / divisions});
             }
         }
 
