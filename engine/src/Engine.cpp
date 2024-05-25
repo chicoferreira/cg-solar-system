@@ -312,15 +312,15 @@ namespace engine
     {
         StartSectionDisableLighting();
         glColor3f(0.0f, 0.5f, 1.0f);
+        glBegin(GL_LINES);
         for (int i = 0; i < model.GetVertex().size(); ++i)
         {
             Vec3f vertex = model.GetVertex()[i];
             Vec3f normal = model.GetNormals()[i];
-            glBegin(GL_LINES);
             glVertex3f(vertex.x, vertex.y, vertex.z);
             glVertex3f(vertex.x + normal.x, vertex.y + normal.y, vertex.z + normal.z);
-            glEnd();
         }
+        glEnd();
         glColor3f(1.0f, 1.0f, 1.0f);
         EndSectionDisableLighting();
     }
