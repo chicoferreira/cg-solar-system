@@ -203,6 +203,9 @@ namespace engine
             return false;
         }
 
+        // Check if window changes because of HIDPI
+        glfwGetFramebufferSize(m_window, &m_world.GetWindow().width, &m_world.GetWindow().height);
+
         UpdateViewport();
 
         if (m_os == utils::OperatingSystem::MACOS)
