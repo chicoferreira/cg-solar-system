@@ -40,6 +40,7 @@ namespace engine
         bool render_light_models = false;
         bool render_aabb = false;
         bool frustum_culling = true;
+        Color background_color = Color(0.0f, 0.0f, 0.0f, 1.0f);
     };
 
     class EngineSimulationTime
@@ -114,17 +115,17 @@ namespace engine
         Mat4f applyTransformMatrix(world::GroupTransform &transformations, float time);
         void renderCatmullRomCurves(world::transform::TranslationThroughPoints &translation) const;
         void renderGroup(world::WorldGroup &group, const Frustum &frustum, const Mat4f &current_transform);
-        void renderModel(world::GroupModel &model, size_t index_count);
-        void renderModelNormals(model::Model &model);
+        void renderModel(const world::GroupModel &model, size_t index_count) const;
+        void renderModelNormals(model::Model &model) const;
         void renderLights();
-        void renderLightModel(const world::lighting::Light &light);
+        void renderLightModel(const world::lighting::Light &light) const;
         void renderGlobalAABB(AABB &aabb);
 
         bool loadWorld();
         bool loadModels();
         bool loadTextures();
         void uploadModelsToGPU();
-        void destroyModels();
+        void destroyModels() const;
         void setupWorldLights();
         void uploadTexturesToGPU();
         Frustum getCurrentFrustum();

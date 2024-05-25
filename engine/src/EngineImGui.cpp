@@ -135,7 +135,9 @@ namespace engine
                     if (texture_index.has_value())
                     {
                         ImGui::Image(
-                            (void *)(intptr_t)m_texture_buffers[group_model.texture_index.value()],
+                            reinterpret_cast<void *>(
+                                static_cast<intptr_t>(m_texture_buffers[group_model.texture_index.value()])
+                            ),
                             ImVec2(64, 64),
                             ImVec2(0, 1),
                             ImVec2(1, 0)
@@ -720,6 +722,7 @@ namespace engine
                         "Additional Rendering", ImGuiTreeNodeFlags_Framed | ImGuiTreeNodeFlags_DefaultOpen
                     ))
                 {
+                    ImGui::ColorEdit4("Background Color", &m_settings.background_color.r);
                     ImGui::Checkbox(
                         "Render Transform Through Points Path", &m_settings.render_transform_through_points_path
                     );

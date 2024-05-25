@@ -15,7 +15,7 @@ namespace engine
 
     void glfwSetFramebufferSizeCallback(GLFWwindow *window, const int width, const int height)
     {
-        Engine *engine = static_cast<Engine *>(glfwGetWindowUserPointer(window));
+        const auto engine = static_cast<Engine *>(glfwGetWindowUserPointer(window));
         auto &world_window = engine->getWorld().GetWindow();
 
         world_window.width = width;
@@ -162,7 +162,7 @@ namespace engine
         }
     }
 
-    void Engine::destroyModels()
+    void Engine::destroyModels() const
     {
         for (int i = 0; i < m_models.size(); ++i)
         {
@@ -228,7 +228,7 @@ namespace engine
 
         // To allow for ambient colors to be reproduced without having to activate the ambient component for all lights,
         // the following code should be added to the initialization:
-        float amb[4] = {1.0f, 1.0f, 1.0f, 1.0f};
+        constexpr float amb[4] = {1.0f, 1.0f, 1.0f, 1.0f};
         glLightModelfv(GL_LIGHT_MODEL_AMBIENT, amb);
 
         if (!loadModels())
@@ -249,7 +249,6 @@ namespace engine
         SetLighting(m_settings.lighting);
 
         glEnable(GL_TEXTURE_2D);
-        //        glShadeModel(GL_SMOOTH);
 
         setupWorldLights();
 
@@ -311,7 +310,7 @@ namespace engine
         glMatrixMode(GL_MODELVIEW);
     }
 
-    void Engine::renderModelNormals(model::Model &model)
+    void Engine::renderModelNormals(model::Model &model) const
     {
         StartSectionDisableLighting();
         glColor3f(0.0f, 0.5f, 1.0f);
@@ -328,7 +327,7 @@ namespace engine
         EndSectionDisableLighting();
     }
 
-    void Engine::renderModel(world::GroupModel &model, size_t index_count)
+    void Engine::renderModel(const world::GroupModel &model, const size_t index_count) const
     {
         glMaterialfv(GL_FRONT, GL_AMBIENT, &model.material.ambient.r);
         glMaterialfv(GL_FRONT, GL_DIFFUSE, &model.material.diffuse.r);
@@ -460,7 +459,7 @@ namespace engine
         if (translation.render_path_gpu_buffer == 0)
             glGenBuffers(1, &translation.render_path_gpu_buffer);
 
-        const size_t NUM_SEGMENTS = 100;
+        constexpr size_t NUM_SEGMENTS = 100;
         if (translation.render_path_dirty)
         {
 
@@ -486,7 +485,7 @@ namespace engine
         EndSectionDisableLighting();
     }
 
-    void Engine::renderLightModel(const world::lighting::Light &light)
+    void Engine::renderLightModel(const world::lighting::Light &light) const
     {
         StartSectionDisableLighting();
         if (std::holds_alternative<world::lighting::DirectionalLight>(light))
@@ -547,7 +546,7 @@ namespace engine
         for (int i = 0; i < light_count; ++i)
         {
             glEnable(GL_LIGHT0 + i);
-            float white[4] = {1.0, 1.0, 1.0, 1.0};
+            constexpr float white[4] = {1.0, 1.0, 1.0, 1.0};
             glLightfv(GL_LIGHT0 + i, GL_DIFFUSE, white);
             glLightfv(GL_LIGHT0 + i, GL_SPECULAR, white);
         }
@@ -607,6 +606,12 @@ namespace engine
         renderImGui();
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        glClearColor(
+            m_settings.background_color.r,
+            m_settings.background_color.g,
+            m_settings.background_color.b,
+            m_settings.background_color.a
+        );
 
         glLoadIdentity();
 
