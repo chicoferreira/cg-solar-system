@@ -2,10 +2,10 @@
 #define MODEL_H
 #include <cstdint>
 #include <istream>
+#include <memory>
 #include <optional>
 #include <vector>
 
-#include "Color.h"
 #include "Frustum.h"
 #include "Vec.h"
 
