@@ -123,7 +123,9 @@ namespace generator::solarsystem
             1000.0f // far
         );
 
-        world.getLights().push_back(world::lighting::PointLight(Vec3f(0, 0, 0)));
+        auto middle_light = world::lighting::PointLight();
+        middle_light.pos = Vec3f{0, 0, 0};
+        world.getLights().push_back(middle_light);
 
         auto sphere_id = world.AddModelName("sphere_1_20_20.3d");
         auto sphere_low_poly_id = world.AddModelName("sphere_1_10_10.3d");
