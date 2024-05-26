@@ -554,20 +554,71 @@ A aba de _settings_ também foi remodelada para ficar mais organizada com a gran
 
 Com o término desta fase, a _engine_ encontra-se finalizada no que toca aos eixos da UC de Computação Gráfica. Foram implementadas todas as funcionalidades pedidas, com algumas extensões, extras e melhorias. A _engine_ é capaz de carregar modelos, texturas, luzes, materiais, e de aplicar transformações a estes. Para além disso, é possível usufruir de uma infinidade de configurações no menu do _ImGui_, que permite ao utilizador customizar a sua experiência de uso.
 
-Como extras, o grupo consegue mencionar a criação de uma primivita nova, de um cilindro; a utilização de ficheiros em formato `.obj`; o desenvolvimento de um menu com recurso ao _ImGui_ imensamente detalhado e customizável; modo de câmara em primeira pessoa; 
+== Extras
 
-Mostrar todos os extras
+Esta secção é dedicada a todas as funcionalidades que foram implementadas como extra ao solicitado pelo enunciado do projeto.
 
-Ainda há muito a fazer mas o resultado final é muito bom
+=== Primitivas
 
-Luzes com cores RGB
+Foi adicionada uma primitiva nova, o cilindro. A geração desta primitiva foi detalhada na primeira fase.
 
-Coordenadas de texturas mais especificas
+=== Ficheiros _wavefront_ `.obj`
 
-Carregar modelos em tempo real
+Para além de ser possível definir modelos através de ficheiros `.3d`, também é possível defini-los através de ficheiros `.obj`. Estes ficheiros permitem que seja facilmente renderizado um modelo criado em aplicações como o Blender. O _parsing_ destes ficheiros foi detalhado na primeira fase.
 
-Carregar texturas em tempo real
+=== Modo de câmara em primeira pessoa com suavização de movimento
 
-Guardar scenes
+Foi adicionado um modo de câmara em primeira pessoa, que permite ao utilizador navegar pela cena livremente, com direito à suavização do seu movimento. Este modo é ativado ao pressionar a tecla `V`. A matemática e respetiva implementação por trás deste modo foi detalhada na segunda fase.
 
-Lista de todos os extras
+=== _Reload_ de um mundo
+
+É possível ler, em _runtime_ um ficheiro `.xml` que contém a descrição de um mundo e carregar esse mundo. Isto permite que o utilizador possa voltar ao estado inicial da cena que escolheu carregar aquando da execução do mundo. A implementação desta funcionalidade foi detalhada na segunda fase.
+
+=== VBOs com índices
+
+Para melhorar a performance da _engine_, foi implementado o uso de VBOs com índices. A implementação desta funcionalidade foi detalhada na terceira fase e o seu impacto positivo na performance também.
+
+=== Frustum Culling
+
+Tal como no caso anterior, com vista a melhorar a performance, foi implementado _frustum culling_. A implementação desta funcionalidade foi detalhada nesta fase e o seu impacto positivo na performance também.
+
+=== Menu do _ImGui_
+
+Ao longo do desenvolvimento deste projeto, o menu do _ImGui_ foi sendo melhorado, chegando a um estado em que a customização é imensa. 
+
+Segue a lista de funcionalidades que foram adicionadas ao longo do projeto:
+
+- Ativar e desativar: luzes, VSync, _culling_ de faces traseiras, modo de wireframe, MSSA, _frustum culling_, eixos, normais, AABBs, caminho de translação temporal e modelos de luzes.
+- Configurar simulação: pausar/continuar e alterar a velocidade de simulação.
+- Configurar a câmara: alterar a sua posição, direção, _up_, _fov_, _near_ e _far_; aquando de em modo de primeira pessoa: alterar a velocidade de movimento, de _scrolling_, a aceleração e a fricção.
+- Luzes: listar todas as luzes, adicionar e remover luzes.
+- Grupos: listar todos os grupos de modelos, adicionar e remover grupos.
+- Modelos: listar todos os modelos, adicionar e remover; alterar as transformações de um modelo e entre modelos; alterar a textura de um modelo e o seu modelo; listar vértices e índices de um modelo.
+
+== Trabalho Futuro
+
+=== Gizmo
+
+Adicionar um gizmo, um mecanismo que permite ao utilizador alterar a posição, rotação e escala de um modelo em tempo real de forma mais intuitiva.
+
+=== Luzes com cores RGB
+
+Atualmente, as luzes têm uma cor branca. Seria interessante adicionar a possibilidade de alterar a cor das luzes para qualquer cor RGB.
+
+=== Coordenadas de texturas mais especificas
+
+Atualmente, as coordenadas de texturas são estáticas e seguem sempre o mesmo formato. Seria interessante adicionar a possibilidade de alterar as coordenadas de texturas de forma mais específica, por parte do utilizador.
+
+Além disso, seria interessante, também, adicionar a possibilidade de configurar uma textura diferente para cada uma das faces de um cubo ou para a base e face lateral de um cone, tal como acontece com o cilindro.
+
+=== Carregar modelos em tempo real
+
+Seria interessante adicionar a possibilidade de carregar modelos em tempo real, sem ser necessário reiniciar a _engine_.
+
+=== Carregar texturas em tempo real
+
+Da mesma forma que o ponto anterior, seria interessante adicionar a possibilidade de carregar texturas em tempo real, sem ser necessário reiniciar a _engine_.
+
+=== Guardar scenes
+
+A possibilidade de guardar _scenes_ em _runtime_ seria mesmo muito interessante. Isto permitiria ao utilizador guardar o estado atual da cena e carregá-lo posteriormente.
