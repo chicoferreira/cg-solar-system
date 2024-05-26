@@ -461,16 +461,45 @@ A chave está no funcionamento da função `isOnOrForwardPlane`. Esta começa po
 
 = Sistema solar final
 
+Chegou a hora de dar vida ao sistema solar. Para isso foi adicionado texturas para todos os modelos e agora existe uma luz pontual no centro do sistema solar, representando a luz emitida pelo Sol. Alguns parâmetros de distância e _scaling_ também foram alterados.
+
 == Texturas dos planetas
+
+Para associar a textura do planeta ao planeta em si, foi adicionado uma nova coluna no `.csv` de planetas para o ficheiro de textura do planeta.
+
+#grid(columns: 3, rows: 2, column-gutter: 10pt, row-gutter: 15pt,
+  figure(image("fase4/2k_sun.jpg"), caption: [Textura do Sol]),
+  figure(image("fase4/8k_earth_daymap.jpg"), caption: [Textura da Terra]),
+  figure(image("fase4/2k_moon.jpg"), caption: [Textura da Lua]),
+  figure(image("fase4/2k_saturn.jpg"), caption: [Textura de Saturno]),
+  figure(image("fase4/2k_mars.jpg"), caption: [Textura de Marte]),
+  figure(image("fase4/2k_jupiter.jpg"), caption: [Textura de Jupiter]),
+)
+\
+O mesmo foi feito para os satélites dos planetas, mas a coluna tem valor opcional, visto que não temos texturas para todos os satélites #footnote[A lua (da terra) é a única que acaba por ter uma textura única.]. Quando o satélite não tem uma textura definida, ela é escolhida aleatoriamente de um grupo de texturas de ficção de planetas.
+
+#grid(columns: 3, rows: 2, column-gutter: 10pt, row-gutter: 15pt,
+  figure(image("fase4/2k_ceres_fictional.jpg"), caption: [Textura de ficção 1]),
+  figure(image("fase4/2k_eris_fictional.jpg"), caption: [Textura de ficção 2]),
+  figure(image("fase4/2k_haumea_fictional.jpg"), caption: [Textura de ficção 3]),
+) <fictional>
+
+Para os asteroides, foi escolhido a Textura de ficção 3 para todos eles, e o cometa já tem uma textura única.
 
 == Luzes do sistema solar
 
-Sol tem cor emissiva e há uma point light na origem do sistema solar
+Para as luzes do sistema solar, é colocado uma luz pontual no centro do sistema solar para simular a iluminação do sol. Os materiais de todos os planetas, asteroides e cometas são o que está de padrão, contudo, como o Sol não é iluminado pela luz pontual do centro, a sua cor emissiva é branca, dando assim o efeito que está a emitir luz.
 
 == Resultado final
 
-Foi possível aumentar em grande quantidade o número de asteroides na cintura com o frustum culling
-Skybox
+Com o _frustum culling_ implementado, o sistema solar final é renderizado com uma performance muito melhor. Com isso, também aumentamos o número de asteroides para 500. Também foi alterado alguns parâmetros para melhorar a percepção do sistema solar.
+
+#block(breakable: false)[
+Com todas estas alterações, o resultado final é o seguinte:
+#figure(image("fase4/solar system.png"), caption: [Sistema Solar final])
+]
+
+#figure(image("fase4/solar system terra.png"), caption: [Sistema Solar final (Vista terra)])
 
 = Editor no _ImGui_ Final
 
