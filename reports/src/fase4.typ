@@ -14,6 +14,7 @@
 
 #heading(numbering: none)[Introdução]
 
+Este relatório tem como objetivo apresentar a quarta e última fase do projeto de Computação Gráfica. Nesta fase, foram implementadas luzes, texturas e _frustum culling_. Além disso, foram realizadas algumas melhorias no _ImGui_.
 
 = Luzes
 
@@ -459,6 +460,36 @@ bool AABB::isOnOrForwardPlane(const Plane &plane) const
 
 A chave está no funcionamento da função `isOnOrForwardPlane`. Esta começa por calcular metade do tamanho do AABB em cada eixo, `extents`, através do cálculo do seu centro, `center` e dos seus extremos. De seguida, calcula o raio do AABB, `r` - basicamente, a projeção do vetor `extents` no vetor normal do plano. Por fim, verifica se o raio é menor ou igual à distância do centro do AABB ao plano, `plane.getSignedDistanceToPlane(center)`. Uma explicação mais profunda pode ser encontrada #link("https://gdbooks.gitbooks.io/3dcollisions/content/Chapter2/static_aabb_plane.html")[neste artigo].
 
+== Integração com o _ImGui_
+
+Foi acrescentada uma opção no _ImGui_ para ativar ou desativar a visualização das AABBs dos objetos. A mesma pode ser vista em ação na seguinte imagem.
+
+#figure(image("fase4/aabbs.png", width: 90%), caption: [Visualização das AABBs dos objetos])
+
+Além disso, para facilitar a perceção do impacto do _frustum culling_ na performance da _engine_, foi adicionada uma opção no _ImGui_ para ativar ou desativar o _frustum culling_.
+
+#figure(image("fase4/frustum culling imgui.png", width: 90%), caption: [Menu de _optimization settings_ no _ImGui_])
+
+== Testes de performance
+
+Uma vez que o objetivo inicial da implementação do _frustum culling_ era melhorar a performance da _engine_, foram realizados testes de performance para verificar se tal foi, de facto, alcançado.
+
+Nestes testes, a cena utilizada foi a fase final do sistema solar. Foram realizados testes com o _frustum culling_ ativado e desativado, com _vsync_ sempre desativado e numa máquina com um processador Ryzen 7 7700X e uma placa gráfica NVIDIA GeForce RTX 2060. Os resultados podem ser observados na seguinte tabela:
+
+#figure[
+  #table(
+    align: center + horizon,
+    columns: 2,
+    table.header(
+      [*_Frustum Culling_*], [*_FPS_*]
+    ),
+    [Ativado], [260],
+    [Desativado], [260],
+  )
+]
+
+Além disso, foi criado um vídeo demonstrativo deste ganho de performance, que pode ser encontrado #link("https://www.youtube.com/watch?v=kBDlUCPjdug")[aqui].
+
 = Sistema solar final
 
 Chegou a hora de dar vida ao sistema solar. Para isso foi adicionado texturas para todos os modelos e agora existe uma luz pontual no centro do sistema solar, representando a luz emitida pelo Sol. Alguns parâmetros de distância e _scaling_ também foram alterados.
@@ -520,6 +551,10 @@ A aba de _settings_ também foi remodelada para ficar mais organizada com a gran
 #figure(image("fase4/editor imgui settings.png"), caption: [_ImGui_ Vista de _Settings_])
 
 = Conclusão
+
+Com o término desta fase, a _engine_ encontra-se finalizada no que toca aos eixos da UC de Computação Gráfica. Foram implementadas todas as funcionalidades pedidas, com algumas extensões, extras e melhorias. A _engine_ é capaz de carregar modelos, texturas, luzes, materiais, e de aplicar transformações a estes. Para além disso, é possível usufruir de uma infinidade de configurações no menu do _ImGui_, que permite ao utilizador customizar a sua experiência de uso.
+
+Como extras, o grupo consegue mencionar a criação de uma primivita nova, de um cilindro; a utilização de ficheiros em formato `.obj`; o desenvolvimento de um menu com recurso ao _ImGui_ imensamente detalhado e customizável; modo de câmara em primeira pessoa; 
 
 Mostrar todos os extras
 
