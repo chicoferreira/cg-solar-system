@@ -24,7 +24,7 @@ namespace generator
             {
                 vertex.push_back({-length / 2 + x * side, 0, -length / 2 + z * side});
                 normals.push_back({0, 1, 0});
-                tex_coords.push_back({1.0f - x * 1.0f / divisions, z * 1.0f / divisions});
+                tex_coords.push_back({x * 1.0f / divisions, 1.0f - z * 1.0f / divisions});
             }
         }
 
@@ -174,10 +174,10 @@ namespace generator
         std::vector<Mat4f> rotations = {
             Mat4fIdentity, // up
             Mat4fRotateX_M_PI, // down
-            Mat4fRotateZ_M_PI_2 * Mat4fRotateY_M_PI_2, // left
-            Mat4fRotateZ_NEGATIVE_M_PI_2 * Mat4fRotateY_NEGATIVE_M_PI_2, // right
-            Mat4fRotateX_M_PI_2 * Mat4fRotateY_M_PI, // front
-            Mat4fRotateX_NEGATIVE_M_PI_2 // back
+            Mat4fRotateZ_M_PI_2 * Mat4fRotateY_NEGATIVE_M_PI_2, // left
+            Mat4fRotateZ_NEGATIVE_M_PI_2 * Mat4fRotateY_M_PI_2, // right
+            Mat4fRotateX_M_PI_2, // front
+            Mat4fRotateX_NEGATIVE_M_PI_2 * Mat4fRotateY_M_PI// back
         };
 
         for (int i = 0; i < translations.size(); ++i)
