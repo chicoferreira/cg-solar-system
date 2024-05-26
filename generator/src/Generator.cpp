@@ -121,9 +121,7 @@ namespace generator
             {
                 const float current_radius = radius - stack * radius / stacks;
                 vertex.push_back(Vec3fPolar(current_radius, slice * slice_size, stack * stack_size));
-                normals.push_back(
-                    Vec3f{cos(cone_angle) * sin(circle_angle), sin(cone_angle), cos(cone_angle) * cos(circle_angle)}
-                );
+                normals.push_back(Vec3fSpherical(1, circle_angle, cone_angle));
                 tex_coords.push_back(Vec2f(slice * 1.0f / slices, stack * 1.0f / stacks));
             }
         }
