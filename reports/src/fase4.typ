@@ -311,14 +311,21 @@ Skybox
 
 = Editor no _ImGui_ Final
 
+Algumas alterações foram feitas no menu do _ImGui_ nesta fase final. Para além das funcionalidades mostradas anteriormente, o editor foi estendido com mais customizações.
 
+#figure(image("fase4/editor imgui.png"), caption: [_ImGui_ Abas Principais])
 
+Agora é também é apresentado uma tabela com as normais e de coordenadas de texturas de cada modelo.
 
-Agora é possível adicionar grupos e remover, também como adicionar modelos. Limitação de só funcionar com modelos já carregados.
+#figure(image("fase4/editor imgui models.png"), caption: [_ImGui_ Tabela de Modelos])
 
-Background color
+Também é possível adicionar modelos #footnote[Só é possível adicionar modelos que estejam carregados na _engine_.] à lista de modelos de um grupo, também como remover existentes. Adicionar novos grupos dentro de grupos e remover grupos também é possível em tempo real.
 
-Nova aba de settings
+#figure(image("fase4/editor imgui add model.png"), caption: [_ImGui_ Vista de Modelo (Adicionar Modelo)])
+
+A aba de _settings_ também foi remodelada para ficar mais organizada com a grande quantidade de customizações que a _engine_ tem. É possível ligar/desligar luzes, VSync, dizer se é o OpenGL deve fazer _cull_ às faces traseiras, ligar/desligar o modo de wireframe, ligar/desligar MSSA. Para conteúdo adicional de renderização, é possível alterar a cor do background (chamada ao `glClearColor()`), mostrar/esconder o caminho das transformações de translação temporais, mostrar/esconder modelos das luzes apresentado num capítulo anterior, mostrar/esconder os eixos, mostrar/esconder normais dos modelos e mostrar/esconder as AABBs dos modelos. Para comparação de performance, também é possível ligar/desligar o _frustum culling_. Com ele desativado, não é feito qualquer cálculo de AABBs nem de planos do _frustum_.
+
+#figure(image("fase4/editor imgui settings.png"), caption: [_ImGui_ Vista de _Settings_])
 
 = Conclusão
 
