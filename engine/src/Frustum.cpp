@@ -23,8 +23,8 @@ Frustum CreateFrustumFromCamera(
 
     frustum.nearFace = {cameraPosition + (front * near), front};
     frustum.farFace = {cameraPosition + frontMultFar, -front};
-    frustum.rightFace = {cameraPosition, (frontMultFar - (right * halfHSide)).Cross(up)};
-    frustum.leftFace = {cameraPosition, up.Cross(frontMultFar + (right * halfHSide))};
+    frustum.leftFace = {cameraPosition, (frontMultFar - (right * halfHSide)).Cross(up)};
+    frustum.rightFace = {cameraPosition, up.Cross(frontMultFar + (right * halfHSide))};
     frustum.topFace = {cameraPosition, right.Cross(frontMultFar - (up * halfVSide))};
     frustum.bottomFace = {cameraPosition, (frontMultFar + (up * halfVSide)).Cross(right)};
 

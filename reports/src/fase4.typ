@@ -285,16 +285,179 @@ Ao clicar na cor de cada um dos componentes é possível abrir um menu de _Color
 #figure(image("fase4/model imgui material.png", width: 90%), caption: [Menu de um modelo no _ImGui_ (_Color Picker_)])
 ]
 
-
 = Frustum Culling
 
-https://github.com/chicoferreira/cg-solar-system/commit/b971ab91d45633a595922168f3b7d6062c9c6942
+Com vista a melhorar a performance do projeto, o grupo decidiu implementar _frustum culling_. Esta técnica consiste em verificar se um objeto está dentro do frustum da câmara antes de o enviar para a GPU. Se o objeto não estiver dentro do frustum, então não é enviado.
+
+O principal problema a endereçar é, então, como verificar se um objeto está ou não dentro do frustum. Existem diversas formas de o fazer, que passam por criar um _bounding volume_ #footnote[https://en.wikipedia.org/wiki/Bounding_volume.] para cada objeto. Existindo diversos tipos de bounding volumes, a nossa escolha foram os Axis-Aligned Bounding Boxes (AABBs) - essencialmente, um paralelepípedo alinhado com os principais eixos.
 
 == Cálculo do AABB
 
+Um AABB é definido por dois pontos, o seu canto inferior esquerdo e o seu canto superior direito. Assim, à medida que os vértices de um dado objeto vão sendo lidos, o seu AABB vai sendo atualizado. Se o vértice atualmente lido for o primeiro, então o AABB é inicializado com as coordenadas do vértice. Caso contrário, o AABB é atualizado de acordo com as coordenadas do vértice, se estas forem menores ou maiores que as coordenadas atuais do AABB.
+
+É possível visualizar (e, de facto, executar) tal comportamento através do código da seguinte função:
+
+#figure[```cpp
+void AABB::Extend(Vec3f f)
+{
+    min.x = isnan(min.x) ? f.x : std::min(min.x, f.x);
+    min.y = isnan(min.y) ? f.y : std::min(min.y, f.y);
+    min.z = isnan(min.z) ? f.z : std::min(min.z, f.z);
+    max.x = isnan(max.x) ? f.x : std::max(max.x, f.x);
+    max.y = isnan(max.y) ? f.y : std::max(max.y, f.y);
+    max.z = isnan(max.z) ? f.z : std::max(max.z, f.z);
+}
+```]
+
+No entanto, esta simples abordagem tem um problema. Se o objeto tiver sofrido uma (ou várias) transformações, então o AABB não estará correto. Ou seja, é necessário transformar o AABB de acordo com a matriz de transformação do objeto.
+
+Tal pode ser efetuado aplicando a matriz de transformação a cada um dos vértices do AABB. No entanto, é preciso ter cuidado e manter as comparações entre os mínimos e os máximos, visto que com as transformações os extremos do AABB podem vir a ser alterados.
+
+Em pseudocódigo, este algoritmo seria algo como:
+
+#figure[```cpp
+Vec3f corners[8];
+
+// transform the first corner
+Vec3f tmin = (transform * corners[0].ToVec4f(1.0f)).ToVec3f();
+Vec3f tmax = tmin; 
+
+// transform the remaining corners
+for (int i = 1; i < 8; i++)
+{
+  Vec3f t = (transform * corners[i].ToVec4f(1.0f)).ToVec3f();
+  tmin = min(tmin, t);
+  tmax = max(tmax, t);
+}
+
+AABB rbox;
+
+rbox.min = tmin;
+rbox.max = tmax;
+
+return rbox;
+```]
+
+Após alguma pesquisa, o grupo deparou-se com uma solução que utiliza, como base, a definição de um AABB através do seu centro e os vetores de extensão #footnote[Um vetor de extensão é um vetor paralelo a um dos eixos do AABB que define a distância do centro do AABB a um dos seus lados.]. Esta foi a solução final pela qual optamos no nosso projeto, visto ser a mais eficiente e simples de implementar e pode ser encontrada #link("https://gist.github.com/cmf028/81e8d3907035640ee0e3fdd69ada543f")[aqui].
+
+#figure[```cpp
+AABB AABB::Transform(Mat4f matrix)
+{
+  Vec3f center = (max + min) * 0.5;
+  Vec3f extents = max - center;
+
+  // transform center
+  Vec3f t_center = (matrix * center.ToVec4f(1.0f)).ToVec3f();
+
+  // transform extents (take maximum)
+  Mat4f abs_mat = matrix.Abs();
+  Vec3f t_extents = (abs_mat * extents.ToVec4f(0.0f)).ToVec3f();
+
+  // transform to min/max box representation
+  Vec3f tmin = t_center - t_extents;
+  Vec3f tmax = t_center + t_extents;
+
+  AABB rbox;
+
+  rbox.min = tmin;
+  rbox.max = tmax;
+
+  return rbox;
+}
+```]
+
 == Cálculo do Frustum
 
+Uma peça fundamental do _frustum culling_ é, obviamente, o cálculo do frustum. O frustum é definido por 6 planos, cada um representando um dos lados do frustum. Estes planos são definidos por um ponto e um vetor normal.
+
+=== Plano _near_
+
+O plano _near_ pode ser definido pelo ponto resultante da interseção do vetor direção da câmara com o plano _near_ e pelo próprio vetor direção da câmara. 
+
+`nearPlane = Plane(camera.position + camera.direction * near, camera.direction)`
+
+=== Plano _far_
+
+Da mesma forma que o plano _near_, o plano _far_ pode ser definido pelo ponto resultante da interseção do vetor direção da câmara com o plano _far_ e pelo próprio vetor direção da câmara, mas com o sinal invertido, visto que o plano _far_ é oposto ao plano _near_.
+
+`farPlane = Plane(camera.position + camera.direction * far, -camera.direction)`
+
+=== Plano _left_
+
+O plano _left_ pode ser definido através do ponto de origem da câmara e um vetor K. Este vetor K é calculado através do produto externo entre um vetor que une a origem da câmara ao ponto esquerdo central do plano _far_ e o vetor _up_ real da câmara. 
+
+Este vetor pode ser calculado da seguinte forma:
+
+`K = (camera.direction * far - (right * halfH).Cross(up))`
+
+Onde `right` é calculado a partir do produto externo entre o vetor _up_ e o vetor direção da câmara; `up` é o vetor _up_ real da câmara, calculado a partir do produto externo entre o vetor direção da câmara e o vetor _right_; e `halfH` é metade da largura do plano _far_, calculada a partir da multiplicação do rácio e da respetiva altura do plano _far_. Esta altura pode ser obtida através da tangente da metade do ângulo de abertura da câmara (_fov_).
+
+Logo,
+
+`leftPlane = Plane(camera.position, K)`
+
+=== Plano _right_
+
+O plano _right_ é definido de forma semelhante ao plano _left_, mas com o ponto central direito do plano _far_.
+
+`K = up.Cross(camera.direction * far + (right * halfH))`
+
+E,
+
+`rightPlane = Plane(camera.position, K)`
+
+=== Plano _top_
+
+O plano _top_ é definido de forma semelhante ao plano _left_, mas com o ponto central superior do plano _far_. No entanto, desta vez a constante é o vetor _right_, visto que o vetor K deverá ser perpendicular ao vetor _right_. Além disso, deverá ser utilizada metade da altura do plano _far_, `halfV` - anteriormente, vista como calcular.
+
+`K = right.Cross(camera.direction * far - (up * halfV))`
+
+E,
+
+`topPlane = Plane(camera.position, K)`
+
+=== Plano _bottom_
+
+O plano _bottom_ é definido de forma semelhante ao plano _top_, mas com o ponto central inferior do plano _far_.
+
+`K = (camera.direction * far + (up * halfV)).Cross(right)`
+
+E,
+
+`bottomPlane = Plane(camera.position, K)`
+
 == Verificação de Interseção
+
+Para verificar se um objeto deve ser enviado para a GPU renderizar, é necessário verificar se o seu AABB está dentro do frustum. Isto é, verificar, para cada um dos planos do frustum, se o AABB está do lado positivo desse plano.
+
+#figure[```cpp
+bool Frustum::HasInside(AABB &aabb) const
+{
+    return (
+      aabb.isOnOrForwardPlane(leftFace) 
+      && aabb.isOnOrForwardPlane(rightFace) 
+      && aabb.isOnOrForwardPlane(topFace) 
+      && aabb.isOnOrForwardPlane(bottomFace) 
+      && aabb.isOnOrForwardPlane(nearFace) 
+      && aabb.isOnOrForwardPlane(farFace)
+    );
+}
+```]
+
+#figure[```cpp
+bool AABB::isOnOrForwardPlane(const Plane &plane) const
+{
+    Vec3f center = (max + min) * 0.5;
+    Vec3f extents = max - center;
+
+    const float r = extents.x * std::abs(plane.normal.x) + extents.y * std::abs(plane.normal.y) +
+        extents.z * std::abs(plane.normal.z);
+
+    return -r <= plane.getSignedDistanceToPlane(center);
+}
+```]
+
+A chave está no funcionamento da função `isOnOrForwardPlane`. Esta começa por calcular metade do tamanho do AABB em cada eixo, `extents`, através do cálculo do seu centro, `center` e dos seus extremos. De seguida, calcula o raio do AABB, `r` - basicamente, a projeção do vetor `extents` no vetor normal do plano. Por fim, verifica se o raio é menor ou igual à distância do centro do AABB ao plano, `plane.getSignedDistanceToPlane(center)`. Uma explicação mais profunda pode ser encontrada #link("https://gdbooks.gitbooks.io/3dcollisions/content/Chapter2/static_aabb_plane.html")[neste artigo].
 
 = Sistema solar final
 
