@@ -117,11 +117,12 @@ namespace generator
             tex_coords.push_back(Vec2f(0.5, 0.5) + Vec2fPolar(0.5, slice * slice_size));
 
             const float circle_angle = slice * slice_size;
+            Vec3f normal = Vec3fSpherical(1, circle_angle, cone_angle);
             for (int stack = 0; stack <= stacks; ++stack)
             {
                 const float current_radius = radius - stack * radius / stacks;
                 vertex.push_back(Vec3fPolar(current_radius, slice * slice_size, stack * stack_size));
-                normals.push_back(Vec3fSpherical(1, circle_angle, cone_angle));
+                normals.push_back(normal);
                 tex_coords.push_back(Vec2f(slice * 1.0f / slices, stack * 1.0f / stacks));
             }
         }
