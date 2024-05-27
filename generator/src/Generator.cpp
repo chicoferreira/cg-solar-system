@@ -129,7 +129,7 @@ namespace generator
 
         for (int slice = 0; slice < slices; ++slice)
         {
-            for (int stack = 0; stack <= stacks; ++stack) // 0-3
+            for (int stack = 0; stack < stacks; ++stack) // 0-3
             {
                 uint32_t bottom_left_index = 2 + stack + (slice * (stacks + 2));
                 uint32_t bottom_right_index = bottom_left_index + stacks + 2;
@@ -177,7 +177,7 @@ namespace generator
             Mat4fRotateZ_M_PI_2 * Mat4fRotateY_NEGATIVE_M_PI_2, // left
             Mat4fRotateZ_NEGATIVE_M_PI_2 * Mat4fRotateY_M_PI_2, // right
             Mat4fRotateX_M_PI_2, // front
-            Mat4fRotateX_NEGATIVE_M_PI_2 * Mat4fRotateY_M_PI// back
+            Mat4fRotateX_NEGATIVE_M_PI_2 * Mat4fRotateY_M_PI // back
         };
 
         for (int i = 0; i < translations.size(); ++i)
