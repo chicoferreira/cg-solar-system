@@ -14,7 +14,7 @@
 
 #heading(numbering: none)[Introdução]
 
-Este relatório tem como objetivo apresentar a quarta e última fase do projeto de Computação Gráfica. Nesta fase, foram implementadas luzes, texturas e _frustum culling_. Além disso, foram realizadas algumas melhorias no _ImGui_.
+Este relatório tem como objetivo apresentar a quarta e última fase do projeto de Computação Gráfica. Nesta fase, foram implementados luzes, texturas e _frustum culling_. Além disso, foram realizadas algumas melhorias no _ImGui_.
 
 = Luzes
 
@@ -22,7 +22,7 @@ Como grande objetivo desta fase, foram implementadas luzes na engine. Como pedid
 
 == Normais de Modelos
 
-Para a implementação das luzes, foi necessário calcular as normais dos modelos. Para tal, o programa gerador foi alterado para também calcular as normais dos modelos que ele gera. As normais de um modelo são carregadas para a GPU no início do programa para um _buffer_ prórpio.
+Para a implementação das luzes, foi necessário calcular as normais dos modelos. Para tal, o programa gerador foi alterado para também calcular as normais dos modelos que ele gera. As normais de um modelo são carregadas para a GPU no início do programa para um _buffer_ próprio.
 
 === Normais do Plano
 
@@ -30,25 +30,25 @@ O plano acabou por ser o modelo mais simples de se calcular as normais. Como é 
 
 === Normais da Esfera
 
-Para a esfera também acaba por ser simples. Para cada vértice da esfera, a normal é o vetor que liga o centro da esfera ao vértice. Como a normal deve ser um vetor unitário, calcula-se o vetor com coordenadas esféricas com os mesmos parâmetros do vértice mas com raio 1.
+Para a esfera também acaba por ser simples. Para cada vértice da esfera, a normal é o vetor que liga o centro da esfera ao vértice. Como a normal deve ser um vetor unitário, calcula-se o vetor com coordenadas esféricas com os mesmos parâmetros do vértice, mas com raio 1.
 
 === Normais do Cubo
 
-Como a nossa implementação do nosso cubo é feita a partir da geração do plano, em que para cada face, é aplicado uma matriz que coloca o plano na posição da face correta, bastou-se aplicar a mesma transformação às normais que já tínhamos calculado para o plano. Isto surgiu ser um problema devido a também termos translações do plano nessa mesma transformação. Ora, obviamente não queremos que a translação do plano seja adicionado à normal. Desta forma teve que se separar a transformação em duas, uma só com rotações e uma só com translações, e só aplicar as transformações de rotação no cálculo das normais.
+Como a nossa implementação do nosso cubo é feita a partir da geração do plano, em que para cada face, é aplicado uma matriz que coloca o plano na posição da face correta, bastou-se aplicar a mesma transformação às normais que já tínhamos calculado para o plano. Isto surgiu ser um problema devido a também termos translações do plano nessa mesma transformação. Ora, obviamente não queremos que a translação do plano seja adicionada à normal. Desta forma teve de se separar a transformação em duas, uma só com rotações e uma só com translações, e só aplicar as transformações de rotação no cálculo das normais.
 
 === Normais do Cilindro
 
 As normais do cilindro já são um pouco mais complicadas, devido a haver três partes diferentes do cilindro: laterais, base superior e base inferior. Para as laterais, igualmente como na esfera, a normal é o vetor que liga o centro do cilindro com altura do vértice ao vértice, mas com raio 1. Para as bases, a normal para todos os vértices é simplesmente o vetor (0, 1, 0) para a base superior e (0, -1, 0) para a base inferior.
 
-Devido à base ter uma descontinuidade em relação às laterais, apesar das coordenadas dos pontos que os unem serem o mesmo, dois vértices tiveram que ser colocados na mesma posição, um com a normal da base e outro com a normal das laterais. Isto desfaz a optimização que foi feita nas fases anteriores de não repetir vértices entre os vértices que unem as laterais com as bases. #footnote[O mesmo acontecerá com a otimização de não repetir vértices entre o fim da volta completa das laterais e o início da volta seguinte, quando forem implementadas texturas.]
+Devido à base ter uma descontinuidade em relação às laterais, apesar das coordenadas dos pontos que os unem serem o mesmo, dois vértices tiveram de ser colocados na mesma posição, um com a normal da base e outro com a normal das laterais. Isto desfaz a otimização que foi feita nas fases anteriores de não repetir vértices entre os vértices que unem as laterais com as bases. #footnote[O mesmo acontecerá com a otimização de não repetir vértices entre o fim da volta completa das laterais e o início da volta seguinte, quando forem implementadas texturas.]
 
 === Normais do Cone
 
-O cone, em semelhança ao cilindro, também é composto por mais de uma parte: a base e a lateral. A base do cone é igual à base do cilindro, para cada vértice da base, a sua normal é (0, -1, 0). Para as laterais já é feito alguns cálculos. Inicialmente é calculado o ângulo que a superficie lateral faz com um vetor que vai do topo do cone até à base com $alpha = tan^(-1)(r/h)$. Por semelhança de triângulos, este ângulo será o ângulo que a normal faz com a base. 
+O cone, em semelhança ao cilindro, também é composto por mais de uma parte: a base e a lateral. A base do cone é igual à base do cilindro, para cada vértice da base, a sua normal é (0, -1, 0). Para as laterais já é feito alguns cálculos. Inicialmente é calculado o ângulo que a superfície lateral faz com um vetor que vai do topo do cone até à base com $alpha = tan^(-1)(r/h)$. Por semelhança de triângulos, este ângulo será o ângulo que a normal faz com a base. 
 
 #figure(image("fase4/cone.png", width: 30%), caption: [Demonstração do cálculo da normal do cone #footnote[Retirado de: https://stackoverflow.com/questions/19245363/opengl-glut-surface-normals-of-cone.]])
 
-Com isto, tendo o ângulo horizontal já cálculado das outras fases podemos calcular as normais usando coordendas esféricas com: $cal(S)(italic("circleAngle"), alpha, 1)$, sendo $cal(S)(alpha, beta, r)$ a função que devolve a coordenada cartesiana a partir de coordenadas esféricas $(alpha,beta,r)$.
+Com isto, tendo o ângulo horizontal já calculado das outras fases podemos calcular as normais usando coordenadas esféricas com: $cal(S)(italic("circleAngle"), alpha, 1)$, sendo $cal(S)(alpha, beta, r)$ a função que devolve a coordenada cartesiana a partir de coordenadas esféricas $(alpha,beta,r)$.
 
 Em semelhança ao cilindro, a otimização de juntar vértices da base com a lateral também teve de ser retirada. Para além disso, a otimização de reusar o vértice do topo para os vários triângulos juntos a ele, como agora terão normais diferentes, também teve de ser removida. 
 
@@ -75,7 +75,7 @@ Este cálculo é executado para cada vértice e com isto, conseguimos calcular a
 
 De forma a visualizarmos possíveis problemas com as normais, foi implementado uma visualização de normais para um modelo.
 
-Para isto, aquando a renderização de um modelo, para cada vértice de modelo é feita uma linha #footnote[Recorrendo ao `GL_LINES` do _OpenGL_.] desde esse vértice até ao vértice do modelo somado com o vetor da normal desse vértice.
+Para isto, aquando da renderização de um modelo, para cada vértice de modelo é feita uma linha #footnote[Recorrendo ao `GL_LINES` do _OpenGL_.] desde esse vértice até ao vértice do modelo somado com o vetor da normal desse vértice.
 
 Como isto é um modo para ser usado para depuração, para manter a sua implementação simples, isto não é renderizado a partir de VBOs mas sim usando operações no modo imediato do _OpenGL_, pelo que, para cenas grandes, performance pode ser significativamente afetada.
 
@@ -105,7 +105,7 @@ Esta renderização foi útil para resolvermos problemas em relação às luzes.
 
 == Integração com o _ImGui_
 
-Os parâmetros das luzes também podem ser configuradas em tempo real a partir do _ImGui_ a partir de um menu próprio das luzes.
+Os parâmetros das luzes também podem ser configurados em tempo real a partir do _ImGui_ a partir de um menu próprio das luzes.
 
 #figure(image("fase4/luzes imgui.png"), caption: [Menu de luzes no _ImGui_])
 
@@ -119,11 +119,11 @@ Como estamos a usar a implementação padrão do _OpenGL_, e esta só suporta at
 
 == Materiais
 
-Como foram implementadas luzes, também teve que ser adicionado um material aos modelos de um grupo. O material é composto por 4 cores diferentes: ambiente, difusa, especular e emissiva, e um coeficiente de brilho. A implementação do material seguiu os requisitos do enunciado. A forma de como a representação dos modelos foi alterada e a sua integração no _ImGui_ será explicada num próximo capítulo.
+Como foram implementadas luzes, também teve de ser adicionado um material aos modelos de um grupo. O material é composto por 4 cores diferentes: ambiente, difusa, especular e emissiva, e um coeficiente de brilho. A implementação do material seguiu os requisitos do enunciado. A forma de como a representação dos modelos foi alterada e a sua integração no _ImGui_ será explicada num próximo capítulo.
 
 = Texturas de Modelos
 
-Outra grande requisito desta fase é adicionar a funcionalidade de modelos poderem ter uma textura. As texturas são carregadas no início do programa para um buffer de texturas do _OpenGL_ e são associadas a um modelo através de um índice.
+Outro grande requisito desta fase é adicionar a funcionalidade de modelos poderem ter uma textura. As texturas são carregadas no início do programa para um buffer de texturas do _OpenGL_ e são associadas a um modelo através de um índice.
 
 == Coordenadas de Textura
 
@@ -133,19 +133,19 @@ Para começar a implementação de texturas, foi necessário especificar de como
 
 Para o plano, as coordenadas de textura são simples. Para cada vértice, a coordenada de textura é a iteração vertical e horizontal do vértice dividido pelo número de iterações.
 
-Como o plano começa a ser gerado pelo topo esquerdo, as coordenadas de textura são geradas com o $z$ invertido ($z_n = 1.0 - z_i$) de forma a que o topo esquerdo tenha coordenadas de textura (0, 1). 
+Como o plano começa a ser gerado pelo topo esquerdo, as coordenadas de textura são geradas com o $z$ invertido ($z_n = 1.0 - z_i$) de forma que o topo esquerdo tenha coordenadas de textura (0, 1). 
 
 === Esfera
 
-Para a esfera, as coordenadas de textura são semelhantes à do plano. Neste caso, a iteração atual do _stack_ e do _slice_ são divididos pelo número de _stacks_ e _slices_ respetivamente. Como começámos a gerar a esfera pela base, as coordenadas de textura não tiveram que ser invertidas como no plano.
+Para a esfera, as coordenadas de textura são semelhantes à do plano. Neste caso, a iteração atual do _stack_ e do _slice_ são divididos pelo número de _stacks_ e _slices_ respetivamente. Como começámos a gerar a esfera pela base, as coordenadas de textura não tiveram de ser invertidas como no plano.
 
-Com as coordenadas de textura, muitas otimizações de agrupamento de vértices tiveram que ser retiradas. A otimização de juntar os vértices do fim da volta com o início da volta teve que ser retirado, devido a que, nessa junção tinha que ter duas coordenadas de textura diferentes, no fim $(1,y)$ e no início $(0,y)$. 
+Com as coordenadas de textura, muitas otimizações de agrupamento de vértices tiveram de ser retiradas. A otimização de juntar os vértices do fim da volta com o início da volta teve de ser retirado, devido a que, nessa junção tinha que ter duas coordenadas de textura diferentes, no fim $(1,y)$ e no início $(0,y)$. 
 
-Da mesma forma, para os vértices da base e do topo, visto que os vários triângulos que uniam o topo/base ao resto da esfera têm coordenadas de textura diferentes, a otimização de os juntar também teve que ser removida.
+Da mesma forma, para os vértices da base e do topo, visto que os vários triângulos que uniam o topo/base ao resto da esfera têm coordenadas de textura diferentes, a otimização de os juntar também teve de ser removida.
 
 === Cubo
 
-Para o cubo, como estamos a gerá-lo a partir de transformações do plano, as coordenadas de textura são iguais às do plano. No entanto teve que se ter atenção às transformações de rotação que estavam a ser aplicadas para que o cubo apresentasse as texturas com a orientação correta.
+Para o cubo, como estamos a gerá-lo a partir de transformações do plano, as coordenadas de textura são iguais às do plano. No entanto teve de se ter atenção às transformações de rotação que estavam a ser aplicadas para que o cubo apresentasse as texturas com a orientação correta.
 
 Não foi feita qualquer especialização de textura para o cubo. Para aproveitar a textura fornecida pelos docentes para o teste 4.6, a textura é repetida em todas as faces. 
 
@@ -159,11 +159,11 @@ O mapeamento da textura pode ser visto na imagem seguinte:
 
 A sua explicação pode ser vista com grande detalhe nos slides fornecidos pelos docentes da ficha prática 11.
 
-Também como a esfera, as otimizações de juntar vértices do fim da volta com o início da volta e do topo com os triângulos que o unem à lateral tiveram que ser retiradas, já que as coordenadas de textura são diferentes entre o início e o fim da volta das laterais.
+Também como a esfera, as otimizações de juntar vértices do fim da volta com o início da volta e do topo com os triângulos que o unem à lateral tiveram de ser retiradas, já que as coordenadas de textura são diferentes entre o início e o fim da volta das laterais.
 
 === Cone
 
-Para o cone, as coordenadas de textura são semelhantes às da esfera, em que, para cada _stack_ e _slice_ a sua coordenada de textura é $(italic("slice") / italic("slices"), italic("stacks") / italic("stacks"))$. Isto irá fazer com que a textura fique mapeada à volta da lateral do cone. A otimização de usar os mesmos vértices do início da lateral com o fim da lateral também teve que ser retirada pelos mesmos motivos que foram citados para outros modelos.
+Para o cone, as coordenadas de textura são semelhantes às da esfera, em que, para cada _stack_ e _slice_ a sua coordenada de textura é $(italic("slice") / italic("slices"), italic("stacks") / italic("stacks"))$. Isto irá fazer com que a textura fique mapeada à volta da lateral do cone. A otimização de usar os mesmos vértices do início da lateral com o fim da lateral também teve de ser retirada pelos mesmos motivos que foram citados para outros modelos.
 
 Para a textura da base do cone, como não fizemos nenhuma especialização do formato da imagem desta textura, as coordenadas de textura representarão apenas um círculo centrada no centro da textura original, calculada a partir de: $(0.5, 0.5) + cal(P)(0.5, (italic("slice") times 2 pi)/"slices")$, com $cal(P)(r, alpha)$ sendo o cálculo da coordenada cartesiana a partir de uma coordenada polar.
 
@@ -173,7 +173,7 @@ Para os _patches_, as coordenadas de textura para cada par ($u$,$v$), como $u in
 
 == Formato final dos ficheiros .3d
 
-Para acomudar as novas informações dos modelos (normais e coordenadas de texturas), o formato do ficheiro .3d foi alterado para guardar essas informações. Agora as normais e coordenadas de texturas são guardadas depois da informação dos vértices.
+Para acomodar as novas informações dos modelos (normais e coordenadas de texturas), o formato do ficheiro .3d foi alterado para guardar essas informações. Agora as normais e coordenadas de texturas são guardadas depois da informação dos vértices.
 
 #figure(```
 <número de vértices> <número de índices>
@@ -276,7 +276,7 @@ Cada valor de RGBA da cor para cada material é apresentado, sendo possível alt
 
 #figure(image("fase4/model imgui.png", width: 90%), caption: [Menu de um modelo no _ImGui_])
 
-Um _preview_ da imagem da textura atual é também é apresentada. Clicando na nome da textura, um _dropdown_ é aberto e é possível escolher qualquer outra textura que esteja carregada no programa.
+Um _preview_ da imagem da textura atual é também é apresentada. Clicando no nome da textura, um _dropdown_ é aberto e é possível escolher qualquer outra textura que esteja carregada no programa.
 
 #figure(image("fase4/model imgui textura.png", width: 90%), caption: [Menu de um modelo no _ImGui_ (Mudar textura)])
 
@@ -290,7 +290,11 @@ Ao clicar na cor de cada um dos componentes é possível abrir um menu de _Color
 
 Com vista a melhorar a performance do projeto, o grupo decidiu implementar _frustum culling_. Esta técnica consiste em verificar se um objeto está dentro do frustum da câmara antes de o enviar para a GPU. Se o objeto não estiver dentro do frustum, então não é enviado.
 
-O principal problema a endereçar é, então, como verificar se um objeto está ou não dentro do frustum. Existem diversas formas de o fazer, que passam por criar um _bounding volume_ #footnote[https://en.wikipedia.org/wiki/Bounding_volume.] para cada objeto. Existindo diversos tipos de bounding volumes, a nossa escolha foram os Axis-Aligned Bounding Boxes (AABBs) - essencialmente, um paralelepípedo alinhado com os principais eixos.
+O principal problema a endereçar é, então, como verificar se um objeto está ou não dentro do frustum. Existem diversas formas de o fazer, que passam por criar um _bounding volume_ #footnote[https://en.wikipedia.org/wiki/Bounding_volume.] para cada objeto. Existindo diversos tipos de bounding volumes, a nossa escolha foram os _Axis-Aligned Bounding Boxes_ (_AABBs_) - essencialmente, um paralelepípedo alinhado com os principais eixos.
+
+Esta funcionalidade pode ser ativada ou desativada a partir do menu de _settings_ do _ImGui_.
+
+A implementação desta funcionalidade foi altamente baseada #link("https://learnopengl.com/Guest-Articles/2021/Scene/Frustum-Culling")[neste artigo do LearnOpenGL].
 
 == Cálculo do AABB
 
@@ -310,11 +314,11 @@ void AABB::Extend(Vec3f f)
 }
 ```]
 
-No entanto, esta simples abordagem tem um problema. Se o objeto tiver sofrido uma (ou várias) transformações, então o AABB não estará correto. Ou seja, é necessário transformar o AABB de acordo com a matriz de transformação do objeto.
+No entanto, esta simples abordagem tem um problema. Se o objeto tiver sofrido uma (ou várias) transformações, então o AABB, que tem coordenadas locais ao modelo, não estará correto. Ou seja, é necessário transformar o AABB de acordo com a matriz de transformação do objeto.
 
 Tal pode ser efetuado aplicando a matriz de transformação a cada um dos vértices do AABB. No entanto, é preciso ter cuidado e manter as comparações entre os mínimos e os máximos, visto que com as transformações os extremos do AABB podem vir a ser alterados.
 
-Em pseudocódigo, este algoritmo seria algo como:
+Em pseudocódigo, um algoritmo simples algo como:
 
 #figure[```cpp
 Vec3f corners[8];
@@ -339,7 +343,7 @@ rbox.max = tmax;
 return rbox;
 ```]
 
-Após alguma pesquisa, o grupo deparou-se com uma solução que utiliza, como base, a definição de um AABB através do seu centro e os vetores de extensão #footnote[Um vetor de extensão é um vetor paralelo a um dos eixos do AABB que define a distância do centro do AABB a um dos seus lados.]. Esta foi a solução final pela qual optamos no nosso projeto, visto ser a mais eficiente e simples de implementar e pode ser encontrada #link("https://gist.github.com/cmf028/81e8d3907035640ee0e3fdd69ada543f")[aqui].
+Após alguma pesquisa, o grupo deparou-se com uma solução que utiliza, como base, a definição de um AABB através do seu centro e um vetor de extensão do centro até a um dos cantos. Esta foi a solução final pela qual optamos no nosso projeto, visto ser muito mais eficiente e simples de implementar e pode ser encontrada #link("https://gist.github.com/cmf028/81e8d3907035640ee0e3fdd69ada543f")[aqui].
 
 #figure[```cpp
 AABB AABB::Transform(Mat4f matrix)
@@ -369,68 +373,83 @@ AABB AABB::Transform(Mat4f matrix)
 
 == Cálculo do Frustum
 
-Uma peça fundamental do _frustum culling_ é, obviamente, o cálculo do frustum. O frustum é definido por 6 planos, cada um representando um dos lados do frustum. Estes planos são definidos por um ponto e um vetor normal.
+Uma peça fundamental do _frustum culling_ é, obviamente, o cálculo do _frustum_. O _frustum_ é definido por 6 planos, cada um representando um dos lados do _frustum_. Estes planos são definidos por um ponto e um vetor normal.
+
+Definindo algumas normas para os cálculos que serão apresentados:
+- $norm(arrow(a))$, o vetor $arrow(a)$ normalizado;
+- $arrow(p)$, a posição da câmera;
+- $arrow(l)$, o _looking at_ da câmera;
+- $arrow(d) = norm(arrow(l) - arrow(p))$, a direção da câmera;
+- $arrow("up")$, o vetor _up_ da câmera;
+- $arrow(r) = norm(arrow(d) times arrow("up"))$, o vetor que aponta para a direita da câmera;
+- $arrow(u) = norm(arrow(r) times arrow(d))$, o vetor que aponta para cima da câmera;
+- $italic("VerticalH") = italic("far") times tan(italic("fov")/2)$, a metade do tamanho vertical do plano _far_;
+- $italic("HorizontalH") = italic("VerticalH") times italic("aspect")$, a metade do tamanho horizontal do plano _far_;
+- _near_, _far_, _aspect_ e _fov_, parâmetros da  câmera que o nome indica o seu propósito;
+E ainda:
+- $arrow(o)$, o vetor da posição do plano que vai ser calculado;
+- $arrow(n)$, o vetor da normal do plano que vai ser calculado;
 
 === Plano _near_
 
 O plano _near_ pode ser definido pelo ponto resultante da interseção do vetor direção da câmara com o plano _near_ e pelo próprio vetor direção da câmara. 
 
-`nearPlane = Plane(camera.position + camera.direction * near, camera.direction)`
+$
+arrow(o) = arrow(p) + arrow(d) times italic("near") \
+arrow(n) = arrow(d)
+$
 
 === Plano _far_
 
 Da mesma forma que o plano _near_, o plano _far_ pode ser definido pelo ponto resultante da interseção do vetor direção da câmara com o plano _far_ e pelo próprio vetor direção da câmara, mas com o sinal invertido, visto que o plano _far_ é oposto ao plano _near_.
 
-`farPlane = Plane(camera.position + camera.direction * far, -camera.direction)`
+$
+arrow(o) = arrow(p) + arrow(d) times italic("far") \
+arrow(n) = -arrow(d)
+$
 
 === Plano _left_
 
-O plano _left_ pode ser definido através do ponto de origem da câmara e um vetor K. Este vetor K é calculado através do produto externo entre um vetor que une a origem da câmara ao ponto esquerdo central do plano _far_ e o vetor _up_ real da câmara. 
+O plano _left_ pode ser definido através do ponto de origem da câmara e um vetor $K$. Este vetor $K$ é calculado através do produto externo entre um vetor que une a origem da câmara ao ponto esquerdo central do plano _far_ e o vetor _up_ real da câmara. 
 
-Este vetor pode ser calculado da seguinte forma:
 
-`K = (camera.direction * far - (right * halfH).Cross(up))`
-
-Onde `right` é calculado a partir do produto externo entre o vetor _up_ e o vetor direção da câmara; `up` é o vetor _up_ real da câmara, calculado a partir do produto externo entre o vetor direção da câmara e o vetor _right_; e `halfH` é metade da largura do plano _far_, calculada a partir da multiplicação do rácio e da respetiva altura do plano _far_. Esta altura pode ser obtida através da tangente da metade do ângulo de abertura da câmara (_fov_).
-
-Logo,
-
-`leftPlane = Plane(camera.position, K)`
+$
+arrow(o) = arrow(p)\
+arrow(n) = ((arrow(d) times italic("far")) - (arrow(r) times italic("HorizontalH"))) times arrow(u)
+$
 
 === Plano _right_
 
 O plano _right_ é definido de forma semelhante ao plano _left_, mas com o ponto central direito do plano _far_.
 
-`K = up.Cross(camera.direction * far + (right * halfH))`
-
-E,
-
-`rightPlane = Plane(camera.position, K)`
+$
+arrow(o) = arrow(p)\
+arrow(n) = arrow(u) times ((arrow(d) times italic("far")) + (arrow(r) times italic("HorizontalH")))
+$
 
 === Plano _top_
 
-O plano _top_ é definido de forma semelhante ao plano _left_, mas com o ponto central superior do plano _far_. No entanto, desta vez a constante é o vetor _right_, visto que o vetor K deverá ser perpendicular ao vetor _right_. Além disso, deverá ser utilizada metade da altura do plano _far_, `halfV` - anteriormente, vista como calcular.
+O plano _top_ é definido de forma semelhante, mas com o ponto central superior do plano _far_.
 
-`K = right.Cross(camera.direction * far - (up * halfV))`
-
-E,
-
-`topPlane = Plane(camera.position, K)`
+$
+arrow(o) = arrow(p)\
+arrow(n) = arrow(r) times ((arrow(d) times italic("far")) - (arrow(r) times italic("VerticalH")))
+$
 
 === Plano _bottom_
 
 O plano _bottom_ é definido de forma semelhante ao plano _top_, mas com o ponto central inferior do plano _far_.
 
-`K = (camera.direction * far + (up * halfV)).Cross(right)`
-
-E,
-
-`bottomPlane = Plane(camera.position, K)`
+$
+arrow(o) = arrow(p)\
+arrow(n) = ((arrow(d) times italic("far")) + (arrow(u) times italic("VerticalH"))) times arrow(r)
+$
 
 == Verificação de Interseção
 
-Para verificar se um objeto deve ser enviado para a GPU renderizar, é necessário verificar se o seu AABB está dentro do frustum. Isto é, verificar, para cada um dos planos do frustum, se o AABB está do lado positivo desse plano.
+Para verificar se um objeto deve ser enviado para a GPU renderizar, é necessário verificar se o seu AABB está dentro do _frustum_. Isto é, verificar, para cada um dos planos do frustum, se o AABB está do lado positivo desse plano.
 
+Para isso é feito esse teste para cada plano com o código:
 #figure[```cpp
 bool Frustum::HasInside(AABB &aabb) const
 {
@@ -445,36 +464,37 @@ bool Frustum::HasInside(AABB &aabb) const
 }
 ```]
 
+É de reparar que a ordem do teste dos planos foi escolhida cuidadosamente, em que os planos da esquerda e da direita são testados em primeiro lugar, visto que é mais provável esses testes falharem.
+
 #figure[```cpp
 bool AABB::isOnOrForwardPlane(const Plane &plane) const
 {
     Vec3f center = (max + min) * 0.5;
     Vec3f extents = max - center;
 
-    const float r = extents.x * std::abs(plane.normal.x) + extents.y * std::abs(plane.normal.y) +
-        extents.z * std::abs(plane.normal.z);
+    const float r = extents.x * std::abs(plane.normal.x)
+        + extents.y * std::abs(plane.normal.y) 
+        + extents.z * std::abs(plane.normal.z);
 
     return -r <= plane.getSignedDistanceToPlane(center);
 }
 ```]
 
-A chave está no funcionamento da função `isOnOrForwardPlane`. Esta começa por calcular metade do tamanho do AABB em cada eixo, `extents`, através do cálculo do seu centro, `center` e dos seus extremos. De seguida, calcula o raio do AABB, `r` - basicamente, a projeção do vetor `extents` no vetor normal do plano. Por fim, verifica se o raio é menor ou igual à distância do centro do AABB ao plano, `plane.getSignedDistanceToPlane(center)`. Uma explicação mais profunda pode ser encontrada #link("https://gdbooks.gitbooks.io/3dcollisions/content/Chapter2/static_aabb_plane.html")[neste artigo].
+Para a função `isOnOrForwardPlane`, esta começa por calcular o centro do AABB e o vetor que o centro faz com o máximo. De seguida, calcula o raio do AABB, `r` - basicamente, a projeção do vetor `extents` no vetor normal do plano. Por fim, verifica se o raio é menor ou igual à distância do centro do AABB ao plano, `plane.getSignedDistanceToPlane(center)`. Uma explicação mais profunda pode ser encontrada #link("https://gdbooks.gitbooks.io/3dcollisions/content/Chapter2/static_aabb_plane.html")[neste artigo].
 
-== Integração com o _ImGui_
+== Visualização de AABBs
 
-Foi acrescentada uma opção no _ImGui_ para ativar ou desativar a visualização das AABBs dos objetos. A mesma pode ser vista em ação na seguinte imagem.
+Como opção de visualizar e depurar o bom funcionamento desta funcionalidade, é possível renderizar as AABBs nos modelos. Esta opção pode ser ligada/desligada no menu de _settings_ do _ImGui_. As AABBs a serem mostradas, que são as que já tem a matriz de transformação aplicada, têm coordenadas globais e não locais ao modelo. Com isto, como estamos a renderizar a AABB quando fazemos a chamada para renderizar um modelo na cena, temos que resetar a matriz de transformação para a identidade antes de renderizar a AABB. A matriz anterior é reestabelecida depois disso. Isto teve de ser feito já que o cálculo da AABB transformada é feita localmente na chamada de renderização ao modelo e aí já temos a matriz de transformação atual dentro do OpenGL, que iria afetar as coordenadas do AABB a serem renderizadas. Outras opções de implementação implicariam cálcular a AABB transformada duas vezes.
 
-#figure(image("fase4/aabbs.png", width: 90%), caption: [Visualização das AABBs dos objetos])
+#figure(image("fase4/aabbs simples.png", width: 90%), caption: [Visualização das AABBs dos objetos])
 
-Além disso, para facilitar a perceção do impacto do _frustum culling_ na performance da _engine_, foi adicionada uma opção no _ImGui_ para ativar ou desativar o _frustum culling_.
-
-#figure(image("fase4/frustum culling imgui.png", width: 90%), caption: [Menu de _optimization settings_ no _ImGui_])
+#figure(image("fase4/aabbs.png", width: 90%), caption: [Visualização das AABBs dos objetos no Sistema Solar])
 
 == Testes de performance
 
 Uma vez que o objetivo inicial da implementação do _frustum culling_ era melhorar a performance da _engine_, foram realizados testes de performance para verificar se tal foi, de facto, alcançado.
 
-Nestes testes, a cena utilizada foi a fase final do sistema solar. Foram realizados testes com o _frustum culling_ ativado e desativado, com _vsync_ sempre desativado e numa máquina com um processador Ryzen 7 7700X e uma placa gráfica NVIDIA GeForce RTX 2060. Os resultados podem ser observados na seguinte tabela:
+Nestes testes, a cena utilizada foi a fase final do sistema solar. Foram realizados testes com o _frustum culling_ ativado e desativado, com _V-Sync_ sempre desativado e numa máquina com um processador Ryzen 7 7700X e uma placa gráfica NVIDIA GeForce RTX 2060. Os resultados podem ser observados na seguinte tabela:
 
 #figure[
   #table(
@@ -483,12 +503,12 @@ Nestes testes, a cena utilizada foi a fase final do sistema solar. Foram realiza
     table.header(
       [*_Frustum Culling_*], [*_FPS_*]
     ),
-    [Ativado], [260],
-    [Desativado], [260],
+    [Ativado], [1500],
+    [Desativado], [800],
   )
 ]
 
-Além disso, foi criado um vídeo demonstrativo deste ganho de performance, que pode ser encontrado #link("https://www.youtube.com/watch?v=kBDlUCPjdug")[aqui].
+Além disso, foi feito um vídeo demonstrativo deste ganho de performance, que pode ser encontrado #link("https://www.youtube.com/watch?v=kBDlUCPjdug")[aqui].
 
 = Sistema solar final
 
@@ -523,7 +543,7 @@ Para as luzes do sistema solar, é colocado uma luz pontual no centro do sistema
 
 == Resultado final
 
-Com o _frustum culling_ implementado, o sistema solar final é renderizado com uma performance muito melhor. Com isso, também aumentamos o número de asteroides para 500. Também foi alterado alguns parâmetros para melhorar a percepção do sistema solar.
+Com o _frustum culling_ implementado, o sistema solar final é renderizado com uma performance muito melhor. Com isso, também aumentamos o número de asteroides para 500. Também foi alterado alguns parâmetros para melhorar a perceção do sistema solar.
 
 #block(breakable: false)[
 Com todas estas alterações, o resultado final é o seguinte:
@@ -597,15 +617,15 @@ Segue a lista de funcionalidades que foram adicionadas ao longo do projeto:
 
 == Trabalho Futuro
 
-=== Gizmo
+=== _Gizmo_
 
-Adicionar um gizmo, um mecanismo que permite ao utilizador alterar a posição, rotação e escala de um modelo em tempo real de forma mais intuitiva.
+Adicionar um _gizmo_, um mecanismo que permite ao utilizador alterar a posição, rotação e escala de um modelo em tempo real de forma mais intuitiva, arrastando o objeto na cena.
 
 === Luzes com cores RGB
 
 Atualmente, as luzes têm uma cor branca. Seria interessante adicionar a possibilidade de alterar a cor das luzes para qualquer cor RGB.
 
-=== Coordenadas de texturas mais especificas
+=== Coordenadas de texturas mais especializadas
 
 Atualmente, as coordenadas de texturas são estáticas e seguem sempre o mesmo formato. Seria interessante adicionar a possibilidade de alterar as coordenadas de texturas de forma mais específica, por parte do utilizador.
 
