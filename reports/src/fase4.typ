@@ -554,7 +554,7 @@ Com todas estas alterações, o resultado final é o seguinte:
 
 = Editor no _ImGui_ Final
 
-Algumas alterações foram feitas no menu do _ImGui_ nesta fase final. Para além das funcionalidades mostradas anteriormente, o editor foi estendido com mais customizações.
+Algumas alterações foram feitas no menu do _ImGui_ nesta fase final. Para além das funcionalidades mostradas anteriormente, o editor foi extendido com mais customizações.
 
 #figure(image("fase4/editor imgui.png"), caption: [_ImGui_ Abas Principais])
 
