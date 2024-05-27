@@ -169,7 +169,7 @@ Para a textura da base do cone, como não fizemos nenhuma especialização do fo
 
 === _Bezier Patch_
 
-Para os _patches_, as coordenadas de textura para cada par ($u$,$v$), como $u in [0,1] and v in [0,1]$, são exatamente esse par. Isto faz com que a textura fique mapeada à volta do _patch_ corretamente. A textura é repetida para cada _patch_.
+Para os _patches_, as coordenadas de textura para cada par ($u$,$v$), como $u in [0,1] and v in [0,1]$, são exatamente $(1.0-u, 1.0-v)$. Isto faz com que a textura fique mapeada à volta do _patch_ corretamente com a orientação correta. A textura é repetida para cada _patch_.
 
 == Formato final dos ficheiros .3d
 
