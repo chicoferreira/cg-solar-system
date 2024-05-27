@@ -543,7 +543,7 @@ Para as luzes do sistema solar, é colocado uma luz pontual no centro do sistema
 
 == Resultado final
 
-Com o _frustum culling_ implementado, o sistema solar final é renderizado com uma performance muito melhor. Com isso, também aumentamos o número de asteroides para 500. Também foi alterado alguns parâmetros para melhorar a perceção do sistema solar.
+Com o _frustum culling_ implementado, o sistema solar final é renderizado com uma performance muito melhor. Com isso, também aumentamos o número de asteroides para 500. Também foi alterado alguns parâmetros para melhorar a perceção do sistema solar e adicionado uma _skybox_ com fundo do espaço #footnote[Este _skybox_ é feito a partir de uma esfera com escalas negativas.].
 
 #block(breakable: false)[
 Com todas estas alterações, o resultado final é o seguinte:
