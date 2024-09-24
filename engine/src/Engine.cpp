@@ -667,6 +667,46 @@ namespace engine
             glEnable(GL_LIGHTING);
     }
 
+    void Engine::SetFullscreen(const bool fullscreen)
+    {
+        if (fullscreen)
+        {
+            // backup window position and window size
+            glfwGetWindowPos(m_window, &m_world.GetWindow().windowed_position_x, &m_world.GetWindow().windowed_position_y);
+            glfwGetWindowSize(m_window, &m_world.GetWindow().windowed_width, &m_world.GetWindow().windowed_height);
+
+            GLFWmonitor *monitor = glfwGetPrimaryMonitor();
+
+            const GLFWvidmode *mode = glfwGetVideoMode(monitor);
+
+            glfwSetWindowMonitor(m_window, monitor, 0, 0, mode->width, mode->height, mode->refreshRate);
+            SetVsync(m_settings.vsync);
+        }
+        else
+        {
+            // restore last window size and position
+            glfwSetWindowMonitor(
+                m_window,
+                nullptr,
+                m_world.GetWindow().windowed_position_x,
+                m_world.GetWindow().windowed_position_y,
+                m_world.GetWindow().windowed_width,
+                m_world.GetWindow().windowed_height,
+                0
+            );
+
+            SetVsync(m_settings.vsync);
+        }
+
+        UpdateViewport();
+    }
+
+    void Engine::ToggleFullscreen()
+    {
+        m_settings.fullscreen = !m_settings.fullscreen;
+        SetFullscreen(m_settings.fullscreen);
+    }
+
     constexpr auto sensitivity = 0.1f;
     constexpr auto scroll_sensitivity = 0.1f;
 
@@ -750,6 +790,7 @@ namespace engine
             m_input.UpdateKey(m_window, GLFW_KEY_SPACE);
             m_input.UpdateKey(m_window, GLFW_KEY_LEFT_CONTROL);
             m_input.UpdateKey(m_window, GLFW_KEY_R);
+            m_input.UpdateKey(m_window, GLFW_KEY_F11);
 
             if (m_input.IsReleaseEvent(GLFW_KEY_V))
             {
@@ -759,6 +800,11 @@ namespace engine
             if (m_input.IsPressEvent(GLFW_KEY_R))
             {
                 m_world.ResetCamera();
+            }
+
+            if (m_input.IsPressEvent(GLFW_KEY_F11))
+            {
+                ToggleFullscreen();
             }
 
             if (m_world.GetCamera().first_person_mode)

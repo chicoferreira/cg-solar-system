@@ -40,6 +40,7 @@ namespace engine
         bool render_light_models = false;
         bool render_aabb = false;
         bool frustum_culling = true;
+        bool fullscreen = false;
         Color background_color = Color(0.0f, 0.0f, 0.0f, 1.0f);
     };
 
@@ -66,6 +67,8 @@ namespace engine
         void SetLighting(const bool enable);
         void StartSectionDisableLighting() const;
         void EndSectionDisableLighting() const;
+        void SetFullscreen(bool fullscreen);
+        void ToggleFullscreen();
         static void SetMssa(bool enable);
         void ProcessInput(float timestep);
         void Run();

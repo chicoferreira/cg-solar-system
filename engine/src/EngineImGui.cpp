@@ -694,6 +694,9 @@ namespace engine
             {
                 if (ImGui::TreeNodeEx("OpenGL Settings", ImGuiTreeNodeFlags_Framed | ImGuiTreeNodeFlags_DefaultOpen))
                 {
+                    if (ImGui::Checkbox("Fullscreen", &m_settings.fullscreen))
+                        SetFullscreen(m_settings.fullscreen);
+
                     if (ImGui::Checkbox("Lighting", &m_settings.lighting))
                         SetLighting(m_settings.lighting);
 

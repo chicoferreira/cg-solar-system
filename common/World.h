@@ -21,6 +21,8 @@ namespace world
     struct Window
     {
         int width{}, height{};
+        int windowed_width{}, windowed_height{};
+        int windowed_position_x{}, windowed_position_y{};
 
         Window() = default;
         Window(int width, int height) : width(width), height(height) {}
