@@ -1,16 +1,16 @@
 # CG Solar System
-![Main picture](https://github.com/user-attachments/assets/ddac9b11-5934-4171-b1f3-2a48efcf0f3f)
 
-Repository containing the source code for the practical assignment of Computer Graphics course at Universidade do Minho.
+![wallpaper](https://github.com/user-attachments/assets/e7a302cc-88eb-442a-b661-8cada1ecb2e6)
 
-The assignment had the requirement to implement an engine using **OpenGL 2** that can load arbitrary worlds from a custom XML format and render it in real time, ultimately leading to render a complete solar system with planets, comets and rotations.
+This repository contains the source code for the practical assignment of Computer Graphics course at Universidade do Minho.
+
+The assignment had the requirement to implement an engine using **OpenGL 2** capable of loading and rendering arbitrary worlds defined in a custom XML format, ultimately creating a complete solar system with planets, comets and orbit rotations.
 
 ## Main features
 
 ### Model primitives
 
-Using the generator program, it's possible to generate 3d models that can be used in a scene file loaded in the engine program (_Wavefront .obj_ files are also supported). 
-This program outputs to a text file containing vertex position, normals, texture coordinates and vertex indices of the generated model.
+The generator program, which was also part of the assignment, allows the creation of 3D models to be used in scene files loaded by the engine. The engine supports both the custom .3d format and Wavefront .obj files. The program outputs vertex positions, normals, texture coordinates, and vertex indices to a text file in the custom .3d format. This generator can also create complete scenes like the solar system.
 
 ```bash
 Usage: generator <command> <args> <output file>
@@ -26,22 +26,34 @@ Commands:
 
 ### [ImGui](https://github.com/ocornut/imgui)
 
-- Enable and disable: lights, _v-sync_, backface culling, wireframe mode, MSSA, frustum culling, rendering axis, showing normals, showing AABB (for frustum culling), showing temporal translation path and light models.
-- Pause and resume simulation time and also speed up or slow down the speed.
-- Setup camera (also possible with WASD + Space + Control): change position, fov, acceleration, friction speed, etc.
-- Add and remove lights and list them.
-- List every model in the scene graph and edit their material properties and transforms.
-- Show model vertex information in a table format.
+- Toggle settings: lights, v-sync, backface culling, wireframe mode, MSAA, frustum culling, render axes, display normals, show AABB for frustum culling, show temporal translation path, and display light models.
+- Control simulation: pause, resume, and adjust speed.
+- Camera configuration (also possible with WASD + Space + Ctrl): modify position, FOV, acceleration, friction, and more.
+- Manage lights: add, remove and list all lights in the scene.
+- Edit world models: view and modify material properties and transformations of each model in the scene graph.
+- Display vertex information of a model in a table format.
 
 ![ImGUI](https://github.com/user-attachments/assets/489a9955-2cde-442f-a90d-e0612f0bc6cd)
 
 ### Frustum Culling
 
+Implemented frustum culling using AABB intersection with view planes. The AABB dynamically updates with object scaling and rotation. No space partition optimization is currently implemented.
+
 https://github.com/user-attachments/assets/733ba257-9e6d-4684-9ec2-2cbf7a4e4390
 
-### FPV with smooth acceleration and deacceleration
+### Smooth Camera Transitions (FPV & TPV)
+
+First-person and third-person camera views with smooth acceleration and deceleration for nice transitions between motion states with many parameters configurable.
+
+https://github.com/user-attachments/assets/3f669ac1-d1ef-470f-b943-1f87927569be
+
+### Solar System
+
+![Demo](https://github.com/user-attachments/assets/bb9cae36-967a-4d15-a5a5-78d1f9c180e6)
 
 ### Others
+
+More features can be found in the [four project reports](./reports). While they are written in Portuguese, they include additional images that may still be useful to non-Portuguese readers.
 
 ## Compiling
 
@@ -49,16 +61,18 @@ Prerequisites:
 
 - [vcpkg](https://vcpkg.io/en/getting-started)
 - [CMake](https://cmake.org/download/)
-- [MSBuild](https://visualstudio.microsoft.com/downloads/) on Windows or GCC/CLang on Linux and MacOS
+- [MSBuild](https://visualstudio.microsoft.com/downloads/) on Windows or GCC/CLang on Linux and macOS
 
 #### With CLion
 
-1. Open the project
-2. CLion will ask to install the toolchain, click on `Install`
-3. Go to `File` -> `Settings` -> `Build, Execution, Deployment` -> `CMake` and add the
-   flag `-DCMAKE_TOOLCHAIN_FILE=[path to vcpkg]/scripts/buildsystems/vcpkg.cmake` to `CMake options`.
+1. Open the project in CLion.
+2. If prompted to install the toolchain, click `Install`.
+3. Navigate to `File` -> `Settings` -> `Build, Execution, Deployment` -> `CMake` and add the following flag to `CMake options`:
+   ```bash
+   -DCMAKE_TOOLCHAIN_FILE=[path to vcpkg]/scripts/buildsystems/vcpkg.cmake
+   ```
    You can find this path by running `vcpkg integrate install` and looking at the output.
-4. Reload the CMake project
+4. Reload the CMake project.
 
 #### With no IDE
 
